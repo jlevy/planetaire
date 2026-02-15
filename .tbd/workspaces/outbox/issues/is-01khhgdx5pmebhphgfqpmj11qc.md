@@ -11,6 +11,6 @@ priority: 1
 status: open
 title: Write tryscript golden tests for all CLI subcommands
 type: is
-updated_at: 2026-02-15T20:40:00.451Z
-version: 3
+updated_at: 2026-02-15T20:57:40.645Z
+version: 4
 ---

@@ -11,6 +11,6 @@ priority: 1
 status: open
 title: Implement unicode_ranges.py and config.py with range definitions and pipeline constants
 type: is
-updated_at: 2026-02-15T20:39:56.205Z
-version: 3
+updated_at: 2026-02-15T20:57:40.581Z
+version: 4
 ---

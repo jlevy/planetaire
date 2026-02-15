@@ -11,6 +11,6 @@ priority: 2
 status: open
 title: "Generate font showcase images: sample renders with black background, monochrome + colored console output"
 type: is
-updated_at: 2026-02-15T20:43:08.635Z
-version: 3
+updated_at: 2026-02-15T20:57:40.694Z
+version: 4
 ---

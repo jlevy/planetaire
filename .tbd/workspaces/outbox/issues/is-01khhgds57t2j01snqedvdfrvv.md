@@ -11,6 +11,6 @@ priority: 1
 status: open
 title: Create test font fixtures and pytest unit tests for all ops/
 type: is
-updated_at: 2026-02-15T20:40:00.070Z
-version: 3
+updated_at: 2026-02-15T20:57:40.639Z
+version: 4
 ---

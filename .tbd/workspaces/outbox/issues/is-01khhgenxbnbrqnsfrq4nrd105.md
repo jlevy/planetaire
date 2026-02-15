@@ -19,6 +19,6 @@ priority: 1
 status: open
 title: "End-to-end validation: verify Planetaire Mono glyphs match kerm reference fonts"
 type: is
-updated_at: 2026-02-15T20:52:59.886Z
-version: 7
+updated_at: 2026-02-15T20:57:40.678Z
+version: 8
 ---

@@ -11,6 +11,6 @@ priority: 2
 status: open
 title: Create PDF specimen sheet using typst with automated font loading and rendering
 type: is
-updated_at: 2026-02-15T20:51:32.498Z
-version: 3
+updated_at: 2026-02-15T20:57:40.700Z
+version: 4
 ---

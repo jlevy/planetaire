@@ -11,6 +11,6 @@ priority: 2
 status: open
 title: "Set up font distribution: GitHub Releases with TTF/OTF archives and installation docs"
 type: is
-updated_at: 2026-02-15T20:53:00.678Z
-version: 3
+updated_at: 2026-02-15T20:57:40.707Z
+version: 4
 ---

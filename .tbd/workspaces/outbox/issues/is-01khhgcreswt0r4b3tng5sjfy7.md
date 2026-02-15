@@ -11,6 +11,6 @@ priority: 1
 status: open
 title: "Implement ops/info: font metadata inspection with fontTools"
 type: is
-updated_at: 2026-02-15T20:39:56.592Z
-version: 3
+updated_at: 2026-02-15T20:57:40.573Z
+version: 4
 ---

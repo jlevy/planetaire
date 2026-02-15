@@ -13,6 +13,6 @@ priority: 1
 status: open
 title: "Implement ops/rename: font family name and metadata updates"
 type: is
-updated_at: 2026-02-15T20:39:57.386Z
-version: 4
+updated_at: 2026-02-15T20:57:40.594Z
+version: 5
 ---

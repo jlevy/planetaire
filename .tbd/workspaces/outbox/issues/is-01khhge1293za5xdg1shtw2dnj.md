@@ -11,6 +11,6 @@ priority: 2
 status: open
 title: Update Makefile with font build targets and CI workflow for tests including FontForge
 type: is
-updated_at: 2026-02-15T20:40:01.232Z
-version: 3
+updated_at: 2026-02-15T20:57:40.651Z
+version: 4
 ---
