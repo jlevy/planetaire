@@ -693,20 +693,155 @@ customization is **out of scope** for the initial Planetaire Mono release and ma
 revisited in the future. See [font-customization-notes.md](font-customization-notes.md)
 for detailed ligature notes.
 
-### Components
+### CLI Architecture
 
-The Python package (`src/planetaire/`) will contain:
+The `planetaire` CLI follows the [Python CLI Patterns](../../) guidelines: **Typer** for
+the framework, **Rich** for terminal output, and a **function-first** design where every
+operation is an importable Python function with a thin CLI wrapper on top.
 
-| Module | Purpose |
-|--------|---------|
-| `cli.py` | CLI entry point (`planetaire build`, `planetaire inspect`, etc.) |
-| `pipeline.py` | Orchestrates the full build pipeline |
-| `download.py` | Downloads and caches source fonts from GitHub |
-| `embolden.py` | Weight generation (port of `embolden_font.py`) |
-| `merge.py` | Binary font merging (B612 glyphs into Hack base) |
-| `metadata.py` | Font metadata reading/writing and renaming |
-| `validate.py` | Output font validation and comparison |
-| `config.py` | Pipeline configuration (glyph ranges, weight params, skip lists) |
+#### Package Structure
+
+```
+src/planetaire/
+├── __init__.py                 # Package entry, VERSION export
+├── cli.py                      # Typer app, global options, command registration
+├── ops/                        # Generic font operations (reusable on any font)
+│   ├── __init__.py
+│   ├── info.py                 # inspect_font(path) -> FontInfo
+│   ├── merge.py                # merge_glyphs(base, donor, ranges) -> TTFont
+│   ├── embolden.py             # embolden_font(font, weight, change) -> TTFont
+│   ├── rename.py               # rename_font(font, family, ...) -> TTFont
+│   ├── fix.py                  # fix_font(font) -> TTFont
+│   └── validate.py             # validate_font(font) -> list[Issue]
+├── recipes/                    # Planetaire-specific build compositions
+│   ├── __init__.py
+│   ├── planetaire_mono.py      # build_planetaire_mono(sources, output_dir)
+│   └── sources.py              # download_sources(output_dir) -> dict[str, Path]
+├── unicode_ranges.py           # Unicode range definitions and parsing
+└── config.py                   # Pipeline configuration constants
+```
+
+#### Design Principles
+
+**Function-first**: Every operation is a pure Python function in `ops/`. These
+functions accept fontTools `TTFont` objects (or `Path` for I/O-bound ops) and return
+results. They have no CLI dependencies, no Rich formatting, no side effects beyond
+their arguments. This makes them importable, testable, and composable.
+
+**CLI as thin wrapper**: `cli.py` uses Typer to wrap each op with argument parsing,
+file I/O, and Rich output formatting. The CLI layer handles loading/saving font files,
+parsing command-line arguments (paths, unicode range strings), progress display and
+error formatting, and exit codes.
+
+**Recipes call functions, not CLI**: The `recipes/` modules call `ops/` functions
+directly in Python — no subprocess calls, no CLI overhead. This is faster and
+provides proper error propagation.
+
+Example of the function → CLI → recipe layering:
+
+```python
+# ops/merge.py — pure function, no CLI deps
+def merge_glyphs(
+    base: TTFont,
+    donor: TTFont,
+    ranges: list[tuple[int, int]],
+    *,
+    copy_gsub_features: list[str] | None = None,
+) -> TTFont:
+    """Copy glyphs from donor into base for specified unicode ranges."""
+    ...
+```
+
+```python
+# cli.py — thin Typer wrapper
+@app.command()
+def merge(
+    base: Path,
+    donor: Path,
+    ranges: str = typer.Option(..., help="Unicode ranges, e.g. 'U+0041-005A,U+0061-007A'"),
+    output: Path = typer.Option(..., help="Output font path"),
+) -> None:
+    """Copy glyphs from donor font into base font by unicode range."""
+    base_font = TTFont(base)
+    donor_font = TTFont(donor)
+    parsed = parse_unicode_ranges(ranges)
+    result = merge_glyphs(base_font, donor_font, parsed)
+    with atomic_output_file(output) as tmp:
+        result.save(tmp)
+```
+
+```python
+# recipes/planetaire_mono.py — calls ops directly
+def build_planetaire_mono(b612_path: Path, hack_path: Path, output_dir: Path) -> Path:
+    base = TTFont(hack_path)
+    donor = TTFont(b612_path)
+    merged = merge_glyphs(base, donor, PLANETAIRE_LETTER_RANGES)
+    renamed = rename_font(merged, family="Planetaire Mono", ...)
+    fixed = fix_font(renamed)
+    validate_font(fixed)
+    ...
+```
+
+#### Subcommands
+
+**Generic font operations** (reusable on any font):
+
+| Command | Description |
+|---------|-------------|
+| `planetaire info <font>` | Inspect font metadata, glyph counts, features |
+| `planetaire merge --base <font> --donor <font> --ranges <ranges> --output <out>` | Copy glyphs from donor into base by unicode range |
+| `planetaire embolden <font> --weight 800 --change 30 --output <out>` | Generate heavier weight variant (requires FontForge) |
+| `planetaire rename <font> --family "Name" --output <out>` | Update font family name and metadata |
+| `planetaire fix <font> --output <out>` | Apply gftools fix-nonhinting and other fixes |
+| `planetaire validate <font>` | Check glyph coverage, metrics, features |
+
+**Planetaire-specific recipes** (subcommand group):
+
+| Command | Description |
+|---------|-------------|
+| `planetaire build download [--output-dir <dir>]` | Fetch source fonts from upstream |
+| `planetaire build planetaire-mono [--output-dir <dir>] [--variant regular\|all]` | Run full Planetaire Mono pipeline |
+
+#### CLI Conventions (per Python CLI Patterns)
+
+- **Output routing**: Data to stdout, progress/errors to stderr
+- **Structured output**: `--format text|json` on info/validate commands
+- **CI-friendly**: `--no-progress` disables spinners; `NO_COLOR` env var respected
+- **Dry run**: `--dry-run` on commands that write files
+- **Atomic writes**: All font file output uses `strif.atomic_output_file`
+- **Exit codes**: 0 success, 1 error, 2 validation failure
+- **Error handling**: Custom `CLIError` and `ValidationError` exceptions with
+  consistent formatting and appropriate exit codes
+
+#### System Dependency Detection
+
+FontForge and ttfautohint are system dependencies required only for specific operations
+(embolden, hinting). The CLI detects their availability at runtime and:
+
+- Raises a clear error with installation instructions when a required tool is missing
+- Indicates which commands require which system tools in `--help` output
+- Installation instructions:
+  - **Debian/Ubuntu**: `apt install fontforge ttfautohint`
+  - **macOS**: `brew install fontforge ttfautohint`
+  - **CI/Docker**: Include in the Dockerfile or GitHub Actions setup step
+
+#### Makefile Integration
+
+The existing Makefile gains font build targets alongside the dev workflow targets:
+
+```makefile
+# Font build targets (added to existing Makefile)
+download:
+	uv run planetaire build download
+
+build-fonts: download
+	uv run planetaire build planetaire-mono
+
+validate-fonts:
+	uv run planetaire validate fonts/output/*.ttf
+
+fonts: download build-fonts validate-fonts
+```
 
 ### Key Design Decisions
 
@@ -766,23 +901,25 @@ The Python package (`src/planetaire/`) will contain:
 
 ### Phase 3: Port and Clean Up Scripts
 
-- [ ] Port `embolden_font.py` to `src/planetaire/embolden.py`
-  - Keep FontForge dependency but make it a clean, importable module
+- [ ] Port `embolden_font.py` to `src/planetaire/ops/embolden.py`
+  - Keep FontForge dependency but make it a clean, importable function
   - Extract configuration (weight classes, change amounts, skip lists) to `config.py`
   - Add proper error handling and logging
   - Document the glyph skip/half-weight lists with rationale
-- [ ] Create `src/planetaire/metadata.py` using fontTools
-  - Read/write font metadata (name table, OS/2 weight, version)
-  - Structured output (dict/JSON) for programmatic use
-  - Human-readable dump for inspection
-- [ ] Create `src/planetaire/validate.py`
+  - Detect FontForge availability; raise clear error with install instructions if missing
+- [ ] Create `src/planetaire/ops/info.py` using fontTools
+  - Read font metadata (name table, OS/2 weight, version, glyph count)
+  - Return structured `FontInfo` dataclass for programmatic use
+  - Support both text and JSON output modes via the CLI wrapper
+- [ ] Create `src/planetaire/ops/validate.py`
   - Verify glyph count, weight class, name table entries
   - Compare metrics against reference fonts
   - Check for missing glyphs in expected ranges
+  - Return structured `list[Issue]` for programmatic use
 
 ### Phase 4: Implement Font Merging
 
-- [ ] Create `src/planetaire/merge.py` using fontTools
+- [ ] Create `src/planetaire/ops/merge.py` using fontTools
   - Load Hack as base font
   - Load B612 as glyph donor
   - Handle UPM normalization (scale Hack glyphs to match B612's UPM=2000)
@@ -812,20 +949,32 @@ The Python package (`src/planetaire/`) will contain:
   - Glyph skip lists for emboldening
   - Font naming conventions
 
-### Phase 5: Build Pipeline and CLI
+### Phase 5: CLI and Build Pipeline
 
-- [ ] Create `src/planetaire/pipeline.py`
-  - Orchestrate full pipeline: download -> validate -> embolden -> merge -> finalize
-  - Support partial runs (`--skip-download`, `--skip-embolden`)
-  - Progress reporting
-- [ ] Update `src/planetaire/cli.py`
-  - `planetaire build` — run full pipeline, producing all 6 font files
-  - `planetaire build --step download|embolden|merge|finalize`
-  - `planetaire inspect <font.ttf>` — dump font metadata
-  - `planetaire validate <font.ttf>` — validate output font
-  - `planetaire download` — download source fonts only
-- [ ] Update `pyproject.toml` dependencies: `fonttools`, `gftools`
-- [ ] System dependencies: `ttfautohint`, `fontforge` (for embolden step only)
+Implement the CLI architecture described in the [CLI Architecture](#cli-architecture)
+section above.
+
+- [ ] Set up `cli.py` with Typer app, global options (`--format`, `--no-progress`)
+- [ ] Create `ops/` module with generic font operations as pure functions:
+  - `ops/info.py` — `inspect_font(path) -> FontInfo`
+  - `ops/merge.py` — `merge_glyphs(base, donor, ranges) -> TTFont`
+  - `ops/embolden.py` — `embolden_font(font, weight, change) -> TTFont`
+  - `ops/rename.py` — `rename_font(font, family, ...) -> TTFont`
+  - `ops/fix.py` — `fix_font(font) -> TTFont`
+  - `ops/validate.py` — `validate_font(font) -> list[Issue]`
+- [ ] Register each op as a CLI subcommand in `cli.py`
+- [ ] Create `recipes/planetaire_mono.py` — full Planetaire Mono build pipeline
+  calling ops functions directly (no subprocess)
+- [ ] Create `recipes/sources.py` — download and cache source fonts
+- [ ] Create `unicode_ranges.py` — range definitions and `parse_unicode_ranges()`
+- [ ] Create `config.py` — pipeline constants (weight params, skip lists, naming)
+- [ ] Register recipes as `build` subcommand group (`planetaire build planetaire-mono`,
+  `planetaire build download`)
+- [ ] Add system dependency detection for FontForge and ttfautohint with clear error
+  messages and installation instructions
+- [ ] Update `pyproject.toml`: add `typer`, `rich`, `fonttools`, `strif` as runtime
+  dependencies; add `gftools` as dev dependency
+- [ ] Update Makefile with `download`, `build-fonts`, `validate-fonts`, `fonts` targets
 
 ### Phase 6: Finalization and Quality
 
@@ -841,6 +990,196 @@ The Python package (`src/planetaire/`) will contain:
 - [ ] Visual QA: render test strings at 10-14pt and compare with reference
 - [ ] Ensure license compliance: composite `LICENSE` file with all attributions
 - [ ] Update README with font samples, installation, and build instructions
+
+### Phase 7: Testing
+
+- [ ] Create test font fixtures: minimal TTF fonts (~50 glyphs each) using fontTools
+  for fast unit tests (committed to `tests/fixtures/`)
+- [ ] Write pytest unit tests for each `ops/` function (see Testing Strategy below)
+- [ ] Write pytest integration test for `recipes/planetaire_mono.py` with fixture fonts
+- [ ] Write tryscript golden tests for CLI subcommands (see Testing Strategy below)
+- [ ] Add `test-golden` Makefile target for running tryscript tests
+- [ ] Add CI integration: GitHub Actions runs both pytest and tryscript
+- [ ] FontForge-dependent tests marked with `pytest.mark.skipif` when unavailable
+
+---
+
+## Testing Strategy
+
+Testing combines standard **pytest** unit/integration tests with **tryscript** golden
+tests for end-to-end CLI verification. The golden tests serve double duty as both
+regression tests and living documentation of CLI behavior.
+
+### Test Structure
+
+```
+tests/
+├── conftest.py                         # Shared fixtures (test fonts, temp dirs)
+├── fixtures/
+│   ├── minimal-base.ttf                # Small test font (~50 glyphs) as base
+│   ├── minimal-donor.ttf               # Small test font (~50 glyphs) as donor
+│   └── expected/                       # Reference outputs for comparison
+├── ops/                                # Unit tests for ops/ functions
+│   ├── test_info.py
+│   ├── test_merge.py
+│   ├── test_embolden.py
+│   ├── test_rename.py
+│   ├── test_fix.py
+│   └── test_validate.py
+├── recipes/
+│   └── test_planetaire_mono.py         # Integration test for full pipeline
+└── golden/                             # Tryscript golden tests
+    ├── cli-info.tryscript.md           # Golden tests for `planetaire info`
+    ├── cli-merge.tryscript.md          # Golden tests for `planetaire merge`
+    ├── cli-validate.tryscript.md       # Golden tests for `planetaire validate`
+    ├── cli-build.tryscript.md          # Golden tests for `planetaire build`
+    └── cli-errors.tryscript.md         # Golden tests for error handling
+```
+
+### Unit Tests (pytest)
+
+Each `ops/` function is tested with small fixture fonts. Tests verify:
+
+- **info**: Correct metadata extraction (glyph count, UPM, weight, features)
+- **merge**: Glyphs copied for specified ranges, base glyphs preserved elsewhere,
+  cmap updated correctly
+- **embolden**: Output weight increased, metadata updated (requires FontForge;
+  skipped in CI if unavailable via `pytest.mark.skipif`)
+- **rename**: Name table entries updated correctly, all name IDs consistent
+- **fix**: DSIG table present, fsType correct
+- **validate**: Detects missing glyphs, wrong metrics, feature issues
+
+**Test font fixtures**: Minimal TTF fonts (~50 glyphs each) are created using fontTools
+and committed to `tests/fixtures/`. These give fast tests (<100ms each). Full-size
+source fonts are only used in integration tests and are downloaded on demand.
+
+### Golden Tests (tryscript)
+
+End-to-end CLI tests using [tryscript](https://github.com/jlevy/tryscript) capture the
+full command output as golden files. These serve as both regression tests and
+documentation of CLI behavior. Run via `npx tryscript@latest`.
+
+**Example** (`tests/golden/cli-info.tryscript.md`):
+
+````markdown
+---
+sandbox: true
+env:
+  NO_COLOR: "1"
+before: |
+  cp $TRYSCRIPT_GIT_ROOT/tests/fixtures/*.ttf .
+  uv run --directory $TRYSCRIPT_GIT_ROOT pip install -e $TRYSCRIPT_GIT_ROOT 2>&1 > /dev/null
+path:
+  - $TRYSCRIPT_GIT_ROOT/.venv/bin
+---
+
+# Test: Info on a font file
+
+```console
+$ planetaire info minimal-base.ttf
+Family:    MinimalTest
+Glyphs:   [..]
+UPM:       2000
+...
+? 0
+```
+
+# Test: Info with JSON output
+
+```console
+$ planetaire info --format json minimal-base.ttf
+{
+  "family": "MinimalTest",
+...
+}
+? 0
+```
+
+# Test: Info on nonexistent file
+
+```console
+$ planetaire info nonexistent.ttf 2>&1
+Error: [..]nonexistent.ttf[..]
+? 1
+```
+````
+
+**What golden tests cover:**
+
+| Test File | Coverage |
+|-----------|----------|
+| `cli-info.tryscript.md` | `planetaire info` text and JSON output, error cases |
+| `cli-merge.tryscript.md` | `planetaire merge` with various range specs, edge cases |
+| `cli-validate.tryscript.md` | `planetaire validate` pass and fail cases |
+| `cli-build.tryscript.md` | `planetaire build planetaire-mono` full pipeline |
+| `cli-errors.tryscript.md` | Missing args, bad inputs, missing system deps |
+
+**Elision patterns** for unstable output:
+
+- `[..]` — matches variable text on a single line (glyph counts, paths, timing)
+- `...` — matches zero or more complete lines (tables, long listings)
+- Custom patterns can be defined in frontmatter for recurring formats
+
+**Running golden tests:**
+
+```bash
+# Run all golden tests
+npx tryscript@latest run tests/golden/
+
+# Update goldens after intentional CLI output changes
+npx tryscript@latest run --update tests/golden/
+
+# Run a specific test file
+npx tryscript@latest run tests/golden/cli-info.tryscript.md
+```
+
+### Makefile Integration
+
+```makefile
+test-golden:
+	npx tryscript@latest run tests/golden/
+
+test-all: test test-golden
+```
+
+### CI Integration
+
+GitHub Actions runs both test suites. FontForge-dependent tests are skipped when
+FontForge is not installed, with a CI matrix job that includes a FontForge-enabled
+runner for full coverage:
+
+```yaml
+jobs:
+  test:
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12", "3.13", "3.14"]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install uv and Python
+        uses: astral-sh/setup-uv@v6
+      - name: Install dependencies
+        run: uv sync --all-extras
+      - name: Run unit tests
+        run: uv run pytest
+      - name: Run golden tests
+        run: npx tryscript@latest run tests/golden/
+
+  test-fontforge:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install system dependencies
+        run: sudo apt-get install -y fontforge ttfautohint
+      - name: Install uv and Python
+        uses: astral-sh/setup-uv@v6
+      - name: Install dependencies
+        run: uv sync --all-extras
+      - name: Run all tests (including FontForge)
+        run: uv run pytest
+      - name: Run golden tests
+        run: npx tryscript@latest run tests/golden/
+```
 
 ---
 
