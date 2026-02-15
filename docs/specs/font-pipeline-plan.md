@@ -686,6 +686,13 @@ OUTPUT                                       │
 - Zero glyph modification (already in B612 via carlosedp's FontLab edits)
 - SVG/OTF glyph source management (Nerd Fonts project handles this)
 
+**Ligature scope note:** The source B612 fonts already contain FiraCode ligatures (via
+carlosedp's Ligaturizer step). Our pipeline passively preserves whatever `calt` features
+exist in the B612 GSUB table but does not add, remove, or modify ligatures. Ligature
+customization is **out of scope** for the initial Planetaire Mono release and may be
+revisited in the future. See [font-customization-notes.md](font-customization-notes.md)
+for detailed ligature notes.
+
 ### Components
 
 The Python package (`src/planetaire/`) will contain:

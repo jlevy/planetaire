@@ -363,10 +363,20 @@ Tuned through experimentation:
 
 ### Ligatures
 
-**Disabled** (`disableLigatures: true`), even though the B612 Liga font has FiraCode
-ligatures baked in via the `calt` OpenType feature. The ligatures are available but
-turned off. This is a per-user preference — some people love code ligatures, others find
-them distracting.
+**Disabled** in kerm (`disableLigatures: true`), even though the B612 Liga font has
+FiraCode ligatures baked in via the `calt` OpenType feature. The ligatures are available
+but turned off. This is a per-user preference — some people love code ligatures, others
+find them distracting.
+
+**Note for Planetaire:** Ligatures are **out of scope** for the initial Planetaire Mono
+release. The carlosedp fork uses [Ligaturizer](https://github.com/ToxicFrog/Ligaturizer)
+to merge FiraCode ligatures into the B612 base via FontLab — a nontrivial pipeline. If we
+add ligature support in the future, some considerations from the carlosedp build:
+- The `/*` and `*/` ligatures are disabled to avoid interfering with comment syntax
+- Ligatures are in the `calt` (contextual alternates) OpenType feature
+- The "Liga" in the font name specifically refers to these FiraCode ligatures
+- We would need to decide whether to make a separate "Liga" variant or include ligatures
+  with a feature toggle (the OpenType `calt` approach is more flexible)
 
 ### Non-Mono Nerd Font Variant
 
