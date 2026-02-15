@@ -1342,10 +1342,9 @@ readable markup, and produces beautiful PDFs. Ideal for automated specimen gener
 
 ### Phase 11: Distribution and Packaging
 
-Package the output fonts for easy installation across platforms. Follow Nerd Fonts'
-approach: simple archives on GitHub Releases, plus a Homebrew cask for one-command
-macOS install. Keep it minimal — no custom installer, no web font builds (unless
-requested later).
+Package the output fonts for easy installation across platforms. Follow the Nerd Fonts
+pattern: archives on GitHub Releases with clear manual install instructions. Keep it
+minimal — no custom installer, no web font builds, no package manager formulae yet.
 
 #### Release Artifacts
 
@@ -1363,7 +1362,7 @@ requested later).
   - Attaches checksum file
   - Also attaches the PDF specimen sheet
 
-**Release structure:**
+**Release structure** (mirroring Nerd Fonts release layout):
 ```
 PlanetaireMono-v1.0.0.tar.xz
 PlanetaireMono-v1.0.0.zip
@@ -1384,47 +1383,19 @@ PlanetaireMono/
 └── README.txt
 ```
 
-#### Homebrew Cask
-
-- [ ] Create Homebrew cask formula (`font-planetaire-mono`):
-  ```ruby
-  cask "font-planetaire-mono" do
-    version "1.0.0"
-    sha256 "..."
-    url "https://github.com/jlevy/planetaire/releases/download/v#{version}/PlanetaireMono.tar.xz"
-    name "Planetaire Mono"
-    homepage "https://github.com/jlevy/planetaire"
-    livecheck do
-      url :url
-      strategy :github_latest
-    end
-    font "PlanetaireMono-Regular.ttf"
-    font "PlanetaireMono-Italic.ttf"
-    font "PlanetaireMono-Bold.ttf"
-    font "PlanetaireMono-BoldItalic.ttf"
-    font "PlanetaireMono-ExtraBold.ttf"
-    font "PlanetaireMono-ExtraBoldItalic.ttf"
-  end
-  ```
-- [ ] Submit PR to `Homebrew/homebrew-cask` for official distribution
-- [ ] Users install with: `brew install font-planetaire-mono`
-
 #### Installation Instructions (for README)
 
-**macOS (Homebrew):**
+**macOS:**
+Download from [GitHub Releases](https://github.com/jlevy/planetaire/releases),
+double-click each `.ttf` to open Font Book, or copy to `~/Library/Fonts/`:
 ```bash
-brew install font-planetaire-mono
+curl -L https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono.tar.xz | tar xJ
+cp PlanetaireMono/*.ttf ~/Library/Fonts/
 ```
-
-**macOS (manual):**
-Download from GitHub Releases, double-click each `.ttf` file, or copy to
-`~/Library/Fonts/`.
 
 **Linux:**
 ```bash
-# Download and extract
 curl -L https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono.tar.xz | tar xJ
-# Install to user fonts
 mkdir -p ~/.local/share/fonts/PlanetaireMono
 cp PlanetaireMono/*.ttf ~/.local/share/fonts/PlanetaireMono/
 fc-cache -fv
@@ -1432,7 +1403,7 @@ fc-cache -fv
 
 #### Terminal Configuration Examples
 
-Include copy-paste config snippets for major terminals:
+Copy-paste config snippets for major terminals:
 
 **Ghostty** (`~/.config/ghostty/config`):
 ```
@@ -1461,6 +1432,11 @@ config.font_size = 14
 for maximum visual distinction at small sizes. This was a deliberate design decision
 from the kerm terminal work (see [font-customization-notes.md](font-customization-notes.md)).
 
+#### Future: Homebrew Cask
+
+A Homebrew cask (`brew install font-planetaire-mono`) can be added later once the font
+is stable and there's enough demand. The cask formula is straightforward — see Nerd
+Fonts' casks in `Homebrew/homebrew-cask` for the pattern.
 ---
 
 ## Testing Strategy
