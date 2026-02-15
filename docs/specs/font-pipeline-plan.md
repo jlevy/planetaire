@@ -287,12 +287,21 @@ preferred zero style.
   "fontSize": 12,
   "fontFamily": "\"B612Mono Liga NerdFont\", \"Hack Nerd Font\", Menlo, ...",
   "fontWeight": "400",
-  "fontWeightBold": "800"
+  "fontWeightBold": "800",
+  "lineHeight": 1.04,
+  "disableLigatures": true
 }
 ```
 
-Notable: Bold text uses weight **800** (ExtraBold), not 700 (Bold). This was deliberate —
-at small sizes, standard Bold was not visually distinct enough from Regular.
+Notable configuration decisions:
+- Bold text uses weight **800** (ExtraBold), not 700 (Bold). This was deliberate — at
+  small sizes, standard Bold was not visually distinct enough from Regular.
+- **Ligatures are disabled** (`disableLigatures: true`), even though the B612 Liga font
+  has FiraCode ligatures baked in. The ligatures are available via the `calt` OpenType
+  feature but turned off in kerm's default config.
+- **Line height** was tuned from 1.15 → 1.0 → settled at 1.04 as the optimal value.
+- **Hack uses the non-Mono variant** (`Hack Nerd Font`, not `Hack Nerd Font Mono`) for
+  double-wide Nerd Font icon glyphs, which render much better than single-cell Mono glyphs.
 
 ### Step 6: Font Experimentation Timeline
 
@@ -308,7 +317,9 @@ Several font families were evaluated before settling on B612 + Hack:
 | 2025-01-23 | `63125cfd` | Switched to non-Mono Hack variant (wider Nerd glyphs) |
 
 Other fonts evaluated (in `attic/kerm/assets-extras/fonts/`): GoMono, iMWriting Mono,
-RecMonoLinear, Monaspace Ne/Xe.
+RecMonoLinear, Monaspace Ne/Xe. See
+[font-customization-notes.md](font-customization-notes.md) for detailed assessments of
+each font, weight experiments, zero glyph analysis, and all configuration tuning.
 
 ### Supporting Scripts
 
