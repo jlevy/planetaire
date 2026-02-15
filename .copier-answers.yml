@@ -1,0 +1,9 @@
+# Changes here will be overwritten by Copier. Do not edit manually.
+_commit: v0.2.25
+_src_path: gh:jlevy/simple-modern-uv
+package_author_email: changeme@example.com
+package_author_name: jlevy
+package_description: Planetaire Mono font
+package_github_org: jlevy
+package_module: planetaire
+package_name: planetaire
