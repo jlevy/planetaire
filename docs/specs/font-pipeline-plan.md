@@ -712,7 +712,8 @@ src/planetaire/
 │   ├── embolden.py             # embolden_font(font, weight, change) -> TTFont
 │   ├── rename.py               # rename_font(font, family, ...) -> TTFont
 │   ├── fix.py                  # fix_font(font) -> TTFont
-│   └── validate.py             # validate_font(font) -> list[Issue]
+│   ├── validate.py             # validate_font(font) -> list[Issue]
+│   └── compare.py              # compare_fonts(font_a, font_b) -> CompareResult
 ├── recipes/                    # Planetaire-specific build compositions
 │   ├── __init__.py
 │   ├── planetaire_mono.py      # build_planetaire_mono(sources, output_dir)
@@ -782,6 +783,199 @@ def build_planetaire_mono(b612_path: Path, hack_path: Path, output_dir: Path) ->
     ...
 ```
 
+#### Ops Function Signatures and Implementation Notes
+
+**`ops/info.py`** — Font metadata inspection:
+```python
+@dataclass
+class FontInfo:
+    family: str                    # Name ID 1
+    subfamily: str                 # Name ID 2
+    full_name: str                 # Name ID 4
+    version: str                   # Name ID 5
+    postscript_name: str           # Name ID 6
+    glyph_count: int               # Number of glyphs in glyf table
+    upm: int                       # head.unitsPerEm
+    weight_class: int              # OS/2.usWeightClass
+    is_italic: bool                # head.macStyle bit 1
+    os2_metrics: dict[str, int]    # ascender, descender, line gap, etc.
+    gsub_features: list[str]       # e.g. ['calt', 'zero', 'ezer']
+    cmap_ranges: list[tuple[int, int]]  # Covered unicode ranges (summarized)
+
+def inspect_font(path: Path) -> FontInfo:
+    """Read font metadata using fontTools. Pure read, no modifications."""
+```
+
+Uses `fontTools.ttLib.TTFont` to read `name`, `head`, `OS/2`, `GSUB`, and `cmap` tables.
+
+**`ops/merge.py`** — Glyph merging by unicode range:
+```python
+def merge_glyphs(
+    base: TTFont,
+    donor: TTFont,
+    ranges: list[tuple[int, int]],
+    *,
+    copy_gsub_features: list[str] | None = None,
+    normalize_upm: bool = True,
+) -> TTFont:
+    """Copy glyphs from donor into base for specified unicode ranges.
+
+    Algorithm:
+    1. If normalize_upm and UPMs differ, scale the base font's glyphs/metrics
+       to match donor's UPM (so donor glyphs can be inserted without scaling).
+    2. For each codepoint in ranges:
+       a. Look up the glyph name in donor's cmap.
+       b. Copy the glyph outline (glyf table entry) from donor to base.
+       c. Copy the glyph's advance width (hmtx table entry).
+       d. Update base's cmap to point to the new glyph.
+    3. If copy_gsub_features specified, merge those feature lookups from
+       donor's GSUB into base's GSUB (e.g. 'calt', 'zero', 'ezer').
+    4. Handle glyph name collisions by suffixing donor glyph names.
+    """
+```
+
+The UPM normalization step scales all existing base glyphs by `donor_upm / base_upm`
+using `fontTools.misc.transform.Transform`. This affects: glyph contours in `glyf`,
+advance widths in `hmtx`, vertical metrics in `OS/2` and `hhea`, and any positioning
+values in `GPOS`.
+
+**`ops/rename.py`** — Font naming:
+```python
+def rename_font(
+    font: TTFont,
+    *,
+    family: str,
+    subfamily: str | None = None,
+    weight: int | None = None,
+    version: str | None = None,
+) -> TTFont:
+    """Update font family name and related metadata.
+
+    Updates name table IDs: 0 (copyright), 1 (family), 2 (subfamily),
+    3 (unique ID), 4 (full name), 5 (version), 6 (PostScript name),
+    16 (typographic family), 17 (typographic subfamily).
+    Also sets OS/2.usWeightClass if weight is provided.
+    """
+```
+
+**`ops/fix.py`** — Post-processing fixes:
+```python
+def fix_font(font: TTFont) -> TTFont:
+    """Apply standard post-processing fixes.
+
+    1. Create an empty DSIG table (digital signature placeholder) — required
+       by some Windows font validators.
+    2. Set OS/2.fsType = 0 (installable embedding allowed).
+    3. Fix GASP table for optimal rendering across screen sizes.
+    4. Fix PREP table if needed (TrueType instructions).
+    Modeled after gftools fix-nonhinting behavior.
+    """
+```
+
+We implement the DSIG/fsType/GASP fixes directly in fontTools (referencing the existing
+`fix-dsig.py` and `fix-fstype.py` scripts in `attic/hack-source/`) rather than requiring
+`gftools` as a runtime dependency. If `gftools` is available, we can use it as an
+alternative path.
+
+**`ops/validate.py`** — Font validation:
+```python
+@dataclass
+class Issue:
+    severity: Literal["error", "warning", "info"]
+    category: str          # e.g. "glyph_coverage", "metrics", "features"
+    message: str
+    details: dict | None = None
+
+def validate_font(
+    font: TTFont,
+    *,
+    expected_ranges: list[tuple[int, int]] | None = None,
+    expected_weight: int | None = None,
+    expected_features: list[str] | None = None,
+) -> list[Issue]:
+    """Validate font against expected properties.
+
+    Checks:
+    - Glyph coverage: all codepoints in expected_ranges have glyphs
+    - Metrics: OS/2 weight matches expected_weight
+    - Features: GSUB contains expected features
+    - Consistency: name table entries are internally consistent
+    - Sanity: UPM is reasonable, glyph count > 0, no empty outlines
+    """
+```
+
+**`ops/compare.py`** — Glyph-level font comparison:
+```python
+@dataclass
+class GlyphDiff:
+    codepoint: int
+    glyph_name_a: str
+    glyph_name_b: str
+    status: Literal["identical", "different", "missing_a", "missing_b"]
+    diff_details: str | None = None  # e.g. "contour point count differs: 42 vs 44"
+
+@dataclass
+class CompareResult:
+    identical: int              # Number of glyphs with matching outlines
+    different: int              # Number of glyphs with differing outlines
+    missing_a: int              # Glyphs in B but not A
+    missing_b: int              # Glyphs in A but not B
+    diffs: list[GlyphDiff]      # Per-glyph details (only non-identical)
+
+def compare_fonts(
+    font_a: TTFont,
+    font_b: TTFont,
+    ranges: list[tuple[int, int]] | None = None,
+    *,
+    tolerance: float = 0.5,
+    normalize_upm: bool = True,
+) -> CompareResult:
+    """Compare glyph outlines between two fonts.
+
+    Algorithm:
+    1. If normalize_upm and UPMs differ, normalize coordinates to a common
+       UPM before comparison (scale points, don't modify fonts).
+    2. For each codepoint (in ranges, or all shared codepoints if None):
+       a. Extract glyph outline from both fonts via TTGlyphPen or by reading
+          glyf table entries directly.
+       b. Compare contour points (on-curve, off-curve, coordinates).
+       c. Apply tolerance for floating-point rounding after UPM scaling.
+       d. Record result as identical or different with details.
+    3. Report summary and per-glyph diffs.
+
+    This comparison ignores metadata/naming — it focuses purely on whether
+    the visual glyph outlines match.
+    """
+```
+
+The comparison uses `fontTools.pens.recordingPen.RecordingPen` to serialize glyph
+outlines into a canonical sequence of drawing operations, then compares these sequences.
+This handles composite glyphs (components), simple outlines, and mixed glyphs uniformly.
+
+**`ops/embolden.py`** — Weight generation (FontForge):
+```python
+def embolden_font(
+    input_path: Path,
+    output_path: Path,
+    *,
+    target_weight: int = 800,
+    change_amount: int = 30,
+    skip_glyphs: list[str] | None = None,
+    half_weight_glyphs: list[str] | None = None,
+) -> Path:
+    """Generate a heavier weight variant using FontForge's changeWeight().
+
+    Requires FontForge to be installed as a system dependency. Raises
+    SystemDependencyError with installation instructions if not found.
+
+    This is the only op that requires a system dependency; all others use
+    pure Python (fontTools).
+    """
+```
+
+Internally shells out to `fontforge -script` with an embedded script, or imports the
+`fontforge` Python module directly if available in the environment.
+
 #### Subcommands
 
 **Generic font operations** (reusable on any font):
@@ -794,6 +988,7 @@ def build_planetaire_mono(b612_path: Path, hack_path: Path, output_dir: Path) ->
 | `planetaire rename <font> --family "Name" --output <out>` | Update font family name and metadata |
 | `planetaire fix <font> --output <out>` | Apply gftools fix-nonhinting and other fixes |
 | `planetaire validate <font>` | Check glyph coverage, metrics, features |
+| `planetaire compare <font_a> <font_b> [--ranges <ranges>]` | Compare glyph outlines between two fonts, report differences |
 
 **Planetaire-specific recipes** (subcommand group):
 
@@ -962,10 +1157,29 @@ section above.
   - `ops/rename.py` — `rename_font(font, family, ...) -> TTFont`
   - `ops/fix.py` — `fix_font(font) -> TTFont`
   - `ops/validate.py` — `validate_font(font) -> list[Issue]`
+  - `ops/compare.py` — `compare_fonts(font_a, font_b, ranges) -> CompareResult`
 - [ ] Register each op as a CLI subcommand in `cli.py`
 - [ ] Create `recipes/planetaire_mono.py` — full Planetaire Mono build pipeline
-  calling ops functions directly (no subprocess)
-- [ ] Create `recipes/sources.py` — download and cache source fonts
+  calling ops functions directly (no subprocess):
+  - `build_planetaire_mono(source_dir, output_dir, variant)` entry point
+  - For each variant (Regular, Italic, Bold, BoldItalic):
+    a. Load Hack as base, B612 as donor
+    b. `merge_glyphs()` with `PLANETAIRE_LETTER_RANGES` and `copy_gsub_features=['calt', 'zero', 'ezer']`
+    c. `rename_font()` with family="Planetaire Mono", appropriate subfamily/weight
+    d. `fix_font()` for DSIG/GASP/fsType
+    e. `validate_font()` to check output
+    f. Save with `atomic_output_file`
+  - For ExtraBold/ExtraBoldItalic (if FontForge available):
+    a. `embolden_font()` on the Bold/BoldItalic output
+    b. `rename_font()` with weight=800, subfamily="ExtraBold"/"ExtraBold Italic"
+    c. `fix_font()` and `validate_font()`
+  - Return list of output paths
+- [ ] Create `recipes/sources.py` — download and cache source fonts:
+  - Download B612MonoLigaNerdFont TTFs from carlosedp/b612 raw.githubusercontent.com
+  - Download HackNerdFont from Nerd Fonts releases (Hack.tar.xz), extract non-Mono TTFs
+  - Cache to `fonts/source/` to avoid re-downloading
+  - Verify file integrity via checksums (SHA-256)
+  - Return `dict[str, Path]` mapping variant names to font paths
 - [ ] Create `unicode_ranges.py` — range definitions and `parse_unicode_ranges()`
 - [ ] Create `config.py` — pipeline constants (weight params, skip lists, naming)
 - [ ] Register recipes as `build` subcommand group (`planetaire build planetaire-mono`,
@@ -1002,6 +1216,251 @@ section above.
 - [ ] Add CI integration: GitHub Actions runs both pytest and tryscript
 - [ ] FontForge-dependent tests marked with `pytest.mark.skipif` when unavailable
 
+### Phase 8: End-to-End Validation Against Kerm Reference
+
+Verify that Planetaire Mono output fonts produce **identical glyphs** to the prior kerm
+font stack (B612 for letters/digits + Hack for everything else). The only expected
+differences are in metadata/naming tables — the glyph outlines themselves must match.
+
+- [ ] Implement `ops/compare.py`: glyph-level font comparison
+  - Compare glyph outlines (contour points, control points, component references) for
+    specified unicode ranges between two fonts
+  - Handle UPM differences by normalizing coordinates before comparison
+  - Report: identical glyphs, differing glyphs (with diff details), missing glyphs
+  - Output structured `CompareResult` with per-glyph status
+  - Support tolerance for floating-point rounding in scaled coordinates
+- [ ] Register `planetaire compare` CLI subcommand
+  - `planetaire compare <font_a> <font_b>` — compare all shared codepoints
+  - `planetaire compare <font_a> <font_b> --ranges "U+0041-005A"` — compare specific ranges
+  - `--format text|json` for structured output
+  - `--strict` mode that fails on any difference (for CI)
+- [ ] Run full pipeline and compare output against kerm reference fonts:
+  - For each Planetaire Mono variant, compare glyph outlines against the corresponding
+    kerm source fonts from `attic/kerm/assets/fonts/`
+  - B612 letter/digit ranges: glyphs must match B612MonoLigaNerdFont source exactly
+  - Hack punctuation/symbol/NF ranges: glyphs must match HackNerdFont source exactly
+    (after UPM normalization)
+  - Document and explain any intentional differences
+- [ ] Add regression test: `tests/recipes/test_planetaire_mono_e2e.py`
+  - Builds a Planetaire Mono Regular from real source fonts (downloaded or from attic)
+  - Runs `compare_fonts()` against kerm reference for all unicode ranges
+  - Fails if any glyph outline differs unexpectedly
+- [ ] Add tryscript golden test: `tests/golden/cli-compare.tryscript.md`
+
+### Phase 9: Font Showcase and Specimen Generation
+
+Generate compelling visual samples for the README and a PDF specimen sheet. Premium
+monospace fonts (Berkeley Mono, FiraCode, Monaspace) set the bar: dark backgrounds,
+real code samples, crisp retina-quality PNGs, and systematic feature showcases.
+
+#### README Images (PNG)
+
+**Tool: [freeze](https://github.com/charmbracelet/freeze)** (Charmbracelet) — a Go CLI
+that renders code/terminal output to PNG/SVG with custom font embedding. Key advantages:
+supports `--font.file` for loading Planetaire Mono TTFs directly, `--execute` to
+capture real terminal command output with ANSI colors, configurable background/theme,
+and JSON config files for reproducible generation.
+
+- [ ] Install freeze: `go install github.com/charmbracelet/freeze@latest` (or download binary)
+- [ ] Create `docs/showcase/freeze.json` config with:
+  - Planetaire Mono font loaded via `font.file`
+  - Black background matching kerm terminal color scheme
+  - Font size appropriate for the samples (14-16px)
+  - Window chrome disabled for clean look (or minimal, tasteful chrome)
+  - Output at 2x display width for retina crispness (render ~1500px, display at 750px)
+- [ ] Generate hero image: 10-15 lines of syntax-highlighted code on dark background
+  - Real code, not lorem ipsum — something that shows off the B612 letterforms
+  - Use a syntax theme matching kerm's carefully chosen color palette
+- [ ] Generate monochrome sample: single-color text on black background
+  - Shows letterform quality without color distractions
+  - Good for demonstrating Regular vs Bold vs ExtraBold weights
+- [ ] Generate colored console output sample: capture actual terminal command output
+  - Use `freeze --execute` to render a real CLI command with ANSI colors
+  - Shows the font in its natural habitat
+- [ ] Generate feature showcase: dotted zero vs slashed zero, weight comparison,
+  Nerd Font icons
+- [ ] Compress all PNGs with `optipng -o7` (lossless)
+- [ ] Store in `docs/images/` directory
+- [ ] Embed in README with `<img src="..." width="750">` for consistent display width
+
+**Image conventions** (following FiraCode's approach):
+- Consistent display width: ~750px across all images
+- Render at 2x for retina: actual PNG is ~1500px wide
+- Dark background, light text (matching kerm terminal aesthetic)
+- One image per concept (hero, monochrome, colored, features)
+
+#### PDF Specimen Sheet
+
+**Tool: [typst](https://typst.app/)** — a modern typesetting system (Rust-based
+alternative to LaTeX) that natively supports loading custom TTF fonts, has clean
+readable markup, and produces beautiful PDFs. Ideal for automated specimen generation.
+
+- [ ] Install typst: `cargo install typst-cli` or download from typst releases
+- [ ] Create `docs/specimen/planetaire-mono-specimen.typ` template:
+  - Load all Planetaire Mono variants (Regular, Italic, Bold, BoldItalic, ExtraBold,
+    ExtraBoldItalic) via `#set text(font: ...)` with explicit font file paths
+  - **Page 1 — Cover**: Font name, tagline, version, key properties
+    (B612 letterforms + Hack coverage, 6 weights, Nerd Font icons)
+  - **Page 2 — Character Set**: Full alphabet (upper + lower), digits, punctuation,
+    extended Latin, Greek, Cyrillic — showing every glyph range Planetaire covers
+  - **Page 3 — Weight Comparison**: Same sample text rendered in Regular (400),
+    Bold (700), ExtraBold (800) — both normal and italic
+  - **Page 4 — Code Sample**: Syntax-highlighted code (typst has built-in code
+    highlighting) on a dark background, showing the font in its primary use context
+  - **Page 5 — Feature Showcase**: Dotted zero (default) vs slashed zero (`zero`
+    feature) vs empty zero (`ezer` feature), Nerd Font icon samples, ligature examples
+  - **Page 6 — Provenance and License**: Brief credits (B612/Airbus, carlosedp,
+    Hack, Nerd Fonts), license text (OFL-1.1)
+- [ ] Add `make specimen` target: `typst compile docs/specimen/planetaire-mono-specimen.typ`
+- [ ] Commit generated PDF to repo for easy download
+- [ ] Link to PDF from README
+
+**Why typst over alternatives:**
+- LaTeX: heavyweight, slow, complex font loading
+- WeasyPrint/HTML: good but less typographic control, CSS font-face can be finicky
+- ReportLab: low-level Python PDF, too much boilerplate for beautiful output
+- Figma: manual, not reproducible in CI
+- typst: fast (<1s), clean markup, native TTF loading, beautiful defaults, scriptable
+
+### Phase 10: Documentation
+
+- [ ] Write top-level README.md:
+  - Concise motivation: what Planetaire Mono is and why it exists
+  - Brief background on B612 (Airbus cockpit display font, optimized for legibility)
+  - Credit to carlosedp fork (dotted zero, ligatures, Nerd Fonts patching)
+  - What Planetaire Mono changes and why: composite font merging B612 letterforms
+    with Hack punctuation/symbols for a complete, self-contained font
+  - Embed showcase images (hero, monochrome, colored console, features)
+  - Link to PDF specimen sheet
+  - Installation instructions (download TTFs or build from source)
+  - Build instructions (`make fonts` or individual CLI commands)
+  - License information (OFL-1.1)
+- [ ] Follow writing style guidelines: concise, clear, no unnecessary jargon
+- [ ] Add `fonts/source/README.md` documenting provenance of each source font
+- [ ] Ensure all license files are present and attributed correctly
+- [ ] Include terminal configuration examples for major terminals (see below)
+
+### Phase 11: Distribution and Packaging
+
+Package the output fonts for easy installation across platforms. Follow Nerd Fonts'
+approach: simple archives on GitHub Releases, plus a Homebrew cask for one-command
+macOS install. Keep it minimal — no custom installer, no web font builds (unless
+requested later).
+
+#### Release Artifacts
+
+- [ ] Create `scripts/release.sh` (or Makefile target) that:
+  1. Runs the full build pipeline (`planetaire build planetaire-mono`)
+  2. Packages output into `PlanetaireMono.tar.xz` (preferred — ~1/10 the size of zip)
+     and `PlanetaireMono.zip` (for Windows users)
+  3. Includes all 6 variants: Regular, Italic, Bold, BoldItalic, ExtraBold,
+     ExtraBoldItalic
+  4. Includes `LICENSE` (OFL-1.1) and a brief `README.txt` with credits
+  5. Generates SHA-256 checksums
+- [ ] Set up GitHub Actions release workflow:
+  - Triggered on git tag push (`v*`)
+  - Builds fonts, creates archives, uploads to GitHub Release
+  - Attaches checksum file
+  - Also attaches the PDF specimen sheet
+
+**Release structure:**
+```
+PlanetaireMono-v1.0.0.tar.xz
+PlanetaireMono-v1.0.0.zip
+PlanetaireMono-v1.0.0-specimen.pdf
+SHA256SUMS
+```
+
+Archive contents:
+```
+PlanetaireMono/
+├── PlanetaireMono-Regular.ttf
+├── PlanetaireMono-Italic.ttf
+├── PlanetaireMono-Bold.ttf
+├── PlanetaireMono-BoldItalic.ttf
+├── PlanetaireMono-ExtraBold.ttf
+├── PlanetaireMono-ExtraBoldItalic.ttf
+├── LICENSE
+└── README.txt
+```
+
+#### Homebrew Cask
+
+- [ ] Create Homebrew cask formula (`font-planetaire-mono`):
+  ```ruby
+  cask "font-planetaire-mono" do
+    version "1.0.0"
+    sha256 "..."
+    url "https://github.com/jlevy/planetaire/releases/download/v#{version}/PlanetaireMono.tar.xz"
+    name "Planetaire Mono"
+    homepage "https://github.com/jlevy/planetaire"
+    livecheck do
+      url :url
+      strategy :github_latest
+    end
+    font "PlanetaireMono-Regular.ttf"
+    font "PlanetaireMono-Italic.ttf"
+    font "PlanetaireMono-Bold.ttf"
+    font "PlanetaireMono-BoldItalic.ttf"
+    font "PlanetaireMono-ExtraBold.ttf"
+    font "PlanetaireMono-ExtraBoldItalic.ttf"
+  end
+  ```
+- [ ] Submit PR to `Homebrew/homebrew-cask` for official distribution
+- [ ] Users install with: `brew install font-planetaire-mono`
+
+#### Installation Instructions (for README)
+
+**macOS (Homebrew):**
+```bash
+brew install font-planetaire-mono
+```
+
+**macOS (manual):**
+Download from GitHub Releases, double-click each `.ttf` file, or copy to
+`~/Library/Fonts/`.
+
+**Linux:**
+```bash
+# Download and extract
+curl -L https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono.tar.xz | tar xJ
+# Install to user fonts
+mkdir -p ~/.local/share/fonts/PlanetaireMono
+cp PlanetaireMono/*.ttf ~/.local/share/fonts/PlanetaireMono/
+fc-cache -fv
+```
+
+#### Terminal Configuration Examples
+
+Include copy-paste config snippets for major terminals:
+
+**Ghostty** (`~/.config/ghostty/config`):
+```
+font-family = "PlanetaireMono"
+font-size = 14
+font-thicken = true
+```
+
+**Alacritty** (`~/.config/alacritty/alacritty.toml`):
+```toml
+[font]
+normal = { family = "Planetaire Mono", style = "Regular" }
+bold = { family = "Planetaire Mono", style = "ExtraBold" }
+size = 14.0
+```
+
+**WezTerm** (`~/.wezterm.lua`):
+```lua
+config.font = wezterm.font 'Planetaire Mono'
+config.font_size = 14
+```
+
+**iTerm2:** Preferences → Profiles → Text → Font → "Planetaire Mono"
+
+**Note:** Bold text is best mapped to ExtraBold (weight 800) rather than Bold (700)
+for maximum visual distinction at small sizes. This was a deliberate design decision
+from the kerm terminal work (see [font-customization-notes.md](font-customization-notes.md)).
+
 ---
 
 ## Testing Strategy
@@ -1033,6 +1492,7 @@ tests/
     ├── cli-merge.tryscript.md          # Golden tests for `planetaire merge`
     ├── cli-validate.tryscript.md       # Golden tests for `planetaire validate`
     ├── cli-build.tryscript.md          # Golden tests for `planetaire build`
+    ├── cli-compare.tryscript.md        # Golden tests for `planetaire compare`
     └── cli-errors.tryscript.md         # Golden tests for error handling
 ```
 
@@ -1048,6 +1508,8 @@ Each `ops/` function is tested with small fixture fonts. Tests verify:
 - **rename**: Name table entries updated correctly, all name IDs consistent
 - **fix**: DSIG table present, fsType correct
 - **validate**: Detects missing glyphs, wrong metrics, feature issues
+- **compare**: Detects identical glyphs, reports outline differences, handles UPM
+  mismatch
 
 **Test font fixtures**: Minimal TTF fonts (~50 glyphs each) are created using fontTools
 and committed to `tests/fixtures/`. These give fast tests (<100ms each). Full-size
@@ -1112,6 +1574,7 @@ Error: [..]nonexistent.ttf[..]
 | `cli-merge.tryscript.md` | `planetaire merge` with various range specs, edge cases |
 | `cli-validate.tryscript.md` | `planetaire validate` pass and fail cases |
 | `cli-build.tryscript.md` | `planetaire build planetaire-mono` full pipeline |
+| `cli-compare.tryscript.md` | `planetaire compare` identical and differing fonts |
 | `cli-errors.tryscript.md` | Missing args, bad inputs, missing system deps |
 
 **Elision patterns** for unstable output:
