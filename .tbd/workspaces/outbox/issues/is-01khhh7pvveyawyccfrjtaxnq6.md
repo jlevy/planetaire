@@ -9,8 +9,8 @@ labels:
   - phase-6-finalize
 priority: 2
 status: open
-title: "Set up font distribution: GitHub Releases with TTF/OTF archives and installation docs"
+title: "Set up font distribution: GitHub Releases with TTF archives, install instructions, and terminal config examples"
 type: is
-updated_at: 2026-02-15T20:57:40.707Z
-version: 4
+updated_at: 2026-02-15T22:31:51.294Z
+version: 5
 ---

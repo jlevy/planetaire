@@ -1,4 +1,6 @@
 ---
+close_reason: "recipes/sources.py: download_sources() checks existing fonts"
+closed_at: 2026-02-15T22:23:11.154Z
 created_at: 2026-02-15T20:38:34.246Z
 dependencies:
   - target: is-01khhgdn50s409d5gwj9pav26k
@@ -8,9 +10,9 @@ kind: task
 labels:
   - phase-2-download
 priority: 1
-status: open
+status: closed
 title: "Implement recipes/sources: download and cache B612 and Hack source fonts"
 type: is
-updated_at: 2026-02-15T20:57:40.622Z
-version: 4
+updated_at: 2026-02-15T22:31:51.190Z
+version: 5
 ---

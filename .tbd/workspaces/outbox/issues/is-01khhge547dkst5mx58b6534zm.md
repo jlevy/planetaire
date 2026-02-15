@@ -1,4 +1,6 @@
 ---
+close_reason: Source fonts and licenses copied to fonts/source/
+closed_at: 2026-02-15T22:13:32.644Z
 created_at: 2026-02-15T20:38:54.342Z
 dependencies:
   - target: is-01khhgdhg7dmd5yvjfmw1f3fwb
@@ -8,9 +10,9 @@ kind: task
 labels:
   - phase-1-setup
 priority: 1
-status: open
+status: closed
 title: "Font migration: copy source fonts to fonts/source/, add license files, set up fonts/output/"
 type: is
-updated_at: 2026-02-15T20:57:40.657Z
-version: 4
+updated_at: 2026-02-15T22:31:51.231Z
+version: 6
 ---

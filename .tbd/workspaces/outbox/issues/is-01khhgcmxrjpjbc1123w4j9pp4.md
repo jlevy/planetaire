@@ -1,4 +1,6 @@
 ---
+close_reason: CLI skeleton with Typer, all subcommands, package structure
+closed_at: 2026-02-15T22:23:07.176Z
 created_at: 2026-02-15T20:38:04.984Z
 dependencies:
   - target: is-01khhgcwdv1f10xdfd1ss1622w
@@ -22,9 +24,9 @@ kind: task
 labels:
   - phase-5-cli
 priority: 1
-status: open
+status: closed
 title: Set up CLI skeleton with Typer, project dependencies, and package structure
 type: is
-updated_at: 2026-02-15T20:57:40.563Z
-version: 11
+updated_at: 2026-02-15T22:31:51.107Z
+version: 13
 ---

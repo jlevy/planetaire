@@ -1,4 +1,6 @@
 ---
+close_reason: "4 E2E tests: letters match B612, punctuation matches Hack, NF glyphs present, digits match"
+closed_at: 2026-02-15T22:31:04.435Z
 created_at: 2026-02-15T20:39:11.530Z
 dependencies:
   - target: is-01khhge8jet1vdzw8p02wyrgnh
@@ -16,9 +18,9 @@ kind: task
 labels:
   - phase-8-e2e
 priority: 1
-status: open
+status: closed
 title: "End-to-end validation: verify Planetaire Mono glyphs match kerm reference fonts"
 type: is
-updated_at: 2026-02-15T20:57:40.678Z
-version: 8
+updated_at: 2026-02-15T22:31:51.258Z
+version: 10
 ---

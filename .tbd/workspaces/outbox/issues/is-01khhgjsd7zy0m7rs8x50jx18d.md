@@ -11,6 +11,6 @@ priority: 2
 status: open
 title: Write top-level README with font motivation, background, credits, and build instructions
 type: is
-updated_at: 2026-02-15T20:57:40.686Z
-version: 4
+updated_at: 2026-02-15T22:31:51.268Z
+version: 5
 ---

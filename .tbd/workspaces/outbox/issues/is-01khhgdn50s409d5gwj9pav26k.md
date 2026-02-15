@@ -1,4 +1,6 @@
 ---
+close_reason: "recipes/planetaire_mono.py: build_planetaire_mono() composes merge/rename/fix/validate"
+closed_at: 2026-02-15T22:23:11.598Z
 created_at: 2026-02-15T20:38:37.984Z
 dependencies:
   - target: is-01khhgdx5pmebhphgfqpmj11qc
@@ -10,9 +12,9 @@ kind: task
 labels:
   - phase-5-cli
 priority: 1
-status: open
+status: closed
 title: "Implement recipes/planetaire_mono: full Planetaire Mono build pipeline"
 type: is
-updated_at: 2026-02-15T20:57:40.631Z
-version: 5
+updated_at: 2026-02-15T22:31:51.199Z
+version: 6
 ---
