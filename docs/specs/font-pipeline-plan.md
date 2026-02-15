@@ -618,6 +618,30 @@ If we ever need to independently re-patch with a newer Nerd Fonts version:
 | Planetaire Mono ExtraBold | 800 | Normal | Emboldened Bold composite |
 | Planetaire Mono ExtraBold Italic | 800 | Italic | Emboldened BoldItalic composite |
 
+#### Naming Convention
+
+The official font family name is **"Planetaire Mono"** (with space). This name appears in:
+- Font metadata: name table ID 1 (Family), ID 4 (Full Name), ID 16 (Typographic Family)
+- Terminal/editor font pickers (the name users see and select)
+- All documentation and references
+
+Filenames use **"PlanetaireMono"** (no space), following the Nerd Fonts convention
+(e.g. HackNerdFont-Regular.ttf):
+- `PlanetaireMono-Regular.ttf`, `PlanetaireMono-Bold.ttf`, etc.
+- Archive names: `PlanetaireMono.tar.xz`
+- Install directory: `~/.local/share/fonts/PlanetaireMono/`
+
+PostScript name (name table ID 6): **"PlanetaireMono-Regular"**, **"PlanetaireMono-Bold"**,
+etc. (PostScript names cannot contain spaces per the spec).
+
+| Context | Name |
+|---------|------|
+| Font family (metadata, UI) | `Planetaire Mono` |
+| PostScript name | `PlanetaireMono-Regular` |
+| Filenames | `PlanetaireMono-Regular.ttf` |
+| CLI tool name | `planetaire` |
+| Python package | `planetaire` |
+
 ### Approach: Binary Font Merging
 
 Replace the CSS-level unicode-range compositing with actual binary font merging using
@@ -1407,7 +1431,7 @@ Copy-paste config snippets for major terminals:
 
 **Ghostty** (`~/.config/ghostty/config`):
 ```
-font-family = "PlanetaireMono"
+font-family = "Planetaire Mono"
 font-size = 14
 font-thicken = true
 ```
