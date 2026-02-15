@@ -1,0 +1,4 @@
+# Generated font files — not committed to git.
+# Run `make fonts` or `planetaire build planetaire-mono` to generate.
+*.ttf
+*.otf
