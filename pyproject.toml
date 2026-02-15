@@ -53,6 +53,7 @@ dev = [
     "rich>=14.3.2",
     "basedpyright>=1.38.0",
     "funlog>=0.2.1",
+    "fonttools>=4.61.1",
 ]
 
 [project.scripts]
