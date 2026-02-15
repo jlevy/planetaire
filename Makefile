@@ -5,8 +5,9 @@
 .DEFAULT_GOAL := default
 
 .PHONY: default install lint test upgrade build clean
+.PHONY: download build-fonts validate-fonts fonts
 
-default: install lint test 
+default: install lint test
 
 install:
 	uv sync --all-extras
@@ -30,3 +31,16 @@ clean:
 	-rm -rf .mypy_cache/
 	-rm -rf .venv/
 	-find . -type d -name "__pycache__" -exec rm -rf {} +
+
+# Font build targets
+
+download:
+	uv run planetaire build download
+
+build-fonts: download
+	uv run planetaire build planetaire-mono
+
+validate-fonts:
+	uv run planetaire validate fonts/output/*.ttf
+
+fonts: download build-fonts validate-fonts
