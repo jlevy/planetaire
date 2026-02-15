@@ -39,6 +39,10 @@ classifiers = [
 # ---- Main dependencies ----
 
 dependencies = [
+    "fonttools>=4.61.1",
+    "typer>=0.15.0",
+    "rich>=14.0.0",
+    "strif>=0.4.0",
 ]
 
 
@@ -53,12 +57,11 @@ dev = [
     "rich>=14.3.2",
     "basedpyright>=1.38.0",
     "funlog>=0.2.1",
-    "fonttools>=4.61.1",
 ]
 
 [project.scripts]
 # Add script entry points here:
-planetaire = "planetaire:main"
+planetaire = "planetaire.cli:app"
 
 
 # ---- Build system ----
@@ -110,6 +113,7 @@ select = [
 ]
 ignore = [
     # Disable some rules that are overly pedantic. Add/remove as desired:
+    "B008", # https://docs.astral.sh/ruff/rules/function-call-in-default-argument/ (required by Typer)
     "E501", # https://docs.astral.sh/ruff/rules/line-too-long/
     "E402", # https://docs.astral.sh/ruff/rules/module-import-not-at-top-of-file/
     "E731", # https://docs.astral.sh/ruff/rules/lambda-assignment/
@@ -150,12 +154,17 @@ reportAny = false
 reportExplicitAny = false
 reportImplicitStringConcatenation = false
 reportUnreachable = false
+# fontTools lacks complete type stubs, causing many false attribute access errors.
+reportAttributeAccessIssue = false
+reportUnknownMemberType = false
+reportUnknownVariableType = false
+reportUnknownArgumentType = false
+# Typer requires function calls in default parameter values.
+reportCallInDefaultInitializer = false
 # reportPrivateImportUsage = false
 # reportPrivateLocalImportUsage = false
 # reportMissingImports = false
 # reportUnnecessaryIsInstance = false
-# reportUnknownVariableType = false
-# reportUnknownArgumentType = false
 
 [tool.codespell]
 # Add here as needed:
