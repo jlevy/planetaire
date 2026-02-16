@@ -1,0 +1,132 @@
+Network Working Group                                   Steve Crocker
+Request for Comments: 1                                          UCLA
+                                                         7 April 1969
+
+
+                         Title:   Host Software
+                        Author:   Steve Crocker
+                          Installation:   UCLA
+                          Date:   7 April 1969
+             Network Working Group Request for Comment:   1
+
+
+CONTENTS
+
+INTRODUCTION
+
+  I. A Summary of the IMP Software
+
+     Messages
+
+     Links
+
+     IMP Transmission and Error Checking
+
+     Open Questions on the IMP Software
+
+ II. Some Requirements Upon the Host-to-Host Software
+
+     Simple Use
+
+     Deep Use
+
+     Error Checking
+
+III. The Host Software
+
+     Establishment of a Connection
+
+     High Volume Transmission
+
+     A Summary of Primitives
+
+     Error Checking
+
+     Closer Interaction
+
+     Open Questions
+
+ IV. Initial Experiments
+
+     Experiment One
+
+     Experiment Two
+
+Introduction
+
+   The software for the ARPA Network exists partly in the IMPs and
+   partly in the respective HOSTs.  BB&N has specified the software of
+   the IMPs and it is the responsibility of the HOST groups to agree on
+   HOST software.
+
+   During the summer of 1968, representatives from the initial four
+   sites met several times to discuss the HOST software and initial
+   experiments on the network.  There emerged from these meetings a
+   working group of three, Steve Carr from Utah, Jeff Rulifson from SRI,
+   and Steve Crocker of UCLA, who met during the fall and winter.  The
+   most recent meeting was in the last week of March in Utah.  Also
+   present was Bill Duvall of SRI who has recently started working with
+   Jeff Rulifson.
+
+   Somewhat independently, Gerard DeLoche of UCLA has been working on
+   the HOST-IMP interface.
+
+   I present here some of the tentative agreements reached and some of
+   the open questions encountered.  Very little of what is here is firm
+   and reactions are expected.
+
+I.   A Summary of the IMP Software
+
+Messages
+
+   Information is transmitted from HOST to HOST in bundles called
+   messages.  A message is any stream of not more than 8080 bits,
+   together with its header.  The header is 16 bits and contains the
+   following information:
+
+           Destination     5 bits
+           Link            8 bits
+           Trace           1 bit
+           Spare           2 bits
+
+   The destination is the numerical code for the HOST to which the
+   message should be sent.  The trace bit signals the IMPs to record
+   status information about the message and send the information back to
+   the NMC (Network Measurement Center, i.e., UCLA).  The spare bits are
+   unused.
+
+Links
+
+   The link field is a special device used by the IMPs to limit certain
+   kinds of congestion.  They function as follows.  Between every pair of
+   HOSTs there are 32 logical full-duplex connections over which messages
+   may be passed in either direction.  The IMPs place the restriction on
+   these links that no HOST can send two successive messages over the
+   same link before the IMP at the destination has sent back a special
+   message called an RFNM (Request for Next Message).  This arrangement
+   limits the congestion one HOST can cause another if the sending HOST
+   is attempting to send too much over one link.  We note, however, that
+   since the IMP at the destination does not have enough capacity to
+   handle all 32 links simultaneously, the links serve their purpose only
+   if the overload is coming from one or two links.  It is necessary for
+   the HOSTs to cooperate in this respect.
+
+   The links have the following primitive characteristics.  They are
+   always functioning and there are always 32 of them.
+
+   By "always functioning," we mean that the IMPs are always prepared to
+   transmit another message over them.  No notion of beginning or ending
+   a conversation is contained in the IMP software.  It is thus not
+   possible to query an IMP about the state of a link (although it might
+   be possible to query an IMP about the recent history of a link --
+   quite a different matter!).
+
+   The other primitive characteristic of the links is that there are
+   always 32 of them, whether they are in use or not.  This means that
+   each IMP must maintain 18 tables, each with 32 entries, regardless of
+   the actual traffic.
+
+   The objections to the link structure notwithstanding, the links are
+   easily programmed within the IMPs and are probably a better
+   alternative to more complex arrangements just because of their
+   simplicity.

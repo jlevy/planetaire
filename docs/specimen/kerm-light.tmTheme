@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>name</key>
+    <string>Kerm Light</string>
+    <key>settings</key>
+    <array>
+        <dict>
+            <key>settings</key>
+            <dict>
+                <key>background</key>
+                <string>#f6f8fa</string>
+                <key>foreground</key>
+                <string>#24292f</string>
+            </dict>
+        </dict>
+        <dict>
+            <key>scope</key>
+            <string>comment, comment.line, comment.block, punctuation.definition.comment</string>
+            <key>settings</key>
+            <dict>
+                <key>foreground</key>
+                <string>#6e7781</string>
+                <key>fontStyle</key>
+                <string>italic</string>
+            </dict>
+        </dict>
+        <dict>
+            <key>scope</key>
+            <string>keyword, keyword.control, keyword.operator.logical, keyword.operator.new, storage.type, storage.modifier</string>
+            <key>settings</key>
+            <dict>
+                <key>foreground</key>
+                <string>#8250df</string>
+                <key>fontStyle</key>
+                <string>bold</string>
+            </dict>
+        </dict>
+        <dict>
+            <key>scope</key>
+            <string>string, string.quoted, string.template, punctuation.definition.string</string>
+            <key>settings</key>
+            <dict>
+                <key>foreground</key>
+                <string>#1a7f37</string>
+            </dict>
+        </dict>
+        <dict>
+            <key>scope</key>
+            <string>constant.numeric, constant.language</string>
+            <key>settings</key>
+            <dict>
+                <key>foreground</key>
+                <string>#0550ae</string>
+            </dict>
+        </dict>
+        <dict>
+            <key>scope</key>
+            <string>entity.name.function, entity.name.class, entity.name.type</string>
+            <key>settings</key>
+            <dict>
+                <key>foreground</key>
+                <string>#953800</string>
+            </dict>
+        </dict>
+        <dict>
+            <key>scope</key>
+            <string>support.function, support.class, support.type, variable.function</string>
+            <key>settings</key>
+            <dict>
+                <key>foreground</key>
+                <string>#0e6b7a</string>
+            </dict>
+        </dict>
+        <dict>
+            <key>scope</key>
+            <string>keyword.operator, keyword.operator.assignment</string>
+            <key>settings</key>
+            <dict>
+                <key>foreground</key>
+                <string>#24292f</string>
+            </dict>
+        </dict>
+        <dict>
+            <key>scope</key>
+            <string>variable, variable.parameter, variable.other</string>
+            <key>settings</key>
+            <dict>
+                <key>foreground</key>
+                <string>#24292f</string>
+            </dict>
+        </dict>
+        <dict>
+            <key>scope</key>
+            <string>meta.decorator, punctuation.definition.decorator, meta.function.decorator</string>
+            <key>settings</key>
+            <dict>
+                <key>foreground</key>
+                <string>#a8342a</string>
+            </dict>
+        </dict>
+        <dict>
+            <key>scope</key>
+            <string>punctuation</string>
+            <key>settings</key>
+            <dict>
+                <key>foreground</key>
+                <string>#24292f</string>
+            </dict>
+        </dict>
+    </array>
+</dict>
+</plist>

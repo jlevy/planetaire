@@ -3,9 +3,20 @@
 
 #let version = "0.1.0"
 
+#let page-count = counter(page)
+
 #set page(
   paper: "a4",
   margin: (top: 2cm, bottom: 2cm, left: 2.5cm, right: 2.5cm),
+  footer: context {
+    if page-count.get().first() > 1 {
+      align(center)[
+        #text(size: 7pt, fill: rgb("#bbb"))[
+          Planetaire Mono \u{00B7} github.com/jlevy/planetaire \u{00B7} OFL-1.1
+        ]
+      ]
+    }
+  },
 )
 
 #set text(font: "Planetaire Mono", size: 10pt)
@@ -25,6 +36,19 @@
   bright-black: rgb("#bababa"),
 )
 
+// Kerm-derived palette, darkened for light/white backgrounds.
+#let kerm-light = (
+  bg:      rgb("#f6f8fa"),
+  fg:      rgb("#24292f"),
+  comment: rgb("#6e7781"),
+  red:     rgb("#a8342a"),
+  green:   rgb("#1a7f37"),
+  yellow:  rgb("#7d5e00"),
+  blue:    rgb("#0550ae"),
+  magenta: rgb("#8250df"),
+  cyan:    rgb("#0e6b7a"),
+)
+
 // Section heading helper.
 #let section(title) = {
   text(size: 16pt, weight: 700)[#title]
@@ -36,8 +60,11 @@
 // Label for character set sections.
 #let label(body) = {
   text(size: 8pt, fill: rgb("#999"))[#body]
-  v(0.15cm)
+  v(0.1cm)
 }
+
+// Spaced character display: inserts thin gaps between characters.
+#let spaced(s, gap: 0.25em) = s.clusters().join(h(gap))
 
 // Syntax-highlighted code block with Kerm colors.
 // Each token is a (text, color) pair. Use none for default fg.
@@ -72,7 +99,11 @@
   ]
 
   #v(0.8cm)
-  #text(size: 10pt, fill: rgb("#999"))[Version #version]
+  #text(size: 10pt, fill: rgb("#999"))[
+    Joshua Levy\
+    github.com/jlevy/planetaire\
+    Version #version
+  ]
 ]
 
 #v(1.5cm)
@@ -80,8 +111,8 @@
 #text(size: 10pt)[
   Planetaire Mono is a composite monospace font that merges the highly legible
   letterforms of B612, a typeface designed by Intactile Design for Airbus cockpit
-  displays, with Hack Nerd Font's complete infrastructure: punctuation, symbols,
-  and 12,000+ developer icons.
+  displays, with Hack Nerd Font\u{2019}s complete infrastructure: punctuation,
+  symbols, and 12,000+ developer icons.
 ]
 
 #v(0.3cm)
@@ -111,12 +142,11 @@
   [
     #text(size: 9pt, fill: rgb("#666"))[
       *Glyph Sources*\
-      Letters A–Z, a–z from B612\
-      Digits 0–9 from B612 (dotted zero)\
+      Letters A\u{2013}Z, a\u{2013}z from B612\
+      Digits 0\u{2013}9 from B612 (dotted zero)\
       Extended Latin, Greek, Cyrillic from B612\
       Punctuation and symbols from Hack\
-      12,000+ Nerd Font icons from Hack\
-      OpenType `ss01`/`zero`: rectangle dot alt
+      12,000+ Nerd Font icons
     ]
   ],
 )
@@ -126,10 +156,10 @@
 
 // ─── Page 2: Text Showcase ──────────────────────────────────────
 
-#section[Text Showcase]
+#section[Planetaire Text Sample]
 
 #text(size: 9pt, fill: rgb("#999"))[
-  Planetaire Mono at various sizes, showing B612's distinctive letterforms
+  Planetaire Mono at various sizes, showing B612\u{2019}s distinctive letterforms
   optimized for readability at small sizes and on low-resolution displays.
 ]
 #v(0.3cm)
@@ -152,42 +182,187 @@
 ]
 #v(0.4cm)
 
-#text(size: 9pt, fill: rgb("#999"))[FRENCH · GERMAN · SPANISH · TURKISH]
+#text(size: 9pt, fill: rgb("#999"))[FRENCH \u{00B7} GERMAN \u{00B7} SPANISH \u{00B7} TURKISH]
 #v(0.15cm)
 #text(size: 11pt)[
-  Les naïfs ægithales hâtifs pondsjflam au zéphyr joyeux. Falsches Üben von
-  Xylophonmusik quält jeden größeren Zwerg. El veloz murciélago hindú comía
-  feliz cardillo y kiwi. Pijamalı hasta yağız şoföre çabucak güvendi.
+  Les na\u{00EF}fs \u{00E6}githales h\u{00E2}tifs pondsjflam au z\u{00E9}phyr joyeux. Falsches \u{00DC}ben von
+  Xylophonmusik qu\u{00E4}lt jeden gr\u{00F6}\u{00DF}eren Zwerg. El veloz murci\u{00E9}lago hind\u{00FA} com\u{00ED}a
+  feliz cardillo y kiwi. Pijamal\u{0131} hasta ya\u{011F}\u{0131}z \u{015F}of\u{00F6}re \u{00E7}abucak g\u{00FC}vendi.
 ]
 #v(0.4cm)
 
 #text(size: 9pt, fill: rgb("#999"))[GREEK]
 #v(0.15cm)
 #text(size: 11pt)[
-  Ξεσκεπάζω τὴν ψυχοφθόρα βδελυγμία.
-  Θlongest ελληνική πρόταση που χρησιμοποιεί όλα τα γράμματα.
+  \u{039E}\u{03B5}\u{03C3}\u{03BA}\u{03B5}\u{03C0}\u{03AC}\u{03B6}\u{03C9} \u{03C4}\u{1F74}\u{03BD} \u{03C8}\u{03C5}\u{03C7}\u{03BF}\u{03C6}\u{03B8}\u{03CC}\u{03C1}\u{03B1} \u{03B2}\u{03B4}\u{03B5}\u{03BB}\u{03C5}\u{03B3}\u{03BC}\u{03AF}\u{03B1}.
 ]
 #v(0.4cm)
 
 #text(size: 9pt, fill: rgb("#999"))[CYRILLIC]
 #v(0.15cm)
 #text(size: 11pt)[
-  Съешь же ещё этих мягких французских булок, да выпей чаю.
-  Широкая электрификация южных губерний даст мощный толчок подъёму
-  сельского хозяйства.
+  \u{0421}\u{044A}\u{0435}\u{0448}\u{044C} \u{0436}\u{0435} \u{0435}\u{0449}\u{0451} \u{044D}\u{0442}\u{0438}\u{0445} \u{043C}\u{044F}\u{0433}\u{043A}\u{0438}\u{0445} \u{0444}\u{0440}\u{0430}\u{043D}\u{0446}\u{0443}\u{0437}\u{0441}\u{043A}\u{0438}\u{0445} \u{0431}\u{0443}\u{043B}\u{043E}\u{043A}, \u{0434}\u{0430} \u{0432}\u{044B}\u{043F}\u{0435}\u{0439} \u{0447}\u{0430}\u{044E}.
+  \u{0428}\u{0438}\u{0440}\u{043E}\u{043A}\u{0430}\u{044F} \u{044D}\u{043B}\u{0435}\u{043A}\u{0442}\u{0440}\u{0438}\u{0444}\u{0438}\u{043A}\u{0430}\u{0446}\u{0438}\u{044F} \u{044E}\u{0436}\u{043D}\u{044B}\u{0445} \u{0433}\u{0443}\u{0431}\u{0435}\u{0440}\u{043D}\u{0438}\u{0439} \u{0434}\u{0430}\u{0441}\u{0442} \u{043C}\u{043E}\u{0449}\u{043D}\u{044B}\u{0439} \u{0442}\u{043E}\u{043B}\u{0447}\u{043E}\u{043A} \u{043F}\u{043E}\u{0434}\u{044A}\u{0451}\u{043C}\u{0443}
+  \u{0441}\u{0435}\u{043B}\u{044C}\u{0441}\u{043A}\u{043E}\u{0433}\u{043E} \u{0445}\u{043E}\u{0437}\u{044F}\u{0439}\u{0441}\u{0442}\u{0432}\u{0430}.
 ]
 
 #pagebreak()
 
 
-// ─── Page 3: Code Sample ────────────────────────────────────────
+// ─── Page 3: Iconic Texts ───────────────────────────────────────
 
-#section[Code Sample]
+#section[Planetaire Iconic Texts]
 
+// Alan Turing, "Computing Machinery and Intelligence" (1950)
 #text(size: 9pt, fill: rgb("#999"))[
-  Syntax highlighting uses the Kerm terminal color palette.
+  ALAN TURING \u{00B7} \u{201C}COMPUTING MACHINERY AND INTELLIGENCE\u{201D} (1950)
 ]
 #v(0.2cm)
+
+#text(size: 10.5pt)[
+  I propose to consider the question, \u{201C}Can machines think?\u{201D} This should
+  begin with definitions of the meaning of the terms \u{201C}machine\u{201D} and
+  \u{201C}think.\u{201D} The definitions might be framed so as to reflect so far as
+  possible the normal use of the words, but this attitude is dangerous.
+  If the meaning of the words \u{201C}machine\u{201D} and \u{201C}think\u{201D} are to be found
+  by examining how they are commonly used it is difficult to escape the
+  conclusion that the meaning and the answer to the question, \u{201C}Can
+  machines think?\u{201D} is to be sought in a statistical survey such as a
+  Gallup poll. But this is absurd. Instead of attempting such a definition
+  I shall replace the question by another, which is closely related to it
+  and is expressed in relatively unambiguous words.
+]
+
+#v(0.6cm)
+
+// RFC 1 - Steve Crocker, 7 April 1969
+#text(size: 9pt, fill: rgb("#999"))[
+  RFC 1 \u{00B7} STEVE CROCKER, UCLA \u{00B7} 7 APRIL 1969
+]
+#v(0.2cm)
+
+#text(size: 8pt)[
+  #grid(
+    columns: (1fr, auto),
+    [Network Working Group], [Steve Crocker],
+    [Request for Comments: 1], [UCLA],
+    [], [7 April 1969],
+  )
+]
+#v(0.2cm)
+#align(center)[#text(size: 9pt, weight: 700)[Host Software]]
+#v(0.3cm)
+
+#text(size: 8pt, weight: 700)[Introduction]
+#v(0.1cm)
+#text(size: 8pt)[
+  #h(1.5em)The software for the ARPA Network exists partly in the IMPs and
+  partly in the respective HOSTs. BB&N has specified the software of
+  the IMPs and it is the responsibility of the HOST groups to agree on
+  HOST software.
+
+  #h(1.5em)During the summer of 1968, representatives from the initial four
+  sites met several times to discuss the HOST software and initial
+  experiments on the network. There emerged from these meetings a
+  working group of three, Steve Carr from Utah, Jeff Rulifson from SRI,
+  and Steve Crocker of UCLA, who met during the fall and winter. The
+  most recent meeting was in the last week of March in Utah. Also
+  present was Bill Duvall of SRI who has recently started working with
+  Jeff Rulifson.
+
+  #h(1.5em)I present here some of the tentative agreements reached and some of
+  the open questions encountered. Very little of what is here is firm
+  and reactions are expected.
+]
+#v(0.2cm)
+
+#text(size: 8pt, weight: 700)[I. #h(0.5em) A Summary of the IMP Software]
+#v(0.1cm)
+#text(size: 8pt, weight: 700)[Messages]
+#v(0.05cm)
+#text(size: 8pt)[
+  #h(1.5em)Information is transmitted from HOST to HOST in bundles called
+  messages. A message is any stream of not more than 8080 bits,
+  together with its header. The header is 16 bits and contains the
+  following information:
+]
+#v(0.1cm)
+#text(size: 8pt)[
+  #h(4em)Destination #h(2em) 5 bits\
+  #h(4em)Link #h(4.6em) 8 bits\
+  #h(4em)Trace #h(3.9em) 1 bit\
+  #h(4em)Spare #h(3.9em) 2 bits
+]
+#v(0.1cm)
+#text(size: 8pt)[
+  #h(1.5em)The destination is the numerical code for the HOST to which the
+  message should be sent. The trace bit signals the IMPs to record
+  status information about the message and send the information back to
+  the NMC (Network Measurement Center, i.e., UCLA). The spare bits are
+  unused.
+]
+
+#pagebreak()
+
+
+// ─── Pages 4–5: microGPT ────────────────────────────────────────
+
+#section[Planetaire Code Specimen: microGPT]
+
+#text(size: 9pt, fill: rgb("#999"))[
+  Andrej Karpathy\u{2019}s microGPT: a complete GPT training loop and
+  inference engine in 200 lines of pure Python.
+]
+#v(0.2cm)
+
+#block(
+  fill: kerm-light.bg,
+  inset: (x: 1.2em, y: 1em),
+  radius: 4pt,
+  width: 100%,
+)[
+  #set text(size: 6.5pt)
+  #{
+    set raw(theme: "kerm-light.tmTheme")
+    raw(read("microgpt.py"), lang: "python", block: true)
+  }
+]
+
+#pagebreak()
+
+
+// ─── Terminal ───────────────────────────────────────────────────
+
+#section[Planetaire Terminal]
+
+// Helper for colored spans in the terminal block.
+#let t(body, color) = text(fill: color)[#body]
+#let tb(body, color) = text(fill: color, weight: "bold")[#body]
+
+// Shell prompt helper.
+#let prompt(cmd) = {
+  tb("planetaire", kerm.blue)
+  text(weight: "bold")[ \$ ]
+  cmd
+}
+
+// Nerd Font icon helper.
+#let icon(cp) = str.from-unicode(cp)
+
+// eza directory entry helper with box-wrapped spans for precise alignment.
+#let dir-entry(perms, size, user, date, ic, name, bold-name: false) = {
+  box[#t(perms, kerm.bright-black)]
+  box[#t(" ", kerm.fg)]
+  box[#tb(size, kerm.green)]
+  box[#t(" ", kerm.fg)]
+  box[#tb(user, kerm.yellow)]
+  box[#t(" ", kerm.fg)]
+  box[#t(date, kerm.blue)]
+  box[#t(" ", kerm.fg)]
+  box[#t(ic, kerm.cyan)]
+  box[#t(" ", kerm.fg)]
+  if bold-name { box[#tb(name, kerm.fg)] } else { box[#t(name, kerm.fg)] }
+}
 
 // Python sample with manual Kerm-colored tokens.
 #code-block((
@@ -227,73 +402,7 @@
   ("\"v\"", kerm.green), (": velocity}\n", none),
 ))
 
-#v(0.4cm)
-
-// Rust sample with manual Kerm-colored tokens.
-#code-block((
-  (text(weight: "bold")[use], kerm.magenta), (" std::collections::", none),
-  ("HashMap", kerm.cyan), (";\n\n", none),
-
-  (text(weight: "bold")[fn], kerm.magenta), (" fibonacci", kerm.yellow),
-  ("(n: ", none), ("u64", kerm.cyan), (") -> ", none),
-  ("u64", kerm.cyan), (" {\n", none),
-  ("    ", none), (text(weight: "bold")[match], kerm.magenta), (" n {\n", none),
-  ("        ", none), ("0", kerm.cyan), (" => ", none), ("0", kerm.cyan), (",\n", none),
-  ("        ", none), ("1", kerm.cyan), (" => ", none), ("1", kerm.cyan), (",\n", none),
-  ("        _ => fibonacci(n - ", none), ("1", kerm.cyan),
-  (") + fibonacci(n - ", none), ("2", kerm.cyan), ("),\n", none),
-  ("    }\n}\n\n", none),
-
-  (text(weight: "bold")[fn], kerm.magenta), (" main", kerm.yellow), ("() {\n", none),
-  ("    ", none), (text(weight: "bold")[let], kerm.magenta),
-  (" values: ", none), ("Vec", kerm.cyan), ("<", none),
-  ("u64", kerm.cyan), ("> = (", none), ("0", kerm.cyan),
-  ("..", none), ("20", kerm.cyan), (").map(fibonacci).collect();\n", none),
-  ("    println!(", none), ("\"Fibonacci: {:?}\"", kerm.green),
-  (", values);\n}\n", none),
-))
-
-#pagebreak()
-
-
-// ─── Page 4: Terminal ───────────────────────────────────────────
-
-#section[Terminal]
-
-#text(size: 9pt, fill: rgb("#999"))[
-  Simulated terminal output using the Kerm color palette,
-  showing how Planetaire Mono renders a typical `eza` directory listing.
-]
-#v(0.2cm)
-
-// Helper for colored spans in the terminal block.
-#let t(body, color) = text(fill: color)[#body]
-#let tb(body, color) = text(fill: color, weight: "bold")[#body]
-
-// Shell prompt helper.
-#let prompt(cmd) = {
-  tb("planetaire", kerm.blue)
-  text(weight: "bold")[ \$ ]
-  cmd
-}
-
-// Nerd Font icon helper.
-#let icon(cp) = str.from-unicode(cp)
-
-// eza directory entry helpers.
-#let dir-entry(perms, size, user, date, ic, name, bold-name: false) = {
-  t(perms, kerm.bright-black)
-  t(" ", kerm.fg)
-  tb(size, kerm.green)
-  t(" ", kerm.fg)
-  tb(user, kerm.yellow)
-  t(" ", kerm.fg)
-  t(date, kerm.blue)
-  t(" ", kerm.fg)
-  t(ic, kerm.cyan)
-  t(" ", kerm.fg)
-  if bold-name { tb(name, kerm.fg) } else { t(name, kerm.fg) }
-}
+#v(0.3cm)
 
 #block(
   fill: kerm.bg,
@@ -302,9 +411,9 @@
   width: 100%,
 )[
   #set text(size: 8.5pt, fill: kerm.fg)
-  #set par(leading: 0.4em)
+  #set par(leading: 0.4em, justify: false)
 
-  #prompt[eza -l --icons=always . ./docs/images ./docs/specimen/]\
+  #prompt[eza -l --icons=always . ./docs/specimen/]\
   .:\
   #dir-entry("drwxr-xr-x@", "   -", "levy", "15 Feb 23:07", icon(0xF07B), "devtools", bold-name: true)\
   #dir-entry("drwxr-xr-x@", "   -", "levy", "15 Feb 23:07", icon(0xF07B), "docs", bold-name: true)\
@@ -317,11 +426,6 @@
   #dir-entry("drwxr-xr-x@", "   -", "levy", "15 Feb 23:07", icon(0xF07B), "src", bold-name: true)\
   #dir-entry("drwxr-xr-x@", "   -", "levy", "15 Feb 23:07", icon(0xF07B), "tests", bold-name: true)\
   #dir-entry(".rw-r--r--@", " 63k", "levy", "16 Feb 09:14", icon(0xF023), "uv.lock")\
-  ./docs/images:\
-  #dir-entry(".rw-r--r--@", " 50k", "levy", "15 Feb 23:07", icon(0xE64A), "features.png")\
-  #dir-entry(".rw-r--r--@", " 59k", "levy", "15 Feb 23:07", icon(0xE64A), "hero.png")\
-  #dir-entry(".rw-r--r--@", " 59k", "levy", "15 Feb 23:07", icon(0xE64A), "terminal-bold.png")\
-  #dir-entry(".rw-r--r--@", "105k", "levy", "15 Feb 23:07", icon(0xE64A), "weights.png")\
   ./docs/specimen/:\
   #dir-entry(".rw-r--r--@", "188k", "levy", "16 Feb 09:14", icon(0xE635), "planetaire-mono-specimen.pdf")\
   #dir-entry(".rw-r--r--@", "9.1k", "levy", "15 Feb 23:07", icon(0xE621), "planetaire-mono-specimen.typ")\
@@ -340,49 +444,53 @@
 #pagebreak()
 
 
-// ─── Page 5: Character Set ──────────────────────────────────────
+// ─── Character Set ──────────────────────────────────────────────
 
-#section[Character Set]
+#section[Planetaire Character Set]
 
 #label[BASIC LATIN UPPERCASE: from B612]
-#text(size: 16pt)[A B C D E F G H I J K L M N O P Q R S T U V W X Y Z]
-#v(0.3cm)
+#text(size: 14pt)[#spaced("ABCDEFGHIJKLMNOPQRSTUVWXYZ")]
+#v(0.25cm)
 
 #label[BASIC LATIN LOWERCASE: from B612]
-#text(size: 16pt)[a b c d e f g h i j k l m n o p q r s t u v w x y z]
-#v(0.3cm)
+#text(size: 14pt)[#spaced("abcdefghijklmnopqrstuvwxyz")]
+#v(0.25cm)
 
-#label[DIGITS: 0–9 from B612 (dotted zero for disambiguation)]
-#text(size: 16pt)[0 1 2 3 4 5 6 7 8 9]
-#v(0.3cm)
+#label[DIGITS: 0\u{2013}9 from B612 (dotted zero for disambiguation)]
+#text(size: 14pt)[#spaced("0123456789")]
+#v(0.25cm)
 
 #label[PUNCTUATION AND SYMBOLS: from Hack]
 #text(size: 14pt)[! " \# \$ % & ' ( ) \* \+ , \- . / : ; < = > ? \@ \[ \\ \] ^ \_ \` \{ | \} \~]
-#v(0.3cm)
+#v(0.25cm)
 
 #label[EXTENDED LATIN: from B612]
-#text(size: 12pt)[À Á Â Ã Ä Å Æ Ç È É Ê Ë Ì Í Î Ï Ð Ñ Ò Ó Ô Õ Ö Ø Ù Ú Û Ü Ý Þ ß à á â ã ä å æ ç è é ê ë ì í î ï ð ñ ò ó ô õ ö ø ù ú û ü ý þ ÿ]
-#v(0.15cm)
-#text(size: 12pt)[Ā ā Ă ă Ą ą Ć ć Ĉ ĉ Ċ ċ Č č Ď ď Đ đ Ē ē Ĕ ĕ Ė ė Ę ę Ě ě Ğ ğ Ġ ġ Ģ ģ Ĥ ĥ Ħ ħ Ĩ ĩ Ī ī Ĭ ĭ Į į İ ı Ĳ ĳ Ĵ ĵ Ķ ķ]
-#v(0.3cm)
+#text(size: 14pt)[#spaced("ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞß")]
+#v(0.1cm)
+#text(size: 14pt)[#spaced("àáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿ")]
+#v(0.1cm)
+#text(size: 14pt)[#spaced("ĀāĂăĄąĆćĈĉĊċČčĎďĐđĒēĔĕĖėĘęĚě")]
+#v(0.1cm)
+#text(size: 14pt)[#spaced("ĞğĠġĢģĤĥĦħĨĩĪīĬĭĮįİıĲĳĴĵĶķ")]
+#v(0.25cm)
 
 #label[GREEK: from B612]
-#text(size: 12pt)[Α Β Γ Δ Ε Ζ Η Θ Ι Κ Λ Μ Ν Ξ Ο Π Ρ Σ Τ Υ Φ Χ Ψ Ω]
+#text(size: 14pt)[#spaced("ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ")]
 #v(0.1cm)
-#text(size: 12pt)[α β γ δ ε ζ η θ ι κ λ μ ν ξ ο π ρ σ τ υ φ χ ψ ω]
-#v(0.3cm)
+#text(size: 14pt)[#spaced("αβγδεζηθικλμνξοπρστυφχψω")]
+#v(0.25cm)
 
 #label[CYRILLIC: from B612]
-#text(size: 12pt)[А Б В Г Д Е Ж З И Й К Л М Н О П Р С Т У Ф Х Ц Ч Ш Щ Ъ Ы Ь Э Ю Я]
+#text(size: 14pt)[#spaced("АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ", gap: 0.15em)]
 #v(0.1cm)
-#text(size: 12pt)[а б в г д е ж з и й к л м н о п р с т у ф х ц ч ш щ ъ ы ь э ю я]
+#text(size: 14pt)[#spaced("абвгдежзийклмнопрстуфхцчшщъыьэюя", gap: 0.15em)]
 
 #pagebreak()
 
 
-// ─── Page 6: Weight Comparison ──────────────────────────────────
+// ─── Weight Comparison ──────────────────────────────────────────
 
-#section[Weight Comparison]
+#section[Planetaire Weight Comparison]
 
 #let sample = "The quick brown fox jumps over the lazy dog"
 #let digits = "0123456789 AaBbCcDd {[(>)]} !@#$%"
@@ -415,12 +523,11 @@
 #pagebreak()
 
 
-// ─── Page 7: Feature Showcase ───────────────────────────────────
+// ─── Legibility ─────────────────────────────────────────────────
 
-#section[Feature Showcase]
+#section[Planetaire Legibility]
 
 #label[CHARACTER DISAMBIGUATION]
-#v(0.1cm)
 
 // Large character pairs with gray labels.
 #let disambig(chars, desc) = {
@@ -431,19 +538,21 @@
     text(size: 28pt)[#chars],
     text(size: 9pt, fill: rgb("#999"))[#desc],
   )
-  v(0.2cm)
+  v(0.15cm)
 }
 
-#disambig[I l 1 |][uppercase I · lowercase l · digit 1 · pipe]
-#disambig[O 0 o][uppercase O · digit 0 · lowercase o]
-#disambig[r n m][r · n · m (clearly distinct in B612)]
-#disambig[5 S 8 B][digit 5 vs S · digit 8 vs B]
-#disambig[2 Z 6 G][digit 2 vs Z · digit 6 vs G]
+#disambig[I l 1 |][uppercase I \u{00B7} lowercase l \u{00B7} digit 1 \u{00B7} pipe]
+#disambig[O 0 o][uppercase O \u{00B7} digit 0 \u{00B7} lowercase o]
+#disambig[r n m][r \u{00B7} n \u{00B7} m \u{2014} clearly distinct in B612]
+#disambig[5 S 8 B][digit 5 vs S \u{00B7} digit 8 vs B]
+#disambig[2 Z 6 G][digit 2 vs Z \u{00B7} digit 6 vs G]
+#disambig[; :][semicolon vs colon \u{2014} distinct dot size and spacing]
+#disambig[( ) \{ \} \[ \]][parens vs braces vs brackets]
+#disambig[- \u{2013} \u{2014}][hyphen vs en dash vs em dash]
 
-#v(0.5cm)
+#v(0.3cm)
 
 #label[ZERO DOT VARIANTS (OpenType)]
-#v(0.1cm)
 
 #grid(
   columns: (1fr, 1fr),
@@ -469,37 +578,72 @@
   ],
 )
 
-#v(0.15cm)
-#text(size: 8pt, fill: rgb("#999"))[
-  Enable with: Typst `stylistic-set: 1` · VS Code `"'ss01'"` · Kitty `+ss01` · WezTerm `"ss01=1"`
-]
-
-#v(0.5cm)
+#v(0.3cm)
 
 #label[BRACKET AND DELIMITER PAIRS]
-#v(0.1cm)
 #text(size: 20pt)[
-  ( ) \{ \} \[ \] < > « » ‹ ›
+  ( ) \{ \} \[ \] < > \u{00AB} \u{00BB} \u{2039} \u{203A}
 ]
 
-#v(0.5cm)
+#v(0.3cm)
 
 #label[MATHEMATICAL AND PROGRAMMING OPERATORS]
-#v(0.1cm)
-#text(size: 20pt)[\+ \- \* / = ≠ ≤ ≥ ± × ÷ → ← ↑ ↓]
+#text(size: 20pt)[\+ \- \* / = \u{2260} \u{2264} \u{2265} \u{00B1} \u{00D7} \u{00F7} \u{2192} \u{2190} \u{2191} \u{2193}]
 
-#v(0.5cm)
+#pagebreak()
+
+
+// ─── Symbols and Special Characters ─────────────────────────────
+
+#section[Planetaire Symbols and Special Characters]
 
 #label[BOX DRAWING AND BLOCK ELEMENTS]
+#text(size: 14pt)[
+  \u{2500} \u{2502} \u{250C} \u{2510} \u{2514} \u{2518} \u{251C} \u{2524} \u{252C} \u{2534} \u{253C} \u{2550} \u{2551} \u{2554} \u{2557} \u{255A} \u{255D} \u{2560} \u{2563} \u{2566} \u{2569} \u{256C} \u{2580} \u{2584} \u{2588} \u{258C} \u{2590} \u{2591} \u{2592} \u{2593}
+]
+
+#v(0.3cm)
+
+#label[ASCII CHARACTER TABLE (HEXADECIMAL)]
 #v(0.1cm)
-#text(size: 16pt)[
-  ─ │ ┌ ┐ └ ┘ ├ ┤ ┬ ┴ ┼ ═ ║ ╔ ╗ ╚ ╝ ╠ ╣ ╦ ╩ ╬ ▀ ▄ █ ▌ ▐ ░ ▒ ▓
+
+#block(
+  fill: rgb("#f6f8fa"),
+  inset: (x: 1.2em, y: 1em),
+  radius: 4pt,
+  width: 100%,
+)[
+  #set text(size: 7.5pt)
+  #set par(leading: 0.5em, justify: false)
+
+  #text(weight: 700)[NAME]\
+  #h(2.5em)#text(weight: 700)[ascii] -- octal, hexadecimal and decimal ASCII character sets\
+  \
+  #text(weight: 700)[DESCRIPTION]\
+  \
+  #h(2.5em)The #text(weight: 700)[hexadecimal] set:\
+  #h(2.5em)00 nul   01 soh   02 stx   03 etx   04 eot   05 enq   06 ack   07 bel\
+  #h(2.5em)08 bs    09 ht    0a nl    0b vt    0c np    0d cr    0e so    0f si\
+  #h(2.5em)10 dle   11 dc1   12 dc2   13 dc3   14 dc4   15 nak   16 syn   17 etb\
+  #h(2.5em)18 can   19 em    1a sub   1b esc   1c fs    1d gs    1e rs    1f us\
+  #h(2.5em)20 sp    21  !    22  "    23  \#    24  \$    25  %    26  &    27  '\
+  #h(2.5em)28  (    29  )    2a  \*    2b  \+    2c  ,    2d  \-    2e  .    2f  /\
+  #h(2.5em)30  0    31  1    32  2    33  3    34  4    35  5    36  6    37  7\
+  #h(2.5em)38  8    39  9    3a  :    3b  ;    3c  <    3d  =    3e  >    3f  ?\
+  #h(2.5em)40  \@    41  A    42  B    43  C    44  D    45  E    46  F    47  G\
+  #h(2.5em)48  H    49  I    4a  J    4b  K    4c  L    4d  M    4e  N    4f  O\
+  #h(2.5em)50  P    51  Q    52  R    53  S    54  T    55  U    56  V    57  W\
+  #h(2.5em)58  X    59  Y    5a  Z    5b  \[    5c  \\    5d  \]    5e  ^    5f  \_\
+  #h(2.5em)60  \`    61  a    62  b    63  c    64  d    65  e    66  f    67  g\
+  #h(2.5em)68  h    69  i    6a  j    6b  k    6c  l    6d  m    6e  n    6f  o\
+  #h(2.5em)70  p    71  q    72  r    73  s    74  t    75  u    76  v    77  w\
+  #h(2.5em)78  x    79  y    7a  z    7b  \{    7c  |    7d  \}    7e  \~    7f del
 ]
 
 #pagebreak()
 
 
-// ─── Page 8: Nerd Font Icons ────────────────────────────────────
+// ─── Nerd Font Icons ────────────────────────────────────────────
 
 #section[Nerd Font Icons]
 
@@ -528,51 +672,6 @@
   )
 }
 
-#label[POWERLINE]
-#icon-grid((
-  (0xE0A0, "branch"), (0xE0A1, "ln"), (0xE0A2, "lock"),
-  (0xE0B0, "right"), (0xE0B1, "right-thin"), (0xE0B2, "left"),
-  (0xE0B3, "left-thin"), (0xE0B4, "right-round"), (0xE0B6, "left-round"),
-  (0xE0B8, "right-bottom"), (0xE0BA, "left-bottom"),
-  (0xE0BC, "right-top"), (0xE0BE, "left-top"),
-  (0xE0C0, "flame-thick"), (0xE0C2, "flame-thin"),
-  (0xE0C4, "pixel-right"), (0xE0C6, "pixel-left"),
-  (0xE0C8, "waveform"), (0xE0CA, "trapezoid"),
-  (0xE0CC, "honeycomb"), (0xE0CE, "honeycomb-out"),
-  (0xE0D0, "ice"), (0xE0D2, "lego-right"), (0xE0D4, "lego-left"),
-))
-
-#v(0.15cm)
-#label[DEVELOPMENT]
-#icon-grid((
-  (0xE702, "cpp"), (0xE718, "csharp"), (0xE73C, "python"),
-  (0xE74E, "ruby"), (0xE781, "perl"), (0xE791, "elm"),
-  (0xE7A8, "rust"), (0xE749, "java"), (0xE781, "go"),
-  (0xE606, "terminal"), (0xE615, "database"), (0xE796, "swift"),
-  (0xE60B, "docker"), (0xE617, "npm"), (0xE73E, "react"),
-  (0xE753, "erlang"), (0xE70C, "html"), (0xE749, "java"),
-  (0xE755, "haskell"), (0xE706, "markdown"), (0xE628, "vim"),
-  (0xE614, "git"), (0xE70E, "css"), (0xE711, "clojure"),
-  (0xE718, "csharp"), (0xE62A, "linux"), (0xE629, "windows"),
-  (0xE711, "apple"),
-))
-
-#v(0.15cm)
-#label[FILE TYPES]
-#icon-grid((
-  (0xE60A, "conf"), (0xE60E, "font"), (0xE612, "gear"),
-  (0xE621, "text"), (0xE622, "todo"), (0xE623, "twig"),
-  (0xE624, "typescript"), (0xE635, "pdf"), (0xE63A, "json"),
-  (0xE640, "xml"), (0xE648, "zip"), (0xE64A, "image"),
-  (0xE64B, "javascript"), (0xE656, "lock"), (0xE657, "makefile"),
-  (0xE65E, "sass"), (0xE661, "sql"), (0xE667, "test"),
-  (0xE668, "license"), (0xE6A8, "graphql"), (0xE697, "toml"),
-  (0xE69B, "shell"), (0xE6A0, "readme"), (0xE6B2, "yaml"),
-  (0xE6A1, "changelog"), (0xE6B4, "terraform"), (0xE6A7, "env"),
-  (0xE6B7, "log"),
-))
-
-#v(0.15cm)
 #label[UI AND COMMON]
 #icon-grid((
   (0xF002, "search"), (0xF005, "star"), (0xF007, "user"),
@@ -597,6 +696,36 @@
 ))
 
 #v(0.15cm)
+#label[FILE TYPES]
+#icon-grid((
+  (0xE60A, "conf"), (0xE60E, "font"), (0xE612, "gear"),
+  (0xE621, "text"), (0xE622, "todo"), (0xE623, "twig"),
+  (0xE624, "typescript"), (0xE635, "pdf"), (0xE63A, "json"),
+  (0xE640, "xml"), (0xE648, "zip"), (0xE64A, "image"),
+  (0xE64B, "javascript"), (0xE656, "lock"), (0xE657, "makefile"),
+  (0xE65E, "sass"), (0xE661, "sql"), (0xE667, "test"),
+  (0xE668, "license"), (0xE6A8, "graphql"), (0xE697, "toml"),
+  (0xE69B, "shell"), (0xE6A0, "readme"), (0xE6B2, "yaml"),
+  (0xE6A1, "changelog"), (0xE6B4, "terraform"), (0xE6A7, "env"),
+  (0xE6B7, "log"),
+))
+
+#v(0.15cm)
+#label[DEVELOPMENT]
+#icon-grid((
+  (0xE702, "cpp"), (0xE718, "csharp"), (0xE73C, "python"),
+  (0xE74E, "ruby"), (0xE781, "perl"), (0xE791, "elm"),
+  (0xE7A8, "rust"), (0xE749, "java"), (0xE781, "go"),
+  (0xE606, "terminal"), (0xE615, "database"), (0xE796, "swift"),
+  (0xE60B, "docker"), (0xE617, "npm"), (0xE73E, "react"),
+  (0xE753, "erlang"), (0xE70C, "html"), (0xE749, "java"),
+  (0xE755, "haskell"), (0xE706, "markdown"), (0xE628, "vim"),
+  (0xE614, "git"), (0xE70E, "css"), (0xE711, "clojure"),
+  (0xE718, "csharp"), (0xE62A, "linux"), (0xE629, "windows"),
+  (0xE711, "apple"),
+))
+
+#v(0.15cm)
 #label[WEATHER]
 #icon-grid((
   (0xE30D, "sun"), (0xE312, "cloud"), (0xE318, "rain"),
@@ -606,12 +735,27 @@
   (0xE370, "sunset"), (0xE3A9, "humidity"),
 ))
 
+#v(0.15cm)
+#label[POWERLINE]
+#icon-grid((
+  (0xE0A0, "branch"), (0xE0A1, "ln"), (0xE0A2, "lock"),
+  (0xE0B0, "right"), (0xE0B1, "right-thin"), (0xE0B2, "left"),
+  (0xE0B3, "left-thin"), (0xE0B4, "right-round"), (0xE0B6, "left-round"),
+  (0xE0B8, "right-bottom"), (0xE0BA, "left-bottom"),
+  (0xE0BC, "right-top"), (0xE0BE, "left-top"),
+  (0xE0C0, "flame-thick"), (0xE0C2, "flame-thin"),
+  (0xE0C4, "pixel-right"), (0xE0C6, "pixel-left"),
+  (0xE0C8, "waveform"), (0xE0CA, "trapezoid"),
+  (0xE0CC, "honeycomb"), (0xE0CE, "honeycomb-out"),
+  (0xE0D0, "ice"), (0xE0D2, "lego-right"), (0xE0D4, "lego-left"),
+))
+
 #pagebreak()
 
 
-// ─── Page 9: Provenance & License ───────────────────────────────
+// ─── Provenance & License ───────────────────────────────────────
 
-#section[Provenance & License]
+#section[Planetaire Provenance & License]
 
 #text(size: 11pt, weight: 700)[Source Fonts]
 #v(0.2cm)
@@ -622,17 +766,17 @@
   inset: 8pt,
   [*B612 Mono*], [
     Designed by Intactile Design for Airbus. Optimized for legibility in
-    cockpit displays. Planetaire Mono takes its letters (A–Z, a–z),
-    digits 0–9, and extended Latin/Greek/Cyrillic glyphs from B612.
+    cockpit displays. Planetaire Mono takes its letters (A\u{2013}Z, a\u{2013}z),
+    digits 0\u{2013}9, and extended Latin/Greek/Cyrillic glyphs from B612.
     The zero glyph receives a center dot in post-processing for O/0
     disambiguation, with circle (default) and rectangle (ss01) variants.
   ],
   [*Hack*], [
-    Chris Simpkins' typeface designed for source code. Provides the
+    Chris Simpkins\u{2019} typeface designed for source code. Provides the
     base font structure: punctuation, symbols, and overall metrics.
   ],
   [*Nerd Fonts*], [
-    Ryan McIntyre's icon patching project. 12,000+ developer icons
+    Ryan McIntyre\u{2019}s icon patching project. 12,000+ developer icons
     including Powerline, Font Awesome, Devicons, Material Design,
     and more, all included via the Hack Nerd Font base.
   ],
@@ -665,9 +809,4 @@
   - *Nerd Fonts* patches: MIT License
 ]
 
-#v(1cm)
-#align(center)[
-  #text(size: 9pt, fill: rgb("#999"))[
-    Planetaire Mono · github.com/jlevy/planetaire · OFL-1.1
-  ]
-]
+// Footer is now on every page via the page footer setting.
