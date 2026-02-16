@@ -13,6 +13,6 @@ priority: 1
 status: closed
 title: "Implement recipes/sources: download and cache B612 and Hack source fonts"
 type: is
-updated_at: 2026-02-16T07:33:28.787Z
-version: 10
+updated_at: 2026-02-16T18:38:47.155Z
+version: 17
 ---

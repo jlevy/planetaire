@@ -15,6 +15,6 @@ priority: 1
 status: closed
 title: "Implement ops/compare: binary glyph-level comparison between two fonts"
 type: is
-updated_at: 2026-02-16T07:33:28.970Z
-version: 11
+updated_at: 2026-02-16T18:38:47.211Z
+version: 18
 ---
