@@ -1,4 +1,6 @@
 ---
+close_reason: Typst specimen template created at docs/specimen/planetaire-mono-specimen.typ
+closed_at: 2026-02-16T00:21:30.424Z
 created_at: 2026-02-15T20:51:22.466Z
 dependencies:
   - target: is-01khhgjsd7zy0m7rs8x50jx18d
@@ -8,9 +10,9 @@ kind: task
 labels:
   - phase-9-docs
 priority: 2
-status: open
+status: closed
 title: Create PDF specimen sheet using typst with automated font loading and rendering
 type: is
-updated_at: 2026-02-15T22:31:51.285Z
-version: 5
+updated_at: 2026-02-16T00:21:47.217Z
+version: 6
 ---

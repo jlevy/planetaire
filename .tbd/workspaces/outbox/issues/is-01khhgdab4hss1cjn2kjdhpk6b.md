@@ -15,6 +15,6 @@ priority: 1
 status: closed
 title: "Implement ops/validate: glyph coverage, metrics, and feature validation"
 type: is
-updated_at: 2026-02-15T22:31:51.171Z
-version: 6
+updated_at: 2026-02-16T00:21:47.151Z
+version: 7
 ---

@@ -9,6 +9,6 @@ priority: 3
 status: open
 title: "Finalization: license compliance, README with samples and build instructions"
 type: is
-updated_at: 2026-02-15T22:31:51.241Z
-version: 4
+updated_at: 2026-02-16T00:21:47.194Z
+version: 5
 ---

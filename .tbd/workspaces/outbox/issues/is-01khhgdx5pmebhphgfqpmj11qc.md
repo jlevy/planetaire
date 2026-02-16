@@ -13,6 +13,6 @@ priority: 1
 status: closed
 title: Write tryscript golden tests for all CLI subcommands
 type: is
-updated_at: 2026-02-15T22:31:51.214Z
-version: 5
+updated_at: 2026-02-16T00:21:47.179Z
+version: 6
 ---
