@@ -11,15 +11,6 @@ from fontTools.ttLib import TTFont
 FONTS_SOURCE = Path(__file__).parent.parent / "fonts" / "source"
 
 
-def _draw_rect(pen: object) -> None:
-    """Draw a simple rectangle glyph."""
-    pen.moveTo((100, 0))  # pyright: ignore
-    pen.lineTo((100, 700))  # pyright: ignore
-    pen.lineTo((500, 700))  # pyright: ignore
-    pen.lineTo((500, 0))  # pyright: ignore
-    pen.closePath()  # pyright: ignore
-
-
 def _make_minimal_font(
     *,
     family: str = "TestFont",

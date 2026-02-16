@@ -51,19 +51,26 @@ def test_build_produces_regular(source_dir: Path):
 
 
 def test_build_all_variants(source_dir: Path):
-    """Full pipeline builds all 4 base variants."""
+    """Full pipeline builds all 6 variants."""
     with tempfile.TemporaryDirectory() as tmpdir:
         output_dir = Path(tmpdir)
         outputs = build_planetaire_mono(source_dir, output_dir)
 
-        assert len(outputs) == 4
+        assert len(outputs) == 6
         names = {p.name for p in outputs}
         assert "PlanetaireMono-Regular.ttf" in names
         assert "PlanetaireMono-Italic.ttf" in names
         assert "PlanetaireMono-Bold.ttf" in names
         assert "PlanetaireMono-BoldItalic.ttf" in names
+        assert "PlanetaireMono-ExtraBold.ttf" in names
+        assert "PlanetaireMono-ExtraBoldItalic.ttf" in names
 
         # Verify Bold has weight 700
-        bold_path = [p for p in outputs if "Bold.ttf" in p.name and "Italic" not in p.name][0]
+        bold_path = [p for p in outputs if p.name == "PlanetaireMono-Bold.ttf"][0]
         bold_info = inspect_font(bold_path)
         assert bold_info.weight_class == 700
+
+        # Verify ExtraBold has weight 800
+        extrabold_path = [p for p in outputs if p.name == "PlanetaireMono-ExtraBold.ttf"][0]
+        extrabold_info = inspect_font(extrabold_path)
+        assert extrabold_info.weight_class == 800
