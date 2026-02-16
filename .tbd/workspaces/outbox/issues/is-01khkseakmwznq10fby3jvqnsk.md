@@ -10,6 +10,6 @@ priority: 1
 status: closed
 title: Clarify in specimen descriptions whether digits 0-9 come from Hack or B612
 type: is
-updated_at: 2026-02-16T18:37:10.353Z
-version: 2
+updated_at: 2026-02-16T23:29:31.289Z
+version: 3
 ---

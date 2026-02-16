@@ -34,6 +34,6 @@ priority: 1
 status: in_progress
 title: Specimen PDF improvements - 10 items
 type: is
-updated_at: 2026-02-16T17:54:56.689Z
-version: 15
+updated_at: 2026-02-16T23:29:31.185Z
+version: 16
 ---

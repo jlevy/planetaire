@@ -8,6 +8,6 @@ priority: 1
 status: open
 title: Improve front title page - more info, use regular bold (700) not extrabold (800) for main title
 type: is
-updated_at: 2026-02-16T17:37:37.941Z
-version: 1
+updated_at: 2026-02-16T23:29:31.209Z
+version: 2
 ---

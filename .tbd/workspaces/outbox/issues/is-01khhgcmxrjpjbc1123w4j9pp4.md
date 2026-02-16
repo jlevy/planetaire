@@ -27,6 +27,6 @@ priority: 1
 status: closed
 title: Set up CLI skeleton with Typer, project dependencies, and package structure
 type: is
-updated_at: 2026-02-16T18:38:47.074Z
-version: 25
+updated_at: 2026-02-16T23:29:30.973Z
+version: 28
 ---

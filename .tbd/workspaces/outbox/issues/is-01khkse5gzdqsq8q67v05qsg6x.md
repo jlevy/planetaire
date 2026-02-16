@@ -8,6 +8,6 @@ priority: 1
 status: open
 title: Fix Character Disambiguation section - large chars with gray labels, drop duplicate O
 type: is
-updated_at: 2026-02-16T17:54:40.798Z
-version: 1
+updated_at: 2026-02-16T23:29:31.281Z
+version: 2
 ---

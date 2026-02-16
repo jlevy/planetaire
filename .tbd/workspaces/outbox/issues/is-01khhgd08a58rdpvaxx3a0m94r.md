@@ -15,6 +15,6 @@ priority: 1
 status: closed
 title: "Implement ops/merge: binary glyph merging by unicode range with UPM normalization"
 type: is
-updated_at: 2026-02-16T18:38:47.112Z
-version: 18
+updated_at: 2026-02-16T23:29:31.012Z
+version: 21
 ---

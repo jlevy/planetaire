@@ -8,6 +8,6 @@ priority: 1
 status: open
 title: Add colored shell/eza terminal example to code sample page using Kerm colors and real ANSI output
 type: is
-updated_at: 2026-02-16T17:37:40.473Z
-version: 1
+updated_at: 2026-02-16T23:29:31.265Z
+version: 2
 ---

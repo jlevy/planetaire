@@ -8,6 +8,6 @@ priority: 1
 status: open
 title: "Fix inconsistent apostrophes: B612's uses wrong character vs Font's oriented apostrophe"
 type: is
-updated_at: 2026-02-16T17:37:38.289Z
-version: 1
+updated_at: 2026-02-16T23:29:31.217Z
+version: 2
 ---

@@ -11,6 +11,6 @@ priority: 2
 status: closed
 title: "Implement ops/embolden: ExtraBold weight generation via FontForge with system dep detection"
 type: is
-updated_at: 2026-02-16T18:38:47.147Z
-version: 16
+updated_at: 2026-02-16T23:29:31.054Z
+version: 19
 ---

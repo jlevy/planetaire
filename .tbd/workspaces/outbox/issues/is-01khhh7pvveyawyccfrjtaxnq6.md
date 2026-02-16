@@ -13,6 +13,6 @@ priority: 2
 status: closed
 title: "Set up font distribution: GitHub Releases with TTF archives, install instructions, and terminal config examples"
 type: is
-updated_at: 2026-02-16T18:38:47.252Z
-version: 18
+updated_at: 2026-02-16T23:29:31.176Z
+version: 21
 ---
