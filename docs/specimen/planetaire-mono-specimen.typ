@@ -115,7 +115,8 @@
       Digits 0–9 from B612 (dotted zero)\
       Extended Latin, Greek, Cyrillic from B612\
       Punctuation and symbols from Hack\
-      12,000+ Nerd Font icons from Hack
+      12,000+ Nerd Font icons from Hack\
+      OpenType `ss01`/`zero`: rectangle dot alt
     ]
   ],
 )
@@ -441,6 +442,40 @@
 
 #v(0.5cm)
 
+#label[ZERO DOT VARIANTS (OpenType)]
+#v(0.1cm)
+
+#grid(
+  columns: (1fr, 1fr),
+  gutter: 1cm,
+  [
+    #text(size: 9pt, fill: rgb("#666"), weight: "bold")[Default (circle dot)]
+    #v(0.1cm)
+    #text(size: 36pt)[0]
+    #h(0.5cm)
+    #text(size: 18pt)[0 O o]
+    #v(0.1cm)
+    #text(size: 11pt)[FL350 FL850 10.0.0.1]
+  ],
+  [
+    #text(size: 9pt, fill: rgb("#666"), weight: "bold")[ss01 / zero (rectangle dot)]
+    #v(0.1cm)
+    #set text(features: ("ss01",))
+    #text(size: 36pt)[0]
+    #h(0.5cm)
+    #text(size: 18pt)[0 O o]
+    #v(0.1cm)
+    #text(size: 11pt)[FL350 FL850 10.0.0.1]
+  ],
+)
+
+#v(0.15cm)
+#text(size: 8pt, fill: rgb("#999"))[
+  Enable with: Typst `stylistic-set: 1` · VS Code `"'ss01'"` · Kitty `+ss01` · WezTerm `"ss01=1"`
+]
+
+#v(0.5cm)
+
 #label[BRACKET AND DELIMITER PAIRS]
 #v(0.1cm)
 #text(size: 20pt)[
@@ -588,11 +623,13 @@
   [*B612 Mono*], [
     Designed by Intactile Design for Airbus. Optimized for legibility in
     cockpit displays. Planetaire Mono takes its letters (A–Z, a–z),
-    digits 1–9, and extended Latin/Greek/Cyrillic glyphs from B612.
+    digits 0–9, and extended Latin/Greek/Cyrillic glyphs from B612.
+    The zero glyph receives a center dot in post-processing for O/0
+    disambiguation, with circle (default) and rectangle (ss01) variants.
   ],
   [*Hack*], [
     Chris Simpkins' typeface designed for source code. Provides the
-    base font structure: punctuation, symbols, digit 0, and overall metrics.
+    base font structure: punctuation, symbols, and overall metrics.
   ],
   [*Nerd Fonts*], [
     Ryan McIntyre's icon patching project. 12,000+ developer icons

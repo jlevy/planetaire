@@ -9,7 +9,7 @@ B612 source: original polarsys/b612 from Airbus/Intactile DESIGN.
 
 from __future__ import annotations
 
-from typing import Literal, TypedDict
+from typing import TypedDict
 
 # Unicode ranges for B612 glyph selection.
 # These glyphs are copied from B612 into the Hack base.
@@ -33,11 +33,9 @@ PLANETAIRE_LETTER_RANGES: list[tuple[int, int]] = [
 # Note: the original B612 from polarsys has no special GSUB features.
 # Ligatures (calt) and zero alternates (zero, ezer) were carlosedp additions.
 # This list is empty now that we use original B612 sources.
-# Dotted zero is implemented via add_dotted_zero() in ops/zero.py.
+# Dotted zero (circle default, rectangle alternate via ss01/zero features)
+# is implemented via add_dotted_zero() in ops/zero.py.
 PLANETAIRE_GSUB_FEATURES: list[str] = []
-
-# Dot shape for the zero glyph: "rect" for rectangle, "circle" for circle.
-PLANETAIRE_ZERO_DOT_SHAPE: Literal["rect", "circle"] = "rect"
 
 
 class VariantDef(TypedDict):

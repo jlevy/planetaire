@@ -20,7 +20,6 @@ from strif import atomic_output_file
 from planetaire.config import (
     PLANETAIRE_GSUB_FEATURES,
     PLANETAIRE_LETTER_RANGES,
-    PLANETAIRE_ZERO_DOT_SHAPE,
     VARIANTS,
 )
 from planetaire.ops.fix import fix_font
@@ -137,8 +136,8 @@ def build_planetaire_mono(
             weight=weight,
         )
 
-        # Add dotted zero for disambiguation from uppercase O
-        dotted = add_dotted_zero(renamed, shape=PLANETAIRE_ZERO_DOT_SHAPE)
+        # Add dotted zero (circle default + rect alternate via ss01/zero)
+        dotted = add_dotted_zero(renamed)
 
         # Apply post-processing fixes
         fixed = fix_font(dotted)

@@ -1,21 +1,29 @@
 """
 Add a center dot to the zero glyph for disambiguation from uppercase O.
 
-Supports two dot shapes:
-  - "rect": A filled rectangle (matching the carlosedp B612 fork).
-  - "circle": A filled circle approximated with quadratic Bezier curves.
+Creates two glyph variants packaged as OpenType alternates:
+  - Default zero: circle dot (smooth Bezier ellipse).
+  - ss01 alternate: rectangle dot (matching the carlosedp B612 fork).
 
-The original polarsys B612 zero is an empty oval; this post-processing
-step adds the distinguishing dot.
+The alternates are accessible via:
+  - OpenType ``ss01`` feature (Stylistic Set 1: "Rectangle Zero")
+  - OpenType ``zero`` feature (Slashed Zero — wired to the same alternate)
+
+Applications activate these via:
+  - Typst: ``#set text(stylistic-set: 1)`` or ``slashed-zero: true``
+  - VS Code: ``"editor.fontLigatures": "'ss01'"``
+  - Kitty: ``font_features PlanetaireMono-Regular +ss01``
+  - WezTerm: ``harfbuzz_features = { "ss01=1" }``
 """
 
 from __future__ import annotations
 
+import copy
 import logging
 import math
-from typing import Literal
 
 from fontTools.ttLib import TTFont
+from fontTools.ttLib.tables import otTables
 
 log = logging.getLogger(__name__)
 
@@ -24,7 +32,8 @@ _DOT_WIDTH = 221
 _DOT_HEIGHT = 348
 _REFERENCE_UPM = 2000
 
-DotShape = Literal["rect", "circle"]
+# Name for the alternate glyph.
+_ALTERNATE_GLYPH_NAME = "zero.ss01"
 
 
 def _rect_contour(
@@ -46,19 +55,15 @@ def _circle_contour(
 ) -> tuple[list[tuple[int, int]], list[int]]:
     """Generate a circular/elliptical dot using TrueType quadratic Bezier curves.
 
-    Uses the standard 8-point approximation: 4 on-curve points at the
-    cardinal positions and 4 off-curve control points at the diagonals.
-    The off-curve factor (tan(pi/8) ≈ 0.4142) gives a good circle
+    Uses the standard 12-point approximation: 4 on-curve points at the
+    cardinal positions and 8 off-curve control points (2 per arc segment).
+    The off-curve factor (tan(pi/8) ~ 0.4142) gives a good circle
     approximation with quadratic splines.
     """
-    # For a TrueType circle: on-curve at N/S/E/W, off-curve at diagonals.
-    # The control point distance is r * tan(pi/8) ≈ 0.4142 * r from the
-    # on-curve point, which is the standard quadratic Bezier circle approx.
     k = math.tan(math.pi / 8)
     kw = round(half_w * k)
     kh = round(half_h * k)
 
-    # 8 points: alternating on-curve (1) and off-curve (0), starting at top.
     coords = [
         (cx, cy + half_h),          # top (on-curve)
         (cx + kw, cy + half_h),     # top-right (off-curve)
@@ -78,19 +83,144 @@ def _circle_contour(
     return coords, flags
 
 
-def add_dotted_zero(font: TTFont, shape: DotShape = "rect") -> TTFont:
-    """
-    Add a center dot contour to the zero glyph.
+def _compute_dot_params(font: TTFont, glyph):
+    """Compute the center and half-dimensions for the dot."""
+    inner_start = glyph.endPtsOfContours[0] + 1
+    inner_end = glyph.endPtsOfContours[1]
+    inner_xs = [glyph.coordinates[i][0] for i in range(inner_start, inner_end + 1)]
+    inner_ys = [glyph.coordinates[i][1] for i in range(inner_start, inner_end + 1)]
+    cx = (min(inner_xs) + max(inner_xs)) // 2
+    cy = (min(inner_ys) + max(inner_ys)) // 2
 
-    Finds the zero glyph via cmap, calculates the center of its inner
-    counter (contour 1), and appends a dot contour of the specified shape.
+    upm = font["head"].unitsPerEm
+    scale = upm / _REFERENCE_UPM
+    half_w = round(_DOT_WIDTH * scale / 2)
+    half_h = round(_DOT_HEIGHT * scale / 2)
+    return cx, cy, half_w, half_h
+
+
+def _append_dot_contour(glyph, coords, flags):
+    """Append a dot contour to an existing glyph."""
+    existing_coords = list(glyph.coordinates)
+    existing_flags = list(glyph.flags)
+    existing_ends = list(glyph.endPtsOfContours)
+
+    new_start = existing_ends[-1] + 1
+    existing_coords.extend(coords)
+    existing_flags.extend(flags)
+    existing_ends.append(new_start + len(coords) - 1)
+
+    glyph.coordinates = type(glyph.coordinates)(existing_coords)
+    glyph.flags = type(glyph.flags)(existing_flags)
+    glyph.endPtsOfContours = existing_ends
+    glyph.numberOfContours = len(existing_ends)
+
+
+def _add_alternate_glyph(font: TTFont, zero_name: str, cx, cy, half_w, half_h):
+    """Create the alternate zero glyph (zero.ss01) with a rectangle dot.
+
+    Copies the original 2-contour zero and adds the rectangle dot contour.
+    Returns the alternate glyph name.
+    """
+    glyf = font["glyf"]
+    original = glyf[zero_name]
+
+    # Deep-copy the original glyph (before the circle dot was added).
+    # We need the raw 2-contour zero. If it already has 3 contours (circle
+    # was already added), we take just the first 2 contours.
+    alt = copy.deepcopy(original)
+
+    if alt.numberOfContours > 2:
+        # Strip back to 2 contours (the oval without any dot).
+        end_of_contour_1 = alt.endPtsOfContours[1]
+        alt.coordinates = type(alt.coordinates)(
+            list(alt.coordinates)[: end_of_contour_1 + 1]
+        )
+        alt.flags = type(alt.flags)(list(alt.flags)[: end_of_contour_1 + 1])
+        alt.endPtsOfContours = alt.endPtsOfContours[:2]
+        alt.numberOfContours = 2
+
+    # Add rectangle dot to the alternate.
+    rect_coords, rect_flags = _rect_contour(cx, cy, half_w, half_h)
+    _append_dot_contour(alt, rect_coords, rect_flags)
+
+    # Insert the alternate glyph into the font.
+    glyf[_ALTERNATE_GLYPH_NAME] = alt
+
+    # Add to glyph order (after the original zero).
+    glyph_order = font.getGlyphOrder()
+    if _ALTERNATE_GLYPH_NAME not in glyph_order:
+        zero_idx = glyph_order.index(zero_name)
+        glyph_order.insert(zero_idx + 1, _ALTERNATE_GLYPH_NAME)
+        font.setGlyphOrder(glyph_order)
+
+    # Copy metrics from the original zero.
+    if "hmtx" in font:
+        font["hmtx"][_ALTERNATE_GLYPH_NAME] = font["hmtx"][zero_name]
+
+    log.info("Created alternate glyph '%s' with rectangle dot", _ALTERNATE_GLYPH_NAME)
+    return _ALTERNATE_GLYPH_NAME
+
+
+def _add_gsub_features(font: TTFont, zero_name: str, alt_name: str):
+    """Add ss01 and zero GSUB features mapping zero -> zero.ss01.
+
+    Surgically appends to the existing GSUB table without disturbing
+    existing features (aalt, frac, subs, sups, etc.).
+    """
+    gsub = font["GSUB"].table
+
+    # Build SingleSubst lookup: zero -> zero.ss01
+    single_subst = otTables.SingleSubst()
+    single_subst.mapping = {zero_name: alt_name}
+
+    lookup = otTables.Lookup()
+    lookup.LookupType = 1  # Single Substitution
+    lookup.LookupFlag = 0
+    lookup.SubTable = [single_subst]
+    lookup.SubTableCount = 1
+
+    lookup_index = len(gsub.LookupList.Lookup)
+    gsub.LookupList.Lookup.append(lookup)
+
+    # Create feature records for ss01 and zero, sharing the same lookup.
+    new_feature_indices = []
+    for tag in ("ss01", "zero"):
+        frec = otTables.FeatureRecord()
+        frec.FeatureTag = tag
+        frec.Feature = otTables.Feature()
+        frec.Feature.FeatureParams = None
+        frec.Feature.LookupListIndex = [lookup_index]
+        frec.Feature.LookupCount = 1
+        gsub.FeatureList.FeatureRecord.append(frec)
+        new_feature_indices.append(len(gsub.FeatureList.FeatureRecord) - 1)
+
+    # Wire the new features into all script/language records.
+    for srec in gsub.ScriptList.ScriptRecord:
+        if srec.Script.DefaultLangSys:
+            srec.Script.DefaultLangSys.FeatureIndex.extend(new_feature_indices)
+        for lr in srec.Script.LangSysRecord:
+            if lr.LangSys:
+                lr.LangSys.FeatureIndex.extend(new_feature_indices)
+
+    log.info(
+        "Added GSUB features ss01 and zero (lookup %d): %s -> %s",
+        lookup_index,
+        zero_name,
+        alt_name,
+    )
+
+
+def add_dotted_zero(font: TTFont) -> TTFont:
+    """Add circle-dot zero (default) and rect-dot zero (ss01 alternate).
+
+    This is the main entry point. It:
+    1. Adds a circle dot to the default zero glyph.
+    2. Creates an alternate glyph ``zero.ss01`` with a rectangle dot.
+    3. Adds GSUB ``ss01`` and ``zero`` features for the alternate.
 
     If the zero already has 3+ contours (dot already present), this is
     a no-op.
-
-    Args:
-        font: The font to modify.
-        shape: Dot shape - "rect" for rectangle, "circle" for circle.
     """
     cmap = font.getBestCmap()
     if not cmap or 0x30 not in cmap:
@@ -113,50 +243,27 @@ def add_dotted_zero(font: TTFont, shape: DotShape = "rect") -> TTFont:
         )
         return font
 
-    # Calculate center of inner counter (contour 1).
-    inner_start = glyph.endPtsOfContours[0] + 1
-    inner_end = glyph.endPtsOfContours[1]
-    inner_xs = [glyph.coordinates[i][0] for i in range(inner_start, inner_end + 1)]
-    inner_ys = [glyph.coordinates[i][1] for i in range(inner_start, inner_end + 1)]
-    cx = (min(inner_xs) + max(inner_xs)) // 2
-    cy = (min(inner_ys) + max(inner_ys)) // 2
+    # Compute dot placement parameters from the undotted zero.
+    cx, cy, half_w, half_h = _compute_dot_params(font, glyph)
 
-    # Scale dot dimensions for the font's UPM.
-    upm = font["head"].unitsPerEm
-    scale = upm / _REFERENCE_UPM
-    half_w = round(_DOT_WIDTH * scale / 2)
-    half_h = round(_DOT_HEIGHT * scale / 2)
+    # 1. Create the alternate glyph FIRST (before modifying the original),
+    #    so it gets a clean copy of the 2-contour zero.
+    alt_name = _add_alternate_glyph(font, zero_name, cx, cy, half_w, half_h)
 
-    # Generate dot contour based on shape.
-    if shape == "circle":
-        dot_coords, dot_flags = _circle_contour(cx, cy, half_w, half_h)
-    else:
-        dot_coords, dot_flags = _rect_contour(cx, cy, half_w, half_h)
-
-    # Append the dot contour to the existing glyph.
-    existing_coords = list(glyph.coordinates)
-    existing_flags = list(glyph.flags)
-    existing_ends = list(glyph.endPtsOfContours)
-
-    new_start = existing_ends[-1] + 1
-    for coord in dot_coords:
-        existing_coords.append(coord)
-    existing_flags.extend(dot_flags)
-    existing_ends.append(new_start + len(dot_coords) - 1)
-
-    glyph.coordinates = type(glyph.coordinates)(existing_coords)
-    glyph.flags = type(glyph.flags)(existing_flags)
-    glyph.endPtsOfContours = existing_ends
-    glyph.numberOfContours = len(existing_ends)
-
+    # 2. Add circle dot to the default zero.
+    circle_coords, circle_flags = _circle_contour(cx, cy, half_w, half_h)
+    _append_dot_contour(glyph, circle_coords, circle_flags)
     log.info(
-        "Added %s center dot to zero glyph '%s' at (%d,%d) size %dx%d",
-        shape,
+        "Added circle center dot to zero glyph '%s' at (%d,%d) size %dx%d",
         zero_name,
         cx - half_w,
         cy - half_h,
         half_w * 2,
         half_h * 2,
     )
+
+    # 3. Add GSUB features.
+    if "GSUB" in font:
+        _add_gsub_features(font, zero_name, alt_name)
 
     return font
