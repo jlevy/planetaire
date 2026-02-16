@@ -12,7 +12,7 @@ authors = [
     { name="jlevy", email="changeme@example.com" },
 ]
 readme = "README.md"
-license = "MIT"
+license = "OFL-1.1 AND MIT"
 requires-python = ">=3.11,<4.0"
 dynamic = ["version"]
 
@@ -57,6 +57,7 @@ dev = [
     "rich>=14.3.2",
     "basedpyright>=1.38.0",
     "funlog>=0.2.1",
+    "pillow>=11.0.0",
 ]
 
 [project.scripts]

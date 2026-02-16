@@ -47,7 +47,7 @@ validate-fonts:
 fonts: download build-fonts validate-fonts
 
 showcase: build-fonts
-	python scripts/generate_showcase.py
+	uv run python scripts/generate_showcase.py
 
 specimen: build-fonts
 	typst compile docs/specimen/planetaire-mono-specimen.typ docs/specimen/planetaire-mono-specimen.pdf
