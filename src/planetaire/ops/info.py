@@ -7,6 +7,38 @@ from pathlib import Path
 
 from fontTools.ttLib import TTFont
 
+# GSUB lookup type names (OpenType spec).
+_GSUB_LOOKUP_TYPES: dict[int, str] = {
+    1: "Single",
+    2: "Multiple",
+    3: "Alternate",
+    4: "Ligature",
+    5: "Context",
+    6: "ChainingContext",
+    7: "Extension",
+    8: "ReverseChaining",
+}
+
+
+@dataclass
+class FeatureDetail:
+    """Detailed info about a single GSUB feature."""
+
+    tag: str
+    lookup_indices: list[int]
+    lookups: list[LookupDetail] = field(default_factory=list)
+
+
+@dataclass
+class LookupDetail:
+    """Info about a single GSUB lookup."""
+
+    index: int
+    lookup_type: int
+    lookup_type_name: str
+    subtable_count: int
+    substitutions: dict[str, str] = field(default_factory=dict)
+
 
 @dataclass
 class FontInfo:
@@ -23,10 +55,51 @@ class FontInfo:
     is_italic: bool
     os2_metrics: dict[str, int] = field(default_factory=dict)
     gsub_features: list[str] = field(default_factory=list)
+    gsub_feature_details: list[FeatureDetail] = field(default_factory=list)
 
 
-def inspect_font(path: Path) -> FontInfo:
-    """Read font metadata. Pure read, no modifications."""
+def _inspect_gsub_lookup(gsub_table: object, index: int) -> LookupDetail | None:
+    """Inspect a single GSUB lookup by index, returning detail or None if out of range."""
+    lookup_list = gsub_table.LookupList  # type: ignore[union-attr]
+    if index >= len(lookup_list.Lookup):
+        return None
+
+    lookup = lookup_list.Lookup[index]
+    lt = lookup.LookupType
+    type_name = _GSUB_LOOKUP_TYPES.get(lt, f"Unknown({lt})")
+
+    # Resolve Extension lookups to their actual type.
+    actual_type = lt
+    if lt == 7 and lookup.SubTable:
+        ext = lookup.SubTable[0]
+        actual_type = ext.ExtSubTable.LookupType if hasattr(ext, "ExtSubTable") else lt
+        type_name = f"Extension → {_GSUB_LOOKUP_TYPES.get(actual_type, f'Unknown({actual_type})')}"
+
+    # Extract substitution mappings for simple types.
+    subs: dict[str, str] = {}
+    for subtable in lookup.SubTable:
+        st = subtable
+        if lt == 7 and hasattr(st, "ExtSubTable"):
+            st = st.ExtSubTable
+        if hasattr(st, "mapping"):
+            subs.update(st.mapping)
+
+    return LookupDetail(
+        index=index,
+        lookup_type=lt,
+        lookup_type_name=type_name,
+        subtable_count=len(lookup.SubTable),
+        substitutions=subs,
+    )
+
+
+def inspect_font(path: Path, *, feature_details: bool = False) -> FontInfo:
+    """Read font metadata. Pure read, no modifications.
+
+    Args:
+        path: Path to font file.
+        feature_details: If True, include detailed GSUB feature/lookup inspection.
+    """
     font = TTFont(path)
     name_table = font["name"]
 
@@ -38,6 +111,7 @@ def inspect_font(path: Path) -> FontInfo:
 
     # GSUB features
     gsub_features: list[str] = []
+    gsub_feature_details: list[FeatureDetail] = []
     if "GSUB" in font:
         gsub = font["GSUB"]
         if gsub.table.FeatureList:
@@ -47,6 +121,26 @@ def inspect_font(path: Path) -> FontInfo:
                 if tag not in seen:
                     gsub_features.append(tag)
                     seen.add(tag)
+
+                if feature_details:
+                    indices = list(rec.Feature.LookupListIndex)
+                    lookups: list[LookupDetail] = []
+                    for idx in indices:
+                        detail = _inspect_gsub_lookup(gsub.table, idx)
+                        if detail is not None:
+                            lookups.append(detail)
+                        else:
+                            lookups.append(
+                                LookupDetail(
+                                    index=idx,
+                                    lookup_type=-1,
+                                    lookup_type_name=f"DANGLING (index {idx} out of range)",
+                                    subtable_count=0,
+                                )
+                            )
+                    gsub_feature_details.append(
+                        FeatureDetail(tag=tag, lookup_indices=indices, lookups=lookups)
+                    )
 
     # OS/2 metrics
     os2_metrics: dict[str, int] = {}
@@ -78,4 +172,5 @@ def inspect_font(path: Path) -> FontInfo:
         is_italic=is_italic,
         os2_metrics=os2_metrics,
         gsub_features=gsub_features,
+        gsub_feature_details=gsub_feature_details,
     )

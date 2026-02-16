@@ -64,12 +64,13 @@ def _resolve_font_path(path: Path) -> Path:
 def info(
     font: Path = typer.Argument(..., help="Path to a font file (.ttf/.otf)"),
     format: str = typer.Option("text", help="Output format: text or json"),
+    features: bool = typer.Option(False, "--features", help="Show detailed GSUB feature/lookup info"),
 ) -> None:
     """Inspect font metadata, glyph counts, and features."""
     from planetaire.ops.info import inspect_font
 
     path = _resolve_font_path(font)
-    font_info = inspect_font(path)
+    font_info = inspect_font(path, feature_details=features)
 
     if format == "json":
         import json
@@ -89,6 +90,18 @@ def info(
         err_console.print(f"  Italic:      {font_info.is_italic}")
         if font_info.gsub_features:
             err_console.print(f"  GSUB:        {', '.join(font_info.gsub_features)}")
+        if font_info.gsub_feature_details:
+            err_console.print()
+            err_console.print("[bold]GSUB Feature Details[/bold]")
+            for feat in font_info.gsub_feature_details:
+                err_console.print(f"  [cyan]{feat.tag}[/cyan]  lookups: {feat.lookup_indices}")
+                for lk in feat.lookups:
+                    err_console.print(f"    [{lk.index}] {lk.lookup_type_name} ({lk.subtable_count} subtable(s))")
+                    if lk.substitutions:
+                        for src, dst in sorted(lk.substitutions.items())[:20]:
+                            err_console.print(f"        {src} → {dst}")
+                        if len(lk.substitutions) > 20:
+                            err_console.print(f"        ... and {len(lk.substitutions) - 20} more")
 
 
 # -- merge command --
@@ -297,6 +310,31 @@ def build_planetaire_mono(
     for p in outputs:
         err_console.print(f"  {p}")
     err_console.print(f"[green]Built {len(outputs)} font(s)[/green]")
+
+
+@build_app.command("specimen")
+def build_specimen_cmd(
+    source: Path = typer.Option(
+        Path("docs/specimen/planetaire-mono-specimen.typ"),
+        help="Typst source file for the specimen",
+    ),
+    output: Path | None = typer.Option(None, help="Output PDF path (default: same dir as source)"),
+    font_dir: Path = typer.Option(Path("fonts/output"), help="Directory containing built fonts"),
+    open: bool = typer.Option(False, "--open", help="Open the PDF after compilation"),
+) -> None:
+    """Compile the font specimen PDF from Typst source."""
+    import subprocess
+
+    from planetaire.recipes.specimen import build_specimen
+
+    try:
+        pdf_path = build_specimen(source, output, font_dir, open_after=open)
+    except subprocess.CalledProcessError as e:
+        err_console.print("[red]Typst compilation failed:[/red]")
+        if e.stderr:
+            err_console.print(e.stderr)
+        raise SystemExit(1)
+    err_console.print(f"[green]Specimen PDF written to {pdf_path}[/green]")
 
 
 # -- regression subcommands --
