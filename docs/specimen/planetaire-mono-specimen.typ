@@ -301,7 +301,7 @@
   width: 100%,
 )[
   #set text(size: 8.5pt, fill: kerm.fg)
-  #set par(leading: 0.35em)
+  #set par(leading: 0.4em)
 
   #prompt[eza -l --icons=always . ./docs/images ./docs/specimen/]\
   .:\
