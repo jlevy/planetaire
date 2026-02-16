@@ -167,19 +167,22 @@ def test_nerd_font_glyphs_present(variant: str, all_built_fonts: dict[str, TTFon
         assert cp in cmap, f"{variant}: missing {label} U+{cp:04X}"
 
 
-# --- Verify B612 digits: 10 digits per variant ---
+# --- Verify B612 digits: digits 1-9 per variant (zero kept from Hack) ---
 
 
 @pytest.mark.parametrize("variant", [v["name"] for v in VARIANTS])
 def test_b612_digits_all_present(variant: str, all_built_fonts: dict[str, TTFont]):
-    """All 10 digits (0-9) must be present and match B612 donor."""
+    """Digits 1-9 must be present and match B612 donor.
+
+    Zero (U+0030) is intentionally kept from Hack for disambiguation.
+    """
     vdef = next(v for v in VARIANTS if v["name"] == variant)
     donor = TTFont(FONTS_SOURCE / "b612" / vdef["b612_file"])
     pm = all_built_fonts[variant]
 
-    result = compare_fonts(pm, donor, [(0x0030, 0x0039)])
-    assert result.identical == 10, (
-        f"{variant}: expected 10 identical digits, got {result.identical}"
+    result = compare_fonts(pm, donor, [(0x0031, 0x0039)])
+    assert result.identical == 9, (
+        f"{variant}: expected 9 identical digits (1-9), got {result.identical}"
     )
     assert result.different == 0
 

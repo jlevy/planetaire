@@ -20,9 +20,8 @@ both:
 
 - **B612 letterforms** for letters, digits, and extended Latin/Greek/Cyrillic
 - **Hack punctuation and symbols** for `{}[]()<>` and everything else
+- **Hack's distinguished zero** for clear `0` vs `O` disambiguation
 - **12,000+ Nerd Font icons** including Powerline, Font Awesome, and Devicons
-- **OpenType features**: contextual alternates (`calt`), slashed zero (`zero`),
-  empty zero (`ezer`)
 
 ## Weights
 
@@ -154,30 +153,30 @@ planetaire validate fonts/output/*.ttf
 
 The build pipeline:
 
-1. **Merge** — Copies B612 glyphs (letters, digits, extended Latin, Greek, Cyrillic)
-   into the Hack Nerd Font base, normalizing UPM from Hack's 2048 to B612's 2000
-2. **GSUB** — Copies OpenType features (`calt`, `zero`, `ezer`) from B612 into the
-   merged font
-3. **Rename** — Sets font family metadata to "Planetaire Mono" with correct
+1. **Merge** — Copies B612 glyphs (letters, digits 1-9, extended Latin, Greek, Cyrillic)
+   into the Hack Nerd Font base, normalizing UPM from Hack's 2048 to B612's 2000.
+   Zero (0) is kept from Hack for clear `0`/`O` disambiguation.
+2. **Rename** — Sets font family metadata to "Planetaire Mono" with correct
    PostScript names and weight classes
-4. **Fix** — Adds required tables (DSIG), sets embedding flags (fsType=0), and
+3. **Fix** — Adds required tables (DSIG), sets embedding flags (fsType=0), and
    configures grid-fitting (GASP)
-5. **Validate** — Checks glyph coverage, weight metadata, and OpenType features
+4. **Validate** — Checks glyph coverage, weight metadata, and OpenType features
 
 This is repeated for all 6 variants (Regular, Italic, Bold, BoldItalic, ExtraBold,
 ExtraBoldItalic).
 
 ## Credits
 
-- [**B612**](https://b612-font.com/) — Intactile Design for Airbus. The letterforms
-  that make this font special.
-- [**carlosedp**](https://github.com/carlosedp/B612-Mono-Liga-NerdFont) — Carlos
-  Eduardo de Paula's fork adding ligatures, dotted/slashed/empty zero alternates, and
-  Nerd Font patching to B612 Mono.
+- [**B612**](https://b612-font.com/) — Intactile Design for Airbus
+  ([polarsys/b612](https://github.com/polarsys/b612)). The letterforms that make this
+  font special.
 - [**Hack**](https://sourcefoundry.org/hack/) — Chris Simpkins. The base font
-  providing punctuation, symbols, and overall metrics.
+  providing punctuation, symbols, zero glyph, and overall metrics.
 - [**Nerd Fonts**](https://www.nerdfonts.com/) — Ryan McIntyre. 12,000+ developer
   icons including Powerline, Font Awesome, Devicons, and more.
+- [**carlosedp**](https://github.com/carlosedp/B612-Mono-Liga-NerdFont) — Carlos
+  Eduardo de Paula's B612 fork (ligatures, zero alternates, Nerd Font patching).
+  Informational reference for future feature work.
 
 ## License
 

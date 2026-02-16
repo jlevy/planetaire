@@ -86,8 +86,8 @@ def donor_font() -> TTFont:
 
 @pytest.fixture
 def b612_regular() -> TTFont:
-    """Load real B612MonoLigaNerdFont-Regular if available."""
-    path = FONTS_SOURCE / "b612" / "B612MonoLigaNerdFont-Regular.ttf"
+    """Load real B612Mono-Regular if available."""
+    path = FONTS_SOURCE / "b612" / "B612Mono-Regular.ttf"
     if not path.exists():
         pytest.skip("B612 source font not available")
     return TTFont(path)

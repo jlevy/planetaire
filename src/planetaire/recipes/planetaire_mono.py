@@ -3,11 +3,15 @@ Full Planetaire Mono build pipeline.
 
 Composes ops/ functions to produce all Planetaire Mono font variants
 from B612 and Hack source fonts.
+
+B612 source: original polarsys/b612. ExtraBold variants are generated
+from Bold via FontForge emboldening if not already present.
 """
 
 from __future__ import annotations
 
 import logging
+import shutil
 from pathlib import Path
 
 from fontTools.ttLib import TTFont
@@ -25,6 +29,46 @@ from planetaire.ops.validate import validate_font
 
 log = logging.getLogger(__name__)
 
+# Mapping from ExtraBold variants to their Bold source for emboldening.
+_EXTRABOLD_FROM_BOLD: dict[str, str] = {
+    "B612Mono-ExtraBold.ttf": "B612Mono-Bold.ttf",
+    "B612Mono-ExtraBoldItalic.ttf": "B612Mono-BoldItalic.ttf",
+}
+
+
+def _ensure_extrabold_b612(source_dir: Path) -> None:
+    """Generate ExtraBold B612 from Bold if not already present.
+
+    Uses FontForge emboldening (changeWeight). If FontForge is not
+    installed, logs a warning — pre-generated ExtraBold files must
+    exist in the source directory.
+    """
+    b612_dir = source_dir / "b612"
+    for extrabold_file, bold_file in _EXTRABOLD_FROM_BOLD.items():
+        extrabold_path = b612_dir / extrabold_file
+        bold_path = b612_dir / bold_file
+
+        if extrabold_path.exists():
+            continue
+
+        if not bold_path.exists():
+            log.warning("Cannot generate %s: Bold source %s not found", extrabold_file, bold_path)
+            continue
+
+        if shutil.which("fontforge") is None:
+            log.warning(
+                "Cannot generate %s: FontForge not installed. "
+                "Place pre-generated ExtraBold files in %s",
+                extrabold_file,
+                b612_dir,
+            )
+            continue
+
+        log.info("Generating %s from %s via FontForge emboldening", extrabold_file, bold_file)
+        from planetaire.ops.embolden import embolden_font
+
+        embolden_font(bold_path, extrabold_path, target_weight=800, change_amount=30)
+
 
 def build_planetaire_mono(
     source_dir: Path,
@@ -37,9 +81,16 @@ def build_planetaire_mono(
     For each variant: load Hack as base, merge B612 letter glyphs,
     rename to "Planetaire Mono", apply fixes, validate, and save.
 
+    ExtraBold B612 variants are auto-generated from Bold via FontForge
+    if not already present in source_dir.
+
     Returns list of output font paths.
     """
     output_dir.mkdir(parents=True, exist_ok=True)
+
+    # Generate ExtraBold B612 from Bold if needed
+    _ensure_extrabold_b612(source_dir)
+
     outputs: list[Path] = []
 
     variants_to_build = (

@@ -1,4 +1,12 @@
-"""Download and cache source fonts from upstream repositories."""
+"""Download and cache source fonts from upstream repositories.
+
+B612 Mono: original polarsys/b612 from Airbus/Intactile DESIGN.
+Hack Nerd Font: from ryanoasis/nerd-fonts releases.
+
+The ExtraBold B612 variants are generated from Bold via FontForge
+emboldening (see ops/embolden.py). Pre-generated files can be
+placed in the source directory to skip this step.
+"""
 
 from __future__ import annotations
 
@@ -10,7 +18,7 @@ log = logging.getLogger(__name__)
 
 def download_sources(output_dir: Path) -> dict[str, Path]:
     """
-    Download B612MonoLigaNerdFont and HackNerdFont source fonts.
+    Download B612 Mono and Hack Nerd Font source fonts.
 
     Returns a dict mapping variant names to font file paths.
     Currently a stub — checks if fonts already exist in output_dir.
@@ -20,9 +28,9 @@ def download_sources(output_dir: Path) -> dict[str, Path]:
 
     fonts: dict[str, Path] = {}
 
-    # Check for existing B612 fonts
-    for variant in ("Regular", "Bold", "Italic", "BoldItalic"):
-        path = b612_dir / f"B612MonoLigaNerdFont-{variant}.ttf"
+    # Check for existing B612 fonts (original polarsys B612 Mono)
+    for variant in ("Regular", "Bold", "Italic", "BoldItalic", "ExtraBold", "ExtraBoldItalic"):
+        path = b612_dir / f"B612Mono-{variant}.ttf"
         if path.exists():
             fonts[f"b612-{variant.lower()}"] = path
         else:
