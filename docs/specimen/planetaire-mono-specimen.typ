@@ -100,12 +100,12 @@
   [
     #text(size: 9pt, fill: rgb("#666"))[
       *Weights*\
-      Regular (400)\
-      Italic (400)\
-      Bold (700)\
-      Bold Italic (700)\
-      ExtraBold (800)\
-      ExtraBold Italic (800)
+      #text(weight: "regular")[Regular] (400)\
+      #text(weight: "regular", style: "italic")[Italic] (400)\
+      #text(weight: "bold")[Bold] (700)\
+      #text(weight: "bold", style: "italic")[Bold Italic] (700)\
+      #text(weight: 800)[ExtraBold] (800)\
+      #text(weight: 800, style: "italic")[ExtraBold Italic] (800)
     ]
   ],
   [
