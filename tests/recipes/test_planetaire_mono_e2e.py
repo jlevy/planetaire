@@ -84,7 +84,11 @@ def scaled_hack_fonts() -> dict[str, TTFont]:
 
 @pytest.mark.parametrize("variant", [v["name"] for v in VARIANTS])
 def test_b612_glyphs_binary_identical(variant: str, all_built_fonts: dict[str, TTFont]):
-    """Every B612-range glyph must be binary-identical to the B612 donor."""
+    """Every B612-range glyph must be binary-identical to the B612 donor.
+
+    Zero (U+0030) is excluded because the pipeline adds a center dot
+    for disambiguation from uppercase O.
+    """
     vdef = next(v for v in VARIANTS if v["name"] == variant)
     donor = TTFont(FONTS_SOURCE / "b612" / vdef["b612_file"])
     pm = all_built_fonts[variant]
@@ -94,6 +98,8 @@ def test_b612_glyphs_binary_identical(variant: str, all_built_fonts: dict[str, T
     mismatches = []
     checked = 0
     for cp in sorted(B612_CODEPOINTS):
+        if cp == 0x0030:  # Zero modified by add_dotted_zero
+            continue
         if cp not in donor_cmap or cp not in pm_cmap:
             continue
         checked += 1
@@ -167,14 +173,15 @@ def test_nerd_font_glyphs_present(variant: str, all_built_fonts: dict[str, TTFon
         assert cp in cmap, f"{variant}: missing {label} U+{cp:04X}"
 
 
-# --- Verify B612 digits: digits 1-9 per variant (zero kept from Hack) ---
+# --- Verify B612 digits: digits 0-9 per variant (zero has added dot) ---
 
 
 @pytest.mark.parametrize("variant", [v["name"] for v in VARIANTS])
 def test_b612_digits_all_present(variant: str, all_built_fonts: dict[str, TTFont]):
-    """Digits 1-9 must be present and match B612 donor.
+    """Digits 1-9 must be present and match B612 donor exactly.
 
-    Zero (U+0030) is intentionally kept from Hack for disambiguation.
+    Zero (U+0030) comes from B612 but has a center dot added for
+    disambiguation, so it's verified separately.
     """
     vdef = next(v for v in VARIANTS if v["name"] == variant)
     donor = TTFont(FONTS_SOURCE / "b612" / vdef["b612_file"])
@@ -185,6 +192,19 @@ def test_b612_digits_all_present(variant: str, all_built_fonts: dict[str, TTFont
         f"{variant}: expected 9 identical digits (1-9), got {result.identical}"
     )
     assert result.different == 0
+
+
+@pytest.mark.parametrize("variant", [v["name"] for v in VARIANTS])
+def test_dotted_zero(variant: str, all_built_fonts: dict[str, TTFont]):
+    """Zero glyph must have 3 contours (outer + inner counter + center dot)."""
+    pm = all_built_fonts[variant]
+    cmap = pm.getBestCmap() or {}
+    assert 0x30 in cmap, f"{variant}: zero not in cmap"
+    zero_name = cmap[0x30]
+    glyph = pm["glyf"][zero_name]
+    assert glyph.numberOfContours == 3, (
+        f"{variant}: zero has {glyph.numberOfContours} contours, expected 3 (with dot)"
+    )
 
 
 # --- Spot-check: B612 letter outlines match via RecordingPen ---

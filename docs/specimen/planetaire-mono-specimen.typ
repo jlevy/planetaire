@@ -112,7 +112,7 @@
     #text(size: 9pt, fill: rgb("#666"))[
       *Glyph Sources*\
       Letters A–Z, a–z from B612\
-      Digits 1–9 from B612, 0 from Hack\
+      Digits 0–9 from B612 (dotted zero)\
       Extended Latin, Greek, Cyrillic from B612\
       Punctuation and symbols from Hack\
       12,000+ Nerd Font icons from Hack
@@ -351,7 +351,7 @@
 #text(size: 16pt)[a b c d e f g h i j k l m n o p q r s t u v w x y z]
 #v(0.3cm)
 
-#label[DIGITS: 1–9 from B612, 0 from Hack (slashed for disambiguation)]
+#label[DIGITS: 0–9 from B612 (dotted zero for disambiguation)]
 #text(size: 16pt)[0 1 2 3 4 5 6 7 8 9]
 #v(0.3cm)
 

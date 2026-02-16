@@ -15,7 +15,7 @@ from typing import TypedDict
 # These glyphs are copied from B612 into the Hack base.
 # Source: adapted from the kerm CSS font-stack unicode-range declarations.
 PLANETAIRE_LETTER_RANGES: list[tuple[int, int]] = [
-    (0x0031, 0x0039),  # Basic Latin digits 1-9 (zero kept from Hack for disambiguation)
+    (0x0030, 0x0039),  # Basic Latin digits 0-9 (dot added to zero in post-processing)
     (0x0041, 0x005A),  # Basic Latin uppercase
     (0x0061, 0x007A),  # Basic Latin lowercase
     (0x00C0, 0x00D6),  # Latin-1 uppercase with diacritics
@@ -33,7 +33,7 @@ PLANETAIRE_LETTER_RANGES: list[tuple[int, int]] = [
 # Note: the original B612 from polarsys has no special GSUB features.
 # Ligatures (calt) and zero alternates (zero, ezer) were carlosedp additions.
 # This list is empty now that we use original B612 sources.
-# Future: re-implement dotted/slashed zero and ligatures in our own pipeline.
+# Dotted zero is implemented via add_dotted_zero() in ops/zero.py.
 PLANETAIRE_GSUB_FEATURES: list[str] = []
 
 

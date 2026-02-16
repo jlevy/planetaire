@@ -26,6 +26,7 @@ from planetaire.ops.fix import fix_font
 from planetaire.ops.merge import merge_glyphs
 from planetaire.ops.rename import rename_font
 from planetaire.ops.validate import validate_font
+from planetaire.ops.zero import add_dotted_zero
 
 log = logging.getLogger(__name__)
 
@@ -135,8 +136,11 @@ def build_planetaire_mono(
             weight=weight,
         )
 
+        # Add dotted zero for disambiguation from uppercase O
+        dotted = add_dotted_zero(renamed)
+
         # Apply post-processing fixes
-        fixed = fix_font(renamed)
+        fixed = fix_font(dotted)
 
         # Validate
         issues = validate_font(fixed, expected_weight=weight)

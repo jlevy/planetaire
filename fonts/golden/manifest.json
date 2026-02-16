@@ -1,10 +1,10 @@
 {
-  "version": "dev",
+  "version": "0.1.0",
   "variants": [
     {
       "variant": "Bold",
       "filename": "PlanetaireMono-Bold.ttf",
-      "glyph_count": 12216,
+      "glyph_count": 12219,
       "upm": 2000,
       "weight": 700,
       "glyphs": [
@@ -137,70 +137,70 @@
         {
           "codepoint": 48,
           "name": "zero",
-          "glyf_hash": "1bc64ad575e506b4",
+          "glyf_hash": "854d13e58faea6c8",
           "advance_width": 1300,
           "lsb": 68
         },
         {
           "codepoint": 49,
           "name": "one",
-          "glyf_hash": "dff2f9eea9d487c0",
+          "glyf_hash": "4d4340c62a0d5fc2",
           "advance_width": 1300,
           "lsb": 153
         },
         {
           "codepoint": 50,
           "name": "two",
-          "glyf_hash": "1ff0eeb434574fcd",
+          "glyf_hash": "1a1fbf6539070485",
           "advance_width": 1300,
           "lsb": 112
         },
         {
           "codepoint": 51,
           "name": "three",
-          "glyf_hash": "c1a8ae334581a25b",
+          "glyf_hash": "58debe66f6c33c4b",
           "advance_width": 1300,
           "lsb": 170
         },
         {
           "codepoint": 52,
           "name": "four",
-          "glyf_hash": "e337b843aa812594",
+          "glyf_hash": "fdaa46dd6cb36bec",
           "advance_width": 1300,
           "lsb": 120
         },
         {
           "codepoint": 53,
           "name": "five",
-          "glyf_hash": "3455dba2d82b144a",
+          "glyf_hash": "d8b20ae2f77f2354",
           "advance_width": 1300,
           "lsb": 172
         },
         {
           "codepoint": 54,
           "name": "six",
-          "glyf_hash": "a6d28da64c2d6aa8",
+          "glyf_hash": "0cdab7c6e802cd7f",
           "advance_width": 1300,
           "lsb": 95
         },
         {
           "codepoint": 55,
           "name": "seven",
-          "glyf_hash": "41655547cb2d6445",
+          "glyf_hash": "a7dad28bbb5db7cd",
           "advance_width": 1300,
           "lsb": 140
         },
         {
           "codepoint": 56,
           "name": "eight",
-          "glyf_hash": "493074daa4d31a79",
+          "glyf_hash": "ce0ca95f5809c079",
           "advance_width": 1300,
           "lsb": 82
         },
         {
           "codepoint": 57,
           "name": "nine",
-          "glyf_hash": "69c87545d1ae3425",
+          "glyf_hash": "55de7bcc2c65eee7",
           "advance_width": 1300,
           "lsb": 100
         },
@@ -256,182 +256,182 @@
         {
           "codepoint": 65,
           "name": "A",
-          "glyf_hash": "aa2a4b1bbf9ed541",
+          "glyf_hash": "97aaf9849d46d317",
           "advance_width": 1300,
           "lsb": 50
         },
         {
           "codepoint": 66,
           "name": "B",
-          "glyf_hash": "dd30ce46cb055777",
+          "glyf_hash": "aad06f9e6911a755",
           "advance_width": 1300,
           "lsb": 89
         },
         {
           "codepoint": 67,
           "name": "C",
-          "glyf_hash": "470d2c5ce3e5e1c9",
+          "glyf_hash": "cd3b68a34ea7f101",
           "advance_width": 1300,
           "lsb": 100
         },
         {
           "codepoint": 68,
           "name": "D",
-          "glyf_hash": "b8adf6cd89098865",
+          "glyf_hash": "a75aa2f270219de3",
           "advance_width": 1300,
           "lsb": 66
         },
         {
           "codepoint": 69,
           "name": "E",
-          "glyf_hash": "2028dd7d8fadfd79",
+          "glyf_hash": "3339914a5258e26d",
           "advance_width": 1300,
           "lsb": 132
         },
         {
           "codepoint": 70,
           "name": "F",
-          "glyf_hash": "c54d9c93278b8077",
+          "glyf_hash": "b3ae887db396754e",
           "advance_width": 1300,
           "lsb": 165
         },
         {
           "codepoint": 71,
           "name": "G",
-          "glyf_hash": "df61df936fbf5fb3",
+          "glyf_hash": "488ed5d6d3675d1a",
           "advance_width": 1300,
           "lsb": 44
         },
         {
           "codepoint": 72,
           "name": "H",
-          "glyf_hash": "962ba9f5f8f8b9d4",
+          "glyf_hash": "72143b287d288ce9",
           "advance_width": 1300,
           "lsb": 48
         },
         {
           "codepoint": 73,
           "name": "I",
-          "glyf_hash": "5cba0bd54605691e",
+          "glyf_hash": "575fd3af6b2cd35c",
           "advance_width": 1300,
           "lsb": 148
         },
         {
           "codepoint": 74,
           "name": "J",
-          "glyf_hash": "959385616ea9f708",
+          "glyf_hash": "4df7e66526cc8425",
           "advance_width": 1300,
           "lsb": 146
         },
         {
           "codepoint": 75,
           "name": "K",
-          "glyf_hash": "f550714aef5fbd5c",
+          "glyf_hash": "b4e27c87727b7bbb",
           "advance_width": 1300,
           "lsb": 89
         },
         {
           "codepoint": 76,
           "name": "L",
-          "glyf_hash": "bec90f46c66806fe",
+          "glyf_hash": "88a4f5d6b73de88c",
           "advance_width": 1300,
           "lsb": 89
         },
         {
           "codepoint": 77,
           "name": "M",
-          "glyf_hash": "84185ae708bbbf1d",
+          "glyf_hash": "3c4e7b52e9c3c6f6",
           "advance_width": 1300,
           "lsb": 69
         },
         {
           "codepoint": 78,
           "name": "N",
-          "glyf_hash": "a45b5ec40c5da508",
+          "glyf_hash": "cd85aa17c679a19e",
           "advance_width": 1300,
           "lsb": 96
         },
         {
           "codepoint": 79,
           "name": "O",
-          "glyf_hash": "2365b24f44ad5e7a",
+          "glyf_hash": "950f6dcdbe3f3e1a",
           "advance_width": 1300,
           "lsb": 50
         },
         {
           "codepoint": 80,
           "name": "P",
-          "glyf_hash": "7b89a0f8d532818a",
+          "glyf_hash": "dec957b443a6521a",
           "advance_width": 1300,
           "lsb": 124
         },
         {
           "codepoint": 81,
           "name": "Q",
-          "glyf_hash": "bad5e851d2d8f38e",
+          "glyf_hash": "fe72fa67dd5c0c29",
           "advance_width": 1300,
           "lsb": 51
         },
         {
           "codepoint": 82,
           "name": "R",
-          "glyf_hash": "68f8f35ca38936ff",
+          "glyf_hash": "55b80f637b9c3003",
           "advance_width": 1300,
           "lsb": 86
         },
         {
           "codepoint": 83,
           "name": "S",
-          "glyf_hash": "8abad2aeb19e45e0",
+          "glyf_hash": "54fa893135af317e",
           "advance_width": 1300,
           "lsb": 150
         },
         {
           "codepoint": 84,
           "name": "T",
-          "glyf_hash": "b8144f61abe7ef77",
+          "glyf_hash": "f485ab9012d82426",
           "advance_width": 1300,
           "lsb": 66
         },
         {
           "codepoint": 85,
           "name": "U",
-          "glyf_hash": "a98f85bfbe27f5e6",
+          "glyf_hash": "15d373de0006da7d",
           "advance_width": 1300,
           "lsb": 92
         },
         {
           "codepoint": 86,
           "name": "V",
-          "glyf_hash": "aac147fb54a90e8f",
+          "glyf_hash": "4facb6d33a9e23b1",
           "advance_width": 1300,
           "lsb": 15
         },
         {
           "codepoint": 87,
           "name": "W",
-          "glyf_hash": "79646048f572cc39",
+          "glyf_hash": "442036be9ffb8d09",
           "advance_width": 1300,
           "lsb": 21
         },
         {
           "codepoint": 88,
           "name": "X",
-          "glyf_hash": "98ceabb8cf44838c",
+          "glyf_hash": "bb7cdc2bed1e3208",
           "advance_width": 1300,
           "lsb": 16
         },
         {
           "codepoint": 89,
           "name": "Y",
-          "glyf_hash": "0434f7b67718c9fb",
+          "glyf_hash": "54372d561a03be60",
           "advance_width": 1300,
           "lsb": 40
         },
         {
           "codepoint": 90,
           "name": "Z",
-          "glyf_hash": "2bb0ab068ba18fb1",
+          "glyf_hash": "da1a60783cb55185",
           "advance_width": 1300,
           "lsb": 110
         },
@@ -480,182 +480,182 @@
         {
           "codepoint": 97,
           "name": "a",
-          "glyf_hash": "f430f1ada1a142db",
+          "glyf_hash": "4ba573d00cd17314",
           "advance_width": 1300,
           "lsb": 106
         },
         {
           "codepoint": 98,
           "name": "b",
-          "glyf_hash": "b06324bca5f2d709",
+          "glyf_hash": "fa758297b1e45f8a",
           "advance_width": 1300,
           "lsb": 151
         },
         {
           "codepoint": 99,
           "name": "c",
-          "glyf_hash": "55de0aa399ce69dc",
+          "glyf_hash": "f89d0e54d16d9e6c",
           "advance_width": 1300,
           "lsb": 106
         },
         {
           "codepoint": 100,
           "name": "d",
-          "glyf_hash": "4f04f93fb761f78c",
+          "glyf_hash": "915ff0f0fe4dda06",
           "advance_width": 1300,
           "lsb": 148
         },
         {
           "codepoint": 101,
           "name": "e",
-          "glyf_hash": "0234079bda177c82",
+          "glyf_hash": "a50f9b84d845c089",
           "advance_width": 1300,
           "lsb": 100
         },
         {
           "codepoint": 102,
           "name": "f",
-          "glyf_hash": "999a6a0f33a023c3",
+          "glyf_hash": "de02135f44ae288e",
           "advance_width": 1300,
           "lsb": 100
         },
         {
           "codepoint": 103,
           "name": "g",
-          "glyf_hash": "4ea583d13a2a9883",
+          "glyf_hash": "85347ff1c41ecf1f",
           "advance_width": 1300,
           "lsb": 125
         },
         {
           "codepoint": 104,
           "name": "h",
-          "glyf_hash": "e719c12c78364f9a",
+          "glyf_hash": "3220ad8be51f70c4",
           "advance_width": 1300,
           "lsb": 122
         },
         {
           "codepoint": 105,
           "name": "i",
-          "glyf_hash": "569bd39cb0520e17",
+          "glyf_hash": "4dd473d84e9576b8",
           "advance_width": 1300,
           "lsb": 161
         },
         {
           "codepoint": 106,
           "name": "j",
-          "glyf_hash": "9e25d19002e4b758",
+          "glyf_hash": "cfff8ced4f1e8c22",
           "advance_width": 1300,
           "lsb": 185
         },
         {
           "codepoint": 107,
           "name": "k",
-          "glyf_hash": "966ce5767ebdf00d",
+          "glyf_hash": "6bc86e38cfa198b3",
           "advance_width": 1300,
           "lsb": 165
         },
         {
           "codepoint": 108,
           "name": "l",
-          "glyf_hash": "6fb019c4e42048b1",
+          "glyf_hash": "48719b8066a6d9cb",
           "advance_width": 1300,
           "lsb": 120
         },
         {
           "codepoint": 109,
           "name": "m",
-          "glyf_hash": "0e19fd215bfa50b6",
+          "glyf_hash": "677683bf7afd504d",
           "advance_width": 1300,
           "lsb": 50
         },
         {
           "codepoint": 110,
           "name": "n",
-          "glyf_hash": "5195d3ca56ef890f",
+          "glyf_hash": "93e943ec0c6a97ca",
           "advance_width": 1300,
           "lsb": 144
         },
         {
           "codepoint": 111,
           "name": "o",
-          "glyf_hash": "261039b68131bb5c",
+          "glyf_hash": "d71d2b7e54f8fc70",
           "advance_width": 1300,
           "lsb": 81
         },
         {
           "codepoint": 112,
           "name": "p",
-          "glyf_hash": "d4d34dae1128b413",
+          "glyf_hash": "e0c38f8aa644c8d7",
           "advance_width": 1300,
           "lsb": 150
         },
         {
           "codepoint": 113,
           "name": "q",
-          "glyf_hash": "014ae6e6fdd369d9",
+          "glyf_hash": "732f4464d08d7b6a",
           "advance_width": 1300,
           "lsb": 117
         },
         {
           "codepoint": 114,
           "name": "r",
-          "glyf_hash": "2fba5ae98b51bbe1",
+          "glyf_hash": "3aa5e680fbb6dd0e",
           "advance_width": 1300,
           "lsb": 145
         },
         {
           "codepoint": 115,
           "name": "s",
-          "glyf_hash": "faf262e9e862c33d",
+          "glyf_hash": "367cf215c19e3417",
           "advance_width": 1300,
           "lsb": 127
         },
         {
           "codepoint": 116,
           "name": "t",
-          "glyf_hash": "cceb1407bd047fdb",
+          "glyf_hash": "bfed616f6285342d",
           "advance_width": 1300,
           "lsb": 100
         },
         {
           "codepoint": 117,
           "name": "u",
-          "glyf_hash": "e6b30f788f364f80",
+          "glyf_hash": "c8d81c8ddec3eb9f",
           "advance_width": 1300,
           "lsb": 145
         },
         {
           "codepoint": 118,
           "name": "v",
-          "glyf_hash": "e903a1910934a85a",
+          "glyf_hash": "89a81c6dbf3a4489",
           "advance_width": 1300,
           "lsb": 133
         },
         {
           "codepoint": 119,
           "name": "w",
-          "glyf_hash": "9fcc72a7622f4451",
+          "glyf_hash": "f5395c543ce6e906",
           "advance_width": 1300,
           "lsb": 34
         },
         {
           "codepoint": 120,
           "name": "x",
-          "glyf_hash": "477744a93440ab72",
+          "glyf_hash": "cd8f31213d8bd619",
           "advance_width": 1300,
           "lsb": 57
         },
         {
           "codepoint": 121,
           "name": "y",
-          "glyf_hash": "91e61dce0c9ed54f",
+          "glyf_hash": "6cb51eb1e3822754",
           "advance_width": 1300,
           "lsb": 82
         },
         {
           "codepoint": 122,
           "name": "z",
-          "glyf_hash": "9e602385efbc4043",
+          "glyf_hash": "19dd3bb7ff204c1c",
           "advance_width": 1300,
           "lsb": 179
         },
@@ -914,161 +914,161 @@
         {
           "codepoint": 192,
           "name": "Agrave",
-          "glyf_hash": "6c9258d94b17be53",
+          "glyf_hash": "b5f8da03bd711cd1",
           "advance_width": 1300,
           "lsb": 50
         },
         {
           "codepoint": 193,
           "name": "Aacute",
-          "glyf_hash": "a8ca7a6fa74b92bd",
+          "glyf_hash": "3a3adc58e9548929",
           "advance_width": 1300,
           "lsb": 50
         },
         {
           "codepoint": 194,
           "name": "Acircumflex",
-          "glyf_hash": "be40a0d099d18da0",
+          "glyf_hash": "26ff394423b7bb2e",
           "advance_width": 1300,
           "lsb": 50
         },
         {
           "codepoint": 195,
           "name": "Atilde",
-          "glyf_hash": "a6eb930da67294cf",
+          "glyf_hash": "39c6943f0895f760",
           "advance_width": 1300,
           "lsb": 50
         },
         {
           "codepoint": 196,
           "name": "Adieresis",
-          "glyf_hash": "6369595034d0b2c2",
+          "glyf_hash": "be1ec2d8dc84893c",
           "advance_width": 1300,
           "lsb": 50
         },
         {
           "codepoint": 197,
           "name": "Aring",
-          "glyf_hash": "8556c3f7629bb7f5",
+          "glyf_hash": "a0deecc619ff932d",
           "advance_width": 1300,
           "lsb": 50
         },
         {
           "codepoint": 198,
           "name": "AE",
-          "glyf_hash": "bccd3b3c0f270e2c",
+          "glyf_hash": "8440b0587da5536b",
           "advance_width": 1300,
           "lsb": 0
         },
         {
           "codepoint": 199,
           "name": "Ccedilla",
-          "glyf_hash": "5ededf2f670584af",
+          "glyf_hash": "1ab943435be5d4ea",
           "advance_width": 1300,
           "lsb": 90
         },
         {
           "codepoint": 200,
           "name": "Egrave",
-          "glyf_hash": "9369e573ca9ac0f9",
+          "glyf_hash": "149defba4c8b9764",
           "advance_width": 1300,
           "lsb": 132
         },
         {
           "codepoint": 201,
           "name": "Eacute",
-          "glyf_hash": "00b5b08d72945b4b",
+          "glyf_hash": "5c48d79808b7ec5a",
           "advance_width": 1300,
           "lsb": 132
         },
         {
           "codepoint": 202,
           "name": "Ecircumflex",
-          "glyf_hash": "b9e28854fb719478",
+          "glyf_hash": "b9153bd9aff62503",
           "advance_width": 1300,
           "lsb": 132
         },
         {
           "codepoint": 203,
           "name": "Edieresis",
-          "glyf_hash": "0599d728aa47e343",
+          "glyf_hash": "92dcb003957ddb33",
           "advance_width": 1300,
           "lsb": 132
         },
         {
           "codepoint": 204,
           "name": "Igrave",
-          "glyf_hash": "b481b2edf5aad382",
+          "glyf_hash": "ab113313507bf9e3",
           "advance_width": 1300,
           "lsb": 154
         },
         {
           "codepoint": 205,
           "name": "Iacute",
-          "glyf_hash": "2487d80bb5b6c1a6",
+          "glyf_hash": "99f4e4490594533c",
           "advance_width": 1300,
           "lsb": 154
         },
         {
           "codepoint": 206,
           "name": "Icircumflex",
-          "glyf_hash": "5b537ba236a2d7b9",
+          "glyf_hash": "c3ed84409849db27",
           "advance_width": 1300,
           "lsb": 154
         },
         {
           "codepoint": 207,
           "name": "Idieresis",
-          "glyf_hash": "bb35e8c68e950d1d",
+          "glyf_hash": "7be8f882b1a044ef",
           "advance_width": 1300,
           "lsb": 154
         },
         {
           "codepoint": 208,
           "name": "Eth",
-          "glyf_hash": "2b4b26ff8b373fc8",
+          "glyf_hash": "17e603a43baac2d7",
           "advance_width": 1300,
           "lsb": 0
         },
         {
           "codepoint": 209,
           "name": "Ntilde",
-          "glyf_hash": "baa1a9959c181cad",
+          "glyf_hash": "78e28d3a271746ea",
           "advance_width": 1300,
           "lsb": 96
         },
         {
           "codepoint": 210,
           "name": "Ograve",
-          "glyf_hash": "ff8da455d48eff5b",
+          "glyf_hash": "e6454616ce4cd359",
           "advance_width": 1300,
           "lsb": 24
         },
         {
           "codepoint": 211,
           "name": "Oacute",
-          "glyf_hash": "f47d5b387535a0bd",
+          "glyf_hash": "ad1200fc11a70e51",
           "advance_width": 1300,
           "lsb": 24
         },
         {
           "codepoint": 212,
           "name": "Ocircumflex",
-          "glyf_hash": "4f6a9b31286c98eb",
+          "glyf_hash": "07cf9d0c781bab7e",
           "advance_width": 1300,
           "lsb": 23
         },
         {
           "codepoint": 213,
           "name": "Otilde",
-          "glyf_hash": "e49e22923e6e451c",
+          "glyf_hash": "193d8bd691720846",
           "advance_width": 1300,
           "lsb": 24
         },
         {
           "codepoint": 214,
           "name": "Odieresis",
-          "glyf_hash": "84459ff2c7969814",
+          "glyf_hash": "d25a40d84bc23ea7",
           "advance_width": 1300,
           "lsb": 24
         },
@@ -1082,217 +1082,217 @@
         {
           "codepoint": 216,
           "name": "Oslash",
-          "glyf_hash": "b4de9795a3d67d26",
+          "glyf_hash": "0577a91efb5daa1e",
           "advance_width": 1300,
           "lsb": 50
         },
         {
           "codepoint": 217,
           "name": "Ugrave",
-          "glyf_hash": "b9b725777d46f2ad",
+          "glyf_hash": "509be0b7a57e03f7",
           "advance_width": 1300,
           "lsb": 92
         },
         {
           "codepoint": 218,
           "name": "Uacute",
-          "glyf_hash": "933110b212cb1bfe",
+          "glyf_hash": "82ac6c10d7a7f519",
           "advance_width": 1300,
           "lsb": 92
         },
         {
           "codepoint": 219,
           "name": "Ucircumflex",
-          "glyf_hash": "e1295f7be1f8d78c",
+          "glyf_hash": "38cf81d53d5a8051",
           "advance_width": 1300,
           "lsb": 92
         },
         {
           "codepoint": 220,
           "name": "Udieresis",
-          "glyf_hash": "5eb7617b18db21bd",
+          "glyf_hash": "922392cd6b982ed4",
           "advance_width": 1300,
           "lsb": 92
         },
         {
           "codepoint": 221,
           "name": "Yacute",
-          "glyf_hash": "7a6e3ac240b76964",
+          "glyf_hash": "03001efdac6d45f8",
           "advance_width": 1300,
           "lsb": 9
         },
         {
           "codepoint": 222,
           "name": "Thorn",
-          "glyf_hash": "f98cbbabfdc56e76",
+          "glyf_hash": "2017110265e90400",
           "advance_width": 1300,
           "lsb": 137
         },
         {
           "codepoint": 223,
           "name": "germandbls",
-          "glyf_hash": "39ffc1adbc40ac28",
+          "glyf_hash": "6788d83570a18645",
           "advance_width": 1300,
           "lsb": 127
         },
         {
           "codepoint": 224,
           "name": "agrave",
-          "glyf_hash": "d1ead9faabb7fea4",
+          "glyf_hash": "6829c8840d5de87a",
           "advance_width": 1300,
           "lsb": 106
         },
         {
           "codepoint": 225,
           "name": "aacute",
-          "glyf_hash": "2d1e938e8f957398",
+          "glyf_hash": "b01218cf74537f3a",
           "advance_width": 1300,
           "lsb": 106
         },
         {
           "codepoint": 226,
           "name": "acircumflex",
-          "glyf_hash": "3f9959a0ed6f203f",
+          "glyf_hash": "533608d73ad3666e",
           "advance_width": 1300,
           "lsb": 106
         },
         {
           "codepoint": 227,
           "name": "atilde",
-          "glyf_hash": "ab279d1afae2d630",
+          "glyf_hash": "e39504e1c4abe5a1",
           "advance_width": 1300,
           "lsb": 106
         },
         {
           "codepoint": 228,
           "name": "adieresis",
-          "glyf_hash": "ddedbb052cb2a07b",
+          "glyf_hash": "cd6f8da32c0fb93d",
           "advance_width": 1300,
           "lsb": 106
         },
         {
           "codepoint": 229,
           "name": "aring",
-          "glyf_hash": "a6938686a37f1e23",
+          "glyf_hash": "70f41a6d215add98",
           "advance_width": 1300,
           "lsb": 106
         },
         {
           "codepoint": 230,
           "name": "ae",
-          "glyf_hash": "179333a6128c8ea2",
+          "glyf_hash": "9f98fca9728452ef",
           "advance_width": 1300,
           "lsb": 19
         },
         {
           "codepoint": 231,
           "name": "ccedilla",
-          "glyf_hash": "4f282b54c8f05942",
+          "glyf_hash": "2c95331dbea734a1",
           "advance_width": 1300,
           "lsb": 105
         },
         {
           "codepoint": 232,
           "name": "egrave",
-          "glyf_hash": "f8bb64c817c3548d",
+          "glyf_hash": "13d58b3963ddc688",
           "advance_width": 1300,
           "lsb": 100
         },
         {
           "codepoint": 233,
           "name": "eacute",
-          "glyf_hash": "516dd535ad8f273d",
+          "glyf_hash": "250a424353eabd1b",
           "advance_width": 1300,
           "lsb": 100
         },
         {
           "codepoint": 234,
           "name": "ecircumflex",
-          "glyf_hash": "c0999febd02f5ded",
+          "glyf_hash": "9721883f33005f7d",
           "advance_width": 1300,
           "lsb": 100
         },
         {
           "codepoint": 235,
           "name": "edieresis",
-          "glyf_hash": "50a88a270821e2a2",
+          "glyf_hash": "ac5d370278ea0b14",
           "advance_width": 1300,
           "lsb": 100
         },
         {
           "codepoint": 236,
           "name": "igrave",
-          "glyf_hash": "c1182a67b0f2b415",
+          "glyf_hash": "7a143b76d3a0ec4b",
           "advance_width": 1300,
           "lsb": 161
         },
         {
           "codepoint": 237,
           "name": "iacute",
-          "glyf_hash": "90d2d124920786a7",
+          "glyf_hash": "ab98698ee1ccd2c0",
           "advance_width": 1300,
           "lsb": 161
         },
         {
           "codepoint": 238,
           "name": "icircumflex",
-          "glyf_hash": "60ed1914215c81c7",
+          "glyf_hash": "37027dc3b64897e1",
           "advance_width": 1300,
           "lsb": 161
         },
         {
           "codepoint": 239,
           "name": "idieresis",
-          "glyf_hash": "0c294316e9d9d5a1",
+          "glyf_hash": "94ba2c87bd3f61e4",
           "advance_width": 1300,
           "lsb": 161
         },
         {
           "codepoint": 240,
           "name": "eth",
-          "glyf_hash": "087f27eba9df218b",
+          "glyf_hash": "f1b950f1e4a1d473",
           "advance_width": 1300,
           "lsb": 140
         },
         {
           "codepoint": 241,
           "name": "ntilde",
-          "glyf_hash": "1a00849cd471a5f7",
+          "glyf_hash": "5944e1e97afe8465",
           "advance_width": 1300,
           "lsb": 143
         },
         {
           "codepoint": 242,
           "name": "ograve",
-          "glyf_hash": "8a697a69ce1c737a",
+          "glyf_hash": "70d3a8eed905b3dd",
           "advance_width": 1300,
           "lsb": 81
         },
         {
           "codepoint": 243,
           "name": "oacute",
-          "glyf_hash": "7c3ccbfdbfc2d193",
+          "glyf_hash": "098dacb9abb6cadb",
           "advance_width": 1300,
           "lsb": 81
         },
         {
           "codepoint": 244,
           "name": "ocircumflex",
-          "glyf_hash": "25deaa2651d24d5e",
+          "glyf_hash": "fdb91105c84e2158",
           "advance_width": 1300,
           "lsb": 81
         },
         {
           "codepoint": 245,
           "name": "otilde",
-          "glyf_hash": "30cc9652a5e37e20",
+          "glyf_hash": "73a1d5e1ee0f46e7",
           "advance_width": 1300,
           "lsb": 81
         },
         {
           "codepoint": 246,
           "name": "odieresis",
-          "glyf_hash": "8a94c8f116febf85",
+          "glyf_hash": "18bc520a64493322",
           "advance_width": 1300,
           "lsb": 81
         },
@@ -1306,56 +1306,56 @@
         {
           "codepoint": 248,
           "name": "oslash",
-          "glyf_hash": "4a50703a323d39ce",
+          "glyf_hash": "3f61ea6ad0473af1",
           "advance_width": 1300,
           "lsb": 36
         },
         {
           "codepoint": 249,
           "name": "ugrave",
-          "glyf_hash": "281f0b8b6012a96a",
+          "glyf_hash": "85bfb2675a3eb870",
           "advance_width": 1300,
           "lsb": 144
         },
         {
           "codepoint": 250,
           "name": "uacute",
-          "glyf_hash": "ebac4d2651eee8b4",
+          "glyf_hash": "023c035f099414fc",
           "advance_width": 1300,
           "lsb": 144
         },
         {
           "codepoint": 251,
           "name": "ucircumflex",
-          "glyf_hash": "22b2455d4ae2b0b7",
+          "glyf_hash": "a162afffbb56e4d9",
           "advance_width": 1300,
           "lsb": 144
         },
         {
           "codepoint": 252,
           "name": "udieresis",
-          "glyf_hash": "d902509dc00ce823",
+          "glyf_hash": "66f472f9151415b3",
           "advance_width": 1300,
           "lsb": 144
         },
         {
           "codepoint": 253,
           "name": "yacute",
-          "glyf_hash": "ab33750f5665c72e",
+          "glyf_hash": "a562c43b3ac6068c",
           "advance_width": 1300,
           "lsb": 91
         },
         {
           "codepoint": 254,
           "name": "thorn",
-          "glyf_hash": "721286a67133541c",
+          "glyf_hash": "bef33d0228c7e94a",
           "advance_width": 1300,
           "lsb": 130
         },
         {
           "codepoint": 255,
           "name": "ydieresis",
-          "glyf_hash": "207652dcd7a7b0b2",
+          "glyf_hash": "7776f1a710108322",
           "advance_width": 1300,
           "lsb": 91
         },
@@ -1936,14 +1936,14 @@
         {
           "codepoint": 338,
           "name": "OE",
-          "glyf_hash": "b11dad69b972a58f",
+          "glyf_hash": "4c89ee44e72b9825",
           "advance_width": 1300,
           "lsb": -31
         },
         {
           "codepoint": 339,
           "name": "oe",
-          "glyf_hash": "9ae2a8b623204e19",
+          "glyf_hash": "a45ec36efd70abcb",
           "advance_width": 1300,
           "lsb": 2
         },
@@ -2034,14 +2034,14 @@
         {
           "codepoint": 352,
           "name": "Scaron",
-          "glyf_hash": "3b0cac511ee7030e",
+          "glyf_hash": "288f03982ac170cc",
           "advance_width": 1300,
           "lsb": 152
         },
         {
           "codepoint": 353,
           "name": "scaron",
-          "glyf_hash": "22e0e836ea8ce0f5",
+          "glyf_hash": "c6532fdfe971b55e",
           "advance_width": 1300,
           "lsb": 145
         },
@@ -2202,7 +2202,7 @@
         {
           "codepoint": 376,
           "name": "Ydieresis",
-          "glyf_hash": "938ca7c8ff70731b",
+          "glyf_hash": "bf5f75d3733c0adc",
           "advance_width": 1300,
           "lsb": 43
         },
@@ -2258,7 +2258,7 @@
         {
           "codepoint": 402,
           "name": "florin",
-          "glyf_hash": "eee417e452de1b6e",
+          "glyf_hash": "dd9011b798d31a8b",
           "advance_width": 1300,
           "lsb": 34
         },
@@ -3056,105 +3056,105 @@
         {
           "codepoint": 913,
           "name": "Alpha",
-          "glyf_hash": "aa2a4b1bbf9ed541",
+          "glyf_hash": "97aaf9849d46d317",
           "advance_width": 1300,
           "lsb": 50
         },
         {
           "codepoint": 914,
           "name": "Beta",
-          "glyf_hash": "dd30ce46cb055777",
+          "glyf_hash": "aad06f9e6911a755",
           "advance_width": 1300,
           "lsb": 89
         },
         {
           "codepoint": 915,
           "name": "Gamma",
-          "glyf_hash": "467232fee1714108",
+          "glyf_hash": "4caae72a9bcb7606",
           "advance_width": 1300,
           "lsb": 160
         },
         {
           "codepoint": 916,
-          "name": "uni0394",
-          "glyf_hash": "495ee2abb40c3564",
+          "name": "Deltagreek",
+          "glyf_hash": "0f1ecd931d2ad72a",
           "advance_width": 1300,
           "lsb": 5
         },
         {
           "codepoint": 917,
           "name": "Epsilon",
-          "glyf_hash": "2028dd7d8fadfd79",
+          "glyf_hash": "3339914a5258e26d",
           "advance_width": 1300,
           "lsb": 132
         },
         {
           "codepoint": 918,
           "name": "Zeta",
-          "glyf_hash": "a4152a13fdfcaa93",
+          "glyf_hash": "835652c40a991a5d",
           "advance_width": 1300,
           "lsb": 70
         },
         {
           "codepoint": 919,
           "name": "Eta",
-          "glyf_hash": "bfc8d386a7342b69",
+          "glyf_hash": "214952fdd4daa2e3",
           "advance_width": 1300,
           "lsb": -23
         },
         {
           "codepoint": 920,
           "name": "Theta",
-          "glyf_hash": "2b48824d70a47156",
+          "glyf_hash": "4469f6b8e314cf3b",
           "advance_width": 1200,
           "lsb": 24
         },
         {
           "codepoint": 921,
           "name": "Iota",
-          "glyf_hash": "3a13f24bb9c25c7e",
+          "glyf_hash": "acee24dfa71e8ded",
           "advance_width": 1300,
           "lsb": 154
         },
         {
           "codepoint": 922,
           "name": "Kappa",
-          "glyf_hash": "2fb1e9e7387f9559",
+          "glyf_hash": "8c7d901d8157dec9",
           "advance_width": 1300,
           "lsb": 88
         },
         {
           "codepoint": 923,
           "name": "Lambda",
-          "glyf_hash": "29e2647df9c9245d",
+          "glyf_hash": "53678554bf229143",
           "advance_width": 1300,
           "lsb": 32
         },
         {
           "codepoint": 924,
           "name": "Mu",
-          "glyf_hash": "84185ae708bbbf1d",
+          "glyf_hash": "3c4e7b52e9c3c6f6",
           "advance_width": 1300,
           "lsb": 69
         },
         {
           "codepoint": 925,
           "name": "Nu",
-          "glyf_hash": "a45b5ec40c5da508",
+          "glyf_hash": "cd85aa17c679a19e",
           "advance_width": 1300,
           "lsb": 96
         },
         {
           "codepoint": 926,
           "name": "Xi",
-          "glyf_hash": "7262909bacda514c",
+          "glyf_hash": "ec526354b5bf5147",
           "advance_width": 1300,
           "lsb": 70
         },
         {
           "codepoint": 927,
           "name": "Omicron",
-          "glyf_hash": "a46501a07a6d9904",
+          "glyf_hash": "5f734084f1e86619",
           "advance_width": 1300,
           "lsb": 224
         },
@@ -3168,56 +3168,56 @@
         {
           "codepoint": 929,
           "name": "Rho",
-          "glyf_hash": "7b89a0f8d532818a",
+          "glyf_hash": "dec957b443a6521a",
           "advance_width": 1300,
           "lsb": 124
         },
         {
           "codepoint": 931,
           "name": "Sigma",
-          "glyf_hash": "11f21084c360a04b",
+          "glyf_hash": "62e3a083d1bb8356",
           "advance_width": 1300,
           "lsb": 75
         },
         {
           "codepoint": 932,
           "name": "Tau",
-          "glyf_hash": "b8144f61abe7ef77",
+          "glyf_hash": "f485ab9012d82426",
           "advance_width": 1300,
           "lsb": 66
         },
         {
           "codepoint": 933,
           "name": "Upsilon",
-          "glyf_hash": "7c4cbfa3eb590ab8",
+          "glyf_hash": "f549c86b92e4425a",
           "advance_width": 1300,
           "lsb": 69
         },
         {
           "codepoint": 934,
           "name": "Phi",
-          "glyf_hash": "c3b7dc4b050ee084",
+          "glyf_hash": "3e428b01c4434f25",
           "advance_width": 1300,
           "lsb": 22
         },
         {
           "codepoint": 935,
           "name": "Chi",
-          "glyf_hash": "3f6e2eaf7e547e7e",
+          "glyf_hash": "790fda03049e19ec",
           "advance_width": 1300,
           "lsb": 17
         },
         {
           "codepoint": 936,
           "name": "Psi",
-          "glyf_hash": "72f2bf8f91046096",
+          "glyf_hash": "bdcd60a3e798bc4b",
           "advance_width": 1300,
           "lsb": 49
         },
         {
           "codepoint": 937,
-          "name": "uni03A9",
-          "glyf_hash": "468b4109172cef26",
+          "name": "Omegagreek",
+          "glyf_hash": "43e0609f7018d969",
           "advance_width": 1300,
           "lsb": 35
         },
@@ -3273,112 +3273,112 @@
         {
           "codepoint": 945,
           "name": "alpha",
-          "glyf_hash": "02353fd857b1ae25",
+          "glyf_hash": "4ad8fdf333f79a24",
           "advance_width": 1300,
           "lsb": 100
         },
         {
           "codepoint": 946,
           "name": "beta",
-          "glyf_hash": "7a66c0b584220cda",
+          "glyf_hash": "758900a4269c9928",
           "advance_width": 1300,
           "lsb": 134
         },
         {
           "codepoint": 947,
           "name": "gamma",
-          "glyf_hash": "816a3e513509940d",
+          "glyf_hash": "816c543999548181",
           "advance_width": 1300,
           "lsb": 80
         },
         {
           "codepoint": 948,
           "name": "delta",
-          "glyf_hash": "22b00e9bc7090507",
+          "glyf_hash": "53859e5c79c5a7fd",
           "advance_width": 1300,
           "lsb": 108
         },
         {
           "codepoint": 949,
           "name": "epsilon",
-          "glyf_hash": "86d75baf03a79e8e",
+          "glyf_hash": "d20e02da2328f8c2",
           "advance_width": 1300,
           "lsb": 236
         },
         {
           "codepoint": 950,
           "name": "zeta",
-          "glyf_hash": "00809687ae8c5864",
+          "glyf_hash": "cb912c146ea36a22",
           "advance_width": 1300,
           "lsb": 190
         },
         {
           "codepoint": 951,
           "name": "eta",
-          "glyf_hash": "6a34cf7a3ddc7fa8",
+          "glyf_hash": "cc243b9a459ea2b4",
           "advance_width": 1300,
           "lsb": 152
         },
         {
           "codepoint": 952,
           "name": "theta",
-          "glyf_hash": "bfae191aafcd98cd",
+          "glyf_hash": "8630cdd9cfeaecc8",
           "advance_width": 1300,
           "lsb": 59
         },
         {
           "codepoint": 953,
           "name": "iota",
-          "glyf_hash": "606e60621b552b3b",
+          "glyf_hash": "cbbab042f4fff19f",
           "advance_width": 1300,
           "lsb": 412
         },
         {
           "codepoint": 954,
           "name": "kappa",
-          "glyf_hash": "98098128ca4166ea",
+          "glyf_hash": "dbbb3c66fb1bbf18",
           "advance_width": 1300,
           "lsb": 210
         },
         {
           "codepoint": 955,
           "name": "lambda",
-          "glyf_hash": "3ab24de64a0b672f",
+          "glyf_hash": "ca713b06a8516ddb",
           "advance_width": 1300,
           "lsb": 100
         },
         {
           "codepoint": 956,
           "name": "uni03BC",
-          "glyf_hash": "c21dd6626b476371",
+          "glyf_hash": "ab8a2065d7c46046",
           "advance_width": 1300,
           "lsb": 140
         },
         {
           "codepoint": 957,
           "name": "nu",
-          "glyf_hash": "d20fc2611f58c344",
+          "glyf_hash": "a1c1ade9e9b1cc3f",
           "advance_width": 1300,
           "lsb": 91
         },
         {
           "codepoint": 958,
           "name": "xi",
-          "glyf_hash": "d075420c171e282a",
+          "glyf_hash": "dda1912c1b98a4e4",
           "advance_width": 1300,
           "lsb": 180
         },
         {
           "codepoint": 959,
           "name": "omicron",
-          "glyf_hash": "b5901b93cf7f920f",
+          "glyf_hash": "5b9bba9b0723bcf6",
           "advance_width": 1300,
           "lsb": 109
         },
         {
           "codepoint": 960,
           "name": "pi",
-          "glyf_hash": "9e3f7169f8ac1a15",
+          "glyf_hash": "6fb6e7558d54a8e0",
           "advance_width": 1300,
           "lsb": 1
         },
@@ -3391,57 +3391,57 @@
         },
         {
           "codepoint": 962,
-          "name": "uni03C2",
-          "glyf_hash": "bf873b89aab0ac0d",
+          "name": "sigma1",
+          "glyf_hash": "55897cff7a6cbeeb",
           "advance_width": 1300,
           "lsb": 224
         },
         {
           "codepoint": 963,
           "name": "sigma",
-          "glyf_hash": "36008aa56c627d83",
+          "glyf_hash": "96843447cb8f5ab0",
           "advance_width": 1300,
           "lsb": 61
         },
         {
           "codepoint": 964,
           "name": "tau",
-          "glyf_hash": "26e95b186efc062a",
+          "glyf_hash": "1fd1a5db86f4350a",
           "advance_width": 1300,
           "lsb": 149
         },
         {
           "codepoint": 965,
           "name": "upsilon",
-          "glyf_hash": "69b961c2ab3e2a54",
+          "glyf_hash": "bca898793b7ef464",
           "advance_width": 1300,
           "lsb": 54
         },
         {
           "codepoint": 966,
           "name": "phi",
-          "glyf_hash": "8e800de9d40e3540",
+          "glyf_hash": "8975a6fa3c6ff4a6",
           "advance_width": 1300,
           "lsb": 17
         },
         {
           "codepoint": 967,
           "name": "chi",
-          "glyf_hash": "f03294571c24ce92",
+          "glyf_hash": "471c2845de1e1165",
           "advance_width": 1300,
           "lsb": 34
         },
         {
           "codepoint": 968,
           "name": "psi",
-          "glyf_hash": "98e763ffcc935143",
+          "glyf_hash": "201271d09aeb2bfe",
           "advance_width": 1300,
           "lsb": 52
         },
         {
           "codepoint": 969,
           "name": "omega",
-          "glyf_hash": "5432bf95ef6b6c3b",
+          "glyf_hash": "333dad52cf8fd679",
           "advance_width": 1300,
           "lsb": 23
         },
@@ -3482,29 +3482,29 @@
         },
         {
           "codepoint": 977,
-          "name": "uni03D1",
-          "glyf_hash": "d4689706e369b087",
+          "name": "theta1",
+          "glyf_hash": "72d9a654a83b01db",
           "advance_width": 1300,
           "lsb": 18
         },
         {
           "codepoint": 978,
-          "name": "uni03D2",
-          "glyf_hash": "c16baf48c49a2c5a",
+          "name": "Upsilon1",
+          "glyf_hash": "09962ffdcc1f94c1",
           "advance_width": 1300,
           "lsb": 68
         },
         {
           "codepoint": 981,
-          "name": "uni03D5",
-          "glyf_hash": "dd6355ab21abe0a5",
+          "name": "phi1",
+          "glyf_hash": "0e885c900efc674d",
           "advance_width": 1300,
           "lsb": 26
         },
         {
           "codepoint": 982,
-          "name": "uni03D6",
-          "glyf_hash": "17e4ea9d1b4e6524",
+          "name": "omega1",
+          "glyf_hash": "c0092032443edd6f",
           "advance_width": 1300,
           "lsb": 27
         },
@@ -84097,7 +84097,7 @@
     {
       "variant": "BoldItalic",
       "filename": "PlanetaireMono-BoldItalic.ttf",
-      "glyph_count": 12169,
+      "glyph_count": 12172,
       "upm": 2000,
       "weight": 700,
       "glyphs": [
@@ -84230,72 +84230,72 @@
         {
           "codepoint": 48,
           "name": "zero",
-          "glyf_hash": "2e09eb1463c25118",
+          "glyf_hash": "008938b3403742bf",
           "advance_width": 1300,
           "lsb": 71
         },
         {
           "codepoint": 49,
           "name": "one",
-          "glyf_hash": "0bed9659612022e7",
+          "glyf_hash": "dd320b4a9bde910c",
           "advance_width": 1300,
           "lsb": 217
         },
         {
           "codepoint": 50,
           "name": "two",
-          "glyf_hash": "8847335d4bb9f478",
+          "glyf_hash": "a4fcb5efade7a38e",
           "advance_width": 1300,
           "lsb": 49
         },
         {
           "codepoint": 51,
           "name": "three",
-          "glyf_hash": "f08f3f33bd2afdc1",
+          "glyf_hash": "b1bf910f9d74e825",
           "advance_width": 1300,
           "lsb": 82
         },
         {
           "codepoint": 52,
           "name": "four",
-          "glyf_hash": "a934c9ea50ade1e1",
+          "glyf_hash": "01ccc213a9acd3d3",
           "advance_width": 1300,
           "lsb": 96
         },
         {
           "codepoint": 53,
           "name": "five",
-          "glyf_hash": "c920f00a595c280f",
+          "glyf_hash": "9ba8d06ff338f0f3",
           "advance_width": 1300,
           "lsb": 85
         },
         {
           "codepoint": 54,
           "name": "six",
-          "glyf_hash": "1106995946e85892",
+          "glyf_hash": "1b8d62242d114fd6",
           "advance_width": 1300,
-          "lsb": 96
+          "lsb": 95
         },
         {
           "codepoint": 55,
           "name": "seven",
-          "glyf_hash": "dc524b3530797c17",
+          "glyf_hash": "2d47b7d5a141cf2a",
           "advance_width": 1300,
           "lsb": 114
         },
         {
           "codepoint": 56,
           "name": "eight",
-          "glyf_hash": "44ace6900d38b5ae",
+          "glyf_hash": "f9467a5524151fea",
           "advance_width": 1300,
-          "lsb": 78
+          "lsb": 66
         },
         {
           "codepoint": 57,
           "name": "nine",
-          "glyf_hash": "ecc555f80399d0b0",
+          "glyf_hash": "ba8522cadd6e5c54",
           "advance_width": 1300,
-          "lsb": 104
+          "lsb": 93
         },
         {
           "codepoint": 58,
@@ -84349,182 +84349,182 @@
         {
           "codepoint": 65,
           "name": "A",
-          "glyf_hash": "87624f33b8cbd65c",
+          "glyf_hash": "f13901ebfd9dedb4",
           "advance_width": 1300,
           "lsb": 35
         },
         {
           "codepoint": 66,
           "name": "B",
-          "glyf_hash": "0a0c4e25493d5298",
+          "glyf_hash": "6733893f2d3afd14",
           "advance_width": 1300,
           "lsb": 63
         },
         {
           "codepoint": 67,
           "name": "C",
-          "glyf_hash": "968dc520e24599b5",
+          "glyf_hash": "66e503b6c34c5ad1",
           "advance_width": 1300,
-          "lsb": 34
+          "lsb": 31
         },
         {
           "codepoint": 68,
           "name": "D",
-          "glyf_hash": "09f251edddba8928",
+          "glyf_hash": "76e9f5bf296d5d22",
           "advance_width": 1300,
           "lsb": 2
         },
         {
           "codepoint": 69,
           "name": "E",
-          "glyf_hash": "2df298ca09c38be3",
+          "glyf_hash": "b4bd37e4493e37af",
           "advance_width": 1300,
           "lsb": 39
         },
         {
           "codepoint": 70,
           "name": "F",
-          "glyf_hash": "b27978e02608f43a",
+          "glyf_hash": "e9a7658f50c6a842",
           "advance_width": 1300,
           "lsb": 32
         },
         {
           "codepoint": 71,
           "name": "G",
-          "glyf_hash": "5bd8beb18cbc6844",
+          "glyf_hash": "f7b71d99b5a2f636",
           "advance_width": 1300,
-          "lsb": 31
+          "lsb": 19
         },
         {
           "codepoint": 72,
           "name": "H",
-          "glyf_hash": "b9add9cdabbd2a8f",
+          "glyf_hash": "59e24d4501d2412f",
           "advance_width": 1300,
           "lsb": 10
         },
         {
           "codepoint": 73,
           "name": "I",
-          "glyf_hash": "b8c6acfdd129591e",
+          "glyf_hash": "54c6c831b87b4b09",
           "advance_width": 1300,
           "lsb": 75
         },
         {
           "codepoint": 74,
           "name": "J",
-          "glyf_hash": "f60991b6429229b9",
+          "glyf_hash": "85dc42b6ca1ec303",
           "advance_width": 1300,
           "lsb": 50
         },
         {
           "codepoint": 75,
           "name": "K",
-          "glyf_hash": "5591297ce7bc8c5f",
+          "glyf_hash": "b19e43268380d461",
           "advance_width": 1300,
           "lsb": 8
         },
         {
           "codepoint": 76,
           "name": "L",
-          "glyf_hash": "14dbceacdb16b6c0",
+          "glyf_hash": "0c7db41c86e4d70b",
           "advance_width": 1300,
           "lsb": 104
         },
         {
           "codepoint": 77,
           "name": "M",
-          "glyf_hash": "b05329ff5cb34bbc",
+          "glyf_hash": "3012cff137a9a399",
           "advance_width": 1300,
           "lsb": 5
         },
         {
           "codepoint": 78,
           "name": "N",
-          "glyf_hash": "422e9490d6997a10",
+          "glyf_hash": "73722c8d4f2d98eb",
           "advance_width": 1300,
           "lsb": 5
         },
         {
           "codepoint": 79,
           "name": "O",
-          "glyf_hash": "d554cdc3e2b6b313",
+          "glyf_hash": "42591093ef05ae82",
           "advance_width": 1300,
           "lsb": 32
         },
         {
           "codepoint": 80,
           "name": "P",
-          "glyf_hash": "946ff5d65a43f0d5",
+          "glyf_hash": "87b1e4231e7bf2c1",
           "advance_width": 1300,
           "lsb": 28
         },
         {
           "codepoint": 81,
           "name": "Q",
-          "glyf_hash": "07a0aaa627e55ea7",
+          "glyf_hash": "de958a795affd6b0",
           "advance_width": 1300,
-          "lsb": 31
+          "lsb": 30
         },
         {
           "codepoint": 82,
           "name": "R",
-          "glyf_hash": "11eb7cec6c5a21fe",
+          "glyf_hash": "aa7b3dd0a31e27b6",
           "advance_width": 1300,
           "lsb": 61
         },
         {
           "codepoint": 83,
           "name": "S",
-          "glyf_hash": "b86cc7b30c6bceee",
+          "glyf_hash": "28b25c9142c6b84d",
           "advance_width": 1300,
           "lsb": 39
         },
         {
           "codepoint": 84,
           "name": "T",
-          "glyf_hash": "8b6f1f2412677055",
+          "glyf_hash": "eb489d9bb2139052",
           "advance_width": 1300,
           "lsb": 68
         },
         {
           "codepoint": 85,
           "name": "U",
-          "glyf_hash": "105f172d07af23eb",
+          "glyf_hash": "4c5ce11cba02e7c1",
           "advance_width": 1300,
-          "lsb": 47
+          "lsb": 42
         },
         {
           "codepoint": 86,
           "name": "V",
-          "glyf_hash": "05471b0cf1c01837",
+          "glyf_hash": "2c0000ca15a9dfd7",
           "advance_width": 1300,
           "lsb": 17
         },
         {
           "codepoint": 87,
           "name": "W",
-          "glyf_hash": "5cf785e3ab26feed",
+          "glyf_hash": "f423092fffc4e6d8",
           "advance_width": 1300,
           "lsb": 30
         },
         {
           "codepoint": 88,
           "name": "X",
-          "glyf_hash": "29323153817362c6",
+          "glyf_hash": "b6ac4e178f9cd068",
           "advance_width": 1300,
           "lsb": 30
         },
         {
           "codepoint": 89,
           "name": "Y",
-          "glyf_hash": "e81a64b71fabc177",
+          "glyf_hash": "5711669a95355016",
           "advance_width": 1300,
           "lsb": 50
         },
         {
           "codepoint": 90,
           "name": "Z",
-          "glyf_hash": "bde22b8577d302a8",
+          "glyf_hash": "a69222473ef02849",
           "advance_width": 1300,
           "lsb": 30
         },
@@ -84573,182 +84573,182 @@
         {
           "codepoint": 97,
           "name": "a",
-          "glyf_hash": "e15768e48459ab03",
+          "glyf_hash": "40b3f54fa1d15038",
           "advance_width": 1300,
           "lsb": 139
         },
         {
           "codepoint": 98,
           "name": "b",
-          "glyf_hash": "67442649b16bf692",
+          "glyf_hash": "b25c289cd2a58722",
           "advance_width": 1300,
           "lsb": 100
         },
         {
           "codepoint": 99,
           "name": "c",
-          "glyf_hash": "fec471848bbda2b3",
+          "glyf_hash": "fe6ad68a8ea16f54",
           "advance_width": 1300,
-          "lsb": 97
+          "lsb": 86
         },
         {
           "codepoint": 100,
           "name": "d",
-          "glyf_hash": "36131f6b5583cfa4",
+          "glyf_hash": "77a3fe52b2db68b3",
           "advance_width": 1300,
-          "lsb": 66
+          "lsb": 57
         },
         {
           "codepoint": 101,
           "name": "e",
-          "glyf_hash": "ff68ab73b67abbcb",
+          "glyf_hash": "787a09e882bdbe34",
           "advance_width": 1300,
-          "lsb": 90
+          "lsb": 80
         },
         {
           "codepoint": 102,
           "name": "f",
-          "glyf_hash": "62f1452c01dc5f5c",
+          "glyf_hash": "f1a2e0083e855f1d",
           "advance_width": 1300,
           "lsb": 16
         },
         {
           "codepoint": 103,
           "name": "g",
-          "glyf_hash": "a6b01b1005c01a3a",
+          "glyf_hash": "b5cc7bdb84c1fd48",
           "advance_width": 1300,
           "lsb": 58
         },
         {
           "codepoint": 104,
           "name": "h",
-          "glyf_hash": "666a9c2bf405e1c8",
+          "glyf_hash": "fa7e040ce7e3ace2",
           "advance_width": 1300,
           "lsb": 92
         },
         {
           "codepoint": 105,
           "name": "i",
-          "glyf_hash": "f48822fef876d8d2",
+          "glyf_hash": "991b25e011d068fa",
           "advance_width": 1300,
           "lsb": 212
         },
         {
           "codepoint": 106,
           "name": "j",
-          "glyf_hash": "4218c36a850a06e2",
+          "glyf_hash": "a89130990f1ce264",
           "advance_width": 1300,
           "lsb": 112
         },
         {
           "codepoint": 107,
           "name": "k",
-          "glyf_hash": "622d061bfe83bb1a",
+          "glyf_hash": "98355bdd34d65401",
           "advance_width": 1300,
           "lsb": 103
         },
         {
           "codepoint": 108,
           "name": "l",
-          "glyf_hash": "b0f2af45aa81b72a",
+          "glyf_hash": "b66e3cbc0c2c9069",
           "advance_width": 1300,
           "lsb": 287
         },
         {
           "codepoint": 109,
           "name": "m",
-          "glyf_hash": "ee7dc68554db5a4e",
+          "glyf_hash": "ae10bbea3bd0a5b3",
           "advance_width": 1300,
           "lsb": -28
         },
         {
           "codepoint": 110,
           "name": "n",
-          "glyf_hash": "67d934d15ca751e7",
+          "glyf_hash": "acb47829481fda19",
           "advance_width": 1300,
           "lsb": 95
         },
         {
           "codepoint": 111,
           "name": "o",
-          "glyf_hash": "3742fdb8fd048aa8",
+          "glyf_hash": "b6ac3514fd664851",
           "advance_width": 1300,
-          "lsb": 101
+          "lsb": 90
         },
         {
           "codepoint": 112,
           "name": "p",
-          "glyf_hash": "313f9ca2b9e2fa9e",
+          "glyf_hash": "034fa92d7666fabb",
           "advance_width": 1300,
           "lsb": 37
         },
         {
           "codepoint": 113,
           "name": "q",
-          "glyf_hash": "eb2613db387cf364",
+          "glyf_hash": "a16d15b9d7648429",
           "advance_width": 1300,
-          "lsb": 84
+          "lsb": 72
         },
         {
           "codepoint": 114,
           "name": "r",
-          "glyf_hash": "6d6d994a67895d29",
+          "glyf_hash": "f5e5254ee1f91e68",
           "advance_width": 1300,
           "lsb": 66
         },
         {
           "codepoint": 115,
           "name": "s",
-          "glyf_hash": "48058b1e30be9dc3",
+          "glyf_hash": "6a2a7ff49c65b257",
           "advance_width": 1300,
           "lsb": 96
         },
         {
           "codepoint": 116,
           "name": "t",
-          "glyf_hash": "ce96a9ba885614ab",
+          "glyf_hash": "625d95a2986721b3",
           "advance_width": 1300,
           "lsb": 130
         },
         {
           "codepoint": 117,
           "name": "u",
-          "glyf_hash": "fe7a8a95b1a9ff78",
+          "glyf_hash": "d1d239972ffc276f",
           "advance_width": 1300,
-          "lsb": 94
+          "lsb": 89
         },
         {
           "codepoint": 118,
           "name": "v",
-          "glyf_hash": "c9a0e281066b5133",
+          "glyf_hash": "ef99631dbc149db4",
           "advance_width": 1300,
           "lsb": 129
         },
         {
           "codepoint": 119,
           "name": "w",
-          "glyf_hash": "9953093f6d387a3a",
+          "glyf_hash": "f2f4e6553777c073",
           "advance_width": 1300,
           "lsb": 79
         },
         {
           "codepoint": 120,
           "name": "x",
-          "glyf_hash": "bbc0c673f73a75dc",
+          "glyf_hash": "000f8fbfbea0374d",
           "advance_width": 1300,
           "lsb": -1
         },
         {
           "codepoint": 121,
           "name": "y",
-          "glyf_hash": "62ed7d6984056609",
+          "glyf_hash": "355b2796fce84f0b",
           "advance_width": 1300,
           "lsb": -26
         },
         {
           "codepoint": 122,
           "name": "z",
-          "glyf_hash": "7ace98afd82343bb",
+          "glyf_hash": "dfefccd284d8fc71",
           "advance_width": 1300,
           "lsb": 127
         },
@@ -85007,161 +85007,161 @@
         {
           "codepoint": 192,
           "name": "Agrave",
-          "glyf_hash": "8bd508f7df1206e4",
+          "glyf_hash": "8260649d77a397ff",
           "advance_width": 1300,
           "lsb": 35
         },
         {
           "codepoint": 193,
           "name": "Aacute",
-          "glyf_hash": "5eb6510bc476d1ac",
+          "glyf_hash": "869c3906c11edf53",
           "advance_width": 1300,
           "lsb": 35
         },
         {
           "codepoint": 194,
           "name": "Acircumflex",
-          "glyf_hash": "797d676a76a0fed2",
+          "glyf_hash": "b9f4c044b2a38395",
           "advance_width": 1300,
           "lsb": 35
         },
         {
           "codepoint": 195,
           "name": "Atilde",
-          "glyf_hash": "1468e40fdb2f696a",
+          "glyf_hash": "955a677e8c524cc2",
           "advance_width": 1300,
           "lsb": 35
         },
         {
           "codepoint": 196,
           "name": "Adieresis",
-          "glyf_hash": "73d9e33929a966e8",
+          "glyf_hash": "a04f98167d98d9f9",
           "advance_width": 1300,
           "lsb": 35
         },
         {
           "codepoint": 197,
           "name": "Aring",
-          "glyf_hash": "578b0622ff6d154e",
+          "glyf_hash": "50c80904fd5a6c13",
           "advance_width": 1300,
           "lsb": 35
         },
         {
           "codepoint": 198,
           "name": "AE",
-          "glyf_hash": "63ae6de86841685d",
+          "glyf_hash": "4ca7772987bff865",
           "advance_width": 1300,
           "lsb": -82
         },
         {
           "codepoint": 199,
           "name": "Ccedilla",
-          "glyf_hash": "fad3b4c23a9462ed",
+          "glyf_hash": "d4a4ff8e58aadeec",
           "advance_width": 1300,
-          "lsb": 24
+          "lsb": 21
         },
         {
           "codepoint": 200,
           "name": "Egrave",
-          "glyf_hash": "53841b027465f880",
+          "glyf_hash": "5b2d77fb88b1ebd2",
           "advance_width": 1300,
           "lsb": 39
         },
         {
           "codepoint": 201,
           "name": "Eacute",
-          "glyf_hash": "aeb777dc7cf373c1",
+          "glyf_hash": "5ad2390f3e32973b",
           "advance_width": 1300,
           "lsb": 39
         },
         {
           "codepoint": 202,
           "name": "Ecircumflex",
-          "glyf_hash": "2a793c6760414b94",
+          "glyf_hash": "3ad87927607a627b",
           "advance_width": 1300,
           "lsb": 39
         },
         {
           "codepoint": 203,
           "name": "Edieresis",
-          "glyf_hash": "042690ead891e6d1",
+          "glyf_hash": "fd564261e8ae9d19",
           "advance_width": 1300,
           "lsb": 39
         },
         {
           "codepoint": 204,
           "name": "Igrave",
-          "glyf_hash": "a682067c83451aba",
+          "glyf_hash": "d25546d0137cd75c",
           "advance_width": 1300,
           "lsb": 81
         },
         {
           "codepoint": 205,
           "name": "Iacute",
-          "glyf_hash": "a44ed9dff21339e5",
+          "glyf_hash": "563e63ba2e7f5ae1",
           "advance_width": 1300,
           "lsb": 81
         },
         {
           "codepoint": 206,
           "name": "Icircumflex",
-          "glyf_hash": "e4be76abb02b0a41",
+          "glyf_hash": "0b688c8158dbd005",
           "advance_width": 1300,
           "lsb": 81
         },
         {
           "codepoint": 207,
           "name": "Idieresis",
-          "glyf_hash": "9add7a9f7a43c73f",
+          "glyf_hash": "8e02bd3876c32388",
           "advance_width": 1300,
           "lsb": 81
         },
         {
           "codepoint": 208,
           "name": "Eth",
-          "glyf_hash": "2d9cad25817b9e70",
+          "glyf_hash": "96dc8df3fbc147f2",
           "advance_width": 1300,
           "lsb": -36
         },
         {
           "codepoint": 209,
           "name": "Ntilde",
-          "glyf_hash": "e97cbb857e37d799",
+          "glyf_hash": "d17674897e329ef5",
           "advance_width": 1300,
           "lsb": 5
         },
         {
           "codepoint": 210,
           "name": "Ograve",
-          "glyf_hash": "ae626c1bb95f24d6",
+          "glyf_hash": "118a8180f03f8c98",
           "advance_width": 1300,
           "lsb": 6
         },
         {
           "codepoint": 211,
           "name": "Oacute",
-          "glyf_hash": "c5750da59102a62f",
+          "glyf_hash": "2e4442c8bcdea5f1",
           "advance_width": 1300,
           "lsb": 6
         },
         {
           "codepoint": 212,
           "name": "Ocircumflex",
-          "glyf_hash": "fd05d03dfea256ea",
+          "glyf_hash": "ba764ddc706f8c72",
           "advance_width": 1300,
           "lsb": 5
         },
         {
           "codepoint": 213,
           "name": "Otilde",
-          "glyf_hash": "1e4f25835dba9777",
+          "glyf_hash": "61b191b7b13d3334",
           "advance_width": 1300,
           "lsb": 32
         },
         {
           "codepoint": 214,
           "name": "Odieresis",
-          "glyf_hash": "769bcf18078c7906",
+          "glyf_hash": "a9564d10646ea4fe",
           "advance_width": 1300,
           "lsb": 36
         },
@@ -85175,219 +85175,219 @@
         {
           "codepoint": 216,
           "name": "Oslash",
-          "glyf_hash": "b523cfeb36f0e092",
+          "glyf_hash": "718f86e637d8efce",
           "advance_width": 1300,
           "lsb": 32
         },
         {
           "codepoint": 217,
           "name": "Ugrave",
-          "glyf_hash": "09ddd6b6ac00d173",
+          "glyf_hash": "a6c2407181fa07b5",
           "advance_width": 1300,
-          "lsb": 47
+          "lsb": 42
         },
         {
           "codepoint": 218,
           "name": "Uacute",
-          "glyf_hash": "b2b178ab9960aa9c",
+          "glyf_hash": "bbede0fcfddd5ff7",
           "advance_width": 1300,
-          "lsb": 47
+          "lsb": 42
         },
         {
           "codepoint": 219,
           "name": "Ucircumflex",
-          "glyf_hash": "1f007d87d4cefae5",
+          "glyf_hash": "bca0ff414ca927c8",
           "advance_width": 1300,
-          "lsb": 47
+          "lsb": 42
         },
         {
           "codepoint": 220,
           "name": "Udieresis",
-          "glyf_hash": "22772cb4697f8901",
+          "glyf_hash": "e11eeba4d8016290",
           "advance_width": 1300,
-          "lsb": 47
+          "lsb": 42
         },
         {
           "codepoint": 221,
           "name": "Yacute",
-          "glyf_hash": "5c6b7ab09c2245e4",
+          "glyf_hash": "d7baac7ed45d621d",
           "advance_width": 1300,
           "lsb": 19
         },
         {
           "codepoint": 222,
           "name": "Thorn",
-          "glyf_hash": "eb33e971be123171",
+          "glyf_hash": "04996d3e90ff5dc5",
           "advance_width": 1300,
           "lsb": 86
         },
         {
           "codepoint": 223,
           "name": "germandbls",
-          "glyf_hash": "9f4acfba440e9e1f",
+          "glyf_hash": "7856b2ce67d51df4",
           "advance_width": 1300,
           "lsb": 78
         },
         {
           "codepoint": 224,
           "name": "agrave",
-          "glyf_hash": "c2256732dde21fe6",
+          "glyf_hash": "65c99031407f3aad",
           "advance_width": 1300,
           "lsb": 139
         },
         {
           "codepoint": 225,
           "name": "aacute",
-          "glyf_hash": "1c4e39bc14ec3899",
+          "glyf_hash": "f47302b8fc303474",
           "advance_width": 1300,
           "lsb": 139
         },
         {
           "codepoint": 226,
           "name": "acircumflex",
-          "glyf_hash": "4947996cd8d7f0f0",
+          "glyf_hash": "82d0138ac8657928",
           "advance_width": 1300,
           "lsb": 139
         },
         {
           "codepoint": 227,
           "name": "atilde",
-          "glyf_hash": "a7c3175a2619388d",
+          "glyf_hash": "ca62e9b5eeec0a9e",
           "advance_width": 1300,
           "lsb": 139
         },
         {
           "codepoint": 228,
           "name": "adieresis",
-          "glyf_hash": "566eaadacfbc80fb",
+          "glyf_hash": "e8b03aaafb9e11b0",
           "advance_width": 1300,
           "lsb": 139
         },
         {
           "codepoint": 229,
           "name": "aring",
-          "glyf_hash": "2eb95ed348ba2e2b",
+          "glyf_hash": "1d90df4634b5bd7b",
           "advance_width": 1300,
           "lsb": 139
         },
         {
           "codepoint": 230,
           "name": "ae",
-          "glyf_hash": "8f619fc985f676ce",
+          "glyf_hash": "d59bfaf10638fae9",
           "advance_width": 1300,
-          "lsb": 1
+          "lsb": -21
         },
         {
           "codepoint": 231,
           "name": "ccedilla",
-          "glyf_hash": "cd55349bc9d307e0",
+          "glyf_hash": "126677ee548b1adc",
           "advance_width": 1300,
-          "lsb": 96
+          "lsb": 85
         },
         {
           "codepoint": 232,
           "name": "egrave",
-          "glyf_hash": "304c9294944c8116",
+          "glyf_hash": "85cc43a513c455af",
           "advance_width": 1300,
-          "lsb": 90
+          "lsb": 80
         },
         {
           "codepoint": 233,
           "name": "eacute",
-          "glyf_hash": "434b0fe4afc028d2",
+          "glyf_hash": "664a47960a38feaa",
           "advance_width": 1300,
-          "lsb": 90
+          "lsb": 80
         },
         {
           "codepoint": 234,
           "name": "ecircumflex",
-          "glyf_hash": "0380ec18399c85d3",
+          "glyf_hash": "120d8c5f3ba6da0a",
           "advance_width": 1300,
-          "lsb": 90
+          "lsb": 80
         },
         {
           "codepoint": 235,
           "name": "edieresis",
-          "glyf_hash": "f90236ede8f0aeca",
+          "glyf_hash": "8f275bc6b04b3130",
           "advance_width": 1300,
-          "lsb": 90
+          "lsb": 80
         },
         {
           "codepoint": 236,
           "name": "igrave",
-          "glyf_hash": "4eb1fa2da0d1ba84",
+          "glyf_hash": "a70cafd2b4e22a8e",
           "advance_width": 1300,
           "lsb": 247
         },
         {
           "codepoint": 237,
           "name": "iacute",
-          "glyf_hash": "1efcf19ce496d592",
+          "glyf_hash": "eda728a9208013d4",
           "advance_width": 1300,
           "lsb": 247
         },
         {
           "codepoint": 238,
           "name": "icircumflex",
-          "glyf_hash": "e95239f1bca288b1",
+          "glyf_hash": "ff84529284c0df5d",
           "advance_width": 1300,
           "lsb": 247
         },
         {
           "codepoint": 239,
           "name": "idieresis",
-          "glyf_hash": "282d176a22c128c3",
+          "glyf_hash": "6714898e0673aa06",
           "advance_width": 1300,
           "lsb": 247
         },
         {
           "codepoint": 240,
           "name": "eth",
-          "glyf_hash": "83ad0fdbd1aa49fc",
+          "glyf_hash": "a74bfb8746b7c26c",
           "advance_width": 1300,
-          "lsb": 113
+          "lsb": 104
         },
         {
           "codepoint": 241,
           "name": "ntilde",
-          "glyf_hash": "fd85f7c06c9e9bfe",
+          "glyf_hash": "193290728b9b9c2a",
           "advance_width": 1300,
           "lsb": 94
         },
         {
           "codepoint": 242,
           "name": "ograve",
-          "glyf_hash": "752bcdc4befd1485",
+          "glyf_hash": "9caca017144e6922",
           "advance_width": 1300,
-          "lsb": 101
+          "lsb": 90
         },
         {
           "codepoint": 243,
           "name": "oacute",
-          "glyf_hash": "f8f744f42fcf5941",
+          "glyf_hash": "5d855c1f12efd784",
           "advance_width": 1300,
-          "lsb": 101
+          "lsb": 90
         },
         {
           "codepoint": 244,
           "name": "ocircumflex",
-          "glyf_hash": "f8ca2615d1fc24c8",
+          "glyf_hash": "15ad711f3e9c2639",
           "advance_width": 1300,
-          "lsb": 101
+          "lsb": 90
         },
         {
           "codepoint": 245,
           "name": "otilde",
-          "glyf_hash": "798b4a83a6a31066",
+          "glyf_hash": "a8c80015906da2cb",
           "advance_width": 1300,
-          "lsb": 101
+          "lsb": 90
         },
         {
           "codepoint": 246,
           "name": "odieresis",
-          "glyf_hash": "a8995ade1e5fe9d7",
+          "glyf_hash": "266fa4640b647228",
           "advance_width": 1300,
-          "lsb": 101
+          "lsb": 90
         },
         {
           "codepoint": 247,
@@ -85399,56 +85399,56 @@
         {
           "codepoint": 248,
           "name": "oslash",
-          "glyf_hash": "72c5a80b408e49aa",
+          "glyf_hash": "10fb4234c1c79bba",
           "advance_width": 1300,
           "lsb": 10
         },
         {
           "codepoint": 249,
           "name": "ugrave",
-          "glyf_hash": "769d86698d80499d",
+          "glyf_hash": "c8adcc19965f12b1",
           "advance_width": 1300,
-          "lsb": 93
+          "lsb": 88
         },
         {
           "codepoint": 250,
           "name": "uacute",
-          "glyf_hash": "38406df4fbe9a6e8",
+          "glyf_hash": "47ef07392ceacd4a",
           "advance_width": 1300,
-          "lsb": 93
+          "lsb": 88
         },
         {
           "codepoint": 251,
           "name": "ucircumflex",
-          "glyf_hash": "16b1bde26429d25b",
+          "glyf_hash": "6eded86f5a06d0e4",
           "advance_width": 1300,
-          "lsb": 93
+          "lsb": 88
         },
         {
           "codepoint": 252,
           "name": "udieresis",
-          "glyf_hash": "b233a6b47bb800c3",
+          "glyf_hash": "1b8ea1acba552607",
           "advance_width": 1300,
-          "lsb": 93
+          "lsb": 88
         },
         {
           "codepoint": 253,
           "name": "yacute",
-          "glyf_hash": "366b58b01c89db5a",
+          "glyf_hash": "ba4a9c5a7f643c0d",
           "advance_width": 1300,
           "lsb": -17
         },
         {
           "codepoint": 254,
           "name": "thorn",
-          "glyf_hash": "471f4d9fc1b63246",
+          "glyf_hash": "7d14a100baa295ce",
           "advance_width": 1300,
           "lsb": 21
         },
         {
           "codepoint": 255,
           "name": "ydieresis",
-          "glyf_hash": "bf882ba35b217fff",
+          "glyf_hash": "22e4cf32559fc6c3",
           "advance_width": 1300,
           "lsb": -17
         },
@@ -86029,16 +86029,16 @@
         {
           "codepoint": 338,
           "name": "OE",
-          "glyf_hash": "87c7e1e97f8c0841",
+          "glyf_hash": "bf0da138e51d0b4c",
           "advance_width": 1300,
-          "lsb": 2
+          "lsb": -7
         },
         {
           "codepoint": 339,
           "name": "oe",
-          "glyf_hash": "383d828de0363edf",
+          "glyf_hash": "2224446df34a5577",
           "advance_width": 1300,
-          "lsb": -8
+          "lsb": -11
         },
         {
           "codepoint": 340,
@@ -86127,14 +86127,14 @@
         {
           "codepoint": 352,
           "name": "Scaron",
-          "glyf_hash": "a9280de0966f7eb2",
+          "glyf_hash": "3240fb7f6cc5e858",
           "advance_width": 1300,
           "lsb": 41
         },
         {
           "codepoint": 353,
           "name": "scaron",
-          "glyf_hash": "2099943e5cd9f1c5",
+          "glyf_hash": "35edf1e28e2a5a3a",
           "advance_width": 1300,
           "lsb": 114
         },
@@ -86295,7 +86295,7 @@
         {
           "codepoint": 376,
           "name": "Ydieresis",
-          "glyf_hash": "bf2ae7c323d6026e",
+          "glyf_hash": "a87f12d39df3a50e",
           "advance_width": 1300,
           "lsb": 53
         },
@@ -86351,7 +86351,7 @@
         {
           "codepoint": 402,
           "name": "florin",
-          "glyf_hash": "6195b588bbbb1038",
+          "glyf_hash": "e85019fd03117af1",
           "advance_width": 1300,
           "lsb": -116
         },
@@ -87149,105 +87149,105 @@
         {
           "codepoint": 913,
           "name": "Alpha",
-          "glyf_hash": "87624f33b8cbd65c",
+          "glyf_hash": "f13901ebfd9dedb4",
           "advance_width": 1300,
           "lsb": 35
         },
         {
           "codepoint": 914,
           "name": "Beta",
-          "glyf_hash": "0a0c4e25493d5298",
+          "glyf_hash": "6733893f2d3afd14",
           "advance_width": 1300,
           "lsb": 63
         },
         {
           "codepoint": 915,
           "name": "Gamma",
-          "glyf_hash": "f16ada4a8450007c",
+          "glyf_hash": "3935f52ff258f133",
           "advance_width": 1300,
           "lsb": 46
         },
         {
           "codepoint": 916,
-          "name": "uni0394",
-          "glyf_hash": "606d81fa52e75bb2",
+          "name": "Deltagreek",
+          "glyf_hash": "dd1147098297f9c8",
           "advance_width": 1300,
           "lsb": 6
         },
         {
           "codepoint": 917,
           "name": "Epsilon",
-          "glyf_hash": "2df298ca09c38be3",
+          "glyf_hash": "b4bd37e4493e37af",
           "advance_width": 1300,
           "lsb": 39
         },
         {
           "codepoint": 918,
           "name": "Zeta",
-          "glyf_hash": "6c40451809f81746",
+          "glyf_hash": "0b03927d2ba45a79",
           "advance_width": 1300,
           "lsb": -10
         },
         {
           "codepoint": 919,
           "name": "Eta",
-          "glyf_hash": "8e6477d7a5dd295b",
+          "glyf_hash": "20652fb37ca4e01f",
           "advance_width": 1300,
           "lsb": -61
         },
         {
           "codepoint": 920,
           "name": "Theta",
-          "glyf_hash": "281e1ac201b29087",
+          "glyf_hash": "d2234d51dadde767",
           "advance_width": 1200,
           "lsb": 6
         },
         {
           "codepoint": 921,
           "name": "Iota",
-          "glyf_hash": "991c3fdfc71c604e",
+          "glyf_hash": "a470534d6ee326bd",
           "advance_width": 1300,
           "lsb": 81
         },
         {
           "codepoint": 922,
           "name": "Kappa",
-          "glyf_hash": "f19d567d31694830",
+          "glyf_hash": "02d43365903e54a8",
           "advance_width": 1300,
           "lsb": 7
         },
         {
           "codepoint": 923,
           "name": "Lambda",
-          "glyf_hash": "c094d6438ad46360",
+          "glyf_hash": "2afa8f0209247068",
           "advance_width": 1300,
           "lsb": 29
         },
         {
           "codepoint": 924,
           "name": "Mu",
-          "glyf_hash": "b05329ff5cb34bbc",
+          "glyf_hash": "3012cff137a9a399",
           "advance_width": 1300,
           "lsb": 5
         },
         {
           "codepoint": 925,
           "name": "Nu",
-          "glyf_hash": "422e9490d6997a10",
+          "glyf_hash": "73722c8d4f2d98eb",
           "advance_width": 1300,
           "lsb": 5
         },
         {
           "codepoint": 926,
           "name": "Xi",
-          "glyf_hash": "d4feb9a30c084f0a",
+          "glyf_hash": "ce57b81298c43d1d",
           "advance_width": 1300,
           "lsb": 8
         },
         {
           "codepoint": 927,
           "name": "Omicron",
-          "glyf_hash": "785e9f09c863bab2",
+          "glyf_hash": "cc8abca5deb36da1",
           "advance_width": 1300,
           "lsb": 206
         },
@@ -87261,56 +87261,56 @@
         {
           "codepoint": 929,
           "name": "Rho",
-          "glyf_hash": "946ff5d65a43f0d5",
+          "glyf_hash": "87b1e4231e7bf2c1",
           "advance_width": 1300,
           "lsb": 28
         },
         {
           "codepoint": 931,
           "name": "Sigma",
-          "glyf_hash": "f9952d682e77ba6f",
+          "glyf_hash": "9f7780c560d1cc59",
           "advance_width": 1300,
           "lsb": 3
         },
         {
           "codepoint": 932,
           "name": "Tau",
-          "glyf_hash": "8b6f1f2412677055",
+          "glyf_hash": "eb489d9bb2139052",
           "advance_width": 1300,
           "lsb": 68
         },
         {
           "codepoint": 933,
           "name": "Upsilon",
-          "glyf_hash": "b63e26ed7650ee8a",
+          "glyf_hash": "1607beb10a238af8",
           "advance_width": 1300,
           "lsb": 79
         },
         {
           "codepoint": 934,
           "name": "Phi",
-          "glyf_hash": "50afc533ddfbc2e6",
+          "glyf_hash": "c12e6fa369cb30ea",
           "advance_width": 1300,
-          "lsb": 11
+          "lsb": -13
         },
         {
           "codepoint": 935,
           "name": "Chi",
-          "glyf_hash": "63eb738497798036",
+          "glyf_hash": "fc71927fea9f0bbf",
           "advance_width": 1300,
           "lsb": 31
         },
         {
           "codepoint": 936,
           "name": "Psi",
-          "glyf_hash": "ac9e7627129ca018",
+          "glyf_hash": "8ea05ca7a385be89",
           "advance_width": 1300,
-          "lsb": 26
+          "lsb": 19
         },
         {
           "codepoint": 937,
-          "name": "uni03A9",
-          "glyf_hash": "063c144e6245206a",
+          "name": "Omegagreek",
+          "glyf_hash": "b3aca417b8eaf331",
           "advance_width": 1300,
           "lsb": -39
         },
@@ -87366,112 +87366,112 @@
         {
           "codepoint": 945,
           "name": "alpha",
-          "glyf_hash": "fab96f23fdb01483",
+          "glyf_hash": "9669596644afc8e4",
           "advance_width": 1300,
-          "lsb": 102
+          "lsb": 96
         },
         {
           "codepoint": 946,
           "name": "beta",
-          "glyf_hash": "c2a04dfdb2cc98fb",
+          "glyf_hash": "7c80aec25fe19f95",
           "advance_width": 1300,
           "lsb": 38
         },
         {
           "codepoint": 947,
           "name": "gamma",
-          "glyf_hash": "b3f7f432439f0ab0",
+          "glyf_hash": "5ab00ac01b3dbdc1",
           "advance_width": 1300,
           "lsb": 67
         },
         {
           "codepoint": 948,
           "name": "delta",
-          "glyf_hash": "73f80015650d96e6",
+          "glyf_hash": "a1c8eb8968e0cbf5",
           "advance_width": 1300,
-          "lsb": 104
+          "lsb": 100
         },
         {
           "codepoint": 949,
           "name": "epsilon",
-          "glyf_hash": "b6648e67fdfcdbb6",
+          "glyf_hash": "4b0de645589363f9",
           "advance_width": 1300,
-          "lsb": 191
+          "lsb": 181
         },
         {
           "codepoint": 950,
           "name": "zeta",
-          "glyf_hash": "10552854ea2aa2f9",
+          "glyf_hash": "ebb51ba69c6bc4ff",
           "advance_width": 1300,
-          "lsb": 131
+          "lsb": 113
         },
         {
           "codepoint": 951,
           "name": "eta",
-          "glyf_hash": "dda1c6ab8f49b3fc",
+          "glyf_hash": "62ab9e807f942b22",
           "advance_width": 1300,
           "lsb": 127
         },
         {
           "codepoint": 952,
           "name": "theta",
-          "glyf_hash": "58e85556cc112216",
+          "glyf_hash": "b688db70363d5342",
           "advance_width": 1300,
-          "lsb": 89
+          "lsb": 86
         },
         {
           "codepoint": 953,
           "name": "iota",
-          "glyf_hash": "e1354addaa54b2b8",
+          "glyf_hash": "b1ecd7aefc393f0b",
           "advance_width": 1300,
-          "lsb": 388
+          "lsb": 385
         },
         {
           "codepoint": 954,
           "name": "kappa",
-          "glyf_hash": "7e70afe68292b502",
+          "glyf_hash": "c3ac9d21d3ec947b",
           "advance_width": 1300,
           "lsb": 133
         },
         {
           "codepoint": 955,
           "name": "lambda",
-          "glyf_hash": "50e73d30886d315e",
+          "glyf_hash": "12c87dd1818f87e9",
           "advance_width": 1300,
           "lsb": 91
         },
         {
           "codepoint": 956,
           "name": "uni03BC",
-          "glyf_hash": "6cecc0522b6796b3",
+          "glyf_hash": "533438ff643f543f",
           "advance_width": 1300,
           "lsb": 48
         },
         {
           "codepoint": 957,
           "name": "nu",
-          "glyf_hash": "6fef0ae7d0897c0f",
+          "glyf_hash": "d00e2907c0665dbc",
           "advance_width": 1300,
           "lsb": 95
         },
         {
           "codepoint": 958,
           "name": "xi",
-          "glyf_hash": "4128f3bceff3dcee",
+          "glyf_hash": "46696ebf1c4e1eb4",
           "advance_width": 1300,
-          "lsb": 140
+          "lsb": 132
         },
         {
           "codepoint": 959,
           "name": "omicron",
-          "glyf_hash": "bc275dc3b5eb73cb",
+          "glyf_hash": "d3eadaebc0bd6b9e",
           "advance_width": 1300,
-          "lsb": 99
+          "lsb": 88
         },
         {
           "codepoint": 960,
           "name": "pi",
-          "glyf_hash": "cdd2925d2173c517",
+          "glyf_hash": "e5214dad79ec1783",
           "advance_width": 1300,
           "lsb": 59
         },
@@ -87484,59 +87484,59 @@
         },
         {
           "codepoint": 962,
-          "name": "uni03C2",
-          "glyf_hash": "fd20d6d9f82c36ae",
+          "name": "sigma1",
+          "glyf_hash": "e655b0007cccf535",
           "advance_width": 1300,
-          "lsb": 223
+          "lsb": 215
         },
         {
           "codepoint": 963,
           "name": "sigma",
-          "glyf_hash": "8bd4f1b8cd0bc8ae",
+          "glyf_hash": "876989c44c572d95",
           "advance_width": 1300,
-          "lsb": 34
+          "lsb": 26
         },
         {
           "codepoint": 964,
           "name": "tau",
-          "glyf_hash": "688896eac92c625b",
+          "glyf_hash": "2177b47f0ca51703",
           "advance_width": 1300,
           "lsb": 160
         },
         {
           "codepoint": 965,
           "name": "upsilon",
-          "glyf_hash": "b82b3d64590ec6db",
+          "glyf_hash": "d21097bad9af7c59",
           "advance_width": 1300,
           "lsb": 85
         },
         {
           "codepoint": 966,
           "name": "phi",
-          "glyf_hash": "caf702fc08d1aa6c",
+          "glyf_hash": "cc4a94a2ff269452",
           "advance_width": 1300,
-          "lsb": 9
+          "lsb": -1
         },
         {
           "codepoint": 967,
           "name": "chi",
-          "glyf_hash": "11951488d8a23397",
+          "glyf_hash": "4d2e1e4c01b386ff",
           "advance_width": 1300,
           "lsb": -107
         },
         {
           "codepoint": 968,
           "name": "psi",
-          "glyf_hash": "cc23594e2cade371",
+          "glyf_hash": "f64665599e13f3d9",
           "advance_width": 1300,
-          "lsb": 26
+          "lsb": 24
         },
         {
           "codepoint": 969,
           "name": "omega",
-          "glyf_hash": "bbae9902b5974671",
+          "glyf_hash": "88b61505d5c960b3",
           "advance_width": 1300,
-          "lsb": 2
+          "lsb": 0
         },
         {
           "codepoint": 970,
@@ -87575,31 +87575,31 @@
         },
         {
           "codepoint": 977,
-          "name": "uni03D1",
-          "glyf_hash": "d8d2a37cad768df7",
+          "name": "theta1",
+          "glyf_hash": "ca4ed441fc609c94",
           "advance_width": 1300,
           "lsb": 3
         },
         {
           "codepoint": 978,
-          "name": "uni03D2",
-          "glyf_hash": "0a502cb0cfc9aa1a",
+          "name": "Upsilon1",
+          "glyf_hash": "540200fea5548da8",
           "advance_width": 1300,
           "lsb": 57
         },
         {
           "codepoint": 981,
-          "name": "uni03D5",
-          "glyf_hash": "5767b07912f0648d",
+          "name": "phi1",
+          "glyf_hash": "42068d8ae85674bf",
           "advance_width": 1300,
-          "lsb": 19
+          "lsb": 9
         },
         {
           "codepoint": 982,
-          "name": "uni03D6",
-          "glyf_hash": "c922123e16d4d626",
+          "name": "omega1",
+          "glyf_hash": "4e65e0cb880e0144",
           "advance_width": 1300,
-          "lsb": -23
+          "lsb": -25
         },
         {
           "codepoint": 1012,
@@ -335704,7 +335704,7 @@
     {
       "variant": "Italic",
       "filename": "PlanetaireMono-Italic.ttf",
-      "glyph_count": 12166,
+      "glyph_count": 12169,
       "upm": 2000,
       "weight": 400,
       "glyphs": [
@@ -335837,70 +335837,70 @@
         {
           "codepoint": 48,
           "name": "zero",
-          "glyf_hash": "e5b2398ca2d97f56",
+          "glyf_hash": "4862257b132ee730",
           "advance_width": 1300,
           "lsb": 134
         },
         {
           "codepoint": 49,
           "name": "one",
-          "glyf_hash": "e863876f6a9c5b96",
+          "glyf_hash": "2ccf62defdfac9e7",
           "advance_width": 1300,
           "lsb": 268
         },
         {
           "codepoint": 50,
           "name": "two",
-          "glyf_hash": "72afd2308c027949",
+          "glyf_hash": "db6e4a1296456e31",
           "advance_width": 1300,
           "lsb": 71
         },
         {
           "codepoint": 51,
           "name": "three",
-          "glyf_hash": "f99415c87d6df8e4",
+          "glyf_hash": "77fab0f24e3d75ac",
           "advance_width": 1300,
           "lsb": 120
         },
         {
           "codepoint": 52,
           "name": "four",
-          "glyf_hash": "9b5ec2a8f47660ba",
+          "glyf_hash": "7cbcee807c59759e",
           "advance_width": 1300,
           "lsb": 132
         },
         {
           "codepoint": 53,
           "name": "five",
-          "glyf_hash": "aa59f0880436ce82",
+          "glyf_hash": "dcbce64de711bd40",
           "advance_width": 1300,
           "lsb": 121
         },
         {
           "codepoint": 54,
           "name": "six",
-          "glyf_hash": "4c0df6d8be2a6ce2",
+          "glyf_hash": "b7509d5f3211af4f",
           "advance_width": 1300,
           "lsb": 135
         },
         {
           "codepoint": 55,
           "name": "seven",
-          "glyf_hash": "a80f934694f77772",
+          "glyf_hash": "f56cd6caaf079d4f",
           "advance_width": 1300,
           "lsb": 200
         },
         {
           "codepoint": 56,
           "name": "eight",
-          "glyf_hash": "cf3a3b3d8da961bc",
+          "glyf_hash": "73a75e35c073e72c",
           "advance_width": 1300,
           "lsb": 130
         },
         {
           "codepoint": 57,
           "name": "nine",
-          "glyf_hash": "9f490f98800d4af7",
+          "glyf_hash": "242d0a1e61573953",
           "advance_width": 1300,
           "lsb": 170
         },
@@ -335956,182 +335956,182 @@
         {
           "codepoint": 65,
           "name": "A",
-          "glyf_hash": "d692fbe88bb9f693",
+          "glyf_hash": "8568a2ede3e25e9e",
           "advance_width": 1300,
           "lsb": 18
         },
         {
           "codepoint": 66,
           "name": "B",
-          "glyf_hash": "f860a24c352415ca",
+          "glyf_hash": "f44e2e0b0b0da56d",
           "advance_width": 1300,
           "lsb": 100
         },
         {
           "codepoint": 67,
           "name": "C",
-          "glyf_hash": "36876fa57cdefc65",
+          "glyf_hash": "91aa8a1cd96dcd21",
           "advance_width": 1300,
           "lsb": 106
         },
         {
           "codepoint": 68,
           "name": "D",
-          "glyf_hash": "7567fbc0e8edef50",
+          "glyf_hash": "b345818d82866c99",
           "advance_width": 1300,
           "lsb": 59
         },
         {
           "codepoint": 69,
           "name": "E",
-          "glyf_hash": "1c1cfba0fef0b3d4",
+          "glyf_hash": "73ca7d036f95cc1d",
           "advance_width": 1300,
           "lsb": 72
         },
         {
           "codepoint": 70,
           "name": "F",
-          "glyf_hash": "54732f7cb7c49ffe",
+          "glyf_hash": "e0c354ba24498e9c",
           "advance_width": 1300,
           "lsb": 100
         },
         {
           "codepoint": 71,
           "name": "G",
-          "glyf_hash": "f177665156e61b68",
+          "glyf_hash": "668c387187dad096",
           "advance_width": 1300,
-          "lsb": 109
+          "lsb": 102
         },
         {
           "codepoint": 72,
           "name": "H",
-          "glyf_hash": "c1baf70f9569d924",
+          "glyf_hash": "c406117191c61974",
           "advance_width": 1300,
           "lsb": 50
         },
         {
           "codepoint": 73,
           "name": "I",
-          "glyf_hash": "a756bae502306496",
+          "glyf_hash": "c0522d5cc833ee07",
           "advance_width": 1300,
           "lsb": 67
         },
         {
           "codepoint": 74,
           "name": "J",
-          "glyf_hash": "8bb6b62dc577b483",
+          "glyf_hash": "91448bf144958d2f",
           "advance_width": 1300,
           "lsb": 130
         },
         {
           "codepoint": 75,
           "name": "K",
-          "glyf_hash": "98b6349c3a8c6a9a",
+          "glyf_hash": "751a99db25f95a00",
           "advance_width": 1300,
           "lsb": 50
         },
         {
           "codepoint": 76,
           "name": "L",
-          "glyf_hash": "68e14f7449fecf21",
+          "glyf_hash": "5925a362c1d924b2",
           "advance_width": 1300,
           "lsb": 173
         },
         {
           "codepoint": 77,
           "name": "M",
-          "glyf_hash": "73408771919e7b4d",
+          "glyf_hash": "19a3ab608f56d1f9",
           "advance_width": 1300,
           "lsb": 13
         },
         {
           "codepoint": 78,
           "name": "N",
-          "glyf_hash": "086c7dd41e6089bf",
+          "glyf_hash": "f492f37faff0e389",
           "advance_width": 1300,
           "lsb": 42
         },
         {
           "codepoint": 79,
           "name": "O",
-          "glyf_hash": "02ef9a690716640f",
+          "glyf_hash": "1b4cbfb2022ab4fc",
           "advance_width": 1300,
-          "lsb": 79
+          "lsb": 78
         },
         {
           "codepoint": 80,
           "name": "P",
-          "glyf_hash": "c56ba97b0f16f37e",
+          "glyf_hash": "eceaab973494588d",
           "advance_width": 1300,
           "lsb": 99
         },
         {
           "codepoint": 81,
           "name": "Q",
-          "glyf_hash": "eae025304b599686",
+          "glyf_hash": "8a5711a83054d0d8",
           "advance_width": 1300,
           "lsb": 63
         },
         {
           "codepoint": 82,
           "name": "R",
-          "glyf_hash": "d6c38cd40246dbe3",
+          "glyf_hash": "62c42f03a558ad92",
           "advance_width": 1300,
           "lsb": 100
         },
         {
           "codepoint": 83,
           "name": "S",
-          "glyf_hash": "1ccc8ec2a118df7b",
+          "glyf_hash": "a469ead0241255e1",
           "advance_width": 1300,
           "lsb": 97
         },
         {
           "codepoint": 84,
           "name": "T",
-          "glyf_hash": "b06e244a6931405f",
+          "glyf_hash": "ea5d4a1a5964ba54",
           "advance_width": 1300,
           "lsb": 145
         },
         {
           "codepoint": 85,
           "name": "U",
-          "glyf_hash": "dfbdbe8eed5e9dcd",
+          "glyf_hash": "c85f454b6612728a",
           "advance_width": 1300,
-          "lsb": 114
+          "lsb": 110
         },
         {
           "codepoint": 86,
           "name": "V",
-          "glyf_hash": "eb850d1141b66c41",
+          "glyf_hash": "563581a39685a0dc",
           "advance_width": 1300,
           "lsb": 137
         },
         {
           "codepoint": 87,
           "name": "W",
-          "glyf_hash": "4c5c1c371e69ec0b",
+          "glyf_hash": "a2d7d5630c423d2c",
           "advance_width": 1300,
           "lsb": 68
         },
         {
           "codepoint": 88,
           "name": "X",
-          "glyf_hash": "4174ded4547e6cf7",
+          "glyf_hash": "3fc345bcc403c8a2",
           "advance_width": 1300,
           "lsb": 0
         },
         {
           "codepoint": 89,
           "name": "Y",
-          "glyf_hash": "1196e594b699121e",
+          "glyf_hash": "e1732b36d38b234b",
           "advance_width": 1300,
           "lsb": 128
         },
         {
           "codepoint": 90,
           "name": "Z",
-          "glyf_hash": "4f703e68c6398d60",
+          "glyf_hash": "1b1cca23b29c5f43",
           "advance_width": 1300,
           "lsb": 9
         },
@@ -336180,182 +336180,182 @@
         {
           "codepoint": 97,
           "name": "a",
-          "glyf_hash": "0a017de07e8ca4fd",
+          "glyf_hash": "f6168bd43f84e6b0",
           "advance_width": 1300,
           "lsb": 160
         },
         {
           "codepoint": 98,
           "name": "b",
-          "glyf_hash": "24fb46d2a4a88dd1",
+          "glyf_hash": "b6afa27b2d820c5d",
           "advance_width": 1300,
           "lsb": 147
         },
         {
           "codepoint": 99,
           "name": "c",
-          "glyf_hash": "17f3247314760801",
+          "glyf_hash": "efc1eff14d3158ae",
           "advance_width": 1300,
           "lsb": 144
         },
         {
           "codepoint": 100,
           "name": "d",
-          "glyf_hash": "146587d86441f5f4",
+          "glyf_hash": "424eaff810dff229",
           "advance_width": 1300,
           "lsb": 100
         },
         {
           "codepoint": 101,
           "name": "e",
-          "glyf_hash": "76544b17e0e108a1",
+          "glyf_hash": "f676e39355a880ad",
           "advance_width": 1300,
           "lsb": 128
         },
         {
           "codepoint": 102,
           "name": "f",
-          "glyf_hash": "4d0a1b2585932ec0",
+          "glyf_hash": "dbc012792e2bb0e1",
           "advance_width": 1300,
           "lsb": 59
         },
         {
           "codepoint": 103,
           "name": "g",
-          "glyf_hash": "ea353ab1cd7a0d2c",
+          "glyf_hash": "95b0734495420967",
           "advance_width": 1300,
           "lsb": 100
         },
         {
           "codepoint": 104,
           "name": "h",
-          "glyf_hash": "01d96f340d9477b1",
+          "glyf_hash": "309fedad08e3d69b",
           "advance_width": 1300,
           "lsb": 108
         },
         {
           "codepoint": 105,
           "name": "i",
-          "glyf_hash": "ba60a997b84c3d62",
+          "glyf_hash": "d5ea0d16bedca196",
           "advance_width": 1300,
           "lsb": 225
         },
         {
           "codepoint": 106,
           "name": "j",
-          "glyf_hash": "cb7804754488f786",
+          "glyf_hash": "05f5bca2da0b03c1",
           "advance_width": 1300,
           "lsb": 134
         },
         {
           "codepoint": 107,
           "name": "k",
-          "glyf_hash": "0ac7182344b7523d",
+          "glyf_hash": "216e65661dc03ba2",
           "advance_width": 1300,
           "lsb": 160
         },
         {
           "codepoint": 108,
           "name": "l",
-          "glyf_hash": "32f0a116ef05143a",
+          "glyf_hash": "75b1808659a75314",
           "advance_width": 1300,
           "lsb": 305
         },
         {
           "codepoint": 109,
           "name": "m",
-          "glyf_hash": "77d2ecd0fbdb2198",
+          "glyf_hash": "90f29e6dc35402f7",
           "advance_width": 1300,
           "lsb": 23
         },
         {
           "codepoint": 110,
           "name": "n",
-          "glyf_hash": "73dcad69438b6458",
+          "glyf_hash": "a9083781bfb58ae4",
           "advance_width": 1300,
           "lsb": 102
         },
         {
           "codepoint": 111,
           "name": "o",
-          "glyf_hash": "8007cc63b307e18f",
+          "glyf_hash": "047cd1d1ef71b1fb",
           "advance_width": 1300,
           "lsb": 124
         },
         {
           "codepoint": 112,
           "name": "p",
-          "glyf_hash": "b1fca556b9d60028",
+          "glyf_hash": "5e3eac809b85e0c7",
           "advance_width": 1300,
           "lsb": 91
         },
         {
           "codepoint": 113,
           "name": "q",
-          "glyf_hash": "41085029368bdd62",
+          "glyf_hash": "2529d4ab650d5b0c",
           "advance_width": 1300,
           "lsb": 155
         },
         {
           "codepoint": 114,
           "name": "r",
-          "glyf_hash": "f7ce51ba86530ec3",
+          "glyf_hash": "ba5bbca2a8ba9852",
           "advance_width": 1300,
           "lsb": 100
         },
         {
           "codepoint": 115,
           "name": "s",
-          "glyf_hash": "01ee922d2456204e",
+          "glyf_hash": "6dec0f8cfd6277c7",
           "advance_width": 1300,
           "lsb": 130
         },
         {
           "codepoint": 116,
           "name": "t",
-          "glyf_hash": "37aedc46018f145d",
+          "glyf_hash": "2301a009a9d51232",
           "advance_width": 1300,
           "lsb": 142
         },
         {
           "codepoint": 117,
           "name": "u",
-          "glyf_hash": "e1bda83d4cffe388",
+          "glyf_hash": "f80f9e7a152b1505",
           "advance_width": 1300,
           "lsb": 122
         },
         {
           "codepoint": 118,
           "name": "v",
-          "glyf_hash": "417b663e50d3fd33",
+          "glyf_hash": "591be2cdffa53781",
           "advance_width": 1300,
           "lsb": 164
         },
         {
           "codepoint": 119,
           "name": "w",
-          "glyf_hash": "d7af838979b54d72",
+          "glyf_hash": "8d741b5c6b09ae86",
           "advance_width": 1300,
           "lsb": 146
         },
         {
           "codepoint": 120,
           "name": "x",
-          "glyf_hash": "1381e82b647bfc73",
+          "glyf_hash": "e4c62a47f43e8a54",
           "advance_width": 1300,
           "lsb": 26
         },
         {
           "codepoint": 121,
           "name": "y",
-          "glyf_hash": "7050bddb91d01691",
+          "glyf_hash": "490ed948ca26467d",
           "advance_width": 1300,
           "lsb": 8
         },
         {
           "codepoint": 122,
           "name": "z",
-          "glyf_hash": "eb8c284c61e12a2a",
+          "glyf_hash": "0a23e7fb5bc8f4cd",
           "advance_width": 1300,
           "lsb": 169
         },
@@ -336614,163 +336614,163 @@
         {
           "codepoint": 192,
           "name": "Agrave",
-          "glyf_hash": "6a51f1c21fcd3564",
+          "glyf_hash": "bc45a6663168adb2",
           "advance_width": 1300,
           "lsb": 18
         },
         {
           "codepoint": 193,
           "name": "Aacute",
-          "glyf_hash": "0cb6fd972cb5448c",
+          "glyf_hash": "9a6c64af4ccac451",
           "advance_width": 1300,
           "lsb": 18
         },
         {
           "codepoint": 194,
           "name": "Acircumflex",
-          "glyf_hash": "7575562c3dccaffc",
+          "glyf_hash": "83fe8ce65d948595",
           "advance_width": 1300,
           "lsb": 18
         },
         {
           "codepoint": 195,
           "name": "Atilde",
-          "glyf_hash": "1f6928547bb6aa45",
+          "glyf_hash": "428beb054ea0cef8",
           "advance_width": 1300,
           "lsb": 18
         },
         {
           "codepoint": 196,
           "name": "Adieresis",
-          "glyf_hash": "f9d8971f38b3edf7",
+          "glyf_hash": "faafec1a266439e8",
           "advance_width": 1300,
           "lsb": 18
         },
         {
           "codepoint": 197,
           "name": "Aring",
-          "glyf_hash": "5db4a0790f05eb23",
+          "glyf_hash": "cb0bd1a7e18744e9",
           "advance_width": 1300,
           "lsb": 18
         },
         {
           "codepoint": 198,
           "name": "AE",
-          "glyf_hash": "e23f10d653f27a6f",
+          "glyf_hash": "43689be26d95c7fa",
           "advance_width": 1300,
           "lsb": -103
         },
         {
           "codepoint": 199,
           "name": "Ccedilla",
-          "glyf_hash": "5772b9189da96bd7",
+          "glyf_hash": "2ee8c6812b1faf1c",
           "advance_width": 1300,
           "lsb": 106
         },
         {
           "codepoint": 200,
           "name": "Egrave",
-          "glyf_hash": "6d3eabac06943eee",
+          "glyf_hash": "eb0bfcd99241e03e",
           "advance_width": 1300,
           "lsb": 72
         },
         {
           "codepoint": 201,
           "name": "Eacute",
-          "glyf_hash": "e80eb4d830c27bba",
+          "glyf_hash": "b763c9b3ef8abb10",
           "advance_width": 1300,
           "lsb": 72
         },
         {
           "codepoint": 202,
           "name": "Ecircumflex",
-          "glyf_hash": "e0c62bcef97bed68",
+          "glyf_hash": "254247be00b815dd",
           "advance_width": 1300,
           "lsb": 72
         },
         {
           "codepoint": 203,
           "name": "Edieresis",
-          "glyf_hash": "040f772a9d2cac9e",
+          "glyf_hash": "dc139d255d5f5578",
           "advance_width": 1300,
           "lsb": 72
         },
         {
           "codepoint": 204,
           "name": "Igrave",
-          "glyf_hash": "31685aa0b2c73710",
+          "glyf_hash": "f986b041f3561cb0",
           "advance_width": 1300,
           "lsb": 73
         },
         {
           "codepoint": 205,
           "name": "Iacute",
-          "glyf_hash": "a950b9704e959484",
+          "glyf_hash": "aefb622b6fcd72ce",
           "advance_width": 1300,
           "lsb": 73
         },
         {
           "codepoint": 206,
           "name": "Icircumflex",
-          "glyf_hash": "60990f6f84cebe41",
+          "glyf_hash": "e7542b7e4abcb627",
           "advance_width": 1300,
           "lsb": 73
         },
         {
           "codepoint": 207,
           "name": "Idieresis",
-          "glyf_hash": "a38bcb59a4aa7ecb",
+          "glyf_hash": "1c1ea9d37f0c23e0",
           "advance_width": 1300,
           "lsb": 73
         },
         {
           "codepoint": 208,
           "name": "Eth",
-          "glyf_hash": "dcd4805b2617ddb0",
+          "glyf_hash": "873ec68c53a57657",
           "advance_width": 1300,
           "lsb": 23
         },
         {
           "codepoint": 209,
           "name": "Ntilde",
-          "glyf_hash": "5dc5863e818494e6",
+          "glyf_hash": "5f32fc3a74cf91ca",
           "advance_width": 1300,
           "lsb": 42
         },
         {
           "codepoint": 210,
           "name": "Ograve",
-          "glyf_hash": "dd364f9369bb6ef7",
+          "glyf_hash": "b9d7a388d528a8a4",
           "advance_width": 1300,
-          "lsb": 53
+          "lsb": 52
         },
         {
           "codepoint": 211,
           "name": "Oacute",
-          "glyf_hash": "5bd6be2a93bafdac",
+          "glyf_hash": "b46d2f3703d5f774",
           "advance_width": 1300,
-          "lsb": 53
+          "lsb": 52
         },
         {
           "codepoint": 212,
           "name": "Ocircumflex",
-          "glyf_hash": "655168bea84a7149",
+          "glyf_hash": "3712f811a87264a1",
           "advance_width": 1300,
-          "lsb": 53
+          "lsb": 52
         },
         {
           "codepoint": 213,
           "name": "Otilde",
-          "glyf_hash": "c77a28bd69c8d075",
+          "glyf_hash": "e2dd30ba5ed9cd81",
           "advance_width": 1300,
-          "lsb": 53
+          "lsb": 52
         },
         {
           "codepoint": 214,
           "name": "Odieresis",
-          "glyf_hash": "3669b8afd53009f1",
+          "glyf_hash": "d9ccd60abf46f5a1",
           "advance_width": 1300,
-          "lsb": 53
+          "lsb": 52
         },
         {
           "codepoint": 215,
@@ -336782,217 +336782,217 @@
         {
           "codepoint": 216,
           "name": "Oslash",
-          "glyf_hash": "3dec6554648719de",
+          "glyf_hash": "e9c75bcff0b46656",
           "advance_width": 1300,
           "lsb": -57
         },
         {
           "codepoint": 217,
           "name": "Ugrave",
-          "glyf_hash": "a8c7fbcbecc10a65",
+          "glyf_hash": "2ebb0f08429890ee",
           "advance_width": 1300,
-          "lsb": 114
+          "lsb": 110
         },
         {
           "codepoint": 218,
           "name": "Uacute",
-          "glyf_hash": "d44a4499de581861",
+          "glyf_hash": "ee366ac803f26968",
           "advance_width": 1300,
-          "lsb": 114
+          "lsb": 110
         },
         {
           "codepoint": 219,
           "name": "Ucircumflex",
-          "glyf_hash": "22a21f8b42b51dfa",
+          "glyf_hash": "e7db74affb370ae4",
           "advance_width": 1300,
-          "lsb": 114
+          "lsb": 110
         },
         {
           "codepoint": 220,
           "name": "Udieresis",
-          "glyf_hash": "91b87fd4457b26cb",
+          "glyf_hash": "44964563c740893f",
           "advance_width": 1300,
-          "lsb": 114
+          "lsb": 110
         },
         {
           "codepoint": 221,
           "name": "Yacute",
-          "glyf_hash": "bc04b5af80a6b588",
+          "glyf_hash": "939066e4512a8fa8",
           "advance_width": 1300,
           "lsb": 97
         },
         {
           "codepoint": 222,
           "name": "Thorn",
-          "glyf_hash": "f2295916f951b377",
+          "glyf_hash": "1f52d992c1fb67b5",
           "advance_width": 1300,
           "lsb": 100
         },
         {
           "codepoint": 223,
           "name": "germandbls",
-          "glyf_hash": "6d6bcf2dfabf34d4",
+          "glyf_hash": "79be4f821628a1e4",
           "advance_width": 1300,
           "lsb": 100
         },
         {
           "codepoint": 224,
           "name": "agrave",
-          "glyf_hash": "f718a47961dac15f",
+          "glyf_hash": "2ea592e610eadcb2",
           "advance_width": 1300,
           "lsb": 160
         },
         {
           "codepoint": 225,
           "name": "aacute",
-          "glyf_hash": "9577ad109048363b",
+          "glyf_hash": "0fdba856d74f2bf7",
           "advance_width": 1300,
           "lsb": 160
         },
         {
           "codepoint": 226,
           "name": "acircumflex",
-          "glyf_hash": "f834eb2e175b7ecc",
+          "glyf_hash": "a6f791e4f719f746",
           "advance_width": 1300,
           "lsb": 160
         },
         {
           "codepoint": 227,
           "name": "atilde",
-          "glyf_hash": "7fbd16e1fac89663",
+          "glyf_hash": "8e6589221b64ed6d",
           "advance_width": 1300,
           "lsb": 160
         },
         {
           "codepoint": 228,
           "name": "adieresis",
-          "glyf_hash": "de38711f5a8015d4",
+          "glyf_hash": "75d37f1a37a7e414",
           "advance_width": 1300,
           "lsb": 160
         },
         {
           "codepoint": 229,
           "name": "aring",
-          "glyf_hash": "4c8b94f2735b967e",
+          "glyf_hash": "b7cbad610d812367",
           "advance_width": 1300,
           "lsb": 160
         },
         {
           "codepoint": 230,
           "name": "ae",
-          "glyf_hash": "1027b266dcf3ecde",
+          "glyf_hash": "9916d09af0e3db69",
           "advance_width": 1300,
-          "lsb": 10
+          "lsb": 3
         },
         {
           "codepoint": 231,
           "name": "ccedilla",
-          "glyf_hash": "2effe7ebfda09c4a",
+          "glyf_hash": "98377ecbfa8026b7",
           "advance_width": 1300,
           "lsb": 143
         },
         {
           "codepoint": 232,
           "name": "egrave",
-          "glyf_hash": "afa284aec4bae607",
+          "glyf_hash": "8e51054640a53f96",
           "advance_width": 1300,
           "lsb": 128
         },
         {
           "codepoint": 233,
           "name": "eacute",
-          "glyf_hash": "4bd2998e9bb4bd5b",
+          "glyf_hash": "50cb2646ae64cfa4",
           "advance_width": 1300,
           "lsb": 128
         },
         {
           "codepoint": 234,
           "name": "ecircumflex",
-          "glyf_hash": "b106ed566d016905",
+          "glyf_hash": "6c7d1f82f5f89276",
           "advance_width": 1300,
           "lsb": 128
         },
         {
           "codepoint": 235,
           "name": "edieresis",
-          "glyf_hash": "dd96b90790fd05b5",
+          "glyf_hash": "d2b334a75527478c",
           "advance_width": 1300,
           "lsb": 128
         },
         {
           "codepoint": 236,
           "name": "igrave",
-          "glyf_hash": "f132a14a9823dd9c",
+          "glyf_hash": "84b3d19309bcf288",
           "advance_width": 1300,
           "lsb": 250
         },
         {
           "codepoint": 237,
           "name": "iacute",
-          "glyf_hash": "b406d74a05b29eb7",
+          "glyf_hash": "b9fc28febfc80ba5",
           "advance_width": 1300,
           "lsb": 250
         },
         {
           "codepoint": 238,
           "name": "icircumflex",
-          "glyf_hash": "d9f86aa40f75c570",
+          "glyf_hash": "9b2a6c16b87d1e82",
           "advance_width": 1300,
           "lsb": 250
         },
         {
           "codepoint": 239,
           "name": "idieresis",
-          "glyf_hash": "51440b3f5b6908d5",
+          "glyf_hash": "a6932aaea6e40cf5",
           "advance_width": 1300,
           "lsb": 250
         },
         {
           "codepoint": 240,
           "name": "eth",
-          "glyf_hash": "2ad3c35be0dbe921",
+          "glyf_hash": "a61ee24450bd5cf7",
           "advance_width": 1300,
-          "lsb": 128
+          "lsb": 127
         },
         {
           "codepoint": 241,
           "name": "ntilde",
-          "glyf_hash": "edf545db009564f6",
+          "glyf_hash": "0cc30f10a0b68050",
           "advance_width": 1300,
           "lsb": 102
         },
         {
           "codepoint": 242,
           "name": "ograve",
-          "glyf_hash": "50642097880290a1",
+          "glyf_hash": "8711e53552e12118",
           "advance_width": 1300,
           "lsb": 124
         },
         {
           "codepoint": 243,
           "name": "oacute",
-          "glyf_hash": "338231c15bac1fe0",
+          "glyf_hash": "d8b6b0761b46d170",
           "advance_width": 1300,
           "lsb": 124
         },
         {
           "codepoint": 244,
           "name": "ocircumflex",
-          "glyf_hash": "60f7c98881261776",
+          "glyf_hash": "d5150e4633497dff",
           "advance_width": 1300,
           "lsb": 124
         },
         {
           "codepoint": 245,
           "name": "otilde",
-          "glyf_hash": "343fb1f4baac9ec9",
+          "glyf_hash": "5152410b25e6bfd1",
           "advance_width": 1300,
           "lsb": 124
         },
         {
           "codepoint": 246,
           "name": "odieresis",
-          "glyf_hash": "c7e7dcc86a93149e",
+          "glyf_hash": "0e09ed3bc88a9eba",
           "advance_width": 1300,
           "lsb": 124
         },
@@ -337006,56 +337006,56 @@
         {
           "codepoint": 248,
           "name": "oslash",
-          "glyf_hash": "38e6261caebecd6f",
+          "glyf_hash": "c9bd1bce7edfd3c0",
           "advance_width": 1300,
           "lsb": 124
         },
         {
           "codepoint": 249,
           "name": "ugrave",
-          "glyf_hash": "b362ea73356005df",
+          "glyf_hash": "1f345342e218f8cb",
           "advance_width": 1300,
           "lsb": 122
         },
         {
           "codepoint": 250,
           "name": "uacute",
-          "glyf_hash": "b55c8e86d181202b",
+          "glyf_hash": "05d83cfb16fc3be6",
           "advance_width": 1300,
           "lsb": 122
         },
         {
           "codepoint": 251,
           "name": "ucircumflex",
-          "glyf_hash": "877135364b7b0759",
+          "glyf_hash": "15fae56bb4865241",
           "advance_width": 1300,
           "lsb": 122
         },
         {
           "codepoint": 252,
           "name": "udieresis",
-          "glyf_hash": "6ded4a72b8386f55",
+          "glyf_hash": "9366ee7251db245a",
           "advance_width": 1300,
           "lsb": 122
         },
         {
           "codepoint": 253,
           "name": "yacute",
-          "glyf_hash": "893ab7ee3d7a5ad9",
+          "glyf_hash": "37553b6aa7985246",
           "advance_width": 1300,
           "lsb": 8
         },
         {
           "codepoint": 254,
           "name": "thorn",
-          "glyf_hash": "34f2e2328ac5f7cf",
+          "glyf_hash": "c0a7f4c75eff774f",
           "advance_width": 1300,
           "lsb": 35
         },
         {
           "codepoint": 255,
           "name": "ydieresis",
-          "glyf_hash": "6c68421168460282",
+          "glyf_hash": "1e4cd0d7aa627d97",
           "advance_width": 1300,
           "lsb": 8
         },
@@ -337636,16 +337636,16 @@
         {
           "codepoint": 338,
           "name": "OE",
-          "glyf_hash": "db85b0fb668f2df1",
+          "glyf_hash": "10d047026385527d",
           "advance_width": 1300,
-          "lsb": 3
+          "lsb": -7
         },
         {
           "codepoint": 339,
           "name": "oe",
-          "glyf_hash": "f061a7fcc0d6a6bd",
+          "glyf_hash": "0b5880d12b6caeef",
           "advance_width": 1300,
-          "lsb": 4
+          "lsb": 2
         },
         {
           "codepoint": 340,
@@ -337734,14 +337734,14 @@
         {
           "codepoint": 352,
           "name": "Scaron",
-          "glyf_hash": "2ffdcec7e681276d",
+          "glyf_hash": "2ab5a2b21106cd9e",
           "advance_width": 1300,
           "lsb": 96
         },
         {
           "codepoint": 353,
           "name": "scaron",
-          "glyf_hash": "3a802542374fa97a",
+          "glyf_hash": "c1581f6b17b536ee",
           "advance_width": 1300,
           "lsb": 130
         },
@@ -337902,7 +337902,7 @@
         {
           "codepoint": 376,
           "name": "Ydieresis",
-          "glyf_hash": "6c9d389045c519a5",
+          "glyf_hash": "7fdc90729a67de01",
           "advance_width": 1300,
           "lsb": 117
         },
@@ -337958,7 +337958,7 @@
         {
           "codepoint": 402,
           "name": "florin",
-          "glyf_hash": "43e6f8615046dc6d",
+          "glyf_hash": "fbfe48d4c511308b",
           "advance_width": 1300,
           "lsb": -137
         },
@@ -338756,107 +338756,107 @@
         {
           "codepoint": 913,
           "name": "Alpha",
-          "glyf_hash": "d692fbe88bb9f693",
+          "glyf_hash": "8568a2ede3e25e9e",
           "advance_width": 1300,
           "lsb": 18
         },
         {
           "codepoint": 914,
           "name": "Beta",
-          "glyf_hash": "f860a24c352415ca",
+          "glyf_hash": "f44e2e0b0b0da56d",
           "advance_width": 1300,
           "lsb": 100
         },
         {
           "codepoint": 915,
           "name": "Gamma",
-          "glyf_hash": "44312ecb41389013",
+          "glyf_hash": "6b814a85fdb2a227",
           "advance_width": 1300,
           "lsb": 100
         },
         {
           "codepoint": 916,
-          "name": "uni0394",
-          "glyf_hash": "15a55fde9bd77175",
+          "name": "Deltagreek",
+          "glyf_hash": "4ce391aac6c3d728",
           "advance_width": 1500,
           "lsb": 115
         },
         {
           "codepoint": 917,
           "name": "Epsilon",
-          "glyf_hash": "1c1cfba0fef0b3d4",
+          "glyf_hash": "73ca7d036f95cc1d",
           "advance_width": 1300,
           "lsb": 72
         },
         {
           "codepoint": 918,
           "name": "Zeta",
-          "glyf_hash": "4f703e68c6398d60",
+          "glyf_hash": "1b1cca23b29c5f43",
           "advance_width": 1300,
           "lsb": 9
         },
         {
           "codepoint": 919,
           "name": "Eta",
-          "glyf_hash": "aac78600a93aa097",
+          "glyf_hash": "b7b419c6faed162c",
           "advance_width": 1300,
           "lsb": 49
         },
         {
           "codepoint": 920,
           "name": "Theta",
-          "glyf_hash": "0eb90ade18283dbe",
+          "glyf_hash": "c02486250171abb4",
           "advance_width": 1300,
-          "lsb": 53
+          "lsb": 52
         },
         {
           "codepoint": 921,
           "name": "Iota",
-          "glyf_hash": "28e68991babe2acf",
+          "glyf_hash": "3100ab9813a317b6",
           "advance_width": 1300,
           "lsb": 73
         },
         {
           "codepoint": 922,
           "name": "Kappa",
-          "glyf_hash": "98b6349c3a8c6a9a",
+          "glyf_hash": "751a99db25f95a00",
           "advance_width": 1300,
           "lsb": 50
         },
         {
           "codepoint": 923,
           "name": "Lambda",
-          "glyf_hash": "b8ff67f412cc5489",
+          "glyf_hash": "fd350b17df7b2952",
           "advance_width": 1300,
           "lsb": 62
         },
         {
           "codepoint": 924,
           "name": "Mu",
-          "glyf_hash": "29ce1524ce7f5f79",
+          "glyf_hash": "e8efa78b811aebc1",
           "advance_width": 1300,
           "lsb": 12
         },
         {
           "codepoint": 925,
           "name": "Nu",
-          "glyf_hash": "086c7dd41e6089bf",
+          "glyf_hash": "f492f37faff0e389",
           "advance_width": 1300,
           "lsb": 42
         },
         {
           "codepoint": 926,
           "name": "Xi",
-          "glyf_hash": "abb9e66653188f5b",
+          "glyf_hash": "91ab9fe1b1d3a13d",
           "advance_width": 1300,
           "lsb": 100
         },
         {
           "codepoint": 927,
           "name": "Omicron",
-          "glyf_hash": "006c2b7836843670",
+          "glyf_hash": "55be190e359f8fdd",
           "advance_width": 1300,
-          "lsb": 53
+          "lsb": 52
         },
         {
           "codepoint": 928,
@@ -338868,56 +338868,56 @@
         {
           "codepoint": 929,
           "name": "Rho",
-          "glyf_hash": "c56ba97b0f16f37e",
+          "glyf_hash": "eceaab973494588d",
           "advance_width": 1300,
           "lsb": 99
         },
         {
           "codepoint": 931,
           "name": "Sigma",
-          "glyf_hash": "6f3fb5285b380f8b",
+          "glyf_hash": "57657be23bef713d",
           "advance_width": 1300,
           "lsb": 80
         },
         {
           "codepoint": 932,
           "name": "Tau",
-          "glyf_hash": "b06e244a6931405f",
+          "glyf_hash": "ea5d4a1a5964ba54",
           "advance_width": 1300,
           "lsb": 145
         },
         {
           "codepoint": 933,
           "name": "Upsilon",
-          "glyf_hash": "ca32b27c11a74535",
+          "glyf_hash": "f71ef04f45fee6c1",
           "advance_width": 1300,
           "lsb": 97
         },
         {
           "codepoint": 934,
           "name": "Phi",
-          "glyf_hash": "f2c31deab9059d00",
+          "glyf_hash": "e6269ae631fde79d",
           "advance_width": 1300,
-          "lsb": 15
+          "lsb": 7
         },
         {
           "codepoint": 935,
           "name": "Chi",
-          "glyf_hash": "a1d07a8471a43cfd",
+          "glyf_hash": "daf5d87a957aac2b",
           "advance_width": 1300,
           "lsb": -1
         },
         {
           "codepoint": 936,
           "name": "Psi",
-          "glyf_hash": "01c5a3132a5a6a82",
+          "glyf_hash": "abe20ae38ea6bbff",
           "advance_width": 1300,
-          "lsb": 43
+          "lsb": 36
         },
         {
           "codepoint": 937,
-          "name": "uni03A9",
-          "glyf_hash": "dd0ed606cac93264",
+          "name": "Omegagreek",
+          "glyf_hash": "7740e8ff7e16f20c",
           "advance_width": 1300,
           "lsb": 28
         },
@@ -338973,112 +338973,112 @@
         {
           "codepoint": 945,
           "name": "alpha",
-          "glyf_hash": "3a54fcc39f39d03c",
+          "glyf_hash": "41049fa1f058ed8f",
           "advance_width": 1300,
-          "lsb": 95
+          "lsb": 89
         },
         {
           "codepoint": 946,
           "name": "beta",
-          "glyf_hash": "f811a082f2e0dac3",
+          "glyf_hash": "13cfa34ecb73ca5f",
           "advance_width": 1300,
           "lsb": 86
         },
         {
           "codepoint": 947,
           "name": "gamma",
-          "glyf_hash": "89d732dd88859aa0",
+          "glyf_hash": "222aad78308c1815",
           "advance_width": 1300,
           "lsb": 124
         },
         {
           "codepoint": 948,
           "name": "delta",
-          "glyf_hash": "68288eb2f26487bd",
+          "glyf_hash": "6fe8c3e968f66f01",
           "advance_width": 1300,
-          "lsb": 154
+          "lsb": 153
         },
         {
           "codepoint": 949,
           "name": "epsilon",
-          "glyf_hash": "e0cedc8714377d56",
+          "glyf_hash": "5768dd153cb4cc9b",
           "advance_width": 1300,
-          "lsb": 224
+          "lsb": 218
         },
         {
           "codepoint": 950,
           "name": "zeta",
-          "glyf_hash": "ff240017fba4ca0b",
+          "glyf_hash": "e1a1d72ce51bab7f",
           "advance_width": 1300,
           "lsb": 190
         },
         {
           "codepoint": 951,
           "name": "eta",
-          "glyf_hash": "d37069becb6698c5",
+          "glyf_hash": "ab5c45360c1d9847",
           "advance_width": 1300,
           "lsb": 171
         },
         {
           "codepoint": 952,
           "name": "theta",
-          "glyf_hash": "0e23558fa9524dae",
+          "glyf_hash": "e30e99bf3d9ff8eb",
           "advance_width": 1300,
-          "lsb": 125
+          "lsb": 124
         },
         {
           "codepoint": 953,
           "name": "iota",
-          "glyf_hash": "ab7afa8c42314866",
+          "glyf_hash": "36e36ab327f67aaa",
           "advance_width": 1300,
-          "lsb": 254
+          "lsb": 252
         },
         {
           "codepoint": 954,
           "name": "kappa",
-          "glyf_hash": "f99b637d43a735d4",
+          "glyf_hash": "f334ce1d6867c406",
           "advance_width": 1300,
           "lsb": 200
         },
         {
           "codepoint": 955,
           "name": "lambda",
-          "glyf_hash": "4ffd4ff2d0e93ce3",
+          "glyf_hash": "e460979309568e52",
           "advance_width": 1300,
           "lsb": 134
         },
         {
           "codepoint": 956,
           "name": "uni03BC",
-          "glyf_hash": "4a06c6e15441d6d8",
+          "glyf_hash": "f5f294aa4580207b",
           "advance_width": 1300,
           "lsb": 111
         },
         {
           "codepoint": 957,
           "name": "nu",
-          "glyf_hash": "f0da6d510f53d53b",
+          "glyf_hash": "d12b74aa4f957fc2",
           "advance_width": 1300,
           "lsb": 137
         },
         {
           "codepoint": 958,
           "name": "xi",
-          "glyf_hash": "3259efe1b6a0e2da",
+          "glyf_hash": "6a839b478d8b67b7",
           "advance_width": 1300,
-          "lsb": 172
+          "lsb": 167
         },
         {
           "codepoint": 959,
           "name": "omicron",
-          "glyf_hash": "8007cc63b307e18f",
+          "glyf_hash": "047cd1d1ef71b1fb",
           "advance_width": 1300,
           "lsb": 124
         },
         {
           "codepoint": 960,
           "name": "pi",
-          "glyf_hash": "8825b479ab1adb46",
+          "glyf_hash": "d47b541de1b35f83",
           "advance_width": 1300,
           "lsb": 119
         },
@@ -339091,59 +339091,59 @@
         },
         {
           "codepoint": 962,
-          "name": "uni03C2",
-          "glyf_hash": "08df7c7a75e6c733",
+          "name": "sigma1",
+          "glyf_hash": "2acbf586b0aa4bd8",
           "advance_width": 1300,
-          "lsb": 190
+          "lsb": 185
         },
         {
           "codepoint": 963,
           "name": "sigma",
-          "glyf_hash": "21c8cf7ffcdf9439",
+          "glyf_hash": "6c44d1c744a74e53",
           "advance_width": 1300,
-          "lsb": 93
+          "lsb": 88
         },
         {
           "codepoint": 964,
           "name": "tau",
-          "glyf_hash": "92da133b92060be0",
+          "glyf_hash": "66881c992e8df5ee",
           "advance_width": 1300,
           "lsb": 166
         },
         {
           "codepoint": 965,
           "name": "upsilon",
-          "glyf_hash": "a25d6f4045725514",
+          "glyf_hash": "1cc9f6eab4b90c07",
           "advance_width": 1300,
           "lsb": 49
         },
         {
           "codepoint": 966,
           "name": "phi",
-          "glyf_hash": "aa332905167985bc",
+          "glyf_hash": "76cce1f747923863",
           "advance_width": 1300,
-          "lsb": 37
+          "lsb": 29
         },
         {
           "codepoint": 967,
           "name": "chi",
-          "glyf_hash": "97cab6adfa8966b2",
+          "glyf_hash": "2987362e5f30b8c6",
           "advance_width": 1300,
           "lsb": -65
         },
         {
           "codepoint": 968,
           "name": "psi",
-          "glyf_hash": "a58c8643e09b9e70",
+          "glyf_hash": "9517ff3d65316d73",
           "advance_width": 1300,
-          "lsb": 26
+          "lsb": 24
         },
         {
           "codepoint": 969,
           "name": "omega",
-          "glyf_hash": "f28366030db4f13c",
+          "glyf_hash": "e972052f9e3b82f2",
           "advance_width": 1300,
-          "lsb": 33
+          "lsb": 31
         },
         {
           "codepoint": 970,
@@ -339182,31 +339182,31 @@
         },
         {
           "codepoint": 977,
-          "name": "uni03D1",
-          "glyf_hash": "5db363acb2b43131",
+          "name": "theta1",
+          "glyf_hash": "2d1caedd4569cfeb",
           "advance_width": 1300,
           "lsb": 53
         },
         {
           "codepoint": 978,
-          "name": "uni03D2",
-          "glyf_hash": "76071ed2c14c8c59",
+          "name": "Upsilon1",
+          "glyf_hash": "a68edb1e0c169205",
           "advance_width": 1300,
           "lsb": 107
         },
         {
           "codepoint": 981,
-          "name": "uni03D5",
-          "glyf_hash": "40de882e4791a1dc",
+          "name": "phi1",
+          "glyf_hash": "44e5657485c669ad",
           "advance_width": 1300,
-          "lsb": 37
+          "lsb": 32
         },
         {
           "codepoint": 982,
-          "name": "uni03D6",
-          "glyf_hash": "78a4c9fc8df9c273",
+          "name": "omega1",
+          "glyf_hash": "5472372c64b8eb54",
           "advance_width": 1300,
-          "lsb": 28
+          "lsb": 26
         },
         {
           "codepoint": 1012,
@@ -419447,7 +419447,7 @@
     {
       "variant": "Regular",
       "filename": "PlanetaireMono-Regular.ttf",
-      "glyph_count": 12134,
+      "glyph_count": 12137,
       "upm": 2000,
       "weight": 400,
       "glyphs": [
@@ -419580,70 +419580,70 @@
         {
           "codepoint": 48,
           "name": "zero",
-          "glyf_hash": "04e8bef1306125c1",
+          "glyf_hash": "0e0e39c20b9adb20",
           "advance_width": 1300,
           "lsb": 141
         },
         {
           "codepoint": 49,
           "name": "one",
-          "glyf_hash": "135118ecedd9ae5d",
+          "glyf_hash": "dee722898d5897fa",
           "advance_width": 1300,
           "lsb": 185
         },
         {
           "codepoint": 50,
           "name": "two",
-          "glyf_hash": "5867cbde30dd64bb",
+          "glyf_hash": "3b7e856cc9e666cc",
           "advance_width": 1300,
           "lsb": 183
         },
         {
           "codepoint": 51,
           "name": "three",
-          "glyf_hash": "fff2ea787ad49b1d",
+          "glyf_hash": "ef0aff8000869959",
           "advance_width": 1300,
           "lsb": 227
         },
         {
           "codepoint": 52,
           "name": "four",
-          "glyf_hash": "79be5ed0b2d000bc",
+          "glyf_hash": "744214475fc341c9",
           "advance_width": 1300,
           "lsb": 151
         },
         {
           "codepoint": 53,
           "name": "five",
-          "glyf_hash": "5f866e0063c0b8e8",
+          "glyf_hash": "5874288902c82f85",
           "advance_width": 1300,
           "lsb": 248
         },
         {
           "codepoint": 54,
           "name": "six",
-          "glyf_hash": "683f3ec3dcca2243",
+          "glyf_hash": "c101ad9a471fc5c6",
           "advance_width": 1300,
           "lsb": 153
         },
         {
           "codepoint": 55,
           "name": "seven",
-          "glyf_hash": "83187cffdbf474b1",
+          "glyf_hash": "8fe2deae53633788",
           "advance_width": 1300,
           "lsb": 177
         },
         {
           "codepoint": 56,
           "name": "eight",
-          "glyf_hash": "056b5099b0fa3d61",
+          "glyf_hash": "9248bf83a6fda53d",
           "advance_width": 1300,
           "lsb": 149
         },
         {
           "codepoint": 57,
           "name": "nine",
-          "glyf_hash": "5c6e5e4ac4b1d5ce",
+          "glyf_hash": "316681212b29ab1b",
           "advance_width": 1300,
           "lsb": 150
         },
@@ -419699,182 +419699,182 @@
         {
           "codepoint": 65,
           "name": "A",
-          "glyf_hash": "724a50dc586d039d",
+          "glyf_hash": "63ab0ab213cb84c2",
           "advance_width": 1300,
           "lsb": 32
         },
         {
           "codepoint": 66,
           "name": "B",
-          "glyf_hash": "2c64efdf61f123ff",
+          "glyf_hash": "c231b80bb4fc8038",
           "advance_width": 1300,
           "lsb": 180
         },
         {
           "codepoint": 67,
           "name": "C",
-          "glyf_hash": "6f9476e4247544b2",
+          "glyf_hash": "e8b50e55644184ac",
           "advance_width": 1300,
           "lsb": 100
         },
         {
           "codepoint": 68,
           "name": "D",
-          "glyf_hash": "a77a7ccae4e4a5fb",
+          "glyf_hash": "e4aa0b5d34464119",
           "advance_width": 1300,
           "lsb": 175
         },
         {
           "codepoint": 69,
           "name": "E",
-          "glyf_hash": "c5f9fe2015560db3",
+          "glyf_hash": "8e30bae619ef21d4",
           "advance_width": 1300,
           "lsb": 180
         },
         {
           "codepoint": 70,
           "name": "F",
-          "glyf_hash": "2d639bffca69ca46",
+          "glyf_hash": "c8a5417bfb05690c",
           "advance_width": 1300,
           "lsb": 175
         },
         {
           "codepoint": 71,
           "name": "G",
-          "glyf_hash": "0d2d2b6f5c63b787",
+          "glyf_hash": "1e63b5c2efd748bb",
           "advance_width": 1300,
           "lsb": 128
         },
         {
           "codepoint": 72,
           "name": "H",
-          "glyf_hash": "92c57d753373bebe",
+          "glyf_hash": "72c9d9cdfa4d9504",
           "advance_width": 1300,
           "lsb": 159
         },
         {
           "codepoint": 73,
           "name": "I",
-          "glyf_hash": "382fef2ca811fe1d",
+          "glyf_hash": "30c4618f195aa3d7",
           "advance_width": 1300,
           "lsb": 180
         },
         {
           "codepoint": 74,
           "name": "J",
-          "glyf_hash": "471e63826d3b14a9",
+          "glyf_hash": "66ba4cf4bb8a8ac9",
           "advance_width": 1300,
           "lsb": 240
         },
         {
           "codepoint": 75,
           "name": "K",
-          "glyf_hash": "03cb92e6b4d8ae37",
+          "glyf_hash": "c34c1e1c1c819cdb",
           "advance_width": 1300,
           "lsb": 175
         },
         {
           "codepoint": 76,
           "name": "L",
-          "glyf_hash": "f58f752b55e77ddd",
+          "glyf_hash": "64c6d2069b6c4e94",
           "advance_width": 1300,
           "lsb": 178
         },
         {
           "codepoint": 77,
           "name": "M",
-          "glyf_hash": "05432fe289516dbc",
+          "glyf_hash": "3d931fa1de119551",
           "advance_width": 1300,
           "lsb": 120
         },
         {
           "codepoint": 78,
           "name": "N",
-          "glyf_hash": "1955c0eba92a3c77",
+          "glyf_hash": "6df12eeed1e32167",
           "advance_width": 1300,
           "lsb": 140
         },
         {
           "codepoint": 79,
           "name": "O",
-          "glyf_hash": "cd0f67a38e21d2df",
+          "glyf_hash": "a19af39b74a881c1",
           "advance_width": 1300,
           "lsb": 100
         },
         {
           "codepoint": 80,
           "name": "P",
-          "glyf_hash": "6a61662579faa473",
+          "glyf_hash": "6977da2b84d85215",
           "advance_width": 1300,
           "lsb": 218
         },
         {
           "codepoint": 81,
           "name": "Q",
-          "glyf_hash": "0b943c0d425704ee",
+          "glyf_hash": "d47ebab8409b8062",
           "advance_width": 1300,
           "lsb": 100
         },
         {
           "codepoint": 82,
           "name": "R",
-          "glyf_hash": "7607f990f78f1bd4",
+          "glyf_hash": "49ac1a44b56de118",
           "advance_width": 1300,
           "lsb": 174
         },
         {
           "codepoint": 83,
           "name": "S",
-          "glyf_hash": "cab257bfe6d6918f",
+          "glyf_hash": "04394d15838a2b82",
           "advance_width": 1300,
           "lsb": 193
         },
         {
           "codepoint": 84,
           "name": "T",
-          "glyf_hash": "123273d21da9101a",
+          "glyf_hash": "a27f244827a628bd",
           "advance_width": 1300,
           "lsb": 130
         },
         {
           "codepoint": 85,
           "name": "U",
-          "glyf_hash": "02c6f0cbf67a8d97",
+          "glyf_hash": "d2d285c5a3b3ba92",
           "advance_width": 1300,
           "lsb": 155
         },
         {
           "codepoint": 86,
           "name": "V",
-          "glyf_hash": "dac01457526b2458",
+          "glyf_hash": "82c3dcb91b4a7b41",
           "advance_width": 1300,
           "lsb": 112
         },
         {
           "codepoint": 87,
           "name": "W",
-          "glyf_hash": "4e57c22be0501330",
+          "glyf_hash": "b716c8e949592eac",
           "advance_width": 1300,
           "lsb": 38
         },
         {
           "codepoint": 88,
           "name": "X",
-          "glyf_hash": "f46e034b26ca9772",
+          "glyf_hash": "818df6779de6c39b",
           "advance_width": 1300,
           "lsb": 101
         },
         {
           "codepoint": 89,
           "name": "Y",
-          "glyf_hash": "58208cf06ca1f476",
+          "glyf_hash": "20fee9f4799b46ed",
           "advance_width": 1300,
           "lsb": 90
         },
         {
           "codepoint": 90,
           "name": "Z",
-          "glyf_hash": "2e3f46701b4b6cfb",
+          "glyf_hash": "77ed31ab41e4363b",
           "advance_width": 1300,
           "lsb": 161
         },
@@ -419923,182 +419923,182 @@
         {
           "codepoint": 97,
           "name": "a",
-          "glyf_hash": "917e4676ddf1221d",
+          "glyf_hash": "41b8aa5aa2303264",
           "advance_width": 1300,
           "lsb": 170
         },
         {
           "codepoint": 98,
           "name": "b",
-          "glyf_hash": "6fb2fb4e6df7c94b",
+          "glyf_hash": "c941ec3dea2fcc0d",
           "advance_width": 1300,
           "lsb": 190
         },
         {
           "codepoint": 99,
           "name": "c",
-          "glyf_hash": "f37e0b7b499b1420",
+          "glyf_hash": "2e8637c750838fd8",
           "advance_width": 1300,
           "lsb": 170
         },
         {
           "codepoint": 100,
           "name": "d",
-          "glyf_hash": "b5411f8ccc30c76a",
+          "glyf_hash": "904168a52c3a47ac",
           "advance_width": 1300,
           "lsb": 151
         },
         {
           "codepoint": 101,
           "name": "e",
-          "glyf_hash": "384acf0cfe4c5895",
+          "glyf_hash": "22d518b5ea2b94cb",
           "advance_width": 1300,
           "lsb": 150
         },
         {
           "codepoint": 102,
           "name": "f",
-          "glyf_hash": "430088bc3616862f",
+          "glyf_hash": "e97f848daaae177b",
           "advance_width": 1300,
           "lsb": 148
         },
         {
           "codepoint": 103,
           "name": "g",
-          "glyf_hash": "50427e556e4f3fd2",
+          "glyf_hash": "4a25ace0b5885212",
           "advance_width": 1300,
           "lsb": 150
         },
         {
           "codepoint": 104,
           "name": "h",
-          "glyf_hash": "8e961bfb959e12c5",
+          "glyf_hash": "723f35a81acb4125",
           "advance_width": 1300,
           "lsb": 191
         },
         {
           "codepoint": 105,
           "name": "i",
-          "glyf_hash": "1ed6aea09fe4f535",
+          "glyf_hash": "162d695b52759aaf",
           "advance_width": 1300,
           "lsb": 200
         },
         {
           "codepoint": 106,
           "name": "j",
-          "glyf_hash": "5e0cb5581d6422b7",
+          "glyf_hash": "8ae95aea34d9d94f",
           "advance_width": 1300,
           "lsb": 261
         },
         {
           "codepoint": 107,
           "name": "k",
-          "glyf_hash": "4356e6c6f9cf0242",
+          "glyf_hash": "d741007a7b72a1c9",
           "advance_width": 1300,
           "lsb": 191
         },
         {
           "codepoint": 108,
           "name": "l",
-          "glyf_hash": "bb4e8b2fe2210af7",
+          "glyf_hash": "560f0e69012dfaad",
           "advance_width": 1300,
           "lsb": 189
         },
         {
           "codepoint": 109,
           "name": "m",
-          "glyf_hash": "266c589ffcc1d671",
+          "glyf_hash": "88f64893888cdb8b",
           "advance_width": 1300,
           "lsb": 86
         },
         {
           "codepoint": 110,
           "name": "n",
-          "glyf_hash": "a66c7ec3bf1952a6",
+          "glyf_hash": "b1bfb3d41eb9f51f",
           "advance_width": 1300,
           "lsb": 211
         },
         {
           "codepoint": 111,
           "name": "o",
-          "glyf_hash": "8057f57bc7b385fb",
+          "glyf_hash": "e78e67a35ad52d11",
           "advance_width": 1300,
           "lsb": 144
         },
         {
           "codepoint": 112,
           "name": "p",
-          "glyf_hash": "a8149d36d1b0c16f",
+          "glyf_hash": "098bf2a46265f26d",
           "advance_width": 1300,
           "lsb": 210
         },
         {
           "codepoint": 113,
           "name": "q",
-          "glyf_hash": "53dfc6d869c099dd",
+          "glyf_hash": "0d98acd65aeec952",
           "advance_width": 1300,
           "lsb": 151
         },
         {
           "codepoint": 114,
           "name": "r",
-          "glyf_hash": "f5e06a2560aea577",
+          "glyf_hash": "8eb412c2faf6d6bc",
           "advance_width": 1300,
           "lsb": 211
         },
         {
           "codepoint": 115,
           "name": "s",
-          "glyf_hash": "40db9d2676ba7536",
+          "glyf_hash": "d532f84bafdeb5db",
           "advance_width": 1300,
           "lsb": 175
         },
         {
           "codepoint": 116,
           "name": "t",
-          "glyf_hash": "43c38fae33985358",
+          "glyf_hash": "8f94dd740d3733cc",
           "advance_width": 1300,
           "lsb": 100
         },
         {
           "codepoint": 117,
           "name": "u",
-          "glyf_hash": "8afdc61b4f7b2055",
+          "glyf_hash": "14adce6e04cb7518",
           "advance_width": 1300,
           "lsb": 211
         },
         {
           "codepoint": 118,
           "name": "v",
-          "glyf_hash": "1d1eeb5b9e9fa1dc",
+          "glyf_hash": "f356f3d5355df7a0",
           "advance_width": 1300,
           "lsb": 175
         },
         {
           "codepoint": 119,
           "name": "w",
-          "glyf_hash": "4bdc88f708996e70",
+          "glyf_hash": "5ea494c49c50089f",
           "advance_width": 1300,
           "lsb": 100
         },
         {
           "codepoint": 120,
           "name": "x",
-          "glyf_hash": "3c0120187beaf635",
+          "glyf_hash": "ffa5ebf061829abc",
           "advance_width": 1300,
           "lsb": 106
         },
         {
           "codepoint": 121,
           "name": "y",
-          "glyf_hash": "7b62eba8dbf455db",
+          "glyf_hash": "692e12db2c9c44e8",
           "advance_width": 1300,
           "lsb": 164
         },
         {
           "codepoint": 122,
           "name": "z",
-          "glyf_hash": "8f606fed52453187",
+          "glyf_hash": "36ecb644f1d97d14",
           "advance_width": 1300,
           "lsb": 181
         },
@@ -420357,161 +420357,161 @@
         {
           "codepoint": 192,
           "name": "Agrave",
-          "glyf_hash": "9675e17ba8184718",
+          "glyf_hash": "b37d0f5fb7d1997c",
           "advance_width": 1300,
           "lsb": 32
         },
         {
           "codepoint": 193,
           "name": "Aacute",
-          "glyf_hash": "f31f758919e538d6",
+          "glyf_hash": "15d47a6cd0309175",
           "advance_width": 1300,
           "lsb": 32
         },
         {
           "codepoint": 194,
           "name": "Acircumflex",
-          "glyf_hash": "ef7b1a20aed19559",
+          "glyf_hash": "760edd2a52ad0902",
           "advance_width": 1300,
           "lsb": 32
         },
         {
           "codepoint": 195,
           "name": "Atilde",
-          "glyf_hash": "54badaf2ac4e7ead",
+          "glyf_hash": "a0f8d1d193b05924",
           "advance_width": 1300,
           "lsb": 32
         },
         {
           "codepoint": 196,
           "name": "Adieresis",
-          "glyf_hash": "2ab728d8e58c2c84",
+          "glyf_hash": "680468dc06331d8a",
           "advance_width": 1300,
           "lsb": 32
         },
         {
           "codepoint": 197,
           "name": "Aring",
-          "glyf_hash": "7c14b34eb1918179",
+          "glyf_hash": "fbde49db7b9c69c0",
           "advance_width": 1300,
           "lsb": 32
         },
         {
           "codepoint": 198,
           "name": "AE",
-          "glyf_hash": "1e6da114408d51b6",
+          "glyf_hash": "c2082a97dc0e3722",
           "advance_width": 1300,
           "lsb": 29
         },
         {
           "codepoint": 199,
           "name": "Ccedilla",
-          "glyf_hash": "d1dd424cf754b80a",
+          "glyf_hash": "2e42ad2c28c647b6",
           "advance_width": 1300,
           "lsb": 90
         },
         {
           "codepoint": 200,
           "name": "Egrave",
-          "glyf_hash": "c18ccce33c81b635",
+          "glyf_hash": "7501a6b5f440e670",
           "advance_width": 1300,
           "lsb": 180
         },
         {
           "codepoint": 201,
           "name": "Eacute",
-          "glyf_hash": "c1483f862fb49ad8",
+          "glyf_hash": "7909bcc57b3fd4be",
           "advance_width": 1300,
           "lsb": 180
         },
         {
           "codepoint": 202,
           "name": "Ecircumflex",
-          "glyf_hash": "bdc28802764dab95",
+          "glyf_hash": "0f7236265c0cafae",
           "advance_width": 1300,
           "lsb": 180
         },
         {
           "codepoint": 203,
           "name": "Edieresis",
-          "glyf_hash": "6eab6c37442d12b7",
+          "glyf_hash": "fea471ebc8f4095b",
           "advance_width": 1300,
           "lsb": 180
         },
         {
           "codepoint": 204,
           "name": "Igrave",
-          "glyf_hash": "e7ef4ffe04a6fd7f",
+          "glyf_hash": "e68d6dfae35f8fd0",
           "advance_width": 1300,
           "lsb": 186
         },
         {
           "codepoint": 205,
           "name": "Iacute",
-          "glyf_hash": "155c6c5cd33d0ae7",
+          "glyf_hash": "d2e2f69fe58ae06a",
           "advance_width": 1300,
           "lsb": 186
         },
         {
           "codepoint": 206,
           "name": "Icircumflex",
-          "glyf_hash": "eb5ede00cf4fb194",
+          "glyf_hash": "6cf9fa865b761022",
           "advance_width": 1300,
           "lsb": 186
         },
         {
           "codepoint": 207,
           "name": "Idieresis",
-          "glyf_hash": "4563dadcd3bd2a36",
+          "glyf_hash": "fc45fcb4c10325ca",
           "advance_width": 1300,
           "lsb": 186
         },
         {
           "codepoint": 208,
           "name": "Eth",
-          "glyf_hash": "3f16fdd5d58664ed",
+          "glyf_hash": "37749909d808bc47",
           "advance_width": 1300,
           "lsb": 0
         },
         {
           "codepoint": 209,
           "name": "Ntilde",
-          "glyf_hash": "9aad26bab92430d3",
+          "glyf_hash": "8ebab7bc29fac4af",
           "advance_width": 1300,
           "lsb": 140
         },
         {
           "codepoint": 210,
           "name": "Ograve",
-          "glyf_hash": "fb46adbad1673d8a",
+          "glyf_hash": "6aed4d10d1fde668",
           "advance_width": 1300,
           "lsb": 74
         },
         {
           "codepoint": 211,
           "name": "Oacute",
-          "glyf_hash": "326d436283b3100f",
+          "glyf_hash": "ec7d13b00ee08563",
           "advance_width": 1300,
           "lsb": 74
         },
         {
           "codepoint": 212,
           "name": "Ocircumflex",
-          "glyf_hash": "aa77e3c0e7928052",
+          "glyf_hash": "ab7471f1c778bc06",
           "advance_width": 1300,
           "lsb": 73
         },
         {
           "codepoint": 213,
           "name": "Otilde",
-          "glyf_hash": "41e05748053bd738",
+          "glyf_hash": "ad18920a01783fed",
           "advance_width": 1300,
           "lsb": 74
         },
         {
           "codepoint": 214,
           "name": "Odieresis",
-          "glyf_hash": "22801c1bf53590ef",
+          "glyf_hash": "0615884c9792df20",
           "advance_width": 1300,
           "lsb": 74
         },
@@ -420525,217 +420525,217 @@
         {
           "codepoint": 216,
           "name": "Oslash",
-          "glyf_hash": "9e4bee6ef9d9343c",
+          "glyf_hash": "b719ba0143f24b20",
           "advance_width": 1300,
           "lsb": 100
         },
         {
           "codepoint": 217,
           "name": "Ugrave",
-          "glyf_hash": "6c9f120e18aa22b4",
+          "glyf_hash": "a4d8ae3eccb235e8",
           "advance_width": 1300,
           "lsb": 155
         },
         {
           "codepoint": 218,
           "name": "Uacute",
-          "glyf_hash": "c44d4d77f6a3bf84",
+          "glyf_hash": "9d1b20b0ad4f7603",
           "advance_width": 1300,
           "lsb": 155
         },
         {
           "codepoint": 219,
           "name": "Ucircumflex",
-          "glyf_hash": "819497e68d374498",
+          "glyf_hash": "77d54d8d88b9dcab",
           "advance_width": 1300,
           "lsb": 155
         },
         {
           "codepoint": 220,
           "name": "Udieresis",
-          "glyf_hash": "bb9366b666201e3b",
+          "glyf_hash": "f1224e5f2d19619f",
           "advance_width": 1300,
           "lsb": 155
         },
         {
           "codepoint": 221,
           "name": "Yacute",
-          "glyf_hash": "b41e56ef84b4a29f",
+          "glyf_hash": "5e940aa2ce014fbc",
           "advance_width": 1300,
           "lsb": 59
         },
         {
           "codepoint": 222,
           "name": "Thorn",
-          "glyf_hash": "e295c6b5c2444482",
+          "glyf_hash": "8e54e423118ebd80",
           "advance_width": 1300,
           "lsb": 180
         },
         {
           "codepoint": 223,
           "name": "germandbls",
-          "glyf_hash": "a0a69405b5b108fc",
+          "glyf_hash": "3e48fd01560b2c3b",
           "advance_width": 1300,
           "lsb": 192
         },
         {
           "codepoint": 224,
           "name": "agrave",
-          "glyf_hash": "0f168b36525ee860",
+          "glyf_hash": "f360ea52a5095573",
           "advance_width": 1300,
           "lsb": 170
         },
         {
           "codepoint": 225,
           "name": "aacute",
-          "glyf_hash": "3a3b16d3116b9d2d",
+          "glyf_hash": "47cdf03c141a6ee0",
           "advance_width": 1300,
           "lsb": 170
         },
         {
           "codepoint": 226,
           "name": "acircumflex",
-          "glyf_hash": "c1618d4bb28839ae",
+          "glyf_hash": "90d4c78580045010",
           "advance_width": 1300,
           "lsb": 170
         },
         {
           "codepoint": 227,
           "name": "atilde",
-          "glyf_hash": "3eac00de312cd914",
+          "glyf_hash": "e92904aac9673279",
           "advance_width": 1300,
           "lsb": 170
         },
         {
           "codepoint": 228,
           "name": "adieresis",
-          "glyf_hash": "b6dc67ebab3ba3d2",
+          "glyf_hash": "4255fdc4fe6fbf18",
           "advance_width": 1300,
           "lsb": 170
         },
         {
           "codepoint": 229,
           "name": "aring",
-          "glyf_hash": "de0ea383ad017a2a",
+          "glyf_hash": "7207a71c77c3e718",
           "advance_width": 1300,
           "lsb": 170
         },
         {
           "codepoint": 230,
           "name": "ae",
-          "glyf_hash": "5571a758c1b476e9",
+          "glyf_hash": "ba0fde150e5113e3",
           "advance_width": 1300,
           "lsb": 55
         },
         {
           "codepoint": 231,
           "name": "ccedilla",
-          "glyf_hash": "1f5841947dceb012",
+          "glyf_hash": "7b285cdf6f4329db",
           "advance_width": 1300,
           "lsb": 169
         },
         {
           "codepoint": 232,
           "name": "egrave",
-          "glyf_hash": "0a483187eacdb479",
+          "glyf_hash": "3b03a1d64694884a",
           "advance_width": 1300,
           "lsb": 150
         },
         {
           "codepoint": 233,
           "name": "eacute",
-          "glyf_hash": "a6d439cb1e0e8283",
+          "glyf_hash": "bfc53cd26cb89400",
           "advance_width": 1300,
           "lsb": 150
         },
         {
           "codepoint": 234,
           "name": "ecircumflex",
-          "glyf_hash": "a2d8244f7e6bd9c4",
+          "glyf_hash": "ac5a524b3788e59f",
           "advance_width": 1300,
           "lsb": 150
         },
         {
           "codepoint": 235,
           "name": "edieresis",
-          "glyf_hash": "30ebaccc405ae604",
+          "glyf_hash": "65da444af51ffa25",
           "advance_width": 1300,
           "lsb": 150
         },
         {
           "codepoint": 236,
           "name": "igrave",
-          "glyf_hash": "da1db7ef39413a1b",
+          "glyf_hash": "17dc7729810c5fc2",
           "advance_width": 1300,
           "lsb": 200
         },
         {
           "codepoint": 237,
           "name": "iacute",
-          "glyf_hash": "a1df0a0e09f89bb1",
+          "glyf_hash": "90a08a77429a3be7",
           "advance_width": 1300,
           "lsb": 200
         },
         {
           "codepoint": 238,
           "name": "icircumflex",
-          "glyf_hash": "19288ad6274783f6",
+          "glyf_hash": "2a6fb0429ba93e07",
           "advance_width": 1300,
           "lsb": 200
         },
         {
           "codepoint": 239,
           "name": "idieresis",
-          "glyf_hash": "6ae7d47358df0064",
+          "glyf_hash": "7fa8e640ea2f60f1",
           "advance_width": 1300,
           "lsb": 200
         },
         {
           "codepoint": 240,
           "name": "eth",
-          "glyf_hash": "9d319e066cd7003b",
+          "glyf_hash": "6f19bb0be52caa65",
           "advance_width": 1300,
           "lsb": 200
         },
         {
           "codepoint": 241,
           "name": "ntilde",
-          "glyf_hash": "a4bcf489edc66f2b",
+          "glyf_hash": "5f33f640936e3fba",
           "advance_width": 1300,
           "lsb": 210
         },
         {
           "codepoint": 242,
           "name": "ograve",
-          "glyf_hash": "820f94fe9bdaabbf",
+          "glyf_hash": "9c380a3820192b7d",
           "advance_width": 1300,
           "lsb": 144
         },
         {
           "codepoint": 243,
           "name": "oacute",
-          "glyf_hash": "4f906a8d80222b94",
+          "glyf_hash": "07aba5df13ed3593",
           "advance_width": 1300,
           "lsb": 144
         },
         {
           "codepoint": 244,
           "name": "ocircumflex",
-          "glyf_hash": "9fc1fcaed4e441b6",
+          "glyf_hash": "9bd83566c9e60067",
           "advance_width": 1300,
           "lsb": 144
         },
         {
           "codepoint": 245,
           "name": "otilde",
-          "glyf_hash": "f7a7c835f9691f5c",
+          "glyf_hash": "9ee67f10fb7fc478",
           "advance_width": 1300,
           "lsb": 144
         },
         {
           "codepoint": 246,
           "name": "odieresis",
-          "glyf_hash": "9ef5aaa696fbf88b",
+          "glyf_hash": "12dce62fd1271c76",
           "advance_width": 1300,
           "lsb": 144
         },
@@ -420749,56 +420749,56 @@
         {
           "codepoint": 248,
           "name": "oslash",
-          "glyf_hash": "7ef8ad1e9dc346ef",
+          "glyf_hash": "fed0f6dca06240c0",
           "advance_width": 1300,
           "lsb": 99
         },
         {
           "codepoint": 249,
           "name": "ugrave",
-          "glyf_hash": "929c562541b3e664",
+          "glyf_hash": "87349dad8ca6b87d",
           "advance_width": 1300,
           "lsb": 210
         },
         {
           "codepoint": 250,
           "name": "uacute",
-          "glyf_hash": "61e429b7ae7bf655",
+          "glyf_hash": "c9d3d256fbf6419b",
           "advance_width": 1300,
           "lsb": 210
         },
         {
           "codepoint": 251,
           "name": "ucircumflex",
-          "glyf_hash": "7794d9cead172462",
+          "glyf_hash": "0652f0f31788492a",
           "advance_width": 1300,
           "lsb": 210
         },
         {
           "codepoint": 252,
           "name": "udieresis",
-          "glyf_hash": "e351305fe6069a3d",
+          "glyf_hash": "b54dcc67cf989397",
           "advance_width": 1300,
           "lsb": 210
         },
         {
           "codepoint": 253,
           "name": "yacute",
-          "glyf_hash": "fa1b53f18ba9aa37",
+          "glyf_hash": "22ce93f3f67039a0",
           "advance_width": 1300,
           "lsb": 173
         },
         {
           "codepoint": 254,
           "name": "thorn",
-          "glyf_hash": "d7480f15309f735c",
+          "glyf_hash": "245f789a1a3e3324",
           "advance_width": 1300,
           "lsb": 149
         },
         {
           "codepoint": 255,
           "name": "ydieresis",
-          "glyf_hash": "d4611999ee1befd3",
+          "glyf_hash": "277ee7f81befa6df",
           "advance_width": 1300,
           "lsb": 173
         },
@@ -421379,14 +421379,14 @@
         {
           "codepoint": 338,
           "name": "OE",
-          "glyf_hash": "f03241615189945e",
+          "glyf_hash": "efcc10778bdcc809",
           "advance_width": 1300,
           "lsb": 29
         },
         {
           "codepoint": 339,
           "name": "oe",
-          "glyf_hash": "e282a70803bbee98",
+          "glyf_hash": "93be020413bbf437",
           "advance_width": 1300,
           "lsb": 30
         },
@@ -421477,14 +421477,14 @@
         {
           "codepoint": 352,
           "name": "Scaron",
-          "glyf_hash": "ede482158b13a6f6",
+          "glyf_hash": "aea19dd547a7dcb3",
           "advance_width": 1300,
           "lsb": 195
         },
         {
           "codepoint": 353,
           "name": "scaron",
-          "glyf_hash": "5e761fa64d8995ef",
+          "glyf_hash": "79e95bd78ec97533",
           "advance_width": 1300,
           "lsb": 233
         },
@@ -421645,7 +421645,7 @@
         {
           "codepoint": 376,
           "name": "Ydieresis",
-          "glyf_hash": "377245ce5f2634ff",
+          "glyf_hash": "bcf79087e393859b",
           "advance_width": 1300,
           "lsb": 159
         },
@@ -421701,7 +421701,7 @@
         {
           "codepoint": 402,
           "name": "florin",
-          "glyf_hash": "811fc094f64716d8",
+          "glyf_hash": "7c02aeb3ca1171df",
           "advance_width": 1300,
           "lsb": 127
         },
@@ -421960,105 +421960,105 @@
         {
           "codepoint": 913,
           "name": "Alpha",
-          "glyf_hash": "724a50dc586d039d",
+          "glyf_hash": "63ab0ab213cb84c2",
           "advance_width": 1300,
           "lsb": 32
         },
         {
           "codepoint": 914,
           "name": "Beta",
-          "glyf_hash": "2c64efdf61f123ff",
+          "glyf_hash": "c231b80bb4fc8038",
           "advance_width": 1300,
           "lsb": 180
         },
         {
           "codepoint": 915,
           "name": "Gamma",
-          "glyf_hash": "c69ea2d44de6911f",
+          "glyf_hash": "a647ac01967fa318",
           "advance_width": 1300,
           "lsb": 183
         },
         {
           "codepoint": 916,
-          "name": "uni0394",
-          "glyf_hash": "bec1de6065eee5f4",
+          "name": "Deltagreek",
+          "glyf_hash": "e52b7b88f686874b",
           "advance_width": 1300,
           "lsb": 49
         },
         {
           "codepoint": 917,
           "name": "Epsilon",
-          "glyf_hash": "c5f9fe2015560db3",
+          "glyf_hash": "8e30bae619ef21d4",
           "advance_width": 1300,
           "lsb": 180
         },
         {
           "codepoint": 918,
           "name": "Zeta",
-          "glyf_hash": "f37d2200fa38e3c3",
+          "glyf_hash": "d0f2da88dc5d114c",
           "advance_width": 1300,
           "lsb": 121
         },
         {
           "codepoint": 919,
           "name": "Eta",
-          "glyf_hash": "6c71c173e67d5b43",
+          "glyf_hash": "ba50f14d9cfc2bcd",
           "advance_width": 1300,
           "lsb": 88
         },
         {
           "codepoint": 920,
           "name": "Theta",
-          "glyf_hash": "5f1bf962e84fa46d",
+          "glyf_hash": "8b9eacb244b86cd2",
           "advance_width": 1200,
           "lsb": 74
         },
         {
           "codepoint": 921,
           "name": "Iota",
-          "glyf_hash": "77072f6eb8c2ad1a",
+          "glyf_hash": "463f3af7b98a67ea",
           "advance_width": 1300,
           "lsb": 186
         },
         {
           "codepoint": 922,
           "name": "Kappa",
-          "glyf_hash": "5ba08172bf6a5142",
+          "glyf_hash": "bf766059d10408b7",
           "advance_width": 1300,
           "lsb": 174
         },
         {
           "codepoint": 923,
           "name": "Lambda",
-          "glyf_hash": "4d1976c335787c87",
+          "glyf_hash": "f9abf54bd3292884",
           "advance_width": 1300,
           "lsb": 62
         },
         {
           "codepoint": 924,
           "name": "Mu",
-          "glyf_hash": "05432fe289516dbc",
+          "glyf_hash": "3d931fa1de119551",
           "advance_width": 1300,
           "lsb": 120
         },
         {
           "codepoint": 925,
           "name": "Nu",
-          "glyf_hash": "1955c0eba92a3c77",
+          "glyf_hash": "6df12eeed1e32167",
           "advance_width": 1300,
           "lsb": 140
         },
         {
           "codepoint": 926,
           "name": "Xi",
-          "glyf_hash": "d1ced738bfb3dfa4",
+          "glyf_hash": "cd3188e89443064b",
           "advance_width": 1300,
           "lsb": 100
         },
         {
           "codepoint": 927,
           "name": "Omicron",
-          "glyf_hash": "52a4e72cccf87ea8",
+          "glyf_hash": "8f0af8d200207eb2",
           "advance_width": 1300,
           "lsb": 274
         },
@@ -422072,56 +422072,56 @@
         {
           "codepoint": 929,
           "name": "Rho",
-          "glyf_hash": "6a61662579faa473",
+          "glyf_hash": "6977da2b84d85215",
           "advance_width": 1300,
           "lsb": 218
         },
         {
           "codepoint": 931,
           "name": "Sigma",
-          "glyf_hash": "696d7ad0478524dc",
+          "glyf_hash": "34c6ce14dd505da0",
           "advance_width": 1300,
           "lsb": 80
         },
         {
           "codepoint": 932,
           "name": "Tau",
-          "glyf_hash": "123273d21da9101a",
+          "glyf_hash": "a27f244827a628bd",
           "advance_width": 1300,
           "lsb": 130
         },
         {
           "codepoint": 933,
           "name": "Upsilon",
-          "glyf_hash": "2f403374046a02c3",
+          "glyf_hash": "0886d2ed1593888b",
           "advance_width": 1300,
           "lsb": 59
         },
         {
           "codepoint": 934,
           "name": "Phi",
-          "glyf_hash": "2728f3c2da4789c7",
+          "glyf_hash": "6aab544d28de27bb",
           "advance_width": 1300,
           "lsb": 21
         },
         {
           "codepoint": 935,
           "name": "Chi",
-          "glyf_hash": "dc475e223d2cafb8",
+          "glyf_hash": "20aff2fe0d7b5160",
           "advance_width": 1300,
           "lsb": 70
         },
         {
           "codepoint": 936,
           "name": "Psi",
-          "glyf_hash": "6b9f1ee9d4e468f5",
+          "glyf_hash": "57a3d819c643b10c",
           "advance_width": 1300,
           "lsb": 50
         },
         {
           "codepoint": 937,
-          "name": "uni03A9",
-          "glyf_hash": "2e5d84ff754431a0",
+          "name": "Omegagreek",
+          "glyf_hash": "20d15cc65dea0bcb",
           "advance_width": 1300,
           "lsb": 100
         },
@@ -422177,112 +422177,112 @@
         {
           "codepoint": 945,
           "name": "alpha",
-          "glyf_hash": "1dee2e9382d747ed",
+          "glyf_hash": "9fdfafc8de09b564",
           "advance_width": 1300,
           "lsb": 100
         },
         {
           "codepoint": 946,
           "name": "beta",
-          "glyf_hash": "d36fe3ccf22265e8",
+          "glyf_hash": "2bbae2794e1d066f",
           "advance_width": 1300,
           "lsb": 200
         },
         {
           "codepoint": 947,
           "name": "gamma",
-          "glyf_hash": "92bd2bbf8d0c4467",
+          "glyf_hash": "34abb764a8ca59d8",
           "advance_width": 1300,
           "lsb": 100
         },
         {
           "codepoint": 948,
           "name": "delta",
-          "glyf_hash": "fb970ab1bb9058f8",
+          "glyf_hash": "bfded16f765a035d",
           "advance_width": 1300,
           "lsb": 109
         },
         {
           "codepoint": 949,
           "name": "epsilon",
-          "glyf_hash": "9caeb93b4012b84f",
+          "glyf_hash": "3a0a4bb2f5deacb1",
           "advance_width": 1300,
           "lsb": 270
         },
         {
           "codepoint": 950,
           "name": "zeta",
-          "glyf_hash": "7b70798e2497ac7d",
+          "glyf_hash": "7df36bbd725331d8",
           "advance_width": 1300,
           "lsb": 215
         },
         {
           "codepoint": 951,
           "name": "eta",
-          "glyf_hash": "8e3c43a333da06cc",
+          "glyf_hash": "724a70a0b10999de",
           "advance_width": 1300,
           "lsb": 200
         },
         {
           "codepoint": 952,
           "name": "theta",
-          "glyf_hash": "57961fb6abed87e4",
+          "glyf_hash": "22b50fe8f7524613",
           "advance_width": 1300,
           "lsb": 100
         },
         {
           "codepoint": 953,
           "name": "iota",
-          "glyf_hash": "4ce385e206dda915",
+          "glyf_hash": "a5a708c5c0d65f2a",
           "advance_width": 1300,
           "lsb": 480
         },
         {
           "codepoint": 954,
           "name": "kappa",
-          "glyf_hash": "7cbf3091eb32cb82",
+          "glyf_hash": "532a1e904c02f837",
           "advance_width": 1300,
           "lsb": 280
         },
         {
           "codepoint": 955,
           "name": "lambda",
-          "glyf_hash": "c04d0b98a18c0fdc",
+          "glyf_hash": "1a50bbb6cb92c970",
           "advance_width": 1300,
           "lsb": 134
         },
         {
           "codepoint": 956,
           "name": "uni03BC",
-          "glyf_hash": "25193ecf3236917f",
+          "glyf_hash": "703dcc8933db6fb2",
           "advance_width": 1300,
           "lsb": 200
         },
         {
           "codepoint": 957,
           "name": "nu",
-          "glyf_hash": "e37def3b3c78c0f6",
+          "glyf_hash": "68dab1b9629730bb",
           "advance_width": 1300,
           "lsb": 124
         },
         {
           "codepoint": 958,
           "name": "xi",
-          "glyf_hash": "44851c40a584274d",
+          "glyf_hash": "c549bc7f4974fe19",
           "advance_width": 1300,
           "lsb": 215
         },
         {
           "codepoint": 959,
           "name": "omicron",
-          "glyf_hash": "8057f57bc7b385fb",
+          "glyf_hash": "e78e67a35ad52d11",
           "advance_width": 1300,
           "lsb": 144
         },
         {
           "codepoint": 960,
           "name": "pi",
-          "glyf_hash": "8243c6ff79c8f157",
+          "glyf_hash": "25e8c58f3a0ebbac",
           "advance_width": 1300,
           "lsb": 31
         },
@@ -422295,57 +422295,57 @@
         },
         {
           "codepoint": 962,
-          "name": "uni03C2",
-          "glyf_hash": "0641a8415c5b07c6",
+          "name": "sigma1",
+          "glyf_hash": "9705cdba8765ed1d",
           "advance_width": 1300,
           "lsb": 216
         },
         {
           "codepoint": 963,
           "name": "sigma",
-          "glyf_hash": "af4c208a55110736",
+          "glyf_hash": "3d9a3bd3fbd6d323",
           "advance_width": 1300,
           "lsb": 100
         },
         {
           "codepoint": 964,
           "name": "tau",
-          "glyf_hash": "64bffa5ab9918ff0",
+          "glyf_hash": "37088d0148f58d2a",
           "advance_width": 1300,
           "lsb": 200
         },
         {
           "codepoint": 965,
           "name": "upsilon",
-          "glyf_hash": "49367728989af58e",
+          "glyf_hash": "a67fb7f5765b3e03",
           "advance_width": 1300,
           "lsb": 100
         },
         {
           "codepoint": 966,
           "name": "phi",
-          "glyf_hash": "5cb47e69d35c9b04",
+          "glyf_hash": "3b0e17b834aafe47",
           "advance_width": 1300,
           "lsb": 100
         },
         {
           "codepoint": 967,
           "name": "chi",
-          "glyf_hash": "521249b5a1becde4",
+          "glyf_hash": "93e54f68d2c0a57d",
           "advance_width": 1300,
           "lsb": 103
         },
         {
           "codepoint": 968,
           "name": "psi",
-          "glyf_hash": "abf47029da0fb271",
+          "glyf_hash": "14400ad8ed876dde",
           "advance_width": 1300,
           "lsb": 100
         },
         {
           "codepoint": 969,
           "name": "omega",
-          "glyf_hash": "26633d4ee8e9263d",
+          "glyf_hash": "38a86bead99edcc1",
           "advance_width": 1300,
           "lsb": 111
         },
@@ -422386,29 +422386,29 @@
         },
         {
           "codepoint": 977,
-          "name": "uni03D1",
-          "glyf_hash": "b8bae5170071c01f",
+          "name": "theta1",
+          "glyf_hash": "6188e2af64109c97",
           "advance_width": 1300,
           "lsb": 100
         },
         {
           "codepoint": 978,
-          "name": "uni03D2",
-          "glyf_hash": "78fa30e1a9b00d11",
+          "name": "Upsilon1",
+          "glyf_hash": "958aa6299bc7caa2",
           "advance_width": 1300,
           "lsb": 113
         },
         {
           "codepoint": 981,
-          "name": "uni03D5",
-          "glyf_hash": "46b29856fe6ae10f",
+          "name": "phi1",
+          "glyf_hash": "ddb850671b818a7e",
           "advance_width": 1300,
           "lsb": 150
         },
         {
           "codepoint": 982,
-          "name": "uni03D6",
-          "glyf_hash": "dbb505337178746b",
+          "name": "omega1",
+          "glyf_hash": "f3571d65e94a5064",
           "advance_width": 1300,
           "lsb": 111
         },
