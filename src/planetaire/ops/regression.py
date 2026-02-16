@@ -210,7 +210,7 @@ def compare_manifests(old: FontManifest, new: FontManifest) -> list[GlyphDiffRep
                 else:
                     report.trivial += 1
             else:
-                # Hash differs — outline changed
+                # Hash differs: outline changed
                 if old_g.advance_width == new_g.advance_width:
                     report.trivial += 1
                 else:
@@ -263,8 +263,8 @@ def format_report(reports: list[GlyphDiffReport]) -> str:
     )
 
     if total_changed == 0 and total_removed == 0:
-        lines.append("\nResult: PASS — no substantive regressions detected")
+        lines.append("\nResult: PASS, no substantive regressions detected")
     else:
-        lines.append(f"\nResult: REVIEW NEEDED — {total_changed} changed, {total_removed} removed")
+        lines.append(f"\nResult: REVIEW NEEDED: {total_changed} changed, {total_removed} removed")
 
     return "\n".join(lines)

@@ -40,7 +40,7 @@ def _ensure_extrabold_b612(source_dir: Path) -> None:
     """Generate ExtraBold B612 from Bold if not already present.
 
     Uses FontForge emboldening (changeWeight). If FontForge is not
-    installed, logs a warning — pre-generated ExtraBold files must
+    installed, logs a warning. Pre-generated ExtraBold files must
     exist in the source directory.
     """
     b612_dir = source_dir / "b612"

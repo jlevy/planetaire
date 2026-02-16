@@ -1,7 +1,7 @@
-// Planetaire Mono — Font Specimen
+// Planetaire Mono - Font Specimen
 // Build: planetaire build specimen
 
-#let version = "1.0.0"
+#let version = "0.1.0"
 
 #set page(
   paper: "a4",
@@ -66,7 +66,9 @@
 
   #v(0.5cm)
   #text(size: 13pt, fill: rgb("#666"))[
-    B612 letterforms · Hack infrastructure · Nerd Font icons
+    B612 letterforms\
+    Hack infrastructure\
+    Nerd Font icons
   ]
 
   #v(0.8cm)
@@ -77,9 +79,9 @@
 
 #text(size: 10pt)[
   Planetaire Mono is a composite monospace font that merges the highly legible
-  letterforms of B612 — a typeface designed by Intactile Design for use in Airbus
-  cockpit displays — with Hack Nerd Font's complete infrastructure: punctuation,
-  symbols, and 12,000+ developer icons.
+  letterforms of B612, a typeface designed by Intactile Design for Airbus cockpit
+  displays, with Hack Nerd Font's complete infrastructure: punctuation, symbols,
+  and 12,000+ developer icons.
 ]
 
 #v(0.3cm)
@@ -141,7 +143,7 @@
   In the great void between stars, instruments must be read without error.
   Every glyph must be unambiguous: the digit 0 distinct from the letter O,
   the numeral 1 clearly not a lowercase l or uppercase I. B612 was born
-  from this requirement — originally designed for cockpit displays at Airbus,
+  from this requirement. Originally designed for cockpit displays at Airbus,
   where a misread character could mean the difference between FL350 and FL850.
   Planetaire Mono inherits that precision and pairs it with the full symbol
   coverage a programmer needs: braces, brackets, pipes, arrows, and 12,000
@@ -267,67 +269,71 @@
 #let t(body, color) = text(fill: color)[#body]
 #let tb(body, color) = text(fill: color, weight: "bold")[#body]
 
+// Shell prompt helper.
+#let prompt(cmd) = {
+  tb("planetaire", kerm.blue)
+  text(weight: "bold")[ \$ ]
+  cmd
+}
+
+// Nerd Font icon helper.
+#let icon(cp) = str.from-unicode(cp)
+
+// eza directory entry helpers.
+#let dir-entry(perms, size, user, date, ic, name, bold-name: false) = {
+  t(perms, kerm.bright-black)
+  t(" ", kerm.fg)
+  tb(size, kerm.green)
+  t(" ", kerm.fg)
+  tb(user, kerm.yellow)
+  t(" ", kerm.fg)
+  t(date, kerm.blue)
+  t(" ", kerm.fg)
+  t(ic, kerm.cyan)
+  t(" ", kerm.fg)
+  if bold-name { tb(name, kerm.fg) } else { t(name, kerm.fg) }
+}
+
 #block(
   fill: kerm.bg,
   inset: (x: 1.2em, y: 1em),
   radius: 4pt,
   width: 100%,
 )[
-  #set text(size: 9pt, fill: kerm.fg)
+  #set text(size: 8.5pt, fill: kerm.fg)
+  #set par(leading: 0.35em)
 
-  #tb("spud10", kerm.green)#t(":", kerm.fg)#tb("planetaire", kerm.blue) #t("\$", kerm.fg) eza -la --icons=always\
+  #prompt[eza -l --icons=always . ./docs/images ./docs/specimen/]\
+  .:\
+  #dir-entry("drwxr-xr-x@", "   -", "levy", "15 Feb 23:07", icon(0xF07B), "devtools", bold-name: true)\
+  #dir-entry("drwxr-xr-x@", "   -", "levy", "15 Feb 23:07", icon(0xF07B), "docs", bold-name: true)\
+  #dir-entry("drwxr-xr-x@", "   -", "levy", "15 Feb 23:07", icon(0xF07B), "fonts", bold-name: true)\
+  #dir-entry(".rw-r--r--@", "7.6k", "levy", "16 Feb 09:14", icon(0xE60A), "LICENSE")\
+  #dir-entry(".rw-r--r--@", "1.3k", "levy", "16 Feb 09:14", icon(0xE612), "Makefile")\
+  #dir-entry(".rw-r--r--@", "6.2k", "levy", "16 Feb 09:14", icon(0xE697), "pyproject.toml")\
+  #dir-entry(".rw-r--r--@", "6.4k", "levy", "15 Feb 23:07", icon(0xE706), "README.md")\
+  #dir-entry("drwxr-xr-x@", "   -", "levy", "15 Feb 23:07", icon(0xF07B), "scripts", bold-name: true)\
+  #dir-entry("drwxr-xr-x@", "   -", "levy", "15 Feb 23:07", icon(0xF07B), "src", bold-name: true)\
+  #dir-entry("drwxr-xr-x@", "   -", "levy", "15 Feb 23:07", icon(0xF07B), "tests", bold-name: true)\
+  #dir-entry(".rw-r--r--@", " 63k", "levy", "16 Feb 09:14", icon(0xF023), "uv.lock")\
+  ./docs/images:\
+  #dir-entry(".rw-r--r--@", " 50k", "levy", "15 Feb 23:07", icon(0xE64A), "features.png")\
+  #dir-entry(".rw-r--r--@", " 59k", "levy", "15 Feb 23:07", icon(0xE64A), "hero.png")\
+  #dir-entry(".rw-r--r--@", " 59k", "levy", "15 Feb 23:07", icon(0xE64A), "terminal-bold.png")\
+  #dir-entry(".rw-r--r--@", "105k", "levy", "15 Feb 23:07", icon(0xE64A), "weights.png")\
+  ./docs/specimen/:\
+  #dir-entry(".rw-r--r--@", "188k", "levy", "16 Feb 09:14", icon(0xE635), "planetaire-mono-specimen.pdf")\
+  #dir-entry(".rw-r--r--@", "9.1k", "levy", "15 Feb 23:07", icon(0xE621), "planetaire-mono-specimen.typ")\
 
-  #t("d", kerm.fg)#tb("r", kerm.yellow)#t("w", kerm.red)#t("x", kerm.green)#tb("r", kerm.yellow)#t("-", kerm.bright-black)#t("x", kerm.green)#tb("r", kerm.yellow)#t("-", kerm.bright-black)#t("x", kerm.green)
-  #tb("-", kerm.bright-black)
-  #tb("levy", kerm.yellow) #t("16 Feb 07:25", kerm.blue)
-  #t(" ", kerm.fg)#tb("docs", kerm.fg)\
-
-  #t("d", kerm.fg)#tb("r", kerm.yellow)#t("w", kerm.red)#t("x", kerm.green)#tb("r", kerm.yellow)#t("-", kerm.bright-black)#t("x", kerm.green)#tb("r", kerm.yellow)#t("-", kerm.bright-black)#t("x", kerm.green)
-  #tb("-", kerm.bright-black)
-  #tb("levy", kerm.yellow) #t("15 Feb 23:07", kerm.blue)
-  #t(" ", kerm.fg)#tb("fonts", kerm.fg)\
-
-  #t("d", kerm.fg)#tb("r", kerm.yellow)#t("w", kerm.red)#t("x", kerm.green)#tb("r", kerm.yellow)#t("-", kerm.bright-black)#t("x", kerm.green)#tb("r", kerm.yellow)#t("-", kerm.bright-black)#t("x", kerm.green)
-  #tb("-", kerm.bright-black)
-  #tb("levy", kerm.yellow) #t("16 Feb 09:12", kerm.blue)
-  #t(" ", kerm.fg)#tb("src", kerm.fg)\
-
-  #t(".", kerm.fg)#tb("r", kerm.yellow)#t("w", kerm.red)#t("-", kerm.bright-black)#tb("r", kerm.yellow)#t("-", kerm.bright-black)#t("-", kerm.bright-black)#tb("r", kerm.yellow)#t("-", kerm.bright-black)#t("-", kerm.bright-black)
-  #tb("1.1k", kerm.green)
-  #tb("levy", kerm.yellow) #t("16 Feb 07:25", kerm.blue)
-  #t(" LICENSE", kerm.fg)\
-
-  #t(".", kerm.fg)#tb("r", kerm.yellow)#t("w", kerm.red)#t("-", kerm.bright-black)#tb("r", kerm.yellow)#t("-", kerm.bright-black)#t("-", kerm.bright-black)#tb("r", kerm.yellow)#t("-", kerm.bright-black)#t("-", kerm.bright-black)
-  #tb("7.6k", kerm.green)
-  #tb("levy", kerm.yellow) #t("16 Feb 09:12", kerm.blue)
-  #t(" ", kerm.fg)#text(weight: "bold")[Makefile]\
-
-  #t(".", kerm.fg)#tb("r", kerm.yellow)#t("w", kerm.red)#t("-", kerm.bright-black)#tb("r", kerm.yellow)#t("-", kerm.bright-black)#t("-", kerm.bright-black)#tb("r", kerm.yellow)#t("-", kerm.bright-black)#t("-", kerm.bright-black)
-  #tb("2.3k", kerm.green)
-  #tb("levy", kerm.yellow) #t("16 Feb 07:25", kerm.blue)
-  #t(" ", kerm.fg)#text(weight: "bold")[pyproject.toml]\
-
-  #t(".", kerm.fg)#tb("r", kerm.yellow)#t("w", kerm.red)#t("-", kerm.bright-black)#tb("r", kerm.yellow)#t("-", kerm.bright-black)#t("-", kerm.bright-black)#tb("r", kerm.yellow)#t("-", kerm.bright-black)#t("-", kerm.bright-black)
-  #tb("3.4k", kerm.green)
-  #tb("levy", kerm.yellow) #t("15 Feb 23:07", kerm.blue)
-  #t(" ", kerm.fg)#text(weight: "bold")[README.md]\
-
-  #t(".", kerm.fg)#tb("r", kerm.yellow)#t("w", kerm.red)#t("-", kerm.bright-black)#tb("r", kerm.yellow)#t("-", kerm.bright-black)#t("-", kerm.bright-black)#tb("r", kerm.yellow)#t("-", kerm.bright-black)#t("-", kerm.bright-black)
-  #tb("63k", kerm.green)
-  #tb("levy", kerm.yellow) #t("16 Feb 07:25", kerm.blue)
-  #t(" uv.lock", kerm.fg)\
-
-  #v(0.3cm)
-
-  #tb("spud10", kerm.green)#t(":", kerm.fg)#tb("planetaire", kerm.blue) #t("\$", kerm.fg) python -c "print('Hello from Planetaire Mono!')"\
+  #v(0.15cm)
+  #prompt[python -c "print('Hello from Planetaire Mono!')"]\
   Hello from Planetaire Mono!\
 
-  #v(0.3cm)
-
-  #tb("spud10", kerm.green)#t(":", kerm.fg)#tb("planetaire", kerm.blue) #t("\$", kerm.fg) git log --oneline -3\
-  #t("5bd69c5", kerm.yellow) #t("Switch B612 source to original polarsys/b612", kerm.fg)\
-  #t("a1c8e3f", kerm.yellow) #t("Add font comparison and regression detection", kerm.fg)\
-  #t("e927d01", kerm.yellow) #t("Refactor merge pipeline for original B612", kerm.fg)\
+  #v(0.15cm)
+  #prompt[git log --oneline -3]\
+  #t("5bd69c5", kerm.yellow) Switch B612 source to original polarsys/b612\
+  #t("a1c8e3f", kerm.yellow) Add font comparison and regression detection\
+  #t("e927d01", kerm.yellow) Refactor merge pipeline for original B612\
 ]
 
 #pagebreak()
@@ -337,35 +343,35 @@
 
 #section[Character Set]
 
-#label[BASIC LATIN UPPERCASE — from B612]
+#label[BASIC LATIN UPPERCASE: from B612]
 #text(size: 16pt)[A B C D E F G H I J K L M N O P Q R S T U V W X Y Z]
 #v(0.3cm)
 
-#label[BASIC LATIN LOWERCASE — from B612]
+#label[BASIC LATIN LOWERCASE: from B612]
 #text(size: 16pt)[a b c d e f g h i j k l m n o p q r s t u v w x y z]
 #v(0.3cm)
 
-#label[DIGITS — 1–9 from B612, 0 from Hack (slashed for disambiguation)]
+#label[DIGITS: 1–9 from B612, 0 from Hack (slashed for disambiguation)]
 #text(size: 16pt)[0 1 2 3 4 5 6 7 8 9]
 #v(0.3cm)
 
-#label[PUNCTUATION AND SYMBOLS — from Hack]
+#label[PUNCTUATION AND SYMBOLS: from Hack]
 #text(size: 14pt)[! " \# \$ % & ' ( ) \* \+ , \- . / : ; < = > ? \@ \[ \\ \] ^ \_ \` \{ | \} \~]
 #v(0.3cm)
 
-#label[EXTENDED LATIN — from B612]
+#label[EXTENDED LATIN: from B612]
 #text(size: 12pt)[À Á Â Ã Ä Å Æ Ç È É Ê Ë Ì Í Î Ï Ð Ñ Ò Ó Ô Õ Ö Ø Ù Ú Û Ü Ý Þ ß à á â ã ä å æ ç è é ê ë ì í î ï ð ñ ò ó ô õ ö ø ù ú û ü ý þ ÿ]
 #v(0.15cm)
 #text(size: 12pt)[Ā ā Ă ă Ą ą Ć ć Ĉ ĉ Ċ ċ Č č Ď ď Đ đ Ē ē Ĕ ĕ Ė ė Ę ę Ě ě Ğ ğ Ġ ġ Ģ ģ Ĥ ĥ Ħ ħ Ĩ ĩ Ī ī Ĭ ĭ Į į İ ı Ĳ ĳ Ĵ ĵ Ķ ķ]
 #v(0.3cm)
 
-#label[GREEK — from B612]
+#label[GREEK: from B612]
 #text(size: 12pt)[Α Β Γ Δ Ε Ζ Η Θ Ι Κ Λ Μ Ν Ξ Ο Π Ρ Σ Τ Υ Φ Χ Ψ Ω]
 #v(0.1cm)
 #text(size: 12pt)[α β γ δ ε ζ η θ ι κ λ μ ν ξ ο π ρ σ τ υ φ χ ψ ω]
 #v(0.3cm)
 
-#label[CYRILLIC — from B612]
+#label[CYRILLIC: from B612]
 #text(size: 12pt)[А Б В Г Д Е Ж З И Й К Л М Н О П Р С Т У Ф Х Ц Ч Ш Щ Ъ Ы Ь Э Ю Я]
 #v(0.1cm)
 #text(size: 12pt)[а б в г д е ж з и й к л м н о п р с т у ф х ц ч ш щ ъ ы ь э ю я]
@@ -399,7 +405,7 @@
 
 #v(0.3cm)
 
-#label[SIZE COMPARISON — REGULAR AT VARIOUS SIZES]
+#label[SIZE COMPARISON: REGULAR AT VARIOUS SIZES]
 #for size in (8, 9, 10, 11, 12) {
   text(size: eval(repr(size) + "pt"))[#sample]
   v(0.08cm)
@@ -429,7 +435,7 @@
 
 #disambig[I l 1 |][uppercase I · lowercase l · digit 1 · pipe]
 #disambig[O 0 o][uppercase O · digit 0 · lowercase o]
-#disambig[r n m][r · n · m — clearly distinct in B612]
+#disambig[r n m][r · n · m (clearly distinct in B612)]
 #disambig[5 S 8 B][digit 5 vs S · digit 8 vs B]
 #disambig[2 Z 6 G][digit 2 vs Z · digit 6 vs G]
 
@@ -591,7 +597,7 @@
   [*Nerd Fonts*], [
     Ryan McIntyre's icon patching project. 12,000+ developer icons
     including Powerline, Font Awesome, Devicons, Material Design,
-    and more — all included via the Hack Nerd Font base.
+    and more, all included via the Hack Nerd Font base.
   ],
 )
 

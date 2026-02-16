@@ -62,7 +62,7 @@ def merge_glyphs(
         # with a glyph we're NOT replacing
         target_name = donor_glyph_name
         if target_name in glyph_order:
-            # Check if this glyph is already mapped to our codepoint — if so, replace in-place
+            # Check if this glyph is already mapped to our codepoint; if so, replace in-place
             pass
         else:
             glyph_order.append(target_name)
@@ -111,13 +111,13 @@ def scale_font_upm(font: TTFont, target_upm: int) -> None:
             continue
         glyph = glyf[glyph_name]
         if glyph.numberOfContours > 0:
-            # Simple glyph — scale coordinates
+            # Simple glyph: scale coordinates
             coords = glyph.coordinates
             for i in range(len(coords)):
                 x, y = coords[i]
                 coords[i] = (round(x * scale), round(y * scale))
         elif glyph.isComposite():
-            # Composite glyph — scale component offsets
+            # Composite glyph: scale component offsets
             for comp in glyph.components:
                 if hasattr(comp, "x") and hasattr(comp, "y"):
                     comp.x = round(comp.x * scale)
@@ -190,7 +190,7 @@ def _merge_gsub_features(base: TTFont, donor: TTFont, features: list[str]) -> No
 
             if not has_feature:
                 # Copy the feature and its lookups from donor
-                # This is a simplified approach — for production use,
+                # This is a simplified approach. For production use,
                 # lookup indices need proper remapping
                 log.info("Copying GSUB feature '%s' from donor", donor_rec.FeatureTag)
                 if base_gsub.FeatureList is None:

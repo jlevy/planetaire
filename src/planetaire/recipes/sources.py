@@ -21,7 +21,7 @@ def download_sources(output_dir: Path) -> dict[str, Path]:
     Download B612 Mono and Hack Nerd Font source fonts.
 
     Returns a dict mapping variant names to font file paths.
-    Currently a stub — checks if fonts already exist in output_dir.
+    Currently a stub: checks if fonts already exist in output_dir.
     """
     b612_dir = output_dir / "b612"
     hack_dir = output_dir / "hack"

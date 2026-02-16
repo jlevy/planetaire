@@ -1,5 +1,5 @@
 """
-Planetaire CLI — thin Typer wrapper around ops/ functions.
+Planetaire CLI: thin Typer wrapper around ops/ functions.
 
 Data to stdout, progress/errors to stderr. Supports `--format text|json`
 on inspection commands and `--no-progress` for CI.
@@ -341,7 +341,7 @@ def build_specimen_cmd(
 
 regression_app = typer.Typer(
     name="regression",
-    help="Glyph regression detection — compare builds against a saved manifest.",
+    help="Glyph regression detection: compare builds against a saved manifest.",
     no_args_is_help=True,
 )
 app.add_typer(regression_app, name="regression")

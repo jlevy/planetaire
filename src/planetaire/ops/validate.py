@@ -1,4 +1,4 @@
-"""Font validation — check glyph coverage, metrics, and features."""
+"""Font validation: check glyph coverage, metrics, and features."""
 
 from __future__ import annotations
 

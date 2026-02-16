@@ -1,1 +1,1 @@
-"""Font operations — pure functions that accept/return fontTools TTFont objects."""
+"""Font operations: pure functions that accept/return fontTools TTFont objects."""
