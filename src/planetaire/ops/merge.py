@@ -40,7 +40,7 @@ def merge_glyphs(
     base_upm = result["head"].unitsPerEm
 
     if normalize_upm and base_upm != donor_upm:
-        _scale_font_upm(result, donor_upm)
+        scale_font_upm(result, donor_upm)
 
     target_cps = codepoints_in_ranges(ranges)
     donor_cmap = donor.getBestCmap() or {}
@@ -91,7 +91,7 @@ def merge_glyphs(
     return result
 
 
-def _scale_font_upm(font: TTFont, target_upm: int) -> None:
+def scale_font_upm(font: TTFont, target_upm: int) -> None:
     """
     Scale all glyph coordinates and metrics in `font` to match `target_upm`.
 

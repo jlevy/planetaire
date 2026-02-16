@@ -297,3 +297,61 @@ def build_planetaire_mono(
     for p in outputs:
         err_console.print(f"  {p}")
     err_console.print(f"[green]Built {len(outputs)} font(s)[/green]")
+
+
+# -- regression subcommands --
+
+regression_app = typer.Typer(
+    name="regression",
+    help="Glyph regression detection — compare builds against a saved manifest.",
+    no_args_is_help=True,
+)
+app.add_typer(regression_app, name="regression")
+
+MANIFEST_PATH = Path("fonts/golden/manifest.json")
+
+
+@regression_app.command("generate")
+def regression_generate(
+    font_dir: Path = typer.Option(Path("fonts/output"), help="Built fonts directory"),
+    output: Path = typer.Option(MANIFEST_PATH, help="Manifest output path"),
+    version: str = typer.Option("dev", help="Version label"),
+) -> None:
+    """Generate a golden manifest from current build."""
+    from planetaire.ops.regression import generate_manifest, save_manifest
+
+    manifest = generate_manifest(font_dir, version=version)
+    output.parent.mkdir(parents=True, exist_ok=True)
+    save_manifest(manifest, output)
+
+    total_glyphs = sum(len(vm.glyphs) for vm in manifest.variants)
+    err_console.print(
+        f"[green]Manifest saved:[/green] {len(manifest.variants)} variants, "
+        f"{total_glyphs} glyphs total → {output}"
+    )
+
+
+@regression_app.command("verify")
+def regression_verify(
+    font_dir: Path = typer.Option(Path("fonts/output"), help="Built fonts directory"),
+    manifest: Path = typer.Option(MANIFEST_PATH, help="Golden manifest to compare against"),
+) -> None:
+    """Compare current build against saved golden manifest."""
+    from planetaire.ops.regression import (
+        compare_manifests,
+        format_report,
+        generate_manifest,
+        load_manifest,
+    )
+
+    if not manifest.exists():
+        raise CLIError(f"No manifest found at {manifest}. Run 'regression generate' first.")
+
+    old = load_manifest(manifest)
+    new = generate_manifest(font_dir)
+    reports = compare_manifests(old, new)
+    print(format_report(reports))
+
+    has_changes = any(r.changed > 0 or r.removed > 0 for r in reports)
+    if has_changes:
+        raise SystemExit(1)

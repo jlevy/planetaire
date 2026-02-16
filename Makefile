@@ -6,6 +6,7 @@
 
 .PHONY: default install lint test upgrade build clean
 .PHONY: download build-fonts validate-fonts fonts showcase specimen
+.PHONY: regression-generate regression-verify
 
 default: install lint test
 
@@ -50,3 +51,9 @@ showcase: build-fonts
 
 specimen: build-fonts
 	typst compile docs/specimen/planetaire-mono-specimen.typ docs/specimen/planetaire-mono-specimen.pdf
+
+regression-generate: build-fonts
+	uv run planetaire regression generate
+
+regression-verify: build-fonts
+	uv run planetaire regression verify
