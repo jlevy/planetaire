@@ -42,6 +42,7 @@ def merged_font(hack_regular: TTFont, b612_regular: TTFont) -> TTFont:
 def _zero_glyph(font: TTFont):
     """Get the zero glyph from a font."""
     cmap = font.getBestCmap()
+    assert cmap is not None
     return font["glyf"][cmap[0x30]]
 
 
@@ -131,7 +132,7 @@ class TestAlternateGlyph:
         assert alt.numberOfContours == 3
         npts, oncurve = _dot_contour_info(alt)
         assert npts == 4, f"Rect dot should have 4 points, got {npts}"
-        assert oncurve == 4, f"All rect dot points should be on-curve"
+        assert oncurve == 4, "All rect dot points should be on-curve"
 
     def test_alternate_metrics_match_default(self, b612_regular: TTFont):
         """The alternate should have the same horizontal metrics as the default."""
@@ -140,7 +141,9 @@ class TestAlternateGlyph:
         if "hmtx" not in font:
             pytest.skip("Font has no hmtx table")
         add_dotted_zero(font)
-        zero_name = font.getBestCmap()[0x30]
+        cmap = font.getBestCmap()
+        assert cmap is not None
+        zero_name = cmap[0x30]
         assert font["hmtx"][zero_name] == font["hmtx"]["zero.ss01"]
 
     def test_default_and_alternate_have_different_dots(self, b612_regular: TTFont):
@@ -206,10 +209,12 @@ class TestGSUBFeatures:
         gsub = merged_font["GSUB"].table
 
         # Find the ss01 lookup index
+        lookup_idx = None
         for fr in gsub.FeatureList.FeatureRecord:
             if fr.FeatureTag == "ss01":
                 lookup_idx = fr.Feature.LookupListIndex[0]
                 break
+        assert lookup_idx is not None
 
         lookup = gsub.LookupList.Lookup[lookup_idx]
         assert lookup.LookupType == 1  # SingleSubst
@@ -229,9 +234,9 @@ class TestGSUBFeatures:
         # Check DFLT script has them
         for srec in gsub.ScriptList.ScriptRecord:
             if srec.ScriptTag == "DFLT":
-                assert feature_indices.issubset(
-                    set(srec.Script.DefaultLangSys.FeatureIndex)
-                ), "ss01/zero features not wired to DFLT script"
+                assert feature_indices.issubset(set(srec.Script.DefaultLangSys.FeatureIndex)), (
+                    "ss01/zero features not wired to DFLT script"
+                )
                 break
         else:
             pytest.fail("No DFLT script found")

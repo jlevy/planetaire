@@ -53,9 +53,7 @@ def build_specimen(
 
     typst_bin = shutil.which("typst")
     if typst_bin is None:
-        raise FileNotFoundError(
-            "typst not found. Install it: https://github.com/typst/typst"
-        )
+        raise FileNotFoundError("typst not found. Install it: https://github.com/typst/typst")
 
     if output is None:
         output = source.with_suffix(".pdf")

@@ -65,18 +65,18 @@ def _circle_contour(
     kh = round(half_h * k)
 
     coords = [
-        (cx, cy + half_h),          # top (on-curve)
-        (cx + kw, cy + half_h),     # top-right (off-curve)
-        (cx + half_w, cy + kh),     # right-top (off-curve)
-        (cx + half_w, cy),          # right (on-curve)
-        (cx + half_w, cy - kh),     # right-bottom (off-curve)
-        (cx + kw, cy - half_h),     # bottom-right (off-curve)
-        (cx, cy - half_h),          # bottom (on-curve)
-        (cx - kw, cy - half_h),     # bottom-left (off-curve)
-        (cx - half_w, cy - kh),     # left-bottom (off-curve)
-        (cx - half_w, cy),          # left (on-curve)
-        (cx - half_w, cy + kh),     # left-top (off-curve)
-        (cx - kw, cy + half_h),     # top-left (off-curve)
+        (cx, cy + half_h),  # top (on-curve)
+        (cx + kw, cy + half_h),  # top-right (off-curve)
+        (cx + half_w, cy + kh),  # right-top (off-curve)
+        (cx + half_w, cy),  # right (on-curve)
+        (cx + half_w, cy - kh),  # right-bottom (off-curve)
+        (cx + kw, cy - half_h),  # bottom-right (off-curve)
+        (cx, cy - half_h),  # bottom (on-curve)
+        (cx - kw, cy - half_h),  # bottom-left (off-curve)
+        (cx - half_w, cy - kh),  # left-bottom (off-curve)
+        (cx - half_w, cy),  # left (on-curve)
+        (cx - half_w, cy + kh),  # left-top (off-curve)
+        (cx - kw, cy + half_h),  # top-left (off-curve)
     ]
     # on, off, off, on, off, off, on, off, off, on, off, off
     flags = [1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0]
@@ -133,9 +133,7 @@ def _add_alternate_glyph(font: TTFont, zero_name: str, cx, cy, half_w, half_h):
     if alt.numberOfContours > 2:
         # Strip back to 2 contours (the oval without any dot).
         end_of_contour_1 = alt.endPtsOfContours[1]
-        alt.coordinates = type(alt.coordinates)(
-            list(alt.coordinates)[: end_of_contour_1 + 1]
-        )
+        alt.coordinates = type(alt.coordinates)(list(alt.coordinates)[: end_of_contour_1 + 1])
         alt.flags = type(alt.flags)(list(alt.flags)[: end_of_contour_1 + 1])
         alt.endPtsOfContours = alt.endPtsOfContours[:2]
         alt.numberOfContours = 2

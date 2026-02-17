@@ -64,7 +64,9 @@ def _resolve_font_path(path: Path) -> Path:
 def info(
     font: Path = typer.Argument(..., help="Path to a font file (.ttf/.otf)"),
     format: str = typer.Option("text", help="Output format: text or json"),
-    features: bool = typer.Option(False, "--features", help="Show detailed GSUB feature/lookup info"),
+    features: bool = typer.Option(
+        False, "--features", help="Show detailed GSUB feature/lookup info"
+    ),
 ) -> None:
     """Inspect font metadata, glyph counts, and features."""
     from planetaire.ops.info import inspect_font
@@ -96,7 +98,9 @@ def info(
             for feat in font_info.gsub_feature_details:
                 err_console.print(f"  [cyan]{feat.tag}[/cyan]  lookups: {feat.lookup_indices}")
                 for lk in feat.lookups:
-                    err_console.print(f"    [{lk.index}] {lk.lookup_type_name} ({lk.subtable_count} subtable(s))")
+                    err_console.print(
+                        f"    [{lk.index}] {lk.lookup_type_name} ({lk.subtable_count} subtable(s))"
+                    )
                     if lk.substitutions:
                         for src, dst in sorted(lk.substitutions.items())[:20]:
                             err_console.print(f"        {src} → {dst}")
@@ -333,7 +337,7 @@ def build_specimen_cmd(
         err_console.print("[red]Typst compilation failed:[/red]")
         if e.stderr:
             err_console.print(e.stderr)
-        raise SystemExit(1)
+        raise SystemExit(1) from e
     err_console.print(f"[green]Specimen PDF written to {pdf_path}[/green]")
 
 

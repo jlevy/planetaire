@@ -76,15 +76,16 @@ def _ensure_generated_weights(source_dir: Path) -> None:
 
         if shutil.which("fontforge") is None:
             log.warning(
-                "Cannot generate %s: FontForge not installed. "
-                "Place pre-generated files in %s",
+                "Cannot generate %s: FontForge not installed. Place pre-generated files in %s",
                 target_file,
                 font_dir,
             )
             continue
 
         log.info("Generating %s from %s via FontForge emboldening", target_file, source_file)
-        embolden_font(source_path, target_path, target_weight=target_weight, change_amount=change_amount)
+        embolden_font(
+            source_path, target_path, target_weight=target_weight, change_amount=change_amount
+        )
 
     # Generate ExtraBold B612 from Bold.
     b612_dir = source_dir / "b612"

@@ -265,8 +265,21 @@ _INTERMEDIATE_VARIANTS = ["Medium", "MediumItalic", "SemiBold", "SemiBoldItalic"
 
 
 _REQUIRED_TABLES = {
-    "cmap", "glyf", "head", "hhea", "hmtx", "loca", "maxp", "name",
-    "post", "OS/2", "DSIG", "GDEF", "GPOS", "GSUB", "gasp",
+    "cmap",
+    "glyf",
+    "head",
+    "hhea",
+    "hmtx",
+    "loca",
+    "maxp",
+    "name",
+    "post",
+    "OS/2",
+    "DSIG",
+    "GDEF",
+    "GPOS",
+    "GSUB",
+    "gasp",
 }
 
 
@@ -277,9 +290,7 @@ def test_intermediate_weight_structure(variant: str, all_built_fonts: dict[str, 
     intermediate_tables = set(intermediate.keys())
 
     missing = _REQUIRED_TABLES - intermediate_tables
-    assert not missing, (
-        f"{variant}: missing required tables: {missing}"
-    )
+    assert not missing, f"{variant}: missing required tables: {missing}"
 
 
 @pytest.mark.parametrize("variant", _INTERMEDIATE_VARIANTS)
