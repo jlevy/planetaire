@@ -33,8 +33,6 @@
             <dict>
                 <key>foreground</key>
                 <string>#8250df</string>
-                <key>fontStyle</key>
-                <string>bold</string>
             </dict>
         </dict>
         <dict>

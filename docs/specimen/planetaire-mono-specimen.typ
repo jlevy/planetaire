@@ -93,11 +93,9 @@
 
   #v(0.5cm)
   #text(size: 13pt, fill: rgb("#666"))[
-    B612 base for letterforms\
-    (A\u{2013}Z, a\u{2013}z, 0\u{2013}9, extended Latin, Greek, Cyrillic)\
-    Modified zero (0) for legibility\
-    Punctuation and symbols from Hack\
-    12,000+ icons from Nerd Fonts
+    B612 letterforms\
+    Hack infrastructure\
+    Nerd Font icons
   ]
 
   #v(0.8cm)
@@ -127,17 +125,33 @@
 
 #v(1.5cm)
 
-#text(size: 9pt, fill: rgb("#666"))[
-  *Weights*\
-  #text(weight: "regular")[Regular] (400) #h(1em)
-  #text(weight: "regular", style: "italic")[Italic] (400) #h(1em)
-  #text(weight: 500)[Medium] (500) #h(1em)
-  #text(weight: 500, style: "italic")[Medium Italic] (500)\
-  #text(weight: "bold")[Bold] (700) #h(1em)
-  #text(weight: "bold", style: "italic")[Bold Italic] (700) #h(1em)
-  #text(weight: 800)[ExtraBold] (800) #h(1em)
-  #text(weight: 800, style: "italic")[ExtraBold Italic] (800)
-]
+#grid(
+  columns: (auto, 1fr),
+  gutter: 1.5cm,
+  [
+    #text(size: 9pt, fill: rgb("#666"))[
+      *Weights*\
+      #text(weight: "regular")[Regular] (400)\
+      #text(weight: "regular", style: "italic")[Italic] (400)\
+      #text(weight: 500)[Medium] (500)\
+      #text(weight: 500, style: "italic")[Medium Italic] (500)\
+      #text(weight: "bold")[Bold] (700)\
+      #text(weight: "bold", style: "italic")[Bold Italic] (700)\
+      #text(weight: 800)[ExtraBold] (800)\
+      #text(weight: 800, style: "italic")[ExtraBold Italic] (800)
+    ]
+  ],
+  [
+    #text(size: 9pt, fill: rgb("#666"))[
+      *Features*\
+      B612 base for letterforms (A\u{2013}Z, a\u{2013}z, 0\u{2013}9,\
+      #h(1em)extended Latin, Greek, Cyrillic)\
+      Modified zero (0) for legibility\
+      Punctuation and symbols from Hack\
+      12,000+ icons from Nerd Fonts
+    ]
+  ],
+)
 
 #pagebreak()
 
@@ -221,7 +235,7 @@
   and is expressed in relatively unambiguous words.
 ]
 
-#v(0.6cm)
+#pagebreak()
 
 // RFC 1 - Steve Crocker, 7 April 1969
 #text(size: 9pt, fill: rgb("#999"))[
@@ -231,63 +245,30 @@
 
 #block[
   #set text(size: 8pt)
-  #set par(leading: 0.55em, spacing: 0.8em)
+  #set par(leading: 0.45em, spacing: 0em)
 
-  #grid(
-    columns: (1fr, auto),
-    row-gutter: 0.2em,
-    [Network Working Group], [Steve Crocker],
-    [Request for Comments: 1], [UCLA],
-    [], [7 April 1969],
-  )
-  #v(0.2cm)
-  #align(center)[#text(size: 9pt, weight: 700)[Host Software]]
+  // RFC header
+  Network Working Group #h(1fr) #text(weight: 700)[Steve Crocker]\
+  Request for Comments: 1 #h(1fr) UCLA\
+  #h(1fr) 7 April 1969
+
+  #v(0.3cm)
+  #align(center)[
+    Title:~~~#text(weight: 700)[Host Software]\
+    Author:~~~#text(weight: 700)[Steve Crocker]\
+    Installation:~~~UCLA\
+    Date:~~~7 April 1969\
+    Network Working Group Request for Comment:~~~1
+  ]
   #v(0.3cm)
 
-  #text(weight: 700)[Introduction]
-  #v(0.1cm)
-
-  #h(1.5em)The software for the ARPA Network exists partly in the IMPs and
-  partly in the respective HOSTs. BB&N has specified the software of
-  the IMPs and it is the responsibility of the HOST groups to agree on
-  HOST software.
-
-  #h(1.5em)During the summer of 1968, representatives from the initial four
-  sites met several times to discuss the HOST software and initial
-  experiments on the network. There emerged from these meetings a
-  working group of three, Steve Carr from Utah, Jeff Rulifson from SRI,
-  and Steve Crocker of UCLA, who met during the fall and winter. The
-  most recent meeting was in the last week of March in Utah. Also
-  present was Bill Duvall of SRI who has recently started working with
-  Jeff Rulifson.
-
-  #h(1.5em)I present here some of the tentative agreements reached and some of
-  the open questions encountered. Very little of what is here is firm
-  and reactions are expected.
-
-  #v(0.2cm)
-  #text(weight: 700)[I. #h(0.5em) A Summary of the IMP Software]
-  #v(0.1cm)
-  #text(weight: 700)[Messages]
-  #v(0.05cm)
-
-  #h(1.5em)Information is transmitted from HOST to HOST in bundles called
-  messages. A message is any stream of not more than 8080 bits,
-  together with its header. The header is 16 bits and contains the
-  following information:
-
-  #v(0.1cm)
-  #h(4em)Destination #h(2em) 5 bits\
-  #h(4em)Link #h(4.6em) 8 bits\
-  #h(4em)Trace #h(3.9em) 1 bit\
-  #h(4em)Spare #h(3.9em) 2 bits
-
-  #v(0.1cm)
-  #h(1.5em)The destination is the numerical code for the HOST to which the
-  message should be sent. The trace bit signals the IMPs to record
-  status information about the message and send the information back to
-  the NMC (Network Measurement Center, i.e., UCLA). The spare bits are
-  unused.
+  // Body text with original RFC formatting preserved
+  #show raw.where(block: true): it => {
+    set par(leading: 0.45em)
+    block(width: 100%, inset: 0pt, fill: none, stroke: none, it)
+  }
+  #show raw: set text(font: "Planetaire Mono", size: 8pt)
+  #raw(read("rfc1-excerpt.txt"), block: true)
 ]
 
 #pagebreak()
@@ -306,7 +287,6 @@
 #block(
   stroke: 0.5pt + rgb("#ccc"),
   inset: (x: 1.2em, y: 1em),
-  radius: 4pt,
   width: 100%,
 )[
   #set text(size: 7.5pt)
@@ -636,7 +616,6 @@
 #block(
   stroke: 0.5pt + rgb("#ccc"),
   inset: (x: 1.2em, y: 1em),
-  radius: 4pt,
   width: 100%,
 )[
   #set text(size: 7.5pt)
