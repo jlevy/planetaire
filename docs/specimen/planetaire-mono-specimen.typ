@@ -93,9 +93,11 @@
 
   #v(0.5cm)
   #text(size: 13pt, fill: rgb("#666"))[
-    B612 letterforms\
-    Hack infrastructure\
-    Nerd Font icons
+    B612 base for letterforms\
+    (A\u{2013}Z, a\u{2013}z, 0\u{2013}9, extended Latin, Greek, Cyrillic)\
+    Modified zero (0) for legibility\
+    Punctuation and symbols from Hack\
+    12,000+ icons from Nerd Fonts
   ]
 
   #v(0.8cm)
@@ -125,34 +127,17 @@
 
 #v(1.5cm)
 
-#grid(
-  columns: (1fr, 1fr),
-  gutter: 1.5cm,
-  [
-    #text(size: 9pt, fill: rgb("#666"))[
-      *Weights*\
-      #text(weight: "regular")[Regular] (400)\
-      #text(weight: "regular", style: "italic")[Italic] (400)\
-      #text(weight: 500)[Medium] (500)\
-      #text(weight: 500, style: "italic")[Medium Italic] (500)\
-      #text(weight: "bold")[Bold] (700)\
-      #text(weight: "bold", style: "italic")[Bold Italic] (700)\
-      #text(weight: 800)[ExtraBold] (800)\
-      #text(weight: 800, style: "italic")[ExtraBold Italic] (800)
-    ]
-  ],
-  [
-    #text(size: 9pt, fill: rgb("#666"))[
-      *Glyph Sources*\
-      Letters A\u{2013}Z, a\u{2013}z from B612\
-      Digits 0\u{2013}9 from B612\
-      Zero modified with center dot for O/0 clarity\
-      Extended Latin, Greek, Cyrillic from B612\
-      Punctuation and symbols from Hack\
-      12,000+ Nerd Font icons
-    ]
-  ],
-)
+#text(size: 9pt, fill: rgb("#666"))[
+  *Weights*\
+  #text(weight: "regular")[Regular] (400) #h(1em)
+  #text(weight: "regular", style: "italic")[Italic] (400) #h(1em)
+  #text(weight: 500)[Medium] (500) #h(1em)
+  #text(weight: 500, style: "italic")[Medium Italic] (500)\
+  #text(weight: "bold")[Bold] (700) #h(1em)
+  #text(weight: "bold", style: "italic")[Bold Italic] (700) #h(1em)
+  #text(weight: 800)[ExtraBold] (800) #h(1em)
+  #text(weight: 800, style: "italic")[ExtraBold Italic] (800)
+]
 
 #pagebreak()
 
