@@ -1,0 +1,54 @@
+Network Working Group                                   Steve Crocker
+Request for Comments: 1                                          UCLA
+                                                         7 April 1969
+
+
+                         Title:   Host Software
+                        Author:   Steve Crocker
+                          Installation:   UCLA
+                          Date:   7 April 1969
+             Network Working Group Request for Comment:   1
+
+
+Introduction
+
+   The software for the ARPA Network exists partly in the IMPs and
+   partly in the respective HOSTs.  BB&N has specified the software of
+   the IMPs and it is the responsibility of the HOST groups to agree on
+   HOST software.
+
+   During the summer of 1968, representatives from the initial four
+   sites met several times to discuss the HOST software and initial
+   experiments on the network.  There emerged from these meetings a
+   working group of three, Steve Carr from Utah, Jeff Rulifson from SRI,
+   and Steve Crocker of UCLA, who met during the fall and winter.  The
+   most recent meeting was in the last week of March in Utah.  Also
+   present was Bill Duvall of SRI who has recently started working with
+   Jeff Rulifson.
+
+   Somewhat independently, Gerard DeLoche of UCLA has been working on
+   the HOST-IMP interface.
+
+   I present here some of the tentative agreements reached and some of
+   the open questions encountered.  Very little of what is here is firm
+   and reactions are expected.
+
+I.   A Summary of the IMP Software
+
+Messages
+
+   Information is transmitted from HOST to HOST in bundles called
+   messages.  A message is any stream of not more than 8080 bits,
+   together with its header.  The header is 16 bits and contains the
+   following information:
+
+           Destination     5 bits
+           Link            8 bits
+           Trace           1 bit
+           Spare           2 bits
+
+   The destination is the numerical code for the HOST to which the
+   message should be sent.  The trace bit signals the IMPs to record
+   status information about the message and send the information back to
+   the NMC (Network Measurement Center, i.e., UCLA).  The spare bits are
+   unused.
