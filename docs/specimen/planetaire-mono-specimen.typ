@@ -147,7 +147,8 @@
     #text(size: 9pt, fill: rgb("#666"))[
       *Glyph Sources*\
       Letters A\u{2013}Z, a\u{2013}z from B612\
-      Digits 0\u{2013}9 from B612 (dotted zero)\
+      Digits 0\u{2013}9 from B612\
+      Zero modified with center dot for O/0 clarity\
       Extended Latin, Greek, Cyrillic from B612\
       Punctuation and symbols from Hack\
       12,000+ Nerd Font icons
@@ -460,7 +461,7 @@
 #text(size: 14pt)[#spaced("abcdefghijklmnopqrstuvwxyz")]
 #v(0.25cm)
 
-#label[DIGITS: 0\u{2013}9 from B612 (dotted zero for disambiguation)]
+#label[DIGITS: 0\u{2013}9 from B612 (zero modified with center dot for O/0 disambiguation)]
 #text(size: 14pt)[#spaced("0123456789")]
 #v(0.25cm)
 
@@ -817,7 +818,7 @@
   ],
   [*Hack*], [
     Chris Simpkins\u{2019} typeface designed for source code. Provides the
-    base font structure: punctuation, symbols, and overall metrics.
+    base font structure: punctuation, symbols, metrics, and Nerd Font integration.
   ],
   [*Nerd Fonts*], [
     Ryan McIntyre\u{2019}s icon patching project. 12,000+ developer icons
@@ -832,9 +833,10 @@
 #text(size: 10pt)[
   Planetaire Mono is built with a custom Python pipeline using fontTools.
   For each weight variant, the pipeline loads Hack Nerd Font as the base,
-  merges B612 letter glyphs by Unicode range, renames the result, and
-  applies post-processing fixes. Medium and SemiBold weights are generated
-  from Regular, and ExtraBold from Bold, via FontForge emboldening.
+  merges B612 letter and digit glyphs by Unicode range, adds a center dot
+  to B612\u{2019}s zero for O/0 disambiguation, renames the result, and applies
+  post-processing fixes. Medium and SemiBold weights are generated from
+  Regular, and ExtraBold from Bold, via FontForge emboldening.
 ]
 
 #v(0.5cm)

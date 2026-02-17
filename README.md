@@ -19,18 +19,23 @@ by merging B612's letters and digits into Hack Nerd Font's base, combining the b
 both:
 
 - **B612 letterforms** for letters, digits, and extended Latin/Greek/Cyrillic
+- **Modified zero** — B612's zero with a center dot added for clear `0` vs `O`
+  disambiguation, with circle (default) and rectangle (ss01) variants
 - **Hack punctuation and symbols** for `{}[]()<>` and everything else
-- **Hack's distinguished zero** for clear `0` vs `O` disambiguation
 - **12,000+ Nerd Font icons** including Powerline, Font Awesome, and Devicons
 
 ## Weights
 
-Planetaire Mono ships with **6 variants** across 3 weights:
+Planetaire Mono ships with **10 variants** across 5 weights:
 
 | Variant | Weight | Recommended Use |
 |---------|--------|-----------------|
 | Regular | 400 | Normal terminal text |
 | Italic | 400 | Emphasized text |
+| Medium | 500 | UI labels, intermediate weight |
+| Medium Italic | 500 | UI labels italic |
+| SemiBold | 600 | Subheadings, moderate emphasis |
+| SemiBold Italic | 600 | Subheadings italic |
 | Bold | 700 | Standard bold |
 | Bold Italic | 700 | Standard bold italic |
 | **ExtraBold** | **800** | **Terminal bold text** |
@@ -119,7 +124,7 @@ Planetaire Mono is built with a Python pipeline that uses
 
 ### Prerequisites
 
-- Python 3.11+
+- Python 3.12+
 - [uv](https://docs.astral.sh/uv/) (recommended) or pip
 
 ### Build
@@ -133,7 +138,7 @@ make fonts
 
 # Or step by step:
 uv run planetaire build download        # download source fonts
-uv run planetaire build planetaire-mono  # build all 6 variants
+uv run planetaire build planetaire-mono  # build all 10 variants
 uv run planetaire validate fonts/output/*.ttf  # validate output
 ```
 
@@ -153,17 +158,18 @@ planetaire validate fonts/output/*.ttf
 
 The build pipeline:
 
-1. **Merge** — Copies B612 glyphs (letters, digits 1-9, extended Latin, Greek, Cyrillic)
-   into the Hack Nerd Font base, normalizing UPM from Hack's 2048 to B612's 2000.
-   Zero (0) is kept from Hack for clear `0`/`O` disambiguation.
-2. **Rename** — Sets font family metadata to "Planetaire Mono" with correct
+1. **Merge** — Copies B612 glyphs (letters, digits 0-9, extended Latin, Greek, Cyrillic)
+   into the Hack Nerd Font base, normalizing UPM from Hack's 2048 to B612's 2000
+2. **Dotted zero** — Adds a center dot to B612's zero for `0`/`O` disambiguation,
+   with circle (default) and rectangle (ss01/zero) OpenType alternate variants
+3. **Rename** — Sets font family metadata to "Planetaire Mono" with correct
    PostScript names and weight classes
-3. **Fix** — Adds required tables (DSIG), sets embedding flags (fsType=0), and
+4. **Fix** — Adds required tables (DSIG), sets embedding flags (fsType=0), and
    configures grid-fitting (GASP)
-4. **Validate** — Checks glyph coverage, weight metadata, and OpenType features
+5. **Validate** — Checks glyph coverage, weight metadata, and OpenType features
 
-This is repeated for all 6 variants (Regular, Italic, Bold, BoldItalic, ExtraBold,
-ExtraBoldItalic).
+This is repeated for all 10 variants (Regular, Italic, Medium, MediumItalic,
+SemiBold, SemiBoldItalic, Bold, BoldItalic, ExtraBold, ExtraBoldItalic).
 
 ## Credits
 
@@ -171,7 +177,7 @@ ExtraBoldItalic).
   ([polarsys/b612](https://github.com/polarsys/b612)). The letterforms that make this
   font special.
 - [**Hack**](https://sourcefoundry.org/hack/) — Chris Simpkins. The base font
-  providing punctuation, symbols, zero glyph, and overall metrics.
+  providing punctuation, symbols, and overall metrics.
 - [**Nerd Fonts**](https://www.nerdfonts.com/) — Ryan McIntyre. 12,000+ developer
   icons including Powerline, Font Awesome, Devicons, and more.
 - [**carlosedp**](https://github.com/carlosedp/B612-Mono-Liga-NerdFont) — Carlos
