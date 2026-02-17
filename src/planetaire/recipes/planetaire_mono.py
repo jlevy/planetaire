@@ -39,10 +39,10 @@ _EXTRABOLD_FROM_BOLD: dict[str, str] = {
 # Mapping for intermediate weight generation from Regular sources.
 # (target_file, source_file, target_weight, change_amount)
 _INTERMEDIATE_WEIGHTS: list[tuple[str, str, int, int]] = [
-    ("B612Mono-Medium.ttf", "B612Mono-Regular.ttf", 500, 30),
-    ("B612Mono-MediumItalic.ttf", "B612Mono-Italic.ttf", 500, 30),
-    ("HackNerdFont-Medium.ttf", "HackNerdFont-Regular.ttf", 500, 30),
-    ("HackNerdFont-MediumItalic.ttf", "HackNerdFont-Italic.ttf", 500, 30),
+    ("B612Mono-Medium.ttf", "B612Mono-Regular.ttf", 500, 40),
+    ("B612Mono-MediumItalic.ttf", "B612Mono-Italic.ttf", 500, 40),
+    ("HackNerdFont-Medium.ttf", "HackNerdFont-Regular.ttf", 500, 40),
+    ("HackNerdFont-MediumItalic.ttf", "HackNerdFont-Italic.ttf", 500, 40),
 ]
 
 
