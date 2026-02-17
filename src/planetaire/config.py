@@ -30,9 +30,7 @@ PLANETAIRE_LETTER_RANGES: list[tuple[int, int]] = [
 ]
 
 # GSUB features to copy from B612 donor into merged font.
-# Note: the original B612 from polarsys has no special GSUB features.
-# Ligatures (calt) and zero alternates (zero, ezer) were carlosedp additions.
-# This list is empty now that we use original B612 sources.
+# The original B612 from polarsys has no special GSUB features, so this is empty.
 # Dotted zero (circle default, rectangle alternate via ss01/zero features)
 # is implemented via add_dotted_zero() in ops/zero.py.
 PLANETAIRE_GSUB_FEATURES: list[str] = []

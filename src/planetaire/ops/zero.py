@@ -3,7 +3,7 @@ Add a center dot to the zero glyph for disambiguation from uppercase O.
 
 Creates two glyph variants packaged as OpenType alternates:
   - Default zero: circle dot (smooth Bezier ellipse).
-  - ss01 alternate: rectangle dot (matching the carlosedp B612 fork).
+  - ss01 alternate: rectangle dot.
 
 The alternates are accessible via:
   - OpenType ``ss01`` feature (Stylistic Set 1: "Rectangle Zero")
@@ -27,7 +27,7 @@ from fontTools.ttLib.tables import otTables
 
 log = logging.getLogger(__name__)
 
-# Dot dimensions at 2000 UPM, matching the carlosedp reference.
+# Dot dimensions at 2000 UPM.
 _DOT_WIDTH = 221
 _DOT_HEIGHT = 348
 _REFERENCE_UPM = 2000
