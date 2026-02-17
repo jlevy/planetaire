@@ -51,26 +51,33 @@ def test_build_produces_regular(source_dir: Path):
 
 
 def test_build_all_variants(source_dir: Path):
-    """Full pipeline builds all 6 variants."""
+    """Full pipeline builds all 10 variants."""
     with tempfile.TemporaryDirectory() as tmpdir:
         output_dir = Path(tmpdir)
         outputs = build_planetaire_mono(source_dir, output_dir)
 
-        assert len(outputs) == 6
+        assert len(outputs) == 10
         names = {p.name for p in outputs}
         assert "PlanetaireMono-Regular.ttf" in names
         assert "PlanetaireMono-Italic.ttf" in names
+        assert "PlanetaireMono-Medium.ttf" in names
+        assert "PlanetaireMono-MediumItalic.ttf" in names
+        assert "PlanetaireMono-SemiBold.ttf" in names
+        assert "PlanetaireMono-SemiBoldItalic.ttf" in names
         assert "PlanetaireMono-Bold.ttf" in names
         assert "PlanetaireMono-BoldItalic.ttf" in names
         assert "PlanetaireMono-ExtraBold.ttf" in names
         assert "PlanetaireMono-ExtraBoldItalic.ttf" in names
 
-        # Verify Bold has weight 700
-        bold_path = [p for p in outputs if p.name == "PlanetaireMono-Bold.ttf"][0]
-        bold_info = inspect_font(bold_path)
-        assert bold_info.weight_class == 700
-
-        # Verify ExtraBold has weight 800
-        extrabold_path = [p for p in outputs if p.name == "PlanetaireMono-ExtraBold.ttf"][0]
-        extrabold_info = inspect_font(extrabold_path)
-        assert extrabold_info.weight_class == 800
+        # Verify weights across the family
+        for filename, expected_weight in [
+            ("PlanetaireMono-Medium.ttf", 500),
+            ("PlanetaireMono-SemiBold.ttf", 600),
+            ("PlanetaireMono-Bold.ttf", 700),
+            ("PlanetaireMono-ExtraBold.ttf", 800),
+        ]:
+            path = [p for p in outputs if p.name == filename][0]
+            info = inspect_font(path)
+            assert info.weight_class == expected_weight, (
+                f"{filename}: expected weight {expected_weight}, got {info.weight_class}"
+            )

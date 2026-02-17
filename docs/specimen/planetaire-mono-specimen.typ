@@ -99,7 +99,7 @@
   ]
 
   #v(0.8cm)
-  #text(size: 10pt, fill: rgb("#999"))[
+  #text(size: 10pt, fill: rgb("#666"))[
     Joshua Levy\
     github.com/jlevy/planetaire\
     Version #version
@@ -133,6 +133,10 @@
       *Weights*\
       #text(weight: "regular")[Regular] (400)\
       #text(weight: "regular", style: "italic")[Italic] (400)\
+      #text(weight: 500)[Medium] (500)\
+      #text(weight: 500, style: "italic")[Medium Italic] (500)\
+      #text(weight: 600)[SemiBold] (600)\
+      #text(weight: 600, style: "italic")[SemiBold Italic] (600)\
       #text(weight: "bold")[Bold] (700)\
       #text(weight: "bold", style: "italic")[Bold Italic] (700)\
       #text(weight: 800)[ExtraBold] (800)\
@@ -507,6 +511,10 @@
 
 #weight-row("REGULAR (400)", 400)
 #weight-row("ITALIC (400)", 400, it: true)
+#weight-row("MEDIUM (500)", 500)
+#weight-row("MEDIUM ITALIC (500)", 500, it: true)
+#weight-row("SEMIBOLD (600)", 600)
+#weight-row("SEMIBOLD ITALIC (600)", 600, it: true)
 #weight-row("BOLD (700)", 700)
 #weight-row("BOLD ITALIC (700)", 700, it: true)
 #weight-row("EXTRABOLD (800)", 800)
@@ -548,7 +556,9 @@
 #disambig[2 Z 6 G][digit 2 vs Z \u{00B7} digit 6 vs G]
 #disambig[; :][semicolon vs colon \u{2014} distinct dot size and spacing]
 #disambig[( ) \{ \} \[ \]][parens vs braces vs brackets]
-#disambig[- \u{2013} \u{2014}][hyphen vs en dash vs em dash]
+#disambig[\- \u{2013} \u{2014}][hyphen-minus vs en dash vs em dash]
+#disambig[\u{201C} \u{201D} \u{0022}][left double quote vs right double quote vs straight double quote]
+#disambig[\u{2018} \u{2019} \u{0027} \u{0060}][left single quote vs right single quote/apostrophe vs straight quote vs backtick]
 
 #v(0.3cm)
 
@@ -596,6 +606,40 @@
 // ─── Symbols and Special Characters ─────────────────────────────
 
 #section[Planetaire Symbols and Special Characters]
+
+#label[STANDARD PUNCTUATION]
+#text(size: 16pt)[. , ; : ! ? \- \u{2013} \u{2014} ( ) \[ \] \{ \} / \\ \@ \# \$ % ^ & \* \_ \+ = \~ \`]
+#v(0.25cm)
+
+#label[QUOTES AND APOSTROPHES]
+#text(size: 16pt)[
+  \u{0022} \u{0027} \u{0060} \u{201C} \u{201D} \u{2018} \u{2019} \u{00AB} \u{00BB} \u{2039} \u{203A}
+]
+#v(0.1cm)
+#text(size: 9pt, fill: rgb("#999"))[
+  straight double \u{00B7} straight single \u{00B7} backtick \u{00B7} left double \u{00B7} right double \u{00B7} left single \u{00B7} right single/apostrophe \u{00B7} guillemets \u{00B7} single guillemets
+]
+#v(0.25cm)
+
+#label[TYPOGRAPHIC AND SPECIAL CHARACTERS]
+#text(size: 16pt)[
+  \u{00A7} \u{00B6} \u{00A9} \u{00AE} \u{2122} \u{00B0} \u{00B7} \u{2026} \u{2020} \u{2021} \u{00A4} \u{00A2} \u{00A3} \u{00A5} \u{20AC} \u{00AC} \u{00A6}
+]
+#v(0.1cm)
+#text(size: 9pt, fill: rgb("#999"))[
+  section \u{00B7} pilcrow \u{00B7} copyright \u{00B7} registered \u{00B7} trademark \u{00B7} degree \u{00B7} middle dot \u{00B7} ellipsis \u{00B7} dagger \u{00B7} double dagger \u{00B7} currency \u{00B7} cent \u{00B7} pound \u{00B7} yen \u{00B7} euro \u{00B7} not \u{00B7} broken bar
+]
+#v(0.25cm)
+
+#label[SLASHES AND STROKES]
+#text(size: 16pt)[
+  \u{002F} \\ | \u{00A6} \u{2044} \u{2215}
+]
+#v(0.1cm)
+#text(size: 9pt, fill: rgb("#999"))[
+  solidus \u{00B7} reverse solidus \u{00B7} vertical bar \u{00B7} broken bar \u{00B7} fraction slash \u{00B7} division slash
+]
+#v(0.25cm)
 
 #label[BOX DRAWING AND BLOCK ELEMENTS]
 #text(size: 14pt)[
@@ -789,8 +833,8 @@
   Planetaire Mono is built with a custom Python pipeline using fontTools.
   For each weight variant, the pipeline loads Hack Nerd Font as the base,
   merges B612 letter glyphs by Unicode range, renames the result, and
-  applies post-processing fixes. ExtraBold weights are generated from Bold
-  via FontForge emboldening.
+  applies post-processing fixes. Medium and SemiBold weights are generated
+  from Regular, and ExtraBold from Bold, via FontForge emboldening.
 ]
 
 #v(0.5cm)

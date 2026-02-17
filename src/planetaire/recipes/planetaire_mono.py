@@ -36,14 +36,57 @@ _EXTRABOLD_FROM_BOLD: dict[str, str] = {
     "B612Mono-ExtraBoldItalic.ttf": "B612Mono-BoldItalic.ttf",
 }
 
+# Mapping for intermediate weight generation from Regular sources.
+# (target_file, source_file, target_weight, change_amount)
+_INTERMEDIATE_WEIGHTS: list[tuple[str, str, int, int]] = [
+    ("B612Mono-Medium.ttf", "B612Mono-Regular.ttf", 500, 12),
+    ("B612Mono-MediumItalic.ttf", "B612Mono-Italic.ttf", 500, 12),
+    ("B612Mono-SemiBold.ttf", "B612Mono-Regular.ttf", 600, 22),
+    ("B612Mono-SemiBoldItalic.ttf", "B612Mono-Italic.ttf", 600, 22),
+    ("HackNerdFont-Medium.ttf", "HackNerdFont-Regular.ttf", 500, 12),
+    ("HackNerdFont-MediumItalic.ttf", "HackNerdFont-Italic.ttf", 500, 12),
+    ("HackNerdFont-SemiBold.ttf", "HackNerdFont-Regular.ttf", 600, 22),
+    ("HackNerdFont-SemiBoldItalic.ttf", "HackNerdFont-Italic.ttf", 600, 22),
+]
 
-def _ensure_extrabold_b612(source_dir: Path) -> None:
-    """Generate ExtraBold B612 from Bold if not already present.
+
+def _ensure_generated_weights(source_dir: Path) -> None:
+    """Generate intermediate and ExtraBold weight variants if not already present.
 
     Uses FontForge emboldening (changeWeight). If FontForge is not
-    installed, logs a warning. Pre-generated ExtraBold files must
-    exist in the source directory.
+    installed, logs a warning. Pre-generated files must exist in
+    the source directory.
     """
+    from planetaire.ops.embolden import embolden_font
+
+    # Generate intermediate weights (Medium, SemiBold) for both B612 and Hack.
+    for target_file, source_file, target_weight, change_amount in _INTERMEDIATE_WEIGHTS:
+        # Determine which subdirectory based on filename prefix.
+        subdir = "b612" if target_file.startswith("B612") else "hack"
+        font_dir = source_dir / subdir
+        target_path = font_dir / target_file
+        source_path = font_dir / source_file
+
+        if target_path.exists():
+            continue
+
+        if not source_path.exists():
+            log.warning("Cannot generate %s: source %s not found", target_file, source_path)
+            continue
+
+        if shutil.which("fontforge") is None:
+            log.warning(
+                "Cannot generate %s: FontForge not installed. "
+                "Place pre-generated files in %s",
+                target_file,
+                font_dir,
+            )
+            continue
+
+        log.info("Generating %s from %s via FontForge emboldening", target_file, source_file)
+        embolden_font(source_path, target_path, target_weight=target_weight, change_amount=change_amount)
+
+    # Generate ExtraBold B612 from Bold.
     b612_dir = source_dir / "b612"
     for extrabold_file, bold_file in _EXTRABOLD_FROM_BOLD.items():
         extrabold_path = b612_dir / extrabold_file
@@ -66,8 +109,6 @@ def _ensure_extrabold_b612(source_dir: Path) -> None:
             continue
 
         log.info("Generating %s from %s via FontForge emboldening", extrabold_file, bold_file)
-        from planetaire.ops.embolden import embolden_font
-
         embolden_font(bold_path, extrabold_path, target_weight=800, change_amount=30)
 
 
@@ -89,8 +130,8 @@ def build_planetaire_mono(
     """
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    # Generate ExtraBold B612 from Bold if needed
-    _ensure_extrabold_b612(source_dir)
+    # Generate intermediate (Medium, SemiBold) and ExtraBold weights if needed
+    _ensure_generated_weights(source_dir)
 
     outputs: list[Path] = []
 
