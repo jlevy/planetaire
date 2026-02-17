@@ -79,7 +79,7 @@ VARIANTS: list[VariantDef] = [
         "subfamily": "Medium Italic",
         "weight": 500,
     },
-{
+    {
         "name": "Bold",
         "hack_file": "HackNerdFont-Bold.ttf",
         "b612_file": "B612Mono-Bold.ttf",
