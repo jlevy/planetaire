@@ -246,28 +246,10 @@
 #block[
   #set text(size: 8pt)
   #set par(leading: 0.45em, spacing: 0em)
-
-  // RFC header
-  Network Working Group #h(1fr) #text(weight: 700)[Steve Crocker]\
-  Request for Comments: 1 #h(1fr) UCLA\
-  #h(1fr) 7 April 1969
-
-  #v(0.3cm)
-  #align(center)[
-    Title:~~~#text(weight: 700)[Host Software]\
-    Author:~~~#text(weight: 700)[Steve Crocker]\
-    Installation:~~~UCLA\
-    Date:~~~7 April 1969\
-    Network Working Group Request for Comment:~~~1
-  ]
-  #v(0.3cm)
-
-  // Body text with original RFC formatting preserved
-  #show raw.where(block: true): it => {
-    set par(leading: 0.45em)
-    block(width: 100%, inset: 0pt, fill: none, stroke: none, it)
-  }
   #show raw: set text(font: "Planetaire Mono", size: 8pt)
+  #show raw.where(block: true): it => block(width: 100%, fill: none, inset: 0pt, stroke: none, it)
+  #show "Host Software": text.with(weight: 700)
+  #show "Steve Crocker": text.with(weight: 700)
   #raw(read("rfc1-excerpt.txt"), block: true)
 ]
 
