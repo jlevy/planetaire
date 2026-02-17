@@ -10,6 +10,6 @@ priority: 2
 status: closed
 title: Add light gray footer on every page except title page
 type: is
-updated_at: 2026-02-16T23:29:02.311Z
-version: 2
+updated_at: 2026-02-17T01:43:13.385Z
+version: 3
 ---

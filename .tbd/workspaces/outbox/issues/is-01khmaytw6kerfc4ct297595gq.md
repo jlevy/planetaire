@@ -10,6 +10,6 @@ priority: 2
 status: closed
 title: "Add RFC 1 excerpt to specimen: formatted with boldface headings matching original"
 type: is
-updated_at: 2026-02-16T23:28:56.447Z
-version: 3
+updated_at: 2026-02-17T01:43:13.263Z
+version: 4
 ---

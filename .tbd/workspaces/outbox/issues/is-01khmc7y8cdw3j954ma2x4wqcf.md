@@ -10,6 +10,6 @@ priority: 2
 status: closed
 title: Preserve aviation legibility paragraph on Text Sample page
 type: is
-updated_at: 2026-02-16T23:29:02.741Z
-version: 2
+updated_at: 2026-02-17T01:43:13.393Z
+version: 3
 ---

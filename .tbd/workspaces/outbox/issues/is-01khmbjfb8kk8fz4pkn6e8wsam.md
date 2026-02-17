@@ -10,6 +10,6 @@ priority: 2
 status: closed
 title: "Fix title page: Nerd Fonts not from Hack, drop OpenType ss01 line"
 type: is
-updated_at: 2026-02-16T23:28:57.341Z
-version: 2
+updated_at: 2026-02-17T01:43:13.297Z
+version: 3
 ---

@@ -10,6 +10,6 @@ priority: 2
 status: closed
 title: "Feature Showcase: drop Enable with line, reduce excess spacing below headers"
 type: is
-updated_at: 2026-02-16T23:28:59.149Z
-version: 2
+updated_at: 2026-02-17T01:43:13.331Z
+version: 3
 ---

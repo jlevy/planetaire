@@ -10,6 +10,6 @@ priority: 2
 status: closed
 title: Add Symbols and Special Characters page with ASCII hex table (man ascii style with bold headings)
 type: is
-updated_at: 2026-02-16T23:29:00.962Z
-version: 2
+updated_at: 2026-02-17T01:43:13.365Z
+version: 3
 ---

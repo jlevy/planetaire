@@ -10,6 +10,6 @@ priority: 2
 status: closed
 title: Add Planetaire prefix to page titles for standalone screenshot context
 type: is
-updated_at: 2026-02-16T23:29:01.863Z
-version: 2
+updated_at: 2026-02-17T01:43:13.375Z
+version: 3
 ---

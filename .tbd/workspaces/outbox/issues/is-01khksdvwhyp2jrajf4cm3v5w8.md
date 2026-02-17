@@ -10,6 +10,6 @@ priority: 1
 status: closed
 title: Investigate slashed zero (zero feature) in Feature Showcase - confirm it works or remove
 type: is
-updated_at: 2026-02-16T23:29:31.273Z
-version: 3
+updated_at: 2026-02-17T01:43:13.230Z
+version: 4
 ---

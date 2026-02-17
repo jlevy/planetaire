@@ -10,6 +10,6 @@ priority: 2
 status: closed
 title: Fix unoriented apostrophes and quotes in specimen inline text to use typographic curly quotes
 type: is
-updated_at: 2026-02-16T23:29:01.408Z
-version: 2
+updated_at: 2026-02-17T01:43:13.288Z
+version: 3
 ---

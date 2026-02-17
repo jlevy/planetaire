@@ -10,6 +10,6 @@ priority: 2
 status: closed
 title: "Character Set page: narrow char widths so A-Z fits one line, uniform size for all alphabets including Cyrillic"
 type: is
-updated_at: 2026-02-16T23:28:58.720Z
-version: 2
+updated_at: 2026-02-17T01:43:13.322Z
+version: 3
 ---

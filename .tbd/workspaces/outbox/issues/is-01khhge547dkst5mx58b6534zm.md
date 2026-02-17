@@ -13,6 +13,6 @@ priority: 1
 status: closed
 title: "Font migration: copy source fonts to fonts/source/, add license files, set up fonts/output/"
 type: is
-updated_at: 2026-02-16T23:29:31.114Z
-version: 21
+updated_at: 2026-02-17T01:43:13.052Z
+version: 24
 ---

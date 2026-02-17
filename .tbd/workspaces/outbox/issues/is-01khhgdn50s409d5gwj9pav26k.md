@@ -15,6 +15,6 @@ priority: 1
 status: closed
 title: "Implement recipes/planetaire_mono: full Planetaire Mono build pipeline"
 type: is
-updated_at: 2026-02-16T23:29:31.075Z
-version: 21
+updated_at: 2026-02-17T01:43:13.012Z
+version: 24
 ---

@@ -1,13 +1,15 @@
 ---
+close_reason: "Done: Text Sample + Iconic Texts (Turing, RFC 1) pages added"
+closed_at: 2026-02-16T23:33:17.592Z
 created_at: 2026-02-16T17:37:38.636Z
 dependencies: []
 id: is-01khkrezadbxk88q478rf3x0gk
 kind: task
 labels: []
 priority: 1
-status: open
+status: closed
 title: Add interesting text showcase page after the title page with clean layout
 type: is
-updated_at: 2026-02-16T23:29:31.225Z
-version: 2
+updated_at: 2026-02-17T01:43:13.172Z
+version: 3
 ---

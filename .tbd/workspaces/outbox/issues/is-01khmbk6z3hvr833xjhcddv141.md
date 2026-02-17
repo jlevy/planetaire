@@ -10,6 +10,6 @@ priority: 2
 status: closed
 title: "Nerd Font Icons: reorder headings to UI/Common, File Types, Development, Weather, Powerline"
 type: is
-updated_at: 2026-02-16T23:28:59.614Z
-version: 2
+updated_at: 2026-02-17T01:43:13.340Z
+version: 3
 ---

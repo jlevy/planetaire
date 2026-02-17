@@ -13,6 +13,6 @@ priority: 1
 status: closed
 title: Create test font fixtures and pytest unit tests for all ops/
 type: is
-updated_at: 2026-02-16T23:29:31.084Z
-version: 21
+updated_at: 2026-02-17T01:43:13.023Z
+version: 24
 ---

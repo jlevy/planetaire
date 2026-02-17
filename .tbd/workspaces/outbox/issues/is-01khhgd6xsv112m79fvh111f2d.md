@@ -15,6 +15,6 @@ priority: 1
 status: closed
 title: "Implement ops/fix: gftools fix-nonhinting and DSIG/fsType fixes"
 type: is
-updated_at: 2026-02-16T23:29:31.032Z
-version: 21
+updated_at: 2026-02-17T01:43:12.970Z
+version: 24
 ---

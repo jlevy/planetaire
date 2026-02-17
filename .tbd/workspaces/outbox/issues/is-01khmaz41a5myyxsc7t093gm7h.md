@@ -10,6 +10,6 @@ priority: 2
 status: closed
 title: "Add microGPT code specimen page: Karpathy's microGPT Python from gist"
 type: is
-updated_at: 2026-02-16T23:28:56.900Z
-version: 3
+updated_at: 2026-02-17T01:43:13.271Z
+version: 4
 ---

@@ -10,6 +10,6 @@ priority: 2
 status: closed
 title: "Add Turing passage to specimen: opening paragraph from Computing Machinery and Intelligence"
 type: is
-updated_at: 2026-02-16T23:28:56.006Z
-version: 3
+updated_at: 2026-02-17T01:43:13.255Z
+version: 4
 ---

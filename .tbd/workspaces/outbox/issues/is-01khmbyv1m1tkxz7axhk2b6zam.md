@@ -10,6 +10,6 @@ priority: 2
 status: closed
 title: Rename Feature Showcase to Legibility, expand with more legibility examples
 type: is
-updated_at: 2026-02-16T23:29:00.514Z
-version: 2
+updated_at: 2026-02-17T01:43:13.355Z
+version: 3
 ---
