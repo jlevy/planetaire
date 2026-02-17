@@ -34,8 +34,6 @@ Planetaire Mono ships with **10 variants** across 5 weights:
 | Italic | 400 | Emphasized text |
 | Medium | 500 | UI labels, intermediate weight |
 | Medium Italic | 500 | UI labels italic |
-| SemiBold | 600 | Subheadings, moderate emphasis |
-| SemiBold Italic | 600 | Subheadings italic |
 | Bold | 700 | Standard bold |
 | Bold Italic | 700 | Standard bold italic |
 | **ExtraBold** | **800** | **Terminal bold text** |
@@ -168,8 +166,8 @@ The build pipeline:
    configures grid-fitting (GASP)
 5. **Validate** — Checks glyph coverage, weight metadata, and OpenType features
 
-This is repeated for all 10 variants (Regular, Italic, Medium, MediumItalic,
-SemiBold, SemiBoldItalic, Bold, BoldItalic, ExtraBold, ExtraBoldItalic).
+This is repeated for all 8 variants (Regular, Italic, Medium, MediumItalic,
+Bold, BoldItalic, ExtraBold, ExtraBoldItalic).
 
 ## Credits
 

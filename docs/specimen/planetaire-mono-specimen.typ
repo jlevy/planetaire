@@ -135,8 +135,6 @@
       #text(weight: "regular", style: "italic")[Italic] (400)\
       #text(weight: 500)[Medium] (500)\
       #text(weight: 500, style: "italic")[Medium Italic] (500)\
-      #text(weight: 600)[SemiBold] (600)\
-      #text(weight: 600, style: "italic")[SemiBold Italic] (600)\
       #text(weight: "bold")[Bold] (700)\
       #text(weight: "bold", style: "italic")[Bold Italic] (700)\
       #text(weight: 800)[ExtraBold] (800)\
@@ -514,8 +512,6 @@
 #weight-row("ITALIC (400)", 400, it: true)
 #weight-row("MEDIUM (500)", 500)
 #weight-row("MEDIUM ITALIC (500)", 500, it: true)
-#weight-row("SEMIBOLD (600)", 600)
-#weight-row("SEMIBOLD ITALIC (600)", 600, it: true)
 #weight-row("BOLD (700)", 700)
 #weight-row("BOLD ITALIC (700)", 700, it: true)
 #weight-row("EXTRABOLD (800)", 800)
@@ -835,7 +831,7 @@
   For each weight variant, the pipeline loads Hack Nerd Font as the base,
   merges B612 letter and digit glyphs by Unicode range, adds a center dot
   to B612\u{2019}s zero for O/0 disambiguation, renames the result, and applies
-  post-processing fixes. Medium and SemiBold weights are generated from
+  post-processing fixes. Medium weights are generated from
   Regular, and ExtraBold from Bold, via FontForge emboldening.
 ]
 

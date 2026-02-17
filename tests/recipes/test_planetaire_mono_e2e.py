@@ -54,13 +54,13 @@ def _glyph_hash(font: TTFont, glyph_name: str) -> str:
 
 @pytest.fixture(scope="module")
 def all_built_fonts() -> dict[str, TTFont]:
-    """Build all 10 Planetaire Mono variants once for the module."""
+    """Build all 8 Planetaire Mono variants once for the module."""
     if not (FONTS_SOURCE / "b612").exists() or not (FONTS_SOURCE / "hack").exists():
         pytest.skip("Source fonts not available")
 
     with tempfile.TemporaryDirectory() as tmpdir:
         outputs = build_planetaire_mono(FONTS_SOURCE, Path(tmpdir))
-        assert len(outputs) == 10
+        assert len(outputs) == 8
         return {p.stem.split("-")[1]: TTFont(p) for p in outputs}
 
 
@@ -214,7 +214,7 @@ def test_dotted_zero(variant: str, all_built_fonts: dict[str, TTFont]):
 def test_b612_letters_recordingpen_match(variant: str, all_built_fonts: dict[str, TTFont]):
     """Verify A-Z letter outlines match B612 donor (RecordingPen comparison).
 
-    Uses tolerance=1.0 because FontForge-emboldened weights (Medium, SemiBold)
+    Uses tolerance=1.0 because FontForge-emboldened weights (Medium)
     can introduce sub-unit coordinate rounding in composite glyphs.
     The binary-identical test provides the stronger guarantee.
     """
@@ -258,10 +258,10 @@ def test_hack_punctuation_recordingpen_match(variant: str, all_built_fonts: dict
     assert result.identical > 0
 
 
-# --- Sanity checks for intermediate weights (Medium, SemiBold) ---
+# --- Sanity checks for intermediate weights (Medium) ---
 
 
-_INTERMEDIATE_VARIANTS = ["Medium", "MediumItalic", "SemiBold", "SemiBoldItalic"]
+_INTERMEDIATE_VARIANTS = ["Medium", "MediumItalic"]
 
 
 _REQUIRED_TABLES = {
@@ -316,7 +316,7 @@ def test_weight_progression_stroke_width(all_built_fonts: dict[str, TTFont]):
     as a proxy for stroke weight. At minimum, verifies the OS/2 weight
     class values form a monotonic sequence.
     """
-    weight_order = ["Regular", "Medium", "SemiBold", "Bold", "ExtraBold"]
+    weight_order = ["Regular", "Medium", "Bold", "ExtraBold"]
     weight_classes = []
     for name in weight_order:
         font = all_built_fonts[name]

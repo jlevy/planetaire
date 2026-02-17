@@ -51,19 +51,17 @@ def test_build_produces_regular(source_dir: Path):
 
 
 def test_build_all_variants(source_dir: Path):
-    """Full pipeline builds all 10 variants."""
+    """Full pipeline builds all 8 variants."""
     with tempfile.TemporaryDirectory() as tmpdir:
         output_dir = Path(tmpdir)
         outputs = build_planetaire_mono(source_dir, output_dir)
 
-        assert len(outputs) == 10
+        assert len(outputs) == 8
         names = {p.name for p in outputs}
         assert "PlanetaireMono-Regular.ttf" in names
         assert "PlanetaireMono-Italic.ttf" in names
         assert "PlanetaireMono-Medium.ttf" in names
         assert "PlanetaireMono-MediumItalic.ttf" in names
-        assert "PlanetaireMono-SemiBold.ttf" in names
-        assert "PlanetaireMono-SemiBoldItalic.ttf" in names
         assert "PlanetaireMono-Bold.ttf" in names
         assert "PlanetaireMono-BoldItalic.ttf" in names
         assert "PlanetaireMono-ExtraBold.ttf" in names
@@ -72,7 +70,6 @@ def test_build_all_variants(source_dir: Path):
         # Verify weights across the family
         for filename, expected_weight in [
             ("PlanetaireMono-Medium.ttf", 500),
-            ("PlanetaireMono-SemiBold.ttf", 600),
             ("PlanetaireMono-Bold.ttf", 700),
             ("PlanetaireMono-ExtraBold.ttf", 800),
         ]:

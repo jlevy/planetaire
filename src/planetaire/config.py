@@ -79,21 +79,7 @@ VARIANTS: list[VariantDef] = [
         "subfamily": "Medium Italic",
         "weight": 500,
     },
-    {
-        "name": "SemiBold",
-        "hack_file": "HackNerdFont-SemiBold.ttf",
-        "b612_file": "B612Mono-SemiBold.ttf",
-        "subfamily": "SemiBold",
-        "weight": 600,
-    },
-    {
-        "name": "SemiBoldItalic",
-        "hack_file": "HackNerdFont-SemiBoldItalic.ttf",
-        "b612_file": "B612Mono-SemiBoldItalic.ttf",
-        "subfamily": "SemiBold Italic",
-        "weight": 600,
-    },
-    {
+{
         "name": "Bold",
         "hack_file": "HackNerdFont-Bold.ttf",
         "b612_file": "B612Mono-Bold.ttf",

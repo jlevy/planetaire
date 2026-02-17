@@ -39,14 +39,10 @@ _EXTRABOLD_FROM_BOLD: dict[str, str] = {
 # Mapping for intermediate weight generation from Regular sources.
 # (target_file, source_file, target_weight, change_amount)
 _INTERMEDIATE_WEIGHTS: list[tuple[str, str, int, int]] = [
-    ("B612Mono-Medium.ttf", "B612Mono-Regular.ttf", 500, 12),
-    ("B612Mono-MediumItalic.ttf", "B612Mono-Italic.ttf", 500, 12),
-    ("B612Mono-SemiBold.ttf", "B612Mono-Regular.ttf", 600, 22),
-    ("B612Mono-SemiBoldItalic.ttf", "B612Mono-Italic.ttf", 600, 22),
-    ("HackNerdFont-Medium.ttf", "HackNerdFont-Regular.ttf", 500, 12),
-    ("HackNerdFont-MediumItalic.ttf", "HackNerdFont-Italic.ttf", 500, 12),
-    ("HackNerdFont-SemiBold.ttf", "HackNerdFont-Regular.ttf", 600, 22),
-    ("HackNerdFont-SemiBoldItalic.ttf", "HackNerdFont-Italic.ttf", 600, 22),
+    ("B612Mono-Medium.ttf", "B612Mono-Regular.ttf", 500, 30),
+    ("B612Mono-MediumItalic.ttf", "B612Mono-Italic.ttf", 500, 30),
+    ("HackNerdFont-Medium.ttf", "HackNerdFont-Regular.ttf", 500, 30),
+    ("HackNerdFont-MediumItalic.ttf", "HackNerdFont-Italic.ttf", 500, 30),
 ]
 
 
@@ -59,7 +55,7 @@ def _ensure_generated_weights(source_dir: Path) -> None:
     """
     from planetaire.ops.embolden import embolden_font
 
-    # Generate intermediate weights (Medium, SemiBold) for both B612 and Hack.
+    # Generate intermediate weights (Medium) for both B612 and Hack.
     for target_file, source_file, target_weight, change_amount in _INTERMEDIATE_WEIGHTS:
         # Determine which subdirectory based on filename prefix.
         subdir = "b612" if target_file.startswith("B612") else "hack"
@@ -131,7 +127,7 @@ def build_planetaire_mono(
     """
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    # Generate intermediate (Medium, SemiBold) and ExtraBold weights if needed
+    # Generate intermediate (Medium) and ExtraBold weights if needed
     _ensure_generated_weights(source_dir)
 
     outputs: list[Path] = []
