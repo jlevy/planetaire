@@ -244,21 +244,24 @@
 ]
 #v(0.2cm)
 
-#text(size: 8pt)[
+#block[
+  #set text(size: 8pt)
+  #set par(leading: 0.55em, spacing: 0.8em)
+
   #grid(
     columns: (1fr, auto),
+    row-gutter: 0.2em,
     [Network Working Group], [Steve Crocker],
     [Request for Comments: 1], [UCLA],
     [], [7 April 1969],
   )
-]
-#v(0.2cm)
-#align(center)[#text(size: 9pt, weight: 700)[Host Software]]
-#v(0.3cm)
+  #v(0.2cm)
+  #align(center)[#text(size: 9pt, weight: 700)[Host Software]]
+  #v(0.3cm)
 
-#text(size: 8pt, weight: 700)[Introduction]
-#v(0.1cm)
-#text(size: 8pt)[
+  #text(weight: 700)[Introduction]
+  #v(0.1cm)
+
   #h(1.5em)The software for the ARPA Network exists partly in the IMPs and
   partly in the respective HOSTs. BB&N has specified the software of
   the IMPs and it is the responsibility of the HOST groups to agree on
@@ -276,28 +279,25 @@
   #h(1.5em)I present here some of the tentative agreements reached and some of
   the open questions encountered. Very little of what is here is firm
   and reactions are expected.
-]
-#v(0.2cm)
 
-#text(size: 8pt, weight: 700)[I. #h(0.5em) A Summary of the IMP Software]
-#v(0.1cm)
-#text(size: 8pt, weight: 700)[Messages]
-#v(0.05cm)
-#text(size: 8pt)[
+  #v(0.2cm)
+  #text(weight: 700)[I. #h(0.5em) A Summary of the IMP Software]
+  #v(0.1cm)
+  #text(weight: 700)[Messages]
+  #v(0.05cm)
+
   #h(1.5em)Information is transmitted from HOST to HOST in bundles called
   messages. A message is any stream of not more than 8080 bits,
   together with its header. The header is 16 bits and contains the
   following information:
-]
-#v(0.1cm)
-#text(size: 8pt)[
+
+  #v(0.1cm)
   #h(4em)Destination #h(2em) 5 bits\
   #h(4em)Link #h(4.6em) 8 bits\
   #h(4em)Trace #h(3.9em) 1 bit\
   #h(4em)Spare #h(3.9em) 2 bits
-]
-#v(0.1cm)
-#text(size: 8pt)[
+
+  #v(0.1cm)
   #h(1.5em)The destination is the numerical code for the HOST to which the
   message should be sent. The trace bit signals the IMPs to record
   status information about the message and send the information back to
@@ -319,12 +319,12 @@
 #v(0.2cm)
 
 #block(
-  fill: kerm-light.bg,
+  stroke: 0.5pt + rgb("#ccc"),
   inset: (x: 1.2em, y: 1em),
   radius: 4pt,
   width: 100%,
 )[
-  #set text(size: 6.5pt)
+  #set text(size: 7.5pt)
   #{
     set raw(theme: "kerm-light.tmTheme")
     raw(read("microgpt.py"), lang: "python", block: true)
@@ -649,7 +649,7 @@
 #v(0.1cm)
 
 #block(
-  fill: rgb("#f6f8fa"),
+  stroke: 0.5pt + rgb("#ccc"),
   inset: (x: 1.2em, y: 1em),
   radius: 4pt,
   width: 100%,
