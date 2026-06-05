@@ -337,57 +337,37 @@ def build_text_cmd(
     err_console.print(f"[green]Built {len(outputs)} file(s)[/green]")
 
 
-@build_app.command("hero")
-def build_hero_cmd(
-    source: Path = typer.Option(Path("docs/specimen/hero.typ"), help="Typst hero source"),
-    output: Path = typer.Option(Path("docs/images/hero.png"), help="Output PNG path"),
-    font_dir: Path = typer.Option(Path("fonts/output"), help="Directory containing built fonts"),
-    ppi: int = typer.Option(200, help="Render resolution (pixels per inch)"),
-) -> None:
-    """Render the README hero image from Typst (single render path with the specimen)."""
-    import subprocess
-
-    from planetaire.recipes.specimen import render_png
-
-    try:
-        path = render_png(source, output, font_dir, ppi=ppi)
-    except subprocess.CalledProcessError as e:
-        err_console.print("[red]Typst render failed:[/red]")
-        if e.stderr:
-            err_console.print(e.stderr)
-        raise SystemExit(1) from e
-    err_console.print(f"[green]Hero image written to {path}[/green]")
-
-
 @build_app.command("images")
 def build_images_cmd(
     out_dir: Path = typer.Option(Path("docs/images"), help="Directory for README images"),
     font_dir: Path = typer.Option(Path("fonts/output"), help="Directory containing built fonts"),
     ppi: int = typer.Option(200, help="Render resolution (pixels per inch)"),
 ) -> None:
-    """Render the README images from the specimen's shared content (in sync with the PDF)."""
+    """Render the README images from the specimen's shared content (in sync with the PDF).
+
+    Each card is rendered as a matched dark/light pair (<card>-dark.png, <card>-light.png)
+    so the README can switch with the GitHub color scheme.
+    """
     import subprocess
 
     from planetaire.recipes.specimen import render_png
 
     card = Path("docs/specimen/card.typ")
-    # card name -> output filename
-    cards = {
-        "terminal": "terminal.png",
-        "text": "text-sample.png",
-        "weights": "weights.png",
-        "features": "features.png",
-    }
+    card_names = ("terminal", "text", "weights", "features")
+    count = 0
     try:
-        for card_name, filename in cards.items():
-            render_png(card, out_dir / filename, font_dir, ppi=ppi, inputs={"card": card_name})
-            err_console.print(f"  {out_dir / filename}")
+        for card_name in card_names:
+            for theme in ("dark", "light"):
+                out = out_dir / f"{card_name}-{theme}.png"
+                render_png(card, out, font_dir, ppi=ppi, inputs={"card": card_name, "theme": theme})
+                err_console.print(f"  {out}")
+                count += 1
     except subprocess.CalledProcessError as e:
         err_console.print("[red]Typst render failed:[/red]")
         if e.stderr:
             err_console.print(e.stderr)
         raise SystemExit(1) from e
-    err_console.print(f"[green]Rendered {len(cards)} README images to {out_dir}[/green]")
+    err_console.print(f"[green]Rendered {count} README images to {out_dir}[/green]")
 
 
 @build_app.command("html-specimen")

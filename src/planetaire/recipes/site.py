@@ -15,7 +15,7 @@ from pathlib import Path
 from planetaire.config import TEXT_FAMILY_NAME
 
 # (source filename in fonts_dir, kind) for optional presentation assets.
-_HERO_CANDIDATES = ("hero.svg", "hero.png")
+_HERO_CANDIDATES = ("terminal-dark.png", "hero.png")
 _DEMO_CANDIDATES = ("terminal-demo.svg", "terminal-demo.gif", "terminal-demo.webm")
 
 

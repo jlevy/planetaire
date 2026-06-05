@@ -1,7 +1,7 @@
 # Build-Assets Runbook
 
 Reproducible steps for (re)generating every build artifact in this repo: the fonts, the
-golden manifest, the README hero image, the PDF specimen, the HTML specimen, the static
+golden manifest, the README images, the PDF specimen, the HTML specimen, the static
 site, and the terminal demo.
 
 This complements [`fonts-build-and-release.md`](fonts-build-and-release.md) (the
@@ -18,7 +18,7 @@ including the external tools and the gotchas hit while producing them.
 | --- | --- | --- |
 | **uv** + Python 3.12+ | everything | <https://docs.astral.sh/uv/> |
 | **FontForge** | regenerating intermediate/ExtraBold weights (optional — weights are vendored) | `apt-get install -y fontforge` |
-| **Typst** ≥ 0.13 | PDF specimen + hero PNG | prebuilt binary (below) |
+| **Typst** ≥ 0.13 | PDF specimen + README images | prebuilt binary (below) |
 | **VHS** + **ttyd** + **ffmpeg** | terminal demo GIF | binaries (below) |
 
 `brotli`/`zopfli` for WOFF2/WOFF come in automatically via `fonttools[woff]`
@@ -73,16 +73,17 @@ uv run planetaire regression verify     # must report PASS / all identical
 ## 3. README images (Typst → PNG, in sync with the PDF)
 
 ```shell
-uv run planetaire build hero            # docs/specimen/hero.typ -> docs/images/hero.png
-uv run planetaire build images          # terminal/text-sample/weights/features -> docs/images/
+uv run planetaire build images          # docs/images/{terminal,text,weights,features}-{dark,light}.png
 ```
 
 The home-page images render from `docs/specimen/card.typ`, which `#import`s
 `docs/specimen/content.typ` — the **same** module the PDF specimen imports.
-So the terminal mockup, Turing text excerpt, weight ladder, and legibility/dotted-zero
-cards on the README are the same content as the specimen and cannot drift; edit
+The terminal mockup, Turing text excerpt, weight ladder, and legibility/dotted-zero
+cards are therefore the same content as the specimen and cannot drift; edit
 `content.typ` to change both at once.
-(This replaced the old PIL `generate_showcase.py`.)
+Each card renders as a matched dark/light pair (`--input theme=dark|light`) so the
+README can switch with the GitHub color scheme via `<picture>`. (This replaced the PIL
+`generate_showcase.py`.)
 
 ## 4. PDF specimen (Typst)
 
@@ -101,8 +102,9 @@ uv run planetaire build html-specimen   # fonts/output/specimen.html (loads Text
 uv run planetaire build site            # site/ (landing + specimen + web fonts)
 ```
 
-The site pulls `hero.*` and `terminal-demo.*` from `docs/images/` when present.
-`site/` is gitignored (build it locally; deployment is intentionally out of scope).
+The site pulls `terminal-dark.png` and `terminal-demo.*` from `docs/images/` when
+present. `site/` is gitignored (build it locally; deployment is intentionally out of
+scope).
 
 ## 6. Terminal demo (VHS → GIF)
 
