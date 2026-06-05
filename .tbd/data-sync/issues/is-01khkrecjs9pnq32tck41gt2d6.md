@@ -3,9 +3,9 @@ type: is
 id: is-01khkrecjs9pnq32tck41gt2d6
 title: Specimen PDF improvements - 10 items
 kind: task
-status: in_progress
+status: closed
 priority: 1
-version: 24
+version: 25
 labels: []
 dependencies:
   - type: blocks
@@ -35,5 +35,7 @@ dependencies:
   - type: blocks
     target: is-01khkseakmwznq10fby3jvqnsk
 created_at: 2026-02-16T17:37:19.448Z
-updated_at: 2026-02-17T17:42:41.906Z
+updated_at: 2026-06-05T04:04:45.447Z
+closed_at: 2026-06-05T04:04:45.447Z
+close_reason: "Stale parent: all blocked children closed; superseded by epic plt-toa7."
 ---
