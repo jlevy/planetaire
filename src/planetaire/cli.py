@@ -373,7 +373,7 @@ regression_app = typer.Typer(
 )
 app.add_typer(regression_app, name="regression")
 
-MANIFEST_PATH = Path("fonts/golden/manifest.json")
+MANIFEST_PATH = Path("fonts/golden/manifest.json.gz")
 
 
 @regression_app.command("generate")
