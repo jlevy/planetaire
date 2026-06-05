@@ -4,6 +4,7 @@
 // Version is injected by `planetaire build specimen` via `--input version=...`
 // (sys.inputs); falls back to a dev default for direct `typst compile`.
 #let version = sys.inputs.at("version", default: "0.0.0-dev")
+#let build-date = sys.inputs.at("build-date", default: "")
 
 #let page-count = counter(page)
 
@@ -104,7 +105,7 @@
   #text(size: 10pt, fill: rgb("#666"))[
     Joshua Levy\
     github.com/jlevy/planetaire\
-    Version #version
+    Version #version#if build-date != "" [ · #build-date]
   ]
 ]
 
@@ -783,7 +784,40 @@
   Regular, and ExtraBold from Bold, via FontForge emboldening.
 ]
 
+#pagebreak()
+
+#section[Two Families: Extended and Text]
+
+#text(size: 10pt)[
+  Planetaire Mono ships in two families built from the same letterforms:
+
+  - *Planetaire Mono* (Extended) — the full build with all ~12,000 Nerd Font icons
+    and Powerline, for terminals and coding.
+  - *Planetaire Mono Text* — a lightweight web/regular subset (letters, punctuation,
+    box-drawing, block elements, geometric shapes) that drops the Private-Use icons.
+    About *55 KB per weight* in WOFF2 — roughly 18× smaller — and shipped with a ready
+    `@font-face` stylesheet.
+]
+
 #v(0.5cm)
+#text(size: 11pt, weight: 700)[Planetaire Mono Text]
+#v(0.2cm)
+#block(fill: rgb("#f5f5f5"), inset: 12pt, radius: 4pt, width: 100%)[
+  #show raw: set text(font: "Planetaire Mono Text", size: 11pt)
+  ```
+  The quick brown fox jumps over the lazy dog
+  ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz
+  0123456789 !@#$%^&*()[]{} <>=+ — Il1| O0o
+  Greek ΑΒΓ αβγ · Cyrillic АБВ абв · Box ┌─┬─┐ │ ├─┼─┤ └─┴─┘ ▓▒░
+  ```
+]
+#v(0.2cm)
+#text(size: 9pt, fill: rgb("#666"))[
+  For the web: `<link rel="stylesheet" href="planetaire-mono-text.css">` then
+  `font-family: "Planetaire Mono Text"`.
+]
+
+#v(0.6cm)
 #text(size: 11pt, weight: 700)[License]
 #v(0.2cm)
 #text(size: 10pt)[

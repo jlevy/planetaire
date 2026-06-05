@@ -67,10 +67,14 @@ def build_specimen(
 
         version = to_font_version(get_version())
 
+    from datetime import date
+
+    build_date = date.today().isoformat()
+
     output.parent.mkdir(parents=True, exist_ok=True)
 
     # Typst --font-path tells it where to find custom fonts; --input passes the
-    # canonical version into the document via sys.inputs.
+    # canonical version and build date into the document via sys.inputs.
     cmd = [
         typst_bin,
         "compile",
@@ -78,6 +82,8 @@ def build_specimen(
         str(font_dir.resolve()),
         "--input",
         f"version={version}",
+        "--input",
+        f"build-date={build_date}",
         str(source),
         str(output),
     ]
