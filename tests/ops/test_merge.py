@@ -60,3 +60,22 @@ def test_merge_real_fonts(b612_regular: TTFont, hack_regular: TTFont):
 
     # UPM should be normalized to B612's 2000
     assert result["head"].unitsPerEm == 2000
+
+
+def _has_instructions(font: TTFont, codepoint: int) -> bool:
+    glyph = font["glyf"][font.getBestCmap()[codepoint]]
+    program = getattr(glyph, "program", None)
+    return bool(program and program.bytecode)
+
+
+def test_merge_strips_donor_hinting_by_default(b612_regular: TTFont, hack_regular: TTFont):
+    """Copied donor glyphs lose their TrueType instructions (default policy)."""
+    assert _has_instructions(b612_regular, 0x41)  # B612 'A' is hinted
+    result = merge_glyphs(hack_regular, b612_regular, [(0x41, 0x5A)])
+    assert not _has_instructions(result, 0x41)  # stripped in the merge
+
+
+def test_merge_can_keep_donor_hinting(b612_regular: TTFont, hack_regular: TTFont):
+    """Stripping can be disabled to preserve donor instructions."""
+    result = merge_glyphs(hack_regular, b612_regular, [(0x41, 0x5A)], strip_donor_hinting=False)
+    assert _has_instructions(result, 0x41)

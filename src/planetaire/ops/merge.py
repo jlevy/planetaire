@@ -24,6 +24,7 @@ def merge_glyphs(
     *,
     copy_gsub_features: list[str] | None = None,
     normalize_upm: bool = True,
+    strip_donor_hinting: bool = True,
 ) -> TTFont:
     """
     Copy glyphs from donor into base for specified unicode ranges.
@@ -33,7 +34,16 @@ def merge_glyphs(
     2. For each codepoint in ranges, copy the glyph outline and metrics
        from donor to base.
     3. Optionally merge GSUB feature lookups from donor.
+
+    When ``strip_donor_hinting`` is set (default), TrueType instructions on the
+    copied donor glyphs are removed. The base font's global hinting program
+    (``prep``/``fpgm``/``cvt``) belongs to the base; running the donor's
+    instructions against it would be incorrect, so the donor letters ship
+    unhinted (rendered with grayscale antialiasing) while the base's own glyphs
+    keep their native, matching hinting.
     """
+    from fontTools.ttLib.tables import ttProgram
+
     result = copy.deepcopy(base)
 
     donor_upm = donor["head"].unitsPerEm
@@ -70,7 +80,11 @@ def merge_glyphs(
 
         # Copy glyph outline
         if donor_glyph_name in glyf_donor:
-            glyf_base[target_name] = copy.deepcopy(glyf_donor[donor_glyph_name])
+            copied_glyph = copy.deepcopy(glyf_donor[donor_glyph_name])
+            if strip_donor_hinting and hasattr(copied_glyph, "program"):
+                copied_glyph.program = ttProgram.Program()
+                copied_glyph.program.fromBytecode(b"")
+            glyf_base[target_name] = copied_glyph
 
         # Copy metrics
         if donor_glyph_name in hmtx_donor.metrics:
