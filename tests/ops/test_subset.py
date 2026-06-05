@@ -12,6 +12,7 @@ from planetaire.ops.subset import save_web_font, subset_font
 def test_subset_keeps_only_requested_ranges(base_font: TTFont):
     subset_font(base_font, [(0x41, 0x5A)])  # A-Z only
     cmap = base_font.getBestCmap()
+    assert cmap is not None
     assert 0x41 in cmap  # A kept
     assert 0x5A in cmap  # Z kept
     assert 0x30 not in cmap  # digit dropped

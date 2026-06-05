@@ -63,7 +63,9 @@ def test_merge_real_fonts(b612_regular: TTFont, hack_regular: TTFont):
 
 
 def _has_instructions(font: TTFont, codepoint: int) -> bool:
-    glyph = font["glyf"][font.getBestCmap()[codepoint]]
+    cmap = font.getBestCmap()
+    assert cmap is not None
+    glyph = font["glyf"][cmap[codepoint]]
     program = getattr(glyph, "program", None)
     return bool(program and program.bytecode)
 
