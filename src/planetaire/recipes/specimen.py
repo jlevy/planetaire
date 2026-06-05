@@ -25,6 +25,7 @@ def build_specimen(
     output: Path | None = None,
     font_dir: Path = FONT_DIR,
     *,
+    version: str | None = None,
     open_after: bool = False,
 ) -> Path:
     """
@@ -34,6 +35,9 @@ def build_specimen(
         source: Path to the .typ specimen source file.
         output: Output PDF path. Defaults to source with .pdf extension.
         font_dir: Directory containing built Planetaire Mono font files.
+        version: Font version to stamp into the specimen. Defaults to the
+            canonical package version so the specimen never disagrees with the
+            built fonts.
         open_after: Open the PDF after compilation.
 
     Returns:
@@ -58,14 +62,22 @@ def build_specimen(
     if output is None:
         output = source.with_suffix(".pdf")
 
+    if version is None:
+        from planetaire.version import get_version, to_font_version
+
+        version = to_font_version(get_version())
+
     output.parent.mkdir(parents=True, exist_ok=True)
 
-    # Typst --font-path tells it where to find custom fonts.
+    # Typst --font-path tells it where to find custom fonts; --input passes the
+    # canonical version into the document via sys.inputs.
     cmd = [
         typst_bin,
         "compile",
         "--font-path",
         str(font_dir.resolve()),
+        "--input",
+        f"version={version}",
         str(source),
         str(output),
     ]

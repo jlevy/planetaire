@@ -94,4 +94,87 @@ def validate_font(
     if family is None:
         issues.append(Issue("warning", "naming", "Missing name ID 1 (family name)"))
 
+    # Style-linking consistency (italic/bold bits vs subfamily name)
+    issues.extend(_check_style_linking(font))
+
+    return issues
+
+
+def _name_str(name_table: object, name_id: int) -> str:
+    """Read a name record (Windows then Mac), returning "" if absent."""
+    record = name_table.getName(name_id, 3, 1, 0x0409)  # pyright: ignore
+    if record is None:
+        record = name_table.getName(name_id, 1, 0, 0)  # pyright: ignore
+    return str(record) if record else ""
+
+
+def _check_style_linking(font: TTFont) -> list[Issue]:
+    """Verify italic/bold flags agree across head.macStyle, OS/2.fsSelection, and name.
+
+    These three must tell the same story or apps disagree about which face is which.
+    Returns errors for contradictions and a warning if the REGULAR bit is unset on a
+    regular-style face.
+    """
+    issues: list[Issue] = []
+    if "head" not in font or "OS/2" not in font or "name" not in font:
+        return issues
+
+    subfamily = _name_str(font["name"], 17) or _name_str(font["name"], 2)
+    if not subfamily:
+        return issues
+    sub_l = subfamily.lower()
+    name_italic = "italic" in sub_l or "oblique" in sub_l
+    name_bold = "bold" in sub_l
+
+    mac_style = font["head"].macStyle
+    fs_selection = font["OS/2"].fsSelection
+    mac_italic = bool(mac_style & 0x02)
+    mac_bold = bool(mac_style & 0x01)
+    os2_italic = bool(fs_selection & 0x01)
+    os2_bold = bool(fs_selection & 0x20)
+    os2_regular = bool(fs_selection & 0x40)
+
+    if mac_italic != os2_italic:
+        issues.append(
+            Issue(
+                "error",
+                "style_linking",
+                f"Italic flag mismatch: head.macStyle italic={mac_italic}, "
+                f"OS/2.fsSelection italic={os2_italic}",
+            )
+        )
+    if name_italic != mac_italic:
+        issues.append(
+            Issue(
+                "error",
+                "style_linking",
+                f"Italic flags ({mac_italic}) do not match subfamily '{subfamily}'",
+            )
+        )
+    if mac_bold != os2_bold:
+        issues.append(
+            Issue(
+                "error",
+                "style_linking",
+                f"Bold flag mismatch: head.macStyle bold={mac_bold}, "
+                f"OS/2.fsSelection bold={os2_bold}",
+            )
+        )
+    if name_bold != mac_bold:
+        issues.append(
+            Issue(
+                "error",
+                "style_linking",
+                f"Bold flags ({mac_bold}) do not match subfamily '{subfamily}'",
+            )
+        )
+    if not name_bold and not name_italic and not os2_regular:
+        issues.append(
+            Issue(
+                "warning",
+                "style_linking",
+                "OS/2.fsSelection REGULAR bit not set for a regular-style face",
+            )
+        )
+
     return issues

@@ -1,7 +1,9 @@
 // Planetaire Mono - Font Specimen
 // Build: planetaire build specimen
 
-#let version = "0.1.0"
+// Version is injected by `planetaire build specimen` via `--input version=...`
+// (sys.inputs); falls back to a dev default for direct `typst compile`.
+#let version = sys.inputs.at("version", default: "0.0.0-dev")
 
 #let page-count = counter(page)
 

@@ -39,3 +39,17 @@ def test_rename_preserves_subfamily_if_not_specified(base_font: TTFont):
 
     sub = str(result["name"].getName(2, 3, 1, 0x0409))
     assert sub == "Regular"
+
+
+def test_rename_sets_version_name_and_revision(base_font: TTFont):
+    result = rename_font(base_font, family="Planetaire Mono", version="1.2.3")
+
+    version_name = str(result["name"].getName(5, 3, 1, 0x0409))
+    assert version_name == "Version 1.2.3"
+    assert result["head"].fontRevision == 1.2
+
+
+def test_rename_without_version_leaves_revision_untouched(base_font: TTFont):
+    original_revision = base_font["head"].fontRevision
+    result = rename_font(base_font, family="Planetaire Mono")
+    assert result["head"].fontRevision == original_revision

@@ -27,6 +27,7 @@ from planetaire.ops.merge import merge_glyphs
 from planetaire.ops.rename import rename_font
 from planetaire.ops.validate import validate_font
 from planetaire.ops.zero import add_dotted_zero
+from planetaire.version import get_version, to_font_version
 
 log = logging.getLogger(__name__)
 
@@ -127,6 +128,10 @@ def build_planetaire_mono(
     """
     output_dir.mkdir(parents=True, exist_ok=True)
 
+    # Resolve the canonical font version once (shared with the Python package).
+    font_version = to_font_version(get_version())
+    log.info("Building Planetaire Mono version %s", font_version)
+
     # Generate intermediate (Medium) and ExtraBold weights if needed
     _ensure_generated_weights(source_dir)
 
@@ -172,6 +177,7 @@ def build_planetaire_mono(
             family="Planetaire Mono",
             subfamily=subfamily,
             weight=weight,
+            version=font_version,
         )
 
         # Add dotted zero (circle default + rect alternate via ss01/zero)
