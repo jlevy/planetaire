@@ -7,7 +7,7 @@ Repository = "https://github.com/jlevy/planetaire"
 
 [project]
 name = "planetaire"
-description = "Planetaire Mono font"
+description = "A high-legibility monospace font for terminals, merging B612 letterforms with Hack Nerd Font infrastructure"
 authors = [
     { name="jlevy", email="changeme@example.com" },
 ]
@@ -61,7 +61,7 @@ dev = [
 
 [project.scripts]
 # Add script entry points here:
-planetaire = "planetaire.cli:app"
+planetaire = "planetaire.cli:main"
 
 
 # ---- Build system ----

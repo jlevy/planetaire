@@ -26,7 +26,7 @@ both:
 
 ## Weights
 
-Planetaire Mono ships with **10 variants** across 5 weights:
+Planetaire Mono ships with **8 variants** across 4 weights:
 
 | Variant | Weight | Recommended Use |
 |---------|--------|-----------------|
@@ -136,7 +136,7 @@ make fonts
 
 # Or step by step:
 uv run planetaire build download        # download source fonts
-uv run planetaire build planetaire-mono  # build all 10 variants
+uv run planetaire build planetaire-mono  # build all 8 variants
 uv run planetaire validate fonts/output/*.ttf  # validate output
 ```
 
