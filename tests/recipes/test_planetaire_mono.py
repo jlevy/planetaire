@@ -81,6 +81,32 @@ def test_build_text_regular(source_dir: Path):
         assert "font-weight: 400" in css
 
 
+def test_no_dangling_composite_components(source_dir: Path):
+    """Every composite glyph must reference components that exist in the font.
+
+    Guards the merge step: B612's in-range glyphs are currently all simple
+    contours, so no accented composite ends up referencing an uncopied component.
+    This test fails loudly if a future donor introduces composites whose
+    components are not carried over.
+    """
+    with tempfile.TemporaryDirectory() as tmpdir:
+        output_dir = Path(tmpdir)
+        build_planetaire_mono(source_dir, output_dir, variant="Regular")
+        font = TTFont(output_dir / "PlanetaireMono-Regular.ttf")
+        glyf = font["glyf"]
+        order = set(font.getGlyphOrder())
+
+        dangling: list[str] = []
+        for name in font.getGlyphOrder():
+            glyph = glyf[name]
+            if glyph.isComposite():
+                for comp in glyph.components:
+                    if comp.glyphName not in order:
+                        dangling.append(f"{name} -> {comp.glyphName}")
+
+        assert dangling == [], f"Dangling composite components: {dangling[:10]}"
+
+
 def test_build_all_variants(source_dir: Path):
     """Full pipeline builds all 8 variants."""
     with tempfile.TemporaryDirectory() as tmpdir:
