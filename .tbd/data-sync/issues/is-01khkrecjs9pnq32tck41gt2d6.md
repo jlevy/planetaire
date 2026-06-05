@@ -3,9 +3,9 @@ type: is
 id: is-01khkrecjs9pnq32tck41gt2d6
 title: Specimen PDF improvements - 10 items
 kind: task
-status: in_progress
+status: closed
 priority: 1
-version: 24
+version: 25
 labels: []
 dependencies:
   - type: blocks
@@ -35,5 +35,7 @@ dependencies:
   - type: blocks
     target: is-01khkseakmwznq10fby3jvqnsk
 created_at: 2026-02-16T17:37:19.448Z
-updated_at: 2026-02-17T17:42:41.906Z
+updated_at: 2026-06-05T04:15:12.093Z
+closed_at: 2026-06-05T04:15:12.093Z
+close_reason: All 13 sub-items completed and closed; specimen review/polish pass done.
 ---
