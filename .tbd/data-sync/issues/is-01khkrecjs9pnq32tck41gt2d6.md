@@ -35,7 +35,7 @@ dependencies:
   - type: blocks
     target: is-01khkseakmwznq10fby3jvqnsk
 created_at: 2026-02-16T17:37:19.448Z
-updated_at: 2026-06-05T04:04:45.447Z
-closed_at: 2026-06-05T04:04:45.447Z
-close_reason: "Stale parent: all blocked children closed; superseded by epic plt-toa7."
+updated_at: 2026-06-05T04:15:12.093Z
+closed_at: 2026-06-05T04:15:12.093Z
+close_reason: All 13 sub-items completed and closed; specimen review/polish pass done.
 ---
