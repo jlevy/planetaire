@@ -30,23 +30,35 @@ jobs:
       - name: Install dependencies
         run: uv sync --all-extras
 
-      - name: Build fonts
+      - name: Build fonts (Extended + Text)
         run: |
           uv run planetaire build download
           uv run planetaire build planetaire-mono
+          uv run planetaire build text
 
       - name: Validate fonts
-        run: uv run planetaire validate fonts/output/*.ttf
+        run: |
+          uv run planetaire validate fonts/output/PlanetaireMono-*.ttf
+          uv run planetaire validate fonts/output/PlanetaireMonoText-*.ttf
 
       - name: Package release archives
         run: |
           cd fonts/output
-          # Create archives with all variants
-          tar -cJf ../../PlanetaireMono.tar.xz *.ttf
-          zip ../../PlanetaireMono.zip *.ttf
+          # Extended: the full build with all Nerd Font icons (TTF).
+          tar -cJf ../../PlanetaireMono-Extended.tar.xz PlanetaireMono-*.ttf
+          zip ../../PlanetaireMono-Extended.zip PlanetaireMono-*.ttf
+          # Text: lightweight web/regular build (TTF + WOFF2 + WOFF + @font-face CSS).
+          tar -cJf ../../PlanetaireMono-Text.tar.xz \
+            PlanetaireMonoText-*.ttf PlanetaireMonoText-*.woff2 \
+            PlanetaireMonoText-*.woff planetaire-mono-text.css
+          zip ../../PlanetaireMono-Text.zip \
+            PlanetaireMonoText-*.ttf PlanetaireMonoText-*.woff2 \
+            PlanetaireMonoText-*.woff planetaire-mono-text.css
           cd ../..
-          # Generate checksums
-          sha256sum PlanetaireMono.tar.xz PlanetaireMono.zip > SHA256SUMS
+          # Generate checksums for every artifact.
+          sha256sum \
+            PlanetaireMono-Extended.tar.xz PlanetaireMono-Extended.zip \
+            PlanetaireMono-Text.tar.xz PlanetaireMono-Text.zip > SHA256SUMS
 
       - name: Upload release assets
         if: github.event_name == 'release'
@@ -54,6 +66,8 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           gh release upload "${{ github.event.release.tag_name }}" \
-            PlanetaireMono.tar.xz \
-            PlanetaireMono.zip \
+            PlanetaireMono-Extended.tar.xz \
+            PlanetaireMono-Extended.zip \
+            PlanetaireMono-Text.tar.xz \
+            PlanetaireMono-Text.zip \
             SHA256SUMS

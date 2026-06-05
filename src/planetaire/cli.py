@@ -195,34 +195,43 @@ def fix(
 
 @app.command()
 def validate(
-    font: Path = typer.Argument(..., help="Path to a font file"),
+    fonts: list[Path] = typer.Argument(..., help="Path(s) to font file(s)"),
     format: str = typer.Option("text", help="Output format: text or json"),
 ) -> None:
-    """Check glyph coverage, metrics, and features."""
+    """Check glyph coverage, metrics, and features for one or more fonts."""
+    from dataclasses import asdict
+    from typing import Any
+
     from fontTools.ttLib import TTFont
 
     from planetaire.ops.validate import validate_font
 
-    path = _resolve_font_path(font)
-    tt_font = TTFont(path)
-    issues = validate_font(tt_font)
+    results: dict[str, list[dict[str, Any]]] = {}
+    total_errors = 0
+    for font in fonts:
+        path = _resolve_font_path(font)
+        issues = validate_font(TTFont(path))
+        results[str(font)] = [asdict(i) for i in issues]
+        total_errors += sum(1 for i in issues if i.severity == "error")
 
     if format == "json":
         import json
-        from dataclasses import asdict
 
-        json.dump([asdict(i) for i in issues], sys.stdout, indent=2)
+        json.dump(results, sys.stdout, indent=2)
         sys.stdout.write("\n")
     else:
-        if not issues:
-            err_console.print("[green]No issues found.[/green]")
-        else:
+        for font, issues in results.items():
+            if not issues:
+                err_console.print(f"[green]{font}: no issues found.[/green]")
+                continue
+            err_console.print(f"[bold]{font}[/bold]")
             for issue in issues:
-                style = {"error": "red", "warning": "yellow", "info": "blue"}[issue.severity]
-                err_console.print(f"[{style}]{issue.severity.upper()}[/{style}] {issue.message}")
-            errors = sum(1 for i in issues if i.severity == "error")
-            if errors:
-                raise SystemExit(2)
+                severity = str(issue["severity"])
+                style = {"error": "red", "warning": "yellow", "info": "blue"}[severity]
+                err_console.print(f"  [{style}]{severity.upper()}[/{style}] {issue['message']}")
+
+    if total_errors:
+        raise SystemExit(2)
 
 
 # -- compare command --

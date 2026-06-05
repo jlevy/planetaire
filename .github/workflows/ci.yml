@@ -61,3 +61,40 @@ jobs:
 
       - name: Run tests
         run: uv run pytest
+
+  # Build, validate, and regression-check the actual font artifacts.
+  # The intermediate weights are vendored under fonts/source, so this needs
+  # neither FontForge nor Typst.
+  fonts:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+        with:
+          version: "0.10.2"
+          enable-cache: true
+          python-version: "3.12"
+
+      - name: Set up Python
+        run: uv python install
+
+      - name: Install dependencies
+        run: uv sync --all-extras
+
+      - name: Build fonts (Extended + Text)
+        run: |
+          uv run planetaire build planetaire-mono
+          uv run planetaire build text
+
+      - name: Validate fonts
+        run: |
+          uv run planetaire validate fonts/output/PlanetaireMono-*.ttf
+          uv run planetaire validate fonts/output/PlanetaireMonoText-*.ttf
+
+      - name: Regression check against golden manifest
+        run: uv run planetaire regression verify
