@@ -6,7 +6,7 @@
 
 .PHONY: default install lint test upgrade build clean
 .PHONY: download build-fonts build-text validate-fonts fonts showcase specimen
-.PHONY: html-specimen regression-generate regression-verify
+.PHONY: html-specimen site regression-generate regression-verify
 
 default: install lint test
 
@@ -57,6 +57,9 @@ specimen: build-fonts
 
 html-specimen: build-text
 	uv run planetaire build html-specimen
+
+site: build-text html-specimen
+	uv run planetaire build site
 
 regression-generate: build-fonts
 	uv run planetaire regression generate

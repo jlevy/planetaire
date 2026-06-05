@@ -351,6 +351,20 @@ def build_html_specimen_cmd(
     err_console.print(f"[green]HTML specimen written to {path}[/green]")
 
 
+@build_app.command("site")
+def build_site_cmd(
+    output_dir: Path = typer.Option(Path("site"), help="Directory for the generated site"),
+    fonts_dir: Path = typer.Option(
+        Path("fonts/output"), help="Directory with built fonts, CSS, and specimen"
+    ),
+) -> None:
+    """Assemble a static site (landing page + specimen + web fonts). No deploy."""
+    from planetaire.recipes.site import generate_site
+
+    index = generate_site(output_dir, fonts_dir)
+    err_console.print(f"[green]Site written to {index.parent} (open {index})[/green]")
+
+
 @build_app.command("specimen")
 def build_specimen_cmd(
     source: Path = typer.Option(
