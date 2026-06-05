@@ -139,6 +139,25 @@ cp PlanetaireMono-*.ttf ~/.local/share/fonts/PlanetaireMono/
 fc-cache -fv
 ```
 
+### Web (CSS `@font-face`)
+
+Use the **Text** family for websites — it’s ~55 KB per weight in WOFF2 and drops the
+icon glyphs you don’t need in a browser.
+The `PlanetaireMono-Text` archive ships WOFF2/WOFF plus a ready-to-use
+`planetaire-mono-text.css`:
+
+```html
+<link rel="stylesheet" href="planetaire-mono-text.css">
+<style>
+  body { font-family: "Planetaire Mono Text", ui-monospace, monospace; }
+  /* rectangle zero instead of the dotted circle: */
+  .code { font-feature-settings: "ss01" 1; }
+</style>
+```
+
+Each weight/style is declared for you (400/500/700/800, upright + italic) with
+`font-display: swap`.
+
 ## Build from Source
 
 Planetaire Mono is built with a Python pipeline that uses
