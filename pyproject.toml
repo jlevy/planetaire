@@ -1,15 +1,16 @@
 # ---- Project Info and Dependencies ----
 
 [project.urls]
+Homepage = "https://github.com/jlevy/planetaire"
 Repository = "https://github.com/jlevy/planetaire"
-# Homepage = "https://..."
-# Documentation = "https://..."
+Documentation = "https://github.com/jlevy/planetaire#readme"
+Issues = "https://github.com/jlevy/planetaire/issues"
 
 [project]
 name = "planetaire"
 description = "Planetaire Mono font"
 authors = [
-    { name="jlevy", email="changeme@example.com" },
+    { name="jlevy", email="jlevy@users.noreply.github.com" },
 ]
 readme = "README.md"
 license = "OFL-1.1 AND MIT"

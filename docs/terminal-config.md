@@ -17,8 +17,8 @@ font-size = 14
 font-thicken = true
 ```
 
-Ghostty automatically selects the best weight for bold text. With `font-thicken = true`,
-bold text uses heavier strokes for improved contrast.
+Ghostty automatically selects the best weight for bold text.
+With `font-thicken = true`, bold text uses heavier strokes for improved contrast.
 
 ## Alacritty
 
@@ -76,9 +76,9 @@ return config
 
 1. Open **Preferences** (Cmd+,)
 2. Go to **Profiles** > **Text**
-3. Click **Font** and select "Planetaire Mono"
+3. Click **Font** and select “Planetaire Mono”
 4. Set size to 14
-5. For the bold font, select "Planetaire Mono ExtraBold"
+5. For the bold font, select “Planetaire Mono ExtraBold”
 
 ## Kitty
 
@@ -107,12 +107,14 @@ In `settings.json`:
 
 ## About the Weights
 
-Planetaire Mono ships with 6 variants:
+Planetaire Mono ships with 8 variants:
 
 | Variant | Weight | Usage |
-|---------|--------|-------|
+| --- | --- | --- |
 | Regular | 400 | Normal terminal text |
 | Italic | 400 | Italic/emphasized text |
+| Medium | 500 | UI labels, intermediate weight |
+| Medium Italic | 500 | UI labels italic |
 | Bold | 700 | Standard bold |
 | Bold Italic | 700 | Standard bold italic |
 | **ExtraBold** | **800** | **Recommended for terminal bold** |
