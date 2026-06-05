@@ -18,13 +18,18 @@ from fontTools.ttLib import TTFont
 from strif import atomic_output_file
 
 from planetaire.config import (
+    FAMILY_NAME,
     PLANETAIRE_GSUB_FEATURES,
     PLANETAIRE_LETTER_RANGES,
+    TEXT_FAMILY_NAME,
+    TEXT_SUBSET_RANGES,
     VARIANTS,
+    VariantDef,
 )
 from planetaire.ops.fix import fix_font
 from planetaire.ops.merge import merge_glyphs
 from planetaire.ops.rename import rename_font
+from planetaire.ops.subset import save_web_font, subset_font
 from planetaire.ops.validate import validate_font
 from planetaire.ops.zero import add_dotted_zero
 from planetaire.version import get_version, to_font_version
@@ -110,6 +115,60 @@ def _ensure_generated_weights(source_dir: Path) -> None:
         embolden_font(bold_path, extrabold_path, target_weight=800, change_amount=30)
 
 
+def _process_variant(
+    *,
+    hack_path: Path,
+    b612_path: Path,
+    family: str,
+    subfamily: str,
+    weight: int,
+    version: str,
+) -> TTFont:
+    """Build one fully-processed variant: merge, rename, dotted zero, fixes.
+
+    Returns the in-memory font; subsetting and saving are the caller's job.
+    """
+    base = TTFont(hack_path)
+    donor = TTFont(b612_path)
+
+    merged = merge_glyphs(
+        base,
+        donor,
+        PLANETAIRE_LETTER_RANGES,
+        copy_gsub_features=PLANETAIRE_GSUB_FEATURES,
+    )
+    renamed = rename_font(
+        merged,
+        family=family,
+        subfamily=subfamily,
+        weight=weight,
+        version=version,
+    )
+    dotted = add_dotted_zero(renamed)
+    return fix_font(dotted)
+
+
+def _resolve_variant_sources(
+    source_dir: Path, variant: str | None
+) -> list[tuple[VariantDef, Path, Path]]:
+    """Resolve (variant, hack_path, b612_path) for buildable variants."""
+    variants_to_build = (
+        VARIANTS if variant is None else [v for v in VARIANTS if v["name"] == variant]
+    )
+    resolved: list[tuple[VariantDef, Path, Path]] = []
+    for v in variants_to_build:
+        hack_path = source_dir / "hack" / v["hack_file"]
+        b612_path = source_dir / "b612" / v["b612_file"]
+        if not hack_path.exists():
+            log.warning("Skipping %s: Hack source not found at %s", v["name"], hack_path)
+            continue
+        if not b612_path.exists():
+            log.warning("Skipping %s: B612 source not found at %s", v["name"], b612_path)
+            continue
+        resolved.append((v, hack_path, b612_path))
+    return resolved
+
+
 def build_planetaire_mono(
     source_dir: Path,
     output_dir: Path,
@@ -137,63 +196,26 @@ def build_planetaire_mono(
 
     outputs: list[Path] = []
 
-    variants_to_build = (
-        VARIANTS if variant is None else [v for v in VARIANTS if v["name"] == variant]
-    )
-
-    for v in variants_to_build:
+    for v, hack_path, b612_path in _resolve_variant_sources(source_dir, variant):
         name = v["name"]
-        hack_file = v["hack_file"]
-        b612_file = v["b612_file"]
-        subfamily = v["subfamily"]
-        weight = v["weight"]
+        log.info("Building %s %s", FAMILY_NAME, name)
 
-        log.info("Building Planetaire Mono %s", name)
-
-        hack_path = source_dir / "hack" / hack_file
-        b612_path = source_dir / "b612" / b612_file
-
-        if not hack_path.exists():
-            log.warning("Skipping %s: Hack source not found at %s", name, hack_path)
-            continue
-        if not b612_path.exists():
-            log.warning("Skipping %s: B612 source not found at %s", name, b612_path)
-            continue
-
-        base = TTFont(hack_path)
-        donor = TTFont(b612_path)
-
-        # Merge B612 letter glyphs into Hack base
-        merged = merge_glyphs(
-            base,
-            donor,
-            PLANETAIRE_LETTER_RANGES,
-            copy_gsub_features=PLANETAIRE_GSUB_FEATURES,
-        )
-
-        # Rename to Planetaire Mono
-        renamed = rename_font(
-            merged,
-            family="Planetaire Mono",
-            subfamily=subfamily,
-            weight=weight,
+        fixed = _process_variant(
+            hack_path=hack_path,
+            b612_path=b612_path,
+            family=FAMILY_NAME,
+            subfamily=v["subfamily"],
+            weight=v["weight"],
             version=font_version,
         )
 
-        # Add dotted zero (circle default + rect alternate via ss01/zero)
-        dotted = add_dotted_zero(renamed)
-
-        # Apply post-processing fixes
-        fixed = fix_font(dotted)
-
         # Validate
-        issues = validate_font(fixed, expected_weight=weight)
+        issues = validate_font(fixed, expected_weight=v["weight"])
         for issue in issues:
             log.warning("Validation %s: %s", issue.severity, issue.message)
 
         # Save
-        output_filename = f"PlanetaireMono-{name}.ttf"
-        output_path = output_dir / output_filename
+        output_path = output_dir / f"PlanetaireMono-{name}.ttf"
         with atomic_output_file(str(output_path)) as tmp:
             fixed.save(tmp)
 
@@ -201,3 +223,95 @@ def build_planetaire_mono(
         outputs.append(output_path)
 
     return outputs
+
+
+def build_text(
+    source_dir: Path,
+    output_dir: Path,
+    variant: str | None = None,
+    *,
+    formats: tuple[str, ...] = ("woff2", "woff", "ttf"),
+) -> list[Path]:
+    """
+    Build the lightweight Planetaire Mono Text family.
+
+    Same letterforms as the full build, subset to standard-Unicode text glyphs
+    (dropping the Nerd Font icons and Powerline) and emitted as WOFF2/WOFF/TTF plus
+    a generated ``@font-face`` stylesheet for the web.
+
+    Returns the list of written paths (fonts and the CSS file).
+    """
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    font_version = to_font_version(get_version())
+    log.info("Building %s version %s", TEXT_FAMILY_NAME, font_version)
+
+    _ensure_generated_weights(source_dir)
+
+    outputs: list[Path] = []
+    css_entries: list[tuple[str, int, bool]] = []  # (stem, weight, is_italic)
+
+    for v, hack_path, b612_path in _resolve_variant_sources(source_dir, variant):
+        name = v["name"]
+        log.info("Building %s %s", TEXT_FAMILY_NAME, name)
+
+        font = _process_variant(
+            hack_path=hack_path,
+            b612_path=b612_path,
+            family=TEXT_FAMILY_NAME,
+            subfamily=v["subfamily"],
+            weight=v["weight"],
+            version=font_version,
+        )
+        subset_font(font, TEXT_SUBSET_RANGES, drop_hinting=True)
+
+        issues = validate_font(font, expected_weight=v["weight"])
+        for issue in issues:
+            log.warning("Validation %s: %s", issue.severity, issue.message)
+
+        stem = f"PlanetaireMonoText-{name}"
+        for fmt in formats:
+            flavor = None if fmt == "ttf" else fmt
+            out_path = output_dir / f"{stem}.{fmt}"
+            save_web_font(font, out_path, flavor=flavor)
+            log.info("Wrote %s", out_path)
+            outputs.append(out_path)
+
+        css_entries.append((stem, v["weight"], "Italic" in name))
+
+    if css_entries and ("woff2" in formats or "woff" in formats):
+        css_path = output_dir / "planetaire-mono-text.css"
+        _write_font_face_css(css_path, css_entries, formats)
+        log.info("Wrote %s", css_path)
+        outputs.append(css_path)
+
+    return outputs
+
+
+def _write_font_face_css(
+    path: Path, entries: list[tuple[str, int, bool]], formats: tuple[str, ...]
+) -> None:
+    """Write a generated @font-face stylesheet for the Text web fonts."""
+    blocks: list[str] = []
+    for stem, weight, is_italic in entries:
+        srcs: list[str] = []
+        if "woff2" in formats:
+            srcs.append(f"url('{stem}.woff2') format('woff2')")
+        if "woff" in formats:
+            srcs.append(f"url('{stem}.woff') format('woff')")
+        src = ",\n       ".join(srcs)
+        style = "italic" if is_italic else "normal"
+        blocks.append(
+            f"@font-face {{\n"
+            f"  font-family: '{TEXT_FAMILY_NAME}';\n"
+            f"  font-style: {style};\n"
+            f"  font-weight: {weight};\n"
+            f"  font-display: swap;\n"
+            f"  src: {src};\n"
+            f"}}"
+        )
+    header = (
+        "/* Planetaire Mono Text @font-face declarations.\n"
+        "   Generated by planetaire build text — do not edit by hand. */\n\n"
+    )
+    path.write_text(header + "\n\n".join(blocks) + "\n")

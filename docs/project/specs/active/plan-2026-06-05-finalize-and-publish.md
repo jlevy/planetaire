@@ -213,13 +213,32 @@ noted inline and enforced in tbd (`tbd ready` / `tbd blocked`).
    today; Text TTF + WOFF2 + WOFF + CSS) with checksums.
    Static-site deployment is a later, separate step.
 
+## Implementation Notes
+
+Decisions taken while implementing, recorded here so they can be revisited:
+
+- **Family naming (needs owner confirmation).** The full build keeps its OpenType family
+  name **`Planetaire Mono`** for now; the lightweight subset ships as
+  **`Planetaire Mono Text`**. “Extended” is currently only a *distribution/archive*
+  label (`PlanetaireMono-Extended.tar.xz`), not the OpenType family name.
+  A hard rename of the full family to `Planetaire Mono Extended` was deferred because it
+  would also require updating the Typst specimen’s `font:` references and the
+  terminal-config docs; the family names are now `config` constants (`FAMILY_NAME`,
+  `TEXT_FAMILY_NAME`) so the flip is a one-line change if we decide to do it.
+- **Text drops TrueType hinting.** `build_text` subsets with `drop_hinting=True`. This
+  halves web-font size (~55 KB vs ~110 KB WOFF2/weight) and avoids carrying Hack’s
+  hinting, which is tuned for Hack outlines rather than the merged B612 letterforms.
+  The hinting policy for the *full* TTFs is still open under `plt-d6t8`.
+- **Measured Text output (Regular):** 1,317 glyphs, 149 KB TTF, 75 KB WOFF, **55 KB
+  WOFF2** — vs ~2.6 MB TTF / ~984 KB WOFF2 for the full build.
+
 ## Open Questions
 
 - ~~Should Box Drawing / Block Elements be in Text?~~ **Resolved: yes** — they cost only
   ~8 KB WOFF2 and are used by markdown tables, TUIs, and ASCII art.
   Only Powerline and the Nerd PUA icons stay Extended-only.
-- Renaming the current family to “Planetaire Mono Extended” changes the installed name;
-  confirm that’s acceptable for anyone already using “Planetaire Mono”.
+- Hard-rename the full family to `Planetaire Mono Extended`? Deferred (see
+  Implementation Notes); requires a specimen + terminal-config sweep.
 - Manifest slimming approach: compact/gzip in-repo vs CI fixture — pick during
   `plt-3fxa`.
 

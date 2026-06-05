@@ -5,7 +5,7 @@
 .DEFAULT_GOAL := default
 
 .PHONY: default install lint test upgrade build clean
-.PHONY: download build-fonts validate-fonts fonts showcase specimen
+.PHONY: download build-fonts build-text validate-fonts fonts showcase specimen
 .PHONY: regression-generate regression-verify
 
 default: install lint test
@@ -41,16 +41,19 @@ download:
 build-fonts: download
 	uv run planetaire build planetaire-mono
 
+build-text: download
+	uv run planetaire build text
+
 validate-fonts:
 	uv run planetaire validate fonts/output/*.ttf
 
-fonts: download build-fonts validate-fonts
+fonts: download build-fonts build-text validate-fonts
 
 showcase: build-fonts
 	uv run python scripts/generate_showcase.py
 
 specimen: build-fonts
-	typst compile docs/specimen/planetaire-mono-specimen.typ docs/specimen/planetaire-mono-specimen.pdf
+	uv run planetaire build specimen
 
 regression-generate: build-fonts
 	uv run planetaire regression generate

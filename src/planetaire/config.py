@@ -11,6 +11,41 @@ from __future__ import annotations
 
 from typing import TypedDict
 
+# Font family names.
+# The full build keeps the plain "Planetaire Mono" name (distributed as the
+# "Extended" archive); the lightweight web/text subset is a distinct family so the
+# two can be installed side by side.
+FAMILY_NAME: str = "Planetaire Mono"
+TEXT_FAMILY_NAME: str = "Planetaire Mono Text"
+
+# Unicode ranges retained in the lightweight "Text" family.
+# These are the standard-Unicode text blocks (letters, punctuation, box-drawing,
+# block elements, geometric shapes). Everything at/above the Private Use Area
+# (Powerline at U+E0A0+ and the ~10k Nerd Font icons) is excluded, which is where
+# essentially all the size lives.
+TEXT_SUBSET_RANGES: list[tuple[int, int]] = [
+    (0x0000, 0x00FF),  # Basic Latin + Latin-1 Supplement
+    (0x0100, 0x024F),  # Latin Extended-A and B
+    (0x0250, 0x02FF),  # IPA Extensions + Spacing Modifier Letters
+    (0x0300, 0x036F),  # Combining Diacritical Marks (used by composites)
+    (0x0370, 0x03FF),  # Greek and Coptic
+    (0x0400, 0x052F),  # Cyrillic + Cyrillic Supplement
+    (0x1E00, 0x1EFF),  # Latin Extended Additional
+    (0x1F00, 0x1FFF),  # Greek Extended
+    (0x2000, 0x206F),  # General Punctuation
+    (0x2070, 0x209F),  # Superscripts and Subscripts
+    (0x20A0, 0x20CF),  # Currency Symbols
+    (0x2100, 0x214F),  # Letterlike Symbols
+    (0x2150, 0x218F),  # Number Forms
+    (0x2190, 0x21FF),  # Arrows
+    (0x2200, 0x22FF),  # Mathematical Operators
+    (0x2300, 0x23FF),  # Miscellaneous Technical
+    (0x2500, 0x257F),  # Box Drawing
+    (0x2580, 0x259F),  # Block Elements
+    (0x25A0, 0x25FF),  # Geometric Shapes
+    (0x2C60, 0x2C7F),  # Latin Extended-C
+]
+
 # Unicode ranges for B612 glyph selection.
 # These glyphs are copied from B612 into the Hack base.
 # Source: adapted from the kerm CSS font-stack unicode-range declarations.

@@ -39,7 +39,8 @@ classifiers = [
 # ---- Main dependencies ----
 
 dependencies = [
-    "fonttools>=4.61.1",
+    # [woff] pulls in brotli + zopfli for WOFF2/WOFF output.
+    "fonttools[woff]>=4.61.1",
     "typer>=0.15.0",
     "rich>=14.0.0",
     "strif>=0.4.0",

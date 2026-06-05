@@ -316,6 +316,20 @@ def build_planetaire_mono(
     err_console.print(f"[green]Built {len(outputs)} font(s)[/green]")
 
 
+@build_app.command("text")
+def build_text_cmd(
+    source_dir: Path = typer.Option(Path("fonts/source"), help="Directory containing source fonts"),
+    output_dir: Path = typer.Option(Path("fonts/output"), help="Directory for output fonts"),
+) -> None:
+    """Build the lightweight Planetaire Mono Text family (WOFF2/WOFF/TTF + CSS)."""
+    from planetaire.recipes.planetaire_mono import build_text
+
+    outputs = build_text(source_dir, output_dir)
+    for p in outputs:
+        err_console.print(f"  {p}")
+    err_console.print(f"[green]Built {len(outputs)} file(s)[/green]")
+
+
 @build_app.command("specimen")
 def build_specimen_cmd(
     source: Path = typer.Option(
