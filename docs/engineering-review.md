@@ -1,7 +1,8 @@
 # Planetaire Mono — Senior Engineering & Design Review
 
-**Date:** 2026-06-05
+**Date:** 2026-06-05 (last updated 2026-06-05)
 **Reviewer:** Engineering review pass (Claude Code)
+**Companion plan:** [`docs/project/specs/active/plan-2026-06-05-finalize-and-publish.md`](project/specs/active/plan-2026-06-05-finalize-and-publish.md)
 **Scope:** Full repository — font design & build pipeline, packaging & distribution,
 documentation, and presentation (PDF specimen, README imagery, proposed web/site assets).
 
