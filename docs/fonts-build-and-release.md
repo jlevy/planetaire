@@ -2,7 +2,9 @@
 
 This guide covers the font-specific workflow.
 For generic Python/uv setup see [development.md](development.md); for PyPI publishing of
-the *tooling* see [publishing.md](publishing.md).
+the *tooling* see [publishing.md](publishing.md); for the full asset-regeneration
+reference (hero image, specimen, terminal demo, external tools) see
+[build-assets.runbook.md](build-assets.runbook.md).
 
 > **What ships where:** the **fonts** are published as GitHub Release assets; the **PyPI
 > package** is the build tooling only.

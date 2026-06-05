@@ -4,23 +4,27 @@
 
 **Author:** jlevy (with engineering review by Claude Code)
 
-**Status:** In Review (Phase 1 largely implemented)
+**Status:** Implemented
 
 ## Progress (2026-06-05)
 
-**Done:** doc/metadata fixes (`plt-1k7s`, `plt-apwa`); unified versioning + specimen
-injection (`plt-g5ht`); style-linking validation (`plt-b9na`); the **Text** family with
-WOFF2/WOFF + `@font-face` (`plt-py0f`); font CI job (`plt-17qf`); dual-family release
-packaging (`plt-2epl`); checksum-verified `build download` (`plt-jecp`); composite audit
-+ guard (`plt-gqdz`); single hinting policy — strip donor hinting (`plt-d6t8`);
-  ExtraBold investigation (`plt-qj8x`); generated HTML specimen (`plt-x4bn`);
-  build/release docs + web-install (`plt-ke43`); static site generator (`plt-0d2l`).
-  Golden manifest gzipped + completed (`plt-3fxa`, partial).
+**All beads complete.** Phase 1: doc/metadata fixes (`plt-1k7s`, `plt-apwa`); unified
+versioning + specimen injection (`plt-g5ht`); style-linking validation (`plt-b9na`); the
+**Text** family with WOFF2/WOFF + `@font-face` (`plt-py0f`); font CI job (`plt-17qf`);
+dual-family release packaging (`plt-2epl`); checksum-verified `build download`
+(`plt-jecp`); composite audit + guard (`plt-gqdz`); single hinting policy — strip donor
+hinting (`plt-d6t8`); ExtraBold investigation (`plt-qj8x`); golden manifest gzipped +
+completed and source-vendoring decision (`plt-3fxa`).
 
-**Remaining (need tooling not in the build env — Typst/VHS):** README hero render
-(`plt-7b9q`), PDF specimen polish (`plt-7pcj`, version injection already wired), VHS
-terminal demo (`plt-wgvi`); plus relocating the ~35 MB vendored source TTFs
-(`plt-3fxa`).
+Phase 2: generated HTML specimen (`plt-x4bn`); static site generator (`plt-0d2l`);
+build/release docs + web-install (`plt-ke43`); README hero rendered from Typst
+(`plt-7b9q`); PDF specimen polished — version + build-date + Text page (`plt-7pcj`); VHS
+terminal demo (`plt-wgvi`). Asset-regeneration is documented in
+[`build-assets.runbook.md`](../../../build-assets.runbook.md).
+
+**Deferred (noted, not blocking):** the optional hard-rename of the full family to
+`Planetaire Mono Extended` (see Implementation Notes), and regenerating the illustrative
+mock terminal listing in the PDF from live output.
 
 ## Overview
 
