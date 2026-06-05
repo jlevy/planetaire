@@ -70,14 +70,19 @@ uv run planetaire regression generate --output fonts/golden/manifest.json.gz --v
 uv run planetaire regression verify     # must report PASS / all identical
 ```
 
-## 3. README hero image (Typst → PNG)
+## 3. README images (Typst → PNG, in sync with the PDF)
 
 ```shell
 uv run planetaire build hero            # docs/specimen/hero.typ -> docs/images/hero.png
+uv run planetaire build images          # terminal/text-sample/weights/features -> docs/images/
 ```
 
-Rendered at 200 ppi via the same Typst pipeline as the specimen (shared font path +
-version injection). Edit `docs/specimen/hero.typ` to change it.
+The home-page images render from `docs/specimen/card.typ`, which `#import`s
+`docs/specimen/content.typ` — the **same** module the PDF specimen imports.
+So the terminal mockup, Turing text excerpt, weight ladder, and legibility/dotted-zero
+cards on the README are the same content as the specimen and cannot drift; edit
+`content.typ` to change both at once.
+(This replaced the old PIL `generate_showcase.py`.)
 
 ## 4. PDF specimen (Typst)
 

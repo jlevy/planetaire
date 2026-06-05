@@ -5,8 +5,8 @@
 .DEFAULT_GOAL := default
 
 .PHONY: default install lint test upgrade build clean
-.PHONY: download build-fonts build-text validate-fonts fonts showcase specimen
-.PHONY: hero demo html-specimen site regression-generate regression-verify
+.PHONY: download build-fonts build-text validate-fonts fonts specimen
+.PHONY: images hero demo html-specimen site regression-generate regression-verify
 
 default: install lint test
 
@@ -49,8 +49,8 @@ validate-fonts:
 
 fonts: download build-fonts build-text validate-fonts
 
-showcase: build-fonts
-	uv run python scripts/generate_showcase.py
+images: build-fonts
+	uv run planetaire build images
 
 specimen: build-fonts
 	uv run planetaire build specimen

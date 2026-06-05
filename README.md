@@ -24,26 +24,40 @@ Hack Nerd Font’s base, combining the best of both:
 - **12,000+ Nerd Font icons** including Powerline, Font Awesome, and Devicons (in the
   Extended family)
 
-## Families
+<img src="docs/images/text-sample.png" width="750" alt="A prose passage set in Planetaire Mono showing body-text legibility">
 
-Planetaire Mono ships in two families built from the same letterforms:
+*(All images on this page are rendered from the same Typst source as the
+[PDF specimen](docs/specimen/planetaire-mono-specimen.pdf) via `make images`.)*
 
-| Family | Coverage | Best for | Size (WOFF2) |
+## Download
+
+Two families, built from the same letterforms.
+Grab the latest from
+[**GitHub Releases**](https://github.com/jlevy/planetaire/releases/latest):
+
+| Family | Best for | Includes | Download |
 | --- | --- | --- | --- |
-| **Planetaire Mono Text** | Latin/Greek/Cyrillic, punctuation, box-drawing, block elements, geometric shapes | Websites, documents, regular reading | ~53 KB/weight |
-| **Planetaire Mono Extended** | Everything in Text **plus** all ~12,000 Nerd Font icons and Powerline | Terminals, coding, icon-rich CLIs | ~1 MB/weight |
+| **Planetaire Mono Text** *(standard)* | Websites, documents, everyday text | Letters, punctuation, Greek/Cyrillic, box-drawing — **no icons** (~55 KB/weight WOFF2) | [`.tar.xz`](https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Text.tar.xz) · [`.zip`](https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Text.zip) |
+| **Planetaire Mono Extended** *(full)* | Terminals, coding, icon-rich CLIs | Everything in Text **plus** all ~12,000 Nerd Font icons and Powerline (~1 MB/weight) | [`.tar.xz`](https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Extended.tar.xz) · [`.zip`](https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Extended.zip) |
 
-Text is the lightweight choice for the web (it drops only the thousands of Private-Use
-icon glyphs, which is where nearly all the size lives).
-Extended is the full terminal font.
-Both come in the same 8 variants described below.
+Both ship the same 8 variants (see [Weights](#weights)). Pick **Text** for the web and
+reading, **Extended** for the terminal.
+
+**Install (quick):** unzip and double-click the `.ttf` files (macOS Font Book /
+Windows), or on Linux copy them to `~/.local/share/fonts/` and run `fc-cache -fv`. For
+the web, the Text archive includes WOFF2/WOFF + a ready-to-use `@font-face` stylesheet.
+Full per-OS steps are in [Install](#install) below.
 
 ## In the terminal
 
-<img src="docs/images/terminal-demo.gif" width="750" alt="Planetaire Mono in a terminal session">
+<img src="docs/images/terminal.png" width="750" alt="Planetaire Mono Extended in a terminal session: colored eza listing with Nerd Font icons, a Python one-liner, and git log">
 
-Generated from [`docs/specimen/terminal-demo.tape`](docs/specimen/terminal-demo.tape)
-with [VHS](https://github.com/charmbracelet/vhs) (`make demo`).
+The same scene as an [animated demo](docs/images/terminal-demo.gif) is generated from
+[`docs/specimen/terminal-demo.tape`](docs/specimen/terminal-demo.tape) with
+[VHS](https://github.com/charmbracelet/vhs) (`make demo`). The image above is rendered
+from the **same Typst source as the
+[PDF specimen](docs/specimen/planetaire-mono-specimen.pdf)** (`make images`), so the
+home page and the specimen never drift.
 
 ## Weights
 
@@ -95,8 +109,6 @@ config.font_rules = {
 
 See [docs/terminal-config.md](docs/terminal-config.md) for complete configuration
 examples for Ghostty, Alacritty, WezTerm, iTerm2, Kitty, and VS Code.
-
-<img src="docs/images/terminal-bold.png" width="750" alt="ExtraBold vs Bold comparison">
 
 ## Character Coverage
 

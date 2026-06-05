@@ -58,7 +58,6 @@ dev = [
     "rich>=14.3.2",
     "basedpyright>=1.38.0",
     "funlog>=0.2.1",
-    "pillow>=11.0.0",
 ]
 
 [project.scripts]

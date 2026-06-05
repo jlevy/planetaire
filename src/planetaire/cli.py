@@ -359,6 +359,37 @@ def build_hero_cmd(
     err_console.print(f"[green]Hero image written to {path}[/green]")
 
 
+@build_app.command("images")
+def build_images_cmd(
+    out_dir: Path = typer.Option(Path("docs/images"), help="Directory for README images"),
+    font_dir: Path = typer.Option(Path("fonts/output"), help="Directory containing built fonts"),
+    ppi: int = typer.Option(200, help="Render resolution (pixels per inch)"),
+) -> None:
+    """Render the README images from the specimen's shared content (in sync with the PDF)."""
+    import subprocess
+
+    from planetaire.recipes.specimen import render_png
+
+    card = Path("docs/specimen/card.typ")
+    # card name -> output filename
+    cards = {
+        "terminal": "terminal.png",
+        "text": "text-sample.png",
+        "weights": "weights.png",
+        "features": "features.png",
+    }
+    try:
+        for card_name, filename in cards.items():
+            render_png(card, out_dir / filename, font_dir, ppi=ppi, inputs={"card": card_name})
+            err_console.print(f"  {out_dir / filename}")
+    except subprocess.CalledProcessError as e:
+        err_console.print("[red]Typst render failed:[/red]")
+        if e.stderr:
+            err_console.print(e.stderr)
+        raise SystemExit(1) from e
+    err_console.print(f"[green]Rendered {len(cards)} README images to {out_dir}[/green]")
+
+
 @build_app.command("html-specimen")
 def build_html_specimen_cmd(
     output: Path = typer.Option(Path("fonts/output/specimen.html"), help="Output HTML path"),

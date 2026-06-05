@@ -110,11 +110,13 @@ def render_png(
     *,
     ppi: int = 200,
     version: str | None = None,
+    inputs: dict[str, str] | None = None,
 ) -> Path:
     """Render a Typst source to a PNG (e.g. the README hero image).
 
     Shares the font path and version injection with the PDF specimen so every
-    rendered artifact comes from one Typst pipeline.
+    rendered artifact comes from one Typst pipeline. Extra `inputs` are passed
+    through as Typst `--input key=value` (read via `sys.inputs`).
     """
     if not source.exists():
         raise FileNotFoundError(f"Typst source not found: {source}")
@@ -144,9 +146,10 @@ def render_png(
         str(ppi),
         "--input",
         f"version={version}",
-        str(source),
-        str(output),
     ]
+    for key, value in (inputs or {}).items():
+        cmd += ["--input", f"{key}={value}"]
+    cmd += [str(source), str(output)]
     log.info("Rendering PNG: %s", " ".join(cmd))
     result = subprocess.run(cmd, capture_output=True, text=True)
     if result.returncode != 0:
