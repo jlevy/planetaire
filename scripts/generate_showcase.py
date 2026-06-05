@@ -11,6 +11,7 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import atexit
 import tempfile
 from pathlib import Path
 
@@ -32,8 +33,14 @@ ACCENT_RED = (255, 100, 100)
 ACCENT_CYAN = (80, 220, 220)
 ACCENT_YELLOW = (220, 200, 80)
 
-# Cache for unhinted font files
+# Cache for unhinted font files (temp copies, cleaned up on exit)
 _unhinted_cache: dict[str, str] = {}
+
+
+@atexit.register
+def _cleanup_unhinted_cache() -> None:
+    for tmp_path in _unhinted_cache.values():
+        Path(tmp_path).unlink(missing_ok=True)
 
 
 def _strip_hinting(font_path: str) -> str:
@@ -148,8 +155,8 @@ def draw_hero(output: Path) -> None:
 
 
 def draw_weights(output: Path) -> None:
-    """Weight comparison: all 6 variants."""
-    width, height = 1500, 560
+    """Weight comparison: all 8 variants."""
+    width, height = 1500, 700
     img = Image.new("RGB", (width, height), BG)
     draw = ImageDraw.Draw(img)
 
@@ -165,6 +172,8 @@ def draw_weights(output: Path) -> None:
     weights = [
         ("Regular (400)", "Regular", FG),
         ("Italic (400)", "Italic", FG),
+        ("Medium (500)", "Medium", FG),
+        ("Medium Italic (500)", "MediumItalic", FG),
         ("Bold (700)", "Bold", FG),
         ("Bold Italic (700)", "BoldItalic", FG),
         ("ExtraBold (800)  ★", "ExtraBold", ACCENT_CYAN),
