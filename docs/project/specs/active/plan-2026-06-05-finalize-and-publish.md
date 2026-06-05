@@ -144,22 +144,30 @@ reproducible.
 
 ## Implementation Plan
 
-Two phases. Phase 1 makes the fonts correct, split, validated, and CI-covered
-(revise/finalize/test).
+Two phases. Phase 1 makes the fonts correct, split, validated, CI-covered, and
+release-packaged (revise/finalize/test).
 Phase 2 prepares publication assets (presentation/web).
+The full breakdown is tracked as beads under epic `plt-toa7`; blocker dependencies are
+noted inline and enforced in tbd (`tbd ready` / `tbd blocked`).
 
-### Phase 1: Correct, split, and CI-cover the fonts
+### Phase 1: Correct, split, CI-cover, and package the fonts
 
 - [ ] Unify font versioning from a single source → name IDs 3/5 + `head.fontRevision` +
   specimen injection (`plt-g5ht`).
 - [ ] Add `ops/subset.py` + Text recipe; produce **Planetaire Mono Text** (subset) and
   rename full build to **Planetaire Mono Extended** (`plt-py0f`).
 - [ ] Emit WOFF2 + WOFF + TTF for Text and a generated `@font-face` stylesheet
-  (`plt-py0f`).
+  (`plt-py0f`; needs a `brotli` dependency for WOFF2).
 - [ ] Add CI job: build → validate → `regression verify` (FontForge + Typst, cached
   sources) (`plt-17qf`).
+- [ ] Package **both** families in `release-fonts.yml` (Extended TTF archive; Text TTF +
+  WOFF2 + WOFF + `@font-face` CSS) with SHA-256 checksums (`plt-2epl`; blocked by
+  `plt-py0f`, `plt-g5ht`).
 - [ ] Fix README Jinja `{{ }}` artifact; standardize variant count to 8; document the
   Text/Extended split and what ships where (`plt-1k7s`).
+- [ ] De-boilerplate docs: add a font build/release guide + WOFF2/`@font-face`
+  web-install instructions; refresh `development/installation/publishing.md`
+  (`plt-ke43`; blocked by `plt-py0f`).
 - [ ] Fix placeholder author/email; add project URLs (`plt-apwa`).
 - [ ] Extend `validate` with style-linking assertions (`plt-b9na`).
 - [ ] Audit composite/accented glyph component handling in `merge` (`plt-gqdz`).
@@ -167,19 +175,22 @@ Phase 2 prepares publication assets (presentation/web).
 - [ ] Implement real `build download` with checksums, or relabel (`plt-jecp`).
 - [ ] Shrink/relocate the 13 MB golden manifest; reconsider committed source TTFs
   (`plt-3fxa`).
+- [ ] Investigate the ~4.5 MB ExtraBold weight; decide ExtraBold icon coverage in
+  Extended (`plt-qj8x`).
 
 ### Phase 2: Publication & presentation assets
 
 - [ ] Systematize the README home-page specimen image via the Typst render path
   (`plt-7b9q`).
 - [ ] Polish the PDF specimen: version stamp, regenerate mock terminal data, add a
-  Text/web page (`plt-7pcj`).
-- [ ] Generate a clean static **HTML specimen** loading the Text WOFF2 (`plt-x4bn`).
+  Text/web page (`plt-7pcj`; blocked by `plt-g5ht`, `plt-py0f`).
+- [ ] Generate a clean static **HTML specimen** loading the Text WOFF2 (`plt-x4bn`;
+  blocked by `plt-py0f`).
 - [ ] Clean terminal-output demo: static SVG (README) + animated (site) via VHS `.tape`,
   scripting real programs (e.g. Claude Code, `mark`) to show the font in live CLI use
   (`plt-wgvi`).
 - [ ] Develop simple static **site pages** assembling the specimen + demo + downloads;
-  deployment deferred (`plt-0d2l`).
+  deployment deferred (`plt-0d2l`; blocked by `plt-7b9q`, `plt-x4bn`, `plt-wgvi`).
 
 ## Testing Strategy
 
