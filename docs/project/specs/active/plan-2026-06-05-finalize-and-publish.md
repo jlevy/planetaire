@@ -4,7 +4,23 @@
 
 **Author:** jlevy (with engineering review by Claude Code)
 
-**Status:** Draft
+**Status:** In Review (Phase 1 largely implemented)
+
+## Progress (2026-06-05)
+
+**Done:** doc/metadata fixes (`plt-1k7s`, `plt-apwa`); unified versioning + specimen
+injection (`plt-g5ht`); style-linking validation (`plt-b9na`); the **Text** family with
+WOFF2/WOFF + `@font-face` (`plt-py0f`); font CI job (`plt-17qf`); dual-family release
+packaging (`plt-2epl`); checksum-verified `build download` (`plt-jecp`); composite audit
++ guard (`plt-gqdz`); single hinting policy — strip donor hinting (`plt-d6t8`);
+  ExtraBold investigation (`plt-qj8x`); generated HTML specimen (`plt-x4bn`);
+  build/release docs + web-install (`plt-ke43`); static site generator (`plt-0d2l`).
+  Golden manifest gzipped + completed (`plt-3fxa`, partial).
+
+**Remaining (need tooling not in the build env — Typst/VHS):** README hero render
+(`plt-7b9q`), PDF specimen polish (`plt-7pcj`, version injection already wired), VHS
+terminal demo (`plt-wgvi`); plus relocating the ~35 MB vendored source TTFs
+(`plt-3fxa`).
 
 ## Overview
 
