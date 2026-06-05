@@ -178,7 +178,7 @@ Bold, BoldItalic, ExtraBold, ExtraBoldItalic).
   providing punctuation, symbols, and overall metrics.
 - [**Nerd Fonts**](https://www.nerdfonts.com/) — Ryan McIntyre. 12,000+ developer
   icons including Powerline, Font Awesome, Devicons, and more.
-- [**carlosedp**](https://github.com/carlosedp/B612-Mono-Liga-NerdFont) — Carlos
+- [**carlosedp**](https://github.com/carlosedp/b612) — Carlos
   Eduardo de Paula's B612 fork with ligatures and Nerd Font patching, which
   inspired the dotted zero design. Not a build dependency.
 
