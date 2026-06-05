@@ -132,7 +132,7 @@ def _render_index(
     <h2>Two families</h2>
     <table>
       <tr><th>Family</th><th>Best for</th><th>Coverage</th></tr>
-      <tr><td><b>Planetaire Mono</b></td><td>Terminals, coding</td><td>Everything + ~12k Nerd Font icons</td></tr>
+      <tr><td><b>Planetaire Mono Extended</b></td><td>Terminals, coding</td><td>Everything + ~12k Nerd Font icons</td></tr>
       <tr><td><b>Planetaire Mono Text</b></td><td>Web, documents</td><td>Text glyphs + box-drawing (~55 KB/wt WOFF2)</td></tr>
     </table>
   </section>

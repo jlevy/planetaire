@@ -93,7 +93,7 @@ jobs:
 
       - name: Validate fonts
         run: |
-          uv run planetaire validate fonts/output/PlanetaireMono-*.ttf
+          uv run planetaire validate fonts/output/PlanetaireMonoExtended-*.ttf
           uv run planetaire validate fonts/output/PlanetaireMonoText-*.ttf
 
       - name: Regression check against golden manifest

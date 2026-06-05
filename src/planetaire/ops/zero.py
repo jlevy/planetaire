@@ -12,7 +12,7 @@ The alternates are accessible via:
 Applications activate these via:
   - Typst: ``#set text(stylistic-set: 1)`` or ``slashed-zero: true``
   - VS Code: ``"editor.fontLigatures": "'ss01'"``
-  - Kitty: ``font_features PlanetaireMono-Regular +ss01``
+  - Kitty: ``font_features PlanetaireMonoExtended-Regular +ss01``
   - WezTerm: ``harfbuzz_features = { "ss01=1" }``
 """
 

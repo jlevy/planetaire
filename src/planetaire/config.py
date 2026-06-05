@@ -12,10 +12,9 @@ from __future__ import annotations
 from typing import TypedDict
 
 # Font family names.
-# The full build keeps the plain "Planetaire Mono" name (distributed as the
-# "Extended" archive); the lightweight web/text subset is a distinct family so the
-# two can be installed side by side.
-FAMILY_NAME: str = "Planetaire Mono"
+# The full build is "Planetaire Mono Extended" (all Nerd Font icons); the lightweight
+# web/text subset is a distinct family so the two can be installed side by side.
+FAMILY_NAME: str = "Planetaire Mono Extended"
 TEXT_FAMILY_NAME: str = "Planetaire Mono Text"
 
 # Unicode ranges retained in the lightweight "Text" family.

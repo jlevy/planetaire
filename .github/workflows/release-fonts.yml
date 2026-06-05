@@ -38,15 +38,15 @@ jobs:
 
       - name: Validate fonts
         run: |
-          uv run planetaire validate fonts/output/PlanetaireMono-*.ttf
+          uv run planetaire validate fonts/output/PlanetaireMonoExtended-*.ttf
           uv run planetaire validate fonts/output/PlanetaireMonoText-*.ttf
 
       - name: Package release archives
         run: |
           cd fonts/output
           # Extended: the full build with all Nerd Font icons (TTF).
-          tar -cJf ../../PlanetaireMono-Extended.tar.xz PlanetaireMono-*.ttf
-          zip ../../PlanetaireMono-Extended.zip PlanetaireMono-*.ttf
+          tar -cJf ../../PlanetaireMono-Extended.tar.xz PlanetaireMonoExtended-*.ttf
+          zip ../../PlanetaireMono-Extended.zip PlanetaireMonoExtended-*.ttf
           # Text: lightweight web/regular build (TTF + WOFF2 + WOFF + @font-face CSS).
           tar -cJf ../../PlanetaireMono-Text.tar.xz \
             PlanetaireMonoText-*.ttf PlanetaireMonoText-*.woff2 \

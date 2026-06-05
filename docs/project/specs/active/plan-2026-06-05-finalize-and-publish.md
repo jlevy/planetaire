@@ -22,9 +22,8 @@ build/release docs + web-install (`plt-ke43`); README hero rendered from Typst
 terminal demo (`plt-wgvi`). Asset-regeneration is documented in
 [`build-assets.runbook.md`](../../../build-assets.runbook.md).
 
-**Deferred (noted, not blocking):** the optional hard-rename of the full family to
-`Planetaire Mono Extended` (see Implementation Notes), and regenerating the illustrative
-mock terminal listing in the PDF from live output.
+**Deferred (noted, not blocking):** regenerating the illustrative mock terminal listing
+in the PDF from live output (cosmetic).
 
 ## Overview
 
@@ -237,14 +236,13 @@ noted inline and enforced in tbd (`tbd ready` / `tbd blocked`).
 
 Decisions taken while implementing, recorded here so they can be revisited:
 
-- **Family naming (needs owner confirmation).** The full build keeps its OpenType family
-  name **`Planetaire Mono`** for now; the lightweight subset ships as
-  **`Planetaire Mono Text`**. “Extended” is currently only a *distribution/archive*
-  label (`PlanetaireMono-Extended.tar.xz`), not the OpenType family name.
-  A hard rename of the full family to `Planetaire Mono Extended` was deferred because it
-  would also require updating the Typst specimen’s `font:` references and the
-  terminal-config docs; the family names are now `config` constants (`FAMILY_NAME`,
-  `TEXT_FAMILY_NAME`) so the flip is a one-line change if we decide to do it.
+- **Family naming (done).** The two families are **`Planetaire Mono Extended`** (full,
+  files `PlanetaireMonoExtended-*.ttf`) and **`Planetaire Mono Text`** (web subset,
+  `PlanetaireMonoText-*`). The full family was renamed from the original
+  `Planetaire Mono`; family names are `config` constants (`FAMILY_NAME`,
+  `TEXT_FAMILY_NAME`) and output filenames derive from them.
+  The specimen, hero, demo, terminal-config docs, and release workflow were all updated
+  accordingly. ("Planetaire Mono" remains the *project* name.)
 - **Text drops TrueType hinting.** `build_text` subsets with `drop_hinting=True`. This
   halves web-font size (~55 KB vs ~110 KB WOFF2/weight) and avoids carrying Hack’s
   hinting, which is tuned for Hack outlines rather than the merged B612 letterforms.
@@ -257,10 +255,9 @@ Decisions taken while implementing, recorded here so they can be revisited:
 - ~~Should Box Drawing / Block Elements be in Text?~~ **Resolved: yes** — they cost only
   ~8 KB WOFF2 and are used by markdown tables, TUIs, and ASCII art.
   Only Powerline and the Nerd PUA icons stay Extended-only.
-- Hard-rename the full family to `Planetaire Mono Extended`? Deferred (see
-  Implementation Notes); requires a specimen + terminal-config sweep.
-- Manifest slimming approach: compact/gzip in-repo vs CI fixture — pick during
-  `plt-3fxa`.
+- ~~Hard-rename the full family to `Planetaire Mono Extended`?~~ **Done** — full family
+  and filenames renamed; specimen/hero/demo/docs/release updated.
+- ~~Manifest slimming approach?~~ **Done** — gzipped in-repo (~2 MB).
 
 ## References
 

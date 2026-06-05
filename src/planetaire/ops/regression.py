@@ -94,7 +94,7 @@ def generate_manifest(font_dir: Path, version: str = "dev") -> FontManifest:
     """Generate a manifest from built font files."""
     manifest = FontManifest(version=version)
 
-    for ttf_path in sorted(font_dir.glob("PlanetaireMono-*.ttf")):
+    for ttf_path in sorted(font_dir.glob("PlanetaireMonoExtended-*.ttf")):
         font = TTFont(ttf_path)
         variant = ttf_path.stem.split("-")[1]
 

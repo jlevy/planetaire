@@ -73,19 +73,19 @@ Configure your terminal to use ExtraBold for bold text:
 
 ```
 # Ghostty
-font-family = "Planetaire Mono"
+font-family = "Planetaire Mono Extended"
 font-thicken = true
 
 # Alacritty
 [font.bold]
-family = "Planetaire Mono"
+family = "Planetaire Mono Extended"
 style = "ExtraBold"
 
 # WezTerm
 config.font_rules = {
   {
     intensity = 'Bold',
-    font = wezterm.font('Planetaire Mono', { weight = 'ExtraBold' }),
+    font = wezterm.font('Planetaire Mono Extended', { weight = 'ExtraBold' }),
   },
 }
 
@@ -132,7 +132,7 @@ Download the latest release from
 # Download and extract
 curl -L https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Extended.tar.xz | tar xJ
 # Install
-cp PlanetaireMono-*.ttf ~/Library/Fonts/
+cp PlanetaireMonoExtended-*.ttf ~/Library/Fonts/
 ```
 
 ### Linux
@@ -142,7 +142,7 @@ cp PlanetaireMono-*.ttf ~/Library/Fonts/
 curl -L https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Extended.tar.xz | tar xJ
 # Install
 mkdir -p ~/.local/share/fonts/PlanetaireMono
-cp PlanetaireMono-*.ttf ~/.local/share/fonts/PlanetaireMono/
+cp PlanetaireMonoExtended-*.ttf ~/.local/share/fonts/PlanetaireMono/
 fc-cache -fv
 ```
 
@@ -197,7 +197,7 @@ Built fonts are written to `fonts/output/`.
 The `planetaire` CLI exposes the individual operations for inspection and debugging:
 
 ```bash
-planetaire info fonts/output/PlanetaireMono-Regular.ttf
+planetaire info fonts/output/PlanetaireMonoExtended-Regular.ttf
 planetaire compare font-a.ttf font-b.ttf --ranges 0041-005A
 planetaire validate fonts/output/*.ttf
 ```

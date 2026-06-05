@@ -178,7 +178,7 @@ def build_planetaire_mono(
     Build Planetaire Mono font family.
 
     For each variant: load Hack as base, merge B612 letter glyphs,
-    rename to "Planetaire Mono", apply fixes, validate, and save.
+    rename to "Planetaire Mono Extended", apply fixes, validate, and save.
 
     ExtraBold B612 variants are auto-generated from Bold via FontForge
     if not already present in source_dir.
@@ -214,8 +214,8 @@ def build_planetaire_mono(
         for issue in issues:
             log.warning("Validation %s: %s", issue.severity, issue.message)
 
-        # Save
-        output_path = output_dir / f"PlanetaireMono-{name}.ttf"
+        # Save (filename tracks the family name, e.g. PlanetaireMonoExtended-Regular.ttf)
+        output_path = output_dir / f"{FAMILY_NAME.replace(' ', '')}-{name}.ttf"
         with atomic_output_file(str(output_path)) as tmp:
             fixed.save(tmp)
 
@@ -269,7 +269,7 @@ def build_text(
         for issue in issues:
             log.warning("Validation %s: %s", issue.severity, issue.message)
 
-        stem = f"PlanetaireMonoText-{name}"
+        stem = f"{TEXT_FAMILY_NAME.replace(' ', '')}-{name}"
         for fmt in formats:
             flavor = None if fmt == "ttf" else fmt
             out_path = output_dir / f"{stem}.{fmt}"

@@ -5,7 +5,7 @@
 #let version = sys.inputs.at("version", default: "0.0.0-dev")
 
 #set page(width: 42em, height: auto, margin: 1.6em, fill: rgb("#0d1117"))
-#set text(font: "Planetaire Mono", size: 12pt, fill: rgb("#e6edf3"))
+#set text(font: "Planetaire Mono Extended", size: 12pt, fill: rgb("#e6edf3"))
 #set par(leading: 0.62em)
 
 // Palette (GitHub dark-ish).

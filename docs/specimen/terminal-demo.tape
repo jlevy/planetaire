@@ -5,7 +5,7 @@
 
 Output docs/images/terminal-demo.gif
 
-Set FontFamily "Planetaire Mono"
+Set FontFamily "Planetaire Mono Extended"
 Set FontSize 20
 Set Width 1100
 Set Height 640
@@ -25,7 +25,7 @@ Type "echo 'Il1| O0o rn/m 5S 8B 2Z  0123456789'" Sleep 500ms Enter
 Sleep 1200ms
 
 # Real programs rendered in the font.
-Type "planetaire info fonts/output/PlanetaireMono-Regular.ttf" Sleep 500ms Enter
+Type "planetaire info fonts/output/PlanetaireMonoExtended-Regular.ttf" Sleep 500ms Enter
 Sleep 2400ms
 Type "flowmark --version" Sleep 400ms Enter
 Sleep 1600ms

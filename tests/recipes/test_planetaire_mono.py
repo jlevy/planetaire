@@ -30,11 +30,11 @@ def test_build_produces_regular(source_dir: Path):
         assert len(outputs) == 1
         output_path = outputs[0]
         assert output_path.exists()
-        assert output_path.name == "PlanetaireMono-Regular.ttf"
+        assert output_path.name == "PlanetaireMonoExtended-Regular.ttf"
 
         # Verify metadata
         info = inspect_font(output_path)
-        assert info.family == "Planetaire Mono"
+        assert info.family == "Planetaire Mono Extended"
         assert info.weight_class == 400
         assert info.glyph_count > 1000
 
@@ -92,7 +92,7 @@ def test_no_dangling_composite_components(source_dir: Path):
     with tempfile.TemporaryDirectory() as tmpdir:
         output_dir = Path(tmpdir)
         build_planetaire_mono(source_dir, output_dir, variant="Regular")
-        font = TTFont(output_dir / "PlanetaireMono-Regular.ttf")
+        font = TTFont(output_dir / "PlanetaireMonoExtended-Regular.ttf")
         glyf = font["glyf"]
         order = set(font.getGlyphOrder())
 
@@ -115,20 +115,20 @@ def test_build_all_variants(source_dir: Path):
 
         assert len(outputs) == 8
         names = {p.name for p in outputs}
-        assert "PlanetaireMono-Regular.ttf" in names
-        assert "PlanetaireMono-Italic.ttf" in names
-        assert "PlanetaireMono-Medium.ttf" in names
-        assert "PlanetaireMono-MediumItalic.ttf" in names
-        assert "PlanetaireMono-Bold.ttf" in names
-        assert "PlanetaireMono-BoldItalic.ttf" in names
-        assert "PlanetaireMono-ExtraBold.ttf" in names
-        assert "PlanetaireMono-ExtraBoldItalic.ttf" in names
+        assert "PlanetaireMonoExtended-Regular.ttf" in names
+        assert "PlanetaireMonoExtended-Italic.ttf" in names
+        assert "PlanetaireMonoExtended-Medium.ttf" in names
+        assert "PlanetaireMonoExtended-MediumItalic.ttf" in names
+        assert "PlanetaireMonoExtended-Bold.ttf" in names
+        assert "PlanetaireMonoExtended-BoldItalic.ttf" in names
+        assert "PlanetaireMonoExtended-ExtraBold.ttf" in names
+        assert "PlanetaireMonoExtended-ExtraBoldItalic.ttf" in names
 
         # Verify weights across the family
         for filename, expected_weight in [
-            ("PlanetaireMono-Medium.ttf", 500),
-            ("PlanetaireMono-Bold.ttf", 700),
-            ("PlanetaireMono-ExtraBold.ttf", 800),
+            ("PlanetaireMonoExtended-Medium.ttf", 500),
+            ("PlanetaireMonoExtended-Bold.ttf", 700),
+            ("PlanetaireMonoExtended-ExtraBold.ttf", 800),
         ]:
             path = [p for p in outputs if p.name == filename][0]
             info = inspect_font(path)

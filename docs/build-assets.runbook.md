@@ -55,7 +55,7 @@ uv sync --all-extras
 uv run planetaire build download          # verify vendored sources against SHA256SUMS
 uv run planetaire build planetaire-mono   # Extended: 8 TTFs -> fonts/output/
 uv run planetaire build text              # Text: TTF + WOFF2 + WOFF + @font-face CSS
-uv run planetaire validate fonts/output/PlanetaireMono-*.ttf
+uv run planetaire validate fonts/output/PlanetaireMonoExtended-*.ttf
 uv run planetaire validate fonts/output/PlanetaireMonoText-*.ttf
 ```
 
@@ -106,7 +106,7 @@ The demo records a real shell session in Planetaire Mono.
 ```shell
 # Install the built font so ttyd/Chromium can resolve it by family name:
 mkdir -p ~/.local/share/fonts/planetaire
-cp fonts/output/PlanetaireMono-Regular.ttf fonts/output/PlanetaireMono-Bold.ttf \
+cp fonts/output/PlanetaireMonoExtended-Regular.ttf fonts/output/PlanetaireMonoExtended-Bold.ttf \
    ~/.local/share/fonts/planetaire/
 fc-cache -f
 

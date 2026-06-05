@@ -38,7 +38,7 @@ vendored copies.)
 
 | Family | Command | Output |
 | --- | --- | --- |
-| **Planetaire Mono** (full / “Extended”) | `planetaire build planetaire-mono` | `PlanetaireMono-*.ttf` (all Nerd Font icons) |
+| **Planetaire Mono Extended** (full) | `planetaire build planetaire-mono` | `PlanetaireMonoExtended-*.ttf` (all Nerd Font icons) |
 | **Planetaire Mono Text** (web/regular) | `planetaire build text` | `PlanetaireMonoText-*.{ttf,woff2,woff}` + `planetaire-mono-text.css` |
 
 Text is the full build subset to standard-Unicode text glyphs (letters, punctuation,
@@ -52,7 +52,7 @@ make fonts        # download(verify) -> build Extended -> build Text -> validate
 # or individually:
 uv run planetaire build planetaire-mono
 uv run planetaire build text
-uv run planetaire validate fonts/output/PlanetaireMono-*.ttf
+uv run planetaire validate fonts/output/PlanetaireMonoExtended-*.ttf
 uv run planetaire validate fonts/output/PlanetaireMonoText-*.ttf
 ```
 

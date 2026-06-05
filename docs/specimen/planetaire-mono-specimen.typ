@@ -22,7 +22,7 @@
   },
 )
 
-#set text(font: "Planetaire Mono", size: 10pt)
+#set text(font: "Planetaire Mono Extended", size: 10pt)
 
 // Kerm terminal theme colors (dark palette).
 #let kerm = (
@@ -249,7 +249,7 @@
 #block[
   #set text(size: 8pt)
   #set par(leading: 0.45em, spacing: 0em)
-  #show raw: set text(font: "Planetaire Mono", size: 8pt)
+  #show raw: set text(font: "Planetaire Mono Extended", size: 8pt)
   #show raw.where(block: true): it => block(width: 100%, fill: none, inset: 0pt, stroke: none, it)
   #show "Host Software": text.with(weight: 700)
   #show "Steve Crocker": text.with(weight: 700)

@@ -63,7 +63,7 @@ def _strip_hinting(font_path: str) -> str:
 
 
 def load_font(name: str, size: int) -> ImageFont.FreeTypeFont:
-    path = FONTS_DIR / f"PlanetaireMono-{name}.ttf"
+    path = FONTS_DIR / f"PlanetaireMonoExtended-{name}.ttf"
     unhinted = _strip_hinting(str(path))
     return ImageFont.truetype(unhinted, size)
 
@@ -183,7 +183,7 @@ def draw_weights(output: Path) -> None:
     y += lh
 
     digits = "0123456789   AaBbCcDd   {[()]} <=> !@#$%"
-    for label, variant, color in weights:
+    for _label, variant, color in weights:
         font = load_font(variant, 18)
         draw.text((40, y), digits, color, font=font)
         y += lh - 4
@@ -289,9 +289,9 @@ def draw_terminal_bold(output: Path) -> None:
     y += lh + 5
 
     config_lines = [
-        ('Ghostty:    font-family = "Planetaire Mono"  font-thicken = true', FG),
-        ('Alacritty:  bold = { family = "Planetaire Mono", style = "ExtraBold" }', FG),
-        ('WezTerm:    config.font = wezterm.font("Planetaire Mono", {weight="ExtraBold"})', FG),
+        ('Ghostty:    font-family = "Planetaire Mono Extended"  font-thicken = true', FG),
+        ('Alacritty:  bold = { family = "Planetaire Mono Extended", style = "ExtraBold" }', FG),
+        ('WezTerm:    config.font = wezterm.font("Planetaire Mono Extended", {weight="ExtraBold"})', FG),
     ]
     for line, color in config_lines:
         draw.text((40, y), line, color, font=small)

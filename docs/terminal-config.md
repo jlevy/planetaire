@@ -12,7 +12,7 @@ to be used.
 In `~/.config/ghostty/config`:
 
 ```
-font-family = "Planetaire Mono"
+font-family = "Planetaire Mono Extended"
 font-size = 14
 font-thicken = true
 ```
@@ -29,19 +29,19 @@ In `~/.config/alacritty/alacritty.toml`:
 size = 14.0
 
 [font.normal]
-family = "Planetaire Mono"
+family = "Planetaire Mono Extended"
 style = "Regular"
 
 [font.bold]
-family = "Planetaire Mono"
+family = "Planetaire Mono Extended"
 style = "ExtraBold"
 
 [font.italic]
-family = "Planetaire Mono"
+family = "Planetaire Mono Extended"
 style = "Italic"
 
 [font.bold_italic]
-family = "Planetaire Mono"
+family = "Planetaire Mono Extended"
 style = "ExtraBold Italic"
 ```
 
@@ -53,19 +53,19 @@ In `~/.wezterm.lua`:
 local wezterm = require 'wezterm'
 local config = wezterm.config_builder()
 
-config.font = wezterm.font('Planetaire Mono')
+config.font = wezterm.font('Planetaire Mono Extended')
 config.font_size = 14.0
 
 -- Map bold to ExtraBold for maximum contrast
 config.font_rules = {
   {
     intensity = 'Bold',
-    font = wezterm.font('Planetaire Mono', { weight = 'ExtraBold' }),
+    font = wezterm.font('Planetaire Mono Extended', { weight = 'ExtraBold' }),
   },
   {
     intensity = 'Bold',
     italic = true,
-    font = wezterm.font('Planetaire Mono', { weight = 'ExtraBold', italic = true }),
+    font = wezterm.font('Planetaire Mono Extended', { weight = 'ExtraBold', italic = true }),
   },
 }
 
@@ -98,7 +98,7 @@ In `settings.json`:
 
 ```json
 {
-  "terminal.integrated.fontFamily": "Planetaire Mono",
+  "terminal.integrated.fontFamily": "Planetaire Mono Extended",
   "terminal.integrated.fontSize": 14,
   "terminal.integrated.fontWeight": "normal",
   "terminal.integrated.fontWeightBold": "800"
