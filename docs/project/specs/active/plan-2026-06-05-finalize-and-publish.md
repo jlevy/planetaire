@@ -23,8 +23,12 @@ published-release quality"), with every bead linked to this spec.
 
 - Ship two clearly-branded families from one pipeline:
   - **Planetaire Mono Text** — clean, standard-Unicode coverage for websites and
-    regular use (no Nerd Font icons, no terminal-only blocks). Lightweight,
-    web-ready (WOFF2/WOFF) with a generated `@font-face` stylesheet.
+    regular use: letters, punctuation, Greek/Cyrillic, plus box-drawing, block
+    elements, and geometric shapes (used in markdown tables, TUI output, and ASCII
+    art — e.g. Claude Code's graphics). Drops only the **thousands of Nerd Font PUA
+    icons** and Powerline. Measured: **~1,376 glyphs, ~53 KB WOFF2/weight** vs
+    ~984 KB for the full build — roughly **18× smaller**. Web-ready (WOFF2/WOFF)
+    with a generated `@font-face` stylesheet.
   - **Planetaire Mono Extended** — the full build with Nerd Font icons and all the
     terminal/coding glyphs (the current output, renamed). "Extended" leaves room to
     grow beyond Nerd Font additions later.
@@ -64,9 +68,10 @@ the full review. Key facts that shape this plan:
 
 ### Glyph-scope decision for the Text family
 
-"Text" is for websites and regular reading — explicitly **not** full terminal/coding
-use. Concretely, **Text** keeps the text-oriented standard Unicode and drops the
-terminal/icon blocks:
+"Text" is for websites and regular reading, plus the line-drawing characters that
+modern CLIs and docs actually render. The single big cut is the **~10,400 Nerd Font
+PUA icons** — that is where essentially all the size lives. Box-drawing and friends
+are tiny (~314 glyphs, ~8 KB WOFF2) and worth keeping:
 
 | Block | In **Text** | In **Extended** | Notes |
 |-------|:-----------:|:---------------:|-------|
@@ -76,13 +81,21 @@ terminal/icon blocks:
 | General Punctuation, Currency, Super/Subscripts | yes | yes | Text typography |
 | Letterlike, Number Forms | yes | yes | Small, text-useful |
 | Arrows, Math Operators (common) | yes | yes | Useful in prose/docs |
-| Box Drawing, Block Elements, Geometric Shapes | no | yes | Terminal/TUI |
-| Powerline (PUA) | no | yes | Terminal prompts |
-| Nerd Font icons (PUA, ~10.4k) | no | yes | The bulk of the size |
+| Box Drawing, Block Elements, Geometric Shapes | **yes** | yes | Tables, TUI, ASCII art (Claude Code, etc.) |
+| Powerline (PUA) | no | yes | Terminal prompt segments |
+| Nerd Font icons (PUA, ~10.4k) | no | yes | **The entire size difference** |
 
-Expected Text size: roughly **700–1,000 glyphs**, WOFF2 likely **~40–90 KB/weight**
-— a large reduction vs the full TTF. (Exact box-drawing inclusion is the one minor
-open question below; default is to exclude it from Text.)
+Measured on `PlanetaireMono-Regular` (pyftsubset, no hinting, layout kept):
+
+| Build | Glyphs | TTF | WOFF2/weight |
+|-------|------:|----:|-------------:|
+| Full (Extended) | 11,938 | 2,571 KB | 984 KB |
+| Text (lean, no box-drawing) | 1,062 | 110 KB | 45 KB |
+| **Text (with box-drawing/blocks/shapes)** | **1,376** | **131 KB** | **53 KB** |
+
+So Text lands at **~53 KB/weight WOFF2 (~18× smaller)**; including box-drawing costs
+only ~8 KB over the lean variant. **Decision: include box-drawing, block elements, and
+geometric shapes in Text; exclude only Powerline and the Nerd PUA icons.**
 
 ## Design
 
@@ -157,7 +170,8 @@ Two phases. Phase 1 makes the fonts correct, split, validated, and CI-covered
       Text/web page (`plt-7pcj`).
 - [ ] Generate a clean static **HTML specimen** loading the Text WOFF2 (`plt-x4bn`).
 - [ ] Clean terminal-output demo: static SVG (README) + animated (site) via VHS
-      `.tape` (`plt-wgvi`).
+      `.tape`, scripting real programs (e.g. Claude Code, `mark`) to show the font in
+      live CLI use (`plt-wgvi`).
 - [ ] Develop simple static **site pages** assembling the specimen + demo + downloads;
       deployment deferred (`plt-0d2l`).
 
@@ -184,8 +198,9 @@ Two phases. Phase 1 makes the fonts correct, split, validated, and CI-covered
 
 ## Open Questions
 
-- Should **Box Drawing / Block Elements** be included in **Text**? Default: exclude
-  (terminal-oriented). Easy to flip if wanted for docs that draw tables.
+- ~~Should Box Drawing / Block Elements be in Text?~~ **Resolved: yes** — they cost
+  only ~8 KB WOFF2 and are used by markdown tables, TUIs, and ASCII art. Only Powerline
+  and the Nerd PUA icons stay Extended-only.
 - Renaming the current family to "Planetaire Mono Extended" changes the installed
   name; confirm that's acceptable for anyone already using "Planetaire Mono".
 - Manifest slimming approach: compact/gzip in-repo vs CI fixture — pick during
