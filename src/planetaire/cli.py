@@ -337,6 +337,20 @@ def build_text_cmd(
     err_console.print(f"[green]Built {len(outputs)} file(s)[/green]")
 
 
+@build_app.command("html-specimen")
+def build_html_specimen_cmd(
+    output: Path = typer.Option(Path("fonts/output/specimen.html"), help="Output HTML path"),
+    css_href: str = typer.Option(
+        "planetaire-mono-text.css", help="Relative href to the @font-face stylesheet"
+    ),
+) -> None:
+    """Generate a static HTML specimen that loads the Text web fonts."""
+    from planetaire.recipes.html_specimen import generate_html_specimen
+
+    path = generate_html_specimen(output, css_href=css_href)
+    err_console.print(f"[green]HTML specimen written to {path}[/green]")
+
+
 @build_app.command("specimen")
 def build_specimen_cmd(
     source: Path = typer.Option(
