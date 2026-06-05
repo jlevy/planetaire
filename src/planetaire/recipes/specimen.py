@@ -97,6 +97,60 @@ def build_specimen(
     return output
 
 
+def render_png(
+    source: Path,
+    output: Path,
+    font_dir: Path = FONT_DIR,
+    *,
+    ppi: int = 200,
+    version: str | None = None,
+) -> Path:
+    """Render a Typst source to a PNG (e.g. the README hero image).
+
+    Shares the font path and version injection with the PDF specimen so every
+    rendered artifact comes from one Typst pipeline.
+    """
+    if not source.exists():
+        raise FileNotFoundError(f"Typst source not found: {source}")
+    if not font_dir.exists():
+        raise FileNotFoundError(
+            f"Font directory not found: {font_dir}. Run 'planetaire build planetaire-mono' first."
+        )
+
+    typst_bin = shutil.which("typst")
+    if typst_bin is None:
+        raise FileNotFoundError("typst not found. Install it: https://github.com/typst/typst")
+
+    if version is None:
+        from planetaire.version import get_version, to_font_version
+
+        version = to_font_version(get_version())
+
+    output.parent.mkdir(parents=True, exist_ok=True)
+    cmd = [
+        typst_bin,
+        "compile",
+        "--font-path",
+        str(font_dir.resolve()),
+        "--format",
+        "png",
+        "--ppi",
+        str(ppi),
+        "--input",
+        f"version={version}",
+        str(source),
+        str(output),
+    ]
+    log.info("Rendering PNG: %s", " ".join(cmd))
+    result = subprocess.run(cmd, capture_output=True, text=True)
+    if result.returncode != 0:
+        raise subprocess.CalledProcessError(
+            result.returncode, cmd, output=result.stdout, stderr=result.stderr
+        )
+    log.info("PNG written to %s", output)
+    return output
+
+
 def _open_pdf(path: Path) -> None:
     """Best-effort open a PDF with the system viewer."""
     import platform

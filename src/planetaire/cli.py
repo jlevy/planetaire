@@ -337,6 +337,28 @@ def build_text_cmd(
     err_console.print(f"[green]Built {len(outputs)} file(s)[/green]")
 
 
+@build_app.command("hero")
+def build_hero_cmd(
+    source: Path = typer.Option(Path("docs/specimen/hero.typ"), help="Typst hero source"),
+    output: Path = typer.Option(Path("docs/images/hero.png"), help="Output PNG path"),
+    font_dir: Path = typer.Option(Path("fonts/output"), help="Directory containing built fonts"),
+    ppi: int = typer.Option(200, help="Render resolution (pixels per inch)"),
+) -> None:
+    """Render the README hero image from Typst (single render path with the specimen)."""
+    import subprocess
+
+    from planetaire.recipes.specimen import render_png
+
+    try:
+        path = render_png(source, output, font_dir, ppi=ppi)
+    except subprocess.CalledProcessError as e:
+        err_console.print("[red]Typst render failed:[/red]")
+        if e.stderr:
+            err_console.print(e.stderr)
+        raise SystemExit(1) from e
+    err_console.print(f"[green]Hero image written to {path}[/green]")
+
+
 @build_app.command("html-specimen")
 def build_html_specimen_cmd(
     output: Path = typer.Option(Path("fonts/output/specimen.html"), help="Output HTML path"),
