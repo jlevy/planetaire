@@ -300,15 +300,13 @@ def embolden(
 
 @build_app.command("download")
 def build_download(
-    output_dir: Path = typer.Option(
-        Path("fonts/source"), help="Directory to download source fonts into"
-    ),
+    output_dir: Path = typer.Option(Path("fonts/source"), help="Directory containing source fonts"),
 ) -> None:
-    """Fetch source fonts from upstream repositories."""
+    """Locate and integrity-check source fonts (verified against SHA256SUMS)."""
     from planetaire.recipes.sources import download_sources
 
-    download_sources(output_dir)
-    err_console.print(f"Source fonts downloaded to {output_dir}")
+    fonts = download_sources(output_dir)
+    err_console.print(f"[green]Verified {len(fonts)} source font(s) in {output_dir}[/green]")
 
 
 @build_app.command("planetaire-mono")
