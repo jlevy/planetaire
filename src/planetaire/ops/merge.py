@@ -58,15 +58,12 @@ def merge_glyphs(
             continue
 
         donor_glyph_name = donor_cmap[cp]
-        # Use the donor glyph name in the result, suffixing if there's a collision
-        # with a glyph we're NOT replacing
+        # Reuse the donor's glyph name in the result. If the base already has a
+        # glyph with this name, its outline/metrics/cmap are overwritten below.
+        # This is intentional: e.g. the base "A" is replaced by the donor's "A".
         target_name = donor_glyph_name
-        if target_name in glyph_order:
-            # Check if this glyph is already mapped to our codepoint; if so, replace in-place
-            pass
-        else:
+        if target_name not in glyph_order:
             glyph_order.append(target_name)
-            result.setGlyphOrder(glyph_order)
 
         # Copy glyph outline
         if donor_glyph_name in glyf_donor:
@@ -83,6 +80,7 @@ def merge_glyphs(
 
         copied += 1
 
+    result.setGlyphOrder(glyph_order)
     log.info("Copied %d glyphs from donor for %d target codepoints", copied, len(target_cps))
 
     if copy_gsub_features:
@@ -189,12 +187,19 @@ def _merge_gsub_features(base: TTFont, donor: TTFont, features: list[str]) -> No
                         break
 
             if not has_feature:
-                # Copy the feature and its lookups from donor
-                # This is a simplified approach. For production use,
-                # lookup indices need proper remapping
                 log.info("Copying GSUB feature '%s' from donor", donor_rec.FeatureTag)
                 if base_gsub.FeatureList is None:
                     base_gsub.FeatureList = copy.deepcopy(donor_gsub.FeatureList)
                     break
-                base_gsub.FeatureList.FeatureRecord.append(copy.deepcopy(donor_rec))
+                # Appending a donor feature record into an existing base GSUB would
+                # leave its LookupListIndex values pointing at the donor's lookups,
+                # producing a corrupt table. Proper lookup remapping is not yet
+                # implemented, so fail loudly rather than ship a broken font.
+                # (The Planetaire pipeline does not exercise this path:
+                # PLANETAIRE_GSUB_FEATURES is empty.)
+                raise NotImplementedError(
+                    f"Merging GSUB feature '{donor_rec.FeatureTag}' into a font that "
+                    "already has a GSUB table requires lookup-index remapping, which "
+                    "is not implemented."
+                )
                 base_gsub.FeatureList.FeatureCount = len(base_gsub.FeatureList.FeatureRecord)

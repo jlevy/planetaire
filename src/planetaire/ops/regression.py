@@ -6,7 +6,7 @@ pipeline changes, comparing the new manifest against the saved one shows
 exactly which glyphs changed, categorized as:
 
 - Identical: no change
-- Trivial: coordinate rounding only (sub-unit differences)
+- Trivial: outline identical, only metrics (advance width / side bearing) changed
 - Changed: outline shape differs (requires visual review)
 - Added/Removed: glyph count changed
 
@@ -68,7 +68,7 @@ class GlyphDiffReport:
 
     variant: str
     identical: int = 0
-    trivial: int = 0  # hash differs but outline is visually similar
+    trivial: int = 0  # outline identical, only metrics (advance/lsb) changed
     changed: int = 0  # outline shape differs
     added: int = 0
     removed: int = 0
@@ -208,14 +208,14 @@ def compare_manifests(old: FontManifest, new: FontManifest) -> list[GlyphDiffRep
                 if old_g.advance_width == new_g.advance_width and old_g.lsb == new_g.lsb:
                     report.identical += 1
                 else:
+                    # Outline identical, only metrics (advance/lsb) changed.
                     report.trivial += 1
             else:
-                # Hash differs: outline changed
-                if old_g.advance_width == new_g.advance_width:
-                    report.trivial += 1
-                else:
-                    report.changed += 1
-                    report.changed_glyphs.append(f"U+{cp:04X} ({new_g.name})")
+                # Hash differs: the outline shape changed and needs review.
+                # Equal advance width does NOT imply a similar shape, so any
+                # hash difference is a real change, not a trivial one.
+                report.changed += 1
+                report.changed_glyphs.append(f"U+{cp:04X} ({new_g.name})")
 
         reports.append(report)
 

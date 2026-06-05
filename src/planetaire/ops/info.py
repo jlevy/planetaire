@@ -69,7 +69,6 @@ def _inspect_gsub_lookup(gsub_table: object, index: int) -> LookupDetail | None:
     type_name = _GSUB_LOOKUP_TYPES.get(lt, f"Unknown({lt})")
 
     # Resolve Extension lookups to their actual type.
-    actual_type = lt
     if lt == 7 and lookup.SubTable:
         ext = lookup.SubTable[0]
         actual_type = ext.ExtSubTable.LookupType if hasattr(ext, "ExtSubTable") else lt
