@@ -38,6 +38,13 @@ icon glyphs, which is where nearly all the size lives).
 Extended is the full terminal font.
 Both come in the same 8 variants described below.
 
+## In the terminal
+
+<img src="docs/images/terminal-demo.gif" width="750" alt="Planetaire Mono in a terminal session">
+
+Generated from [`docs/specimen/terminal-demo.tape`](docs/specimen/terminal-demo.tape)
+with [VHS](https://github.com/charmbracelet/vhs) (`make demo`).
+
 ## Weights
 
 Each family ships **8 variants** across 4 weights:

@@ -30,9 +30,13 @@ def generate_site(
     output_dir: Path,
     fonts_dir: Path,
     *,
+    images_dir: Path = Path("docs/images"),
     version: str | None = None,
 ) -> Path:
-    """Build the static site into `output_dir`, pulling assets from `fonts_dir`.
+    """Build the static site into `output_dir`.
+
+    Fonts/CSS/specimen come from `fonts_dir`; the hero image and terminal demo are
+    pulled from `images_dir` (falling back to `fonts_dir`) when present.
 
     Returns the path to the generated ``index.html``.
     """
@@ -50,12 +54,15 @@ def generate_site(
     css_name = _copy_if_exists(fonts_dir / "planetaire-mono-text.css", output_dir)
     specimen_name = _copy_if_exists(fonts_dir / "specimen.html", output_dir)
 
-    hero = next(
-        (n for c in _HERO_CANDIDATES if (n := _copy_if_exists(fonts_dir / c, output_dir))), None
-    )
-    demo = next(
-        (n for c in _DEMO_CANDIDATES if (n := _copy_if_exists(fonts_dir / c, output_dir))), None
-    )
+    def _find(candidates: tuple[str, ...]) -> str | None:
+        for c in candidates:
+            for src in (images_dir / c, fonts_dir / c):
+                if (name := _copy_if_exists(src, output_dir)) is not None:
+                    return name
+        return None
+
+    hero = _find(_HERO_CANDIDATES)
+    demo = _find(_DEMO_CANDIDATES)
 
     index = output_dir / "index.html"
     index.write_text(_render_index(version, css_name, specimen_name, hero, demo))
