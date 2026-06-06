@@ -371,6 +371,11 @@ def build_images_cmd(
                 render_png(card, out, font_dir, ppi=ppi, inputs={"card": card_name, "theme": theme})
                 err_console.print(f"  {out}")
                 count += 1
+        # White header banner for the top of the README (light/white only).
+        header_out = out_dir / "header.png"
+        render_png(card, header_out, font_dir, ppi=ppi, inputs={"card": "header", "theme": "light"})
+        err_console.print(f"  {header_out}")
+        count += 1
     except subprocess.CalledProcessError as e:
         err_console.print("[red]Typst render failed:[/red]")
         if e.stderr:

@@ -1,4 +1,6 @@
-# Planetaire Mono
+<p align="center">
+<img src="docs/images/header.png" alt="Planetaire Mono" width="100%">
+</p>
 
 Planetaire Mono is a beautiful and highly readable font for terminals, code, and
 interacting with AI agents: a lightly adapted fork of
@@ -8,10 +10,10 @@ interacting with AI agents: a lightly adapted fork of
 **[Read the type specimen (PDF)](docs/specimen/planetaire-mono-specimen.pdf)** ·
 **[Download the fonts](https://github.com/jlevy/planetaire/releases/latest)**
 
-<p>
-<img src="docs/images/terminal-dark.png" width="680" alt="A terminal session in Planetaire Mono on a dark background: a colored eza listing with Nerd Font icons, a Python one-liner, and a git log">
+<p align="center">
+<img src="docs/images/terminal-dark.png" width="100%" alt="A terminal session in Planetaire Mono on a dark background: a colored eza listing with Nerd Font icons, a Python one-liner, and a git log">
 <br>
-<img src="docs/images/terminal-light.png" width="680" alt="The same terminal session in Planetaire Mono on a light background">
+<img src="docs/images/terminal-light.png" width="100%" alt="The same terminal session in Planetaire Mono on a light background">
 </p>
 
 ## Why
@@ -40,10 +42,10 @@ monospace fonts I’ve seen; it’s what I use every day.
 It carries a new name to avoid confusion with the original B612, to comply with the
 font’s license terms on naming, and to be a little more memorable.
 
-<p>
-<img src="docs/images/text-dark.png" width="680" alt="A prose passage set in Planetaire Mono on a dark background, showing body-text legibility">
+<p align="center">
+<img src="docs/images/text-dark.png" width="100%" alt="A prose passage set in Planetaire Mono on a dark background, showing body-text legibility">
 <br>
-<img src="docs/images/text-light.png" width="680" alt="The same prose passage in Planetaire Mono on a light background">
+<img src="docs/images/text-light.png" width="100%" alt="The same prose passage in Planetaire Mono on a light background">
 </p>
 
 ## Download
@@ -65,10 +67,10 @@ Per-OS and web details are under [Install](#install).
 
 ## High Legibility
 
-<p>
-<img src="docs/images/features-dark.png" width="680" alt="Confusable-character pairs and the dotted-zero variants in Planetaire Mono, on a dark background">
+<p align="center">
+<img src="docs/images/features-dark.png" width="100%" alt="Confusable-character pairs and the dotted-zero variants in Planetaire Mono, on a dark background">
 <br>
-<img src="docs/images/features-light.png" width="680" alt="The same confusable-character pairs and dotted-zero variants on a light background">
+<img src="docs/images/features-light.png" width="100%" alt="The same confusable-character pairs and dotted-zero variants on a light background">
 </p>
 
 B612’s letterforms keep commonly confused characters distinct: `Il1|`, `O0o`, `rn` vs
@@ -83,10 +85,10 @@ Planetaire Mono adds an **ExtraBold (800)** weight for terminal bold: the jump f
 Regular (400) to Bold (700) is often too subtle at terminal sizes, and ExtraBold gives
 bold text (prompts, headings, highlighted output) the contrast to stand out.
 
-<p>
-<img src="docs/images/weights-dark.png" width="680" alt="Planetaire Mono weight ladder from Regular to ExtraBold, upright and italic, on a dark background">
+<p align="center">
+<img src="docs/images/weights-dark.png" width="100%" alt="Planetaire Mono weight ladder from Regular to ExtraBold, upright and italic, on a dark background">
 <br>
-<img src="docs/images/weights-light.png" width="680" alt="The same weight ladder on a light background">
+<img src="docs/images/weights-light.png" width="100%" alt="The same weight ladder on a light background">
 </p>
 
 | Variant | Weight | Recommended Use |
@@ -128,6 +130,20 @@ config.font_rules = {
 
 See [terminal-config.md](docs/terminal-config.md) for Ghostty, Alacritty, WezTerm,
 iTerm2, Kitty, and VS Code.
+
+## Two Families: Text and Extended
+
+Both families share the same letterforms and the same 8 variants; choose one by how you
+use the font:
+
+- **On the web, use Planetaire Mono Text.** It drops the Nerd Font icons for a much
+  smaller download and ships WOFF2/WOFF with a ready `@font-face` stylesheet, so the
+  smaller package is all you need.
+- **As a local application or terminal font, use Planetaire Mono Extended.** It adds the
+  full set of ~12,000 Nerd Font icons and Powerline glyphs that terminals and CLIs draw,
+  so the complete glyph set is recommended.
+
+See [Download](#download) for the archives and sizes.
 
 ## Install
 
