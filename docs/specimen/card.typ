@@ -14,7 +14,7 @@
 #let boxy = which in ("terminal", "code")  // self-contained dark/light block
 
 #set page(
-  width: if which == "header" { 62em } else { 46em },
+  width: if which == "header" { 68em } else { 46em },
   height: auto,
   margin: if boxy { 1.1em } else { 1.6em },
   fill: p.page,
