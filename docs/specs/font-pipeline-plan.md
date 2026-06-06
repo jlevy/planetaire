@@ -134,7 +134,7 @@ is the standard tool used by both carlosedp and the Nerd Fonts project itself.
 | Powerline | U+E0A0-E0D7 | Terminal separator arrows |
 | Font Awesome | U+ED00-F2FF | 1000+ general icons |
 | Font Awesome Ext | U+E000-E0A9 | Extended FA icons |
-| Material Design | U+F0001-F1AF0 | Material icons (massive set) |
+| Material Design | U+F0001-F1AF0 | Material icons (large set) |
 | Weather Icons | U+F000-F0EB | Weather symbols |
 | Octicons | U+F000-F306 | GitHub icons |
 | Codicons | U+EA60-EC1E | VS Code icons |

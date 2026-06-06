@@ -558,7 +558,7 @@
 
 // ─── Provenance & License ───────────────────────────────────────
 
-#section[Planetaire Provenance & License]
+#section[Planetaire Provenance and License]
 
 #text(size: 11pt, weight: 700)[Source Fonts]
 #v(0.2cm)
@@ -604,11 +604,11 @@
 #text(size: 10pt)[
   Planetaire Mono ships in two families built from the same letterforms:
 
-  - *Planetaire Mono* (Extended) — the full build with all ~12,000 Nerd Font icons
+  - *Planetaire Mono* (Extended): the full build with all ~12,000 Nerd Font icons
     and Powerline, for terminals and coding.
-  - *Planetaire Mono Text* — a lightweight web/regular subset (letters, punctuation,
+  - *Planetaire Mono Text*: a lightweight web subset (letters, punctuation,
     box-drawing, block elements, geometric shapes) that drops the Private-Use icons.
-    About *55 KB per weight* in WOFF2 — roughly 18× smaller — and shipped with a ready
+    About *55 KB per weight* in WOFF2, roughly 18× smaller, and shipped with a ready
     `@font-face` stylesheet.
 ]
 
@@ -641,7 +641,7 @@
   and carry a different name.
 
   The constituent fonts carry the following licenses:
-  - *B612 Mono*: SIL Open Font License 1.1 + Eclipse Public License 2.0
+  - *B612 Mono*: SIL Open Font License 1.1 and Eclipse Public License 2.0
   - *Hack*: MIT License
   - *Nerd Fonts* patches: MIT License
 ]
@@ -660,7 +660,7 @@
   double-width glyphs at exactly 2x) shares one advance. B612's letters and the
   FontForge-emboldened weights are normalized to that cell, recentered, and
   condensed only where ink would otherwise bleed. The two panels below are the
-  visual proof -- review them to confirm no glyph is trimmed and all weights align.
+  visual proof. Review them to confirm no glyph is trimmed and all weights align.
 ]
 
 #v(0.5cm)

@@ -86,13 +86,13 @@ Each family ships 8 variants across 4 weights.
 ### ExtraBold for Terminals
 
 The jump from Regular (400) to Bold (700) is often too subtle at terminal sizes.
-ExtraBold (800) gives bold text (prompts, headings, highlighted output) the contrast
-to stand out. Map your terminal’s bold to ExtraBold:
+ExtraBold (800) gives bold text (prompts, headings, highlighted output) the contrast to
+stand out. Map your terminal’s bold to ExtraBold:
 
 ```
 # Ghostty
 font-family = "Planetaire Mono Extended"
-font-thicken = true
+font-style-bold = "ExtraBold"
 
 # Alacritty
 [font.bold]
@@ -190,8 +190,8 @@ and these images is in [build-assets.runbook.md](docs/build-assets.runbook.md).
   The base providing punctuation, symbols, and metrics.
 - [**Nerd Fonts**](https://www.nerdfonts.com/): Ryan McIntyre.
   12,000+ developer icons.
-- [**carlosedp**](https://github.com/carlosedp/B612-Mono-Liga-NerdFont): Carlos Eduardo
-  de Paula’s B612 Nerd Font fork, which inspired the dotted zero.
+- [**carlosedp**](https://github.com/carlosedp/b612): Carlos Eduardo de Paula’s B612
+  Nerd Font fork, which inspired the dotted zero.
   Not a build dependency.
 
 ## License
@@ -204,4 +204,3 @@ tooling is [MIT](LICENSE).
 <!-- This document follows common-doc-guidelines.md.
 See github.com/jlevy/practical-prose and review guidelines before editing.
 -->
-

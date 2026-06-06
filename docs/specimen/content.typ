@@ -222,7 +222,7 @@
   v(0.1cm)
   disambig[I l 1 |][uppercase I \u{00B7} lowercase l \u{00B7} digit 1 \u{00B7} pipe]
   disambig[O 0 o][uppercase O \u{00B7} digit 0 \u{00B7} lowercase o]
-  disambig[r n m][r \u{00B7} n \u{00B7} m \u{2014} clearly distinct in B612]
+  disambig[r n m][r \u{00B7} n \u{00B7} m, distinct in B612]
   disambig[5 S 8 B][digit 5 vs S \u{00B7} digit 8 vs B]
   disambig[2 Z 6 G][digit 2 vs Z \u{00B7} digit 6 vs G]
 
@@ -271,11 +271,11 @@
     v(0.2cm)
   }
   text(size: 8pt, fill: p.muted, weight: "bold")[
-    STANDARD CODING CHARACTERS -- TRUE CELL WIDTHS
+    STANDARD CODING CHARACTERS: TRUE CELL WIDTHS
   ]
   v(0.05cm)
   text(size: 7.5pt, fill: p.muted)[
-    Red rules mark each glyph's advance. Equal-width cells with ink inside = a
+    Red rules mark each glyph's advance. Equal-width cells with ink inside mean a
     clean monospace grid, nothing trimmed.
   ]
   v(0.2cm)
@@ -306,11 +306,11 @@
     )
     v(0.12cm)
   }
-  text(size: 8pt, fill: p.muted, weight: "bold")[WEIGHT ALIGNMENT -- EVERY WEIGHT IS THE SAME WIDTH]
+  text(size: 8pt, fill: p.muted, weight: "bold")[WEIGHT ALIGNMENT: EVERY WEIGHT IS THE SAME WIDTH]
   v(0.05cm)
   text(size: 7.5pt, fill: p.muted)[
     The same string in all eight variants; the red rule marks each line's right
-    edge. A single vertical line = identical width across every weight.
+    edge. A single vertical line means identical width across every weight.
   ]
   v(0.25cm)
   row("REGULAR (400)", 400)
