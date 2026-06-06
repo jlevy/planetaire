@@ -1,8 +1,9 @@
 # Planetaire Mono
 
-A monospace font for terminals and code that pairs [B612](https://b612-font.com/)’s
-highly legible letterforms with [Hack](https://sourcefoundry.org/hack/)’s programming
-symbols and [Nerd Font](https://www.nerdfonts.com/) icons.
+Planetaire Mono is a beautiful and highly readable font for terminals, code, and
+interacting with AI agents: a lightly adapted fork of
+[B612 Mono](https://b612-font.com/) combined with symbols and icons from
+[Hack](https://sourcefoundry.org/hack/) and [Nerd Fonts](https://www.nerdfonts.com/).
 
 **[Read the type specimen (PDF)](docs/specimen/planetaire-mono-specimen.pdf)** ·
 **[Download the fonts](https://github.com/jlevy/planetaire/releases/latest)**
