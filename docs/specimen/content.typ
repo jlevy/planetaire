@@ -116,7 +116,7 @@
   ]
   #v(0.4cm)
   #text(size: 12.5pt, fill: p.fg)[
-    A beautiful, highly readable monospace font for terminals, code, and AI agents
+    A beautiful, highly legible monospace font for terminals, code, and agentic work
   ]
   #v(0.1cm)
 ]
