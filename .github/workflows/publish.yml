@@ -1,16 +1,12 @@
 name: Publish to PyPI
 
-# Tag-driven, matching the font release workflow: pushing a version tag (vX.Y.Z) builds
-# the package and publishes it to PyPI. uv-dynamic-versioning derives the version from
-# the tag. (A release created by the fonts workflow runs under GITHUB_TOKEN, whose
-# events do not trigger other workflows, so this keys off the tag push directly rather
-# than `release: published`.)
+# Manual-only for now. Pilot releases ship as GitHub artifacts (see release-fonts.yml);
+# PyPI publishing is deferred until trusted publishing is configured for this project.
+# Re-enable tag-driven publishing by restoring the `push: tags: "v*"` trigger below;
+# uv-dynamic-versioning derives the version from the tag.
 
 on:
-  push:
-    tags:
-      - "v*"
-  workflow_dispatch: # Enable manual trigger.
+  workflow_dispatch: # Manual trigger only (PyPI publishing deferred).
 
 jobs:
   build-and-publish:

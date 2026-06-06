@@ -124,7 +124,7 @@ def _render_index(
 </head>
 <body>
   <h1>Planetaire Mono</h1>
-  <div class="tag">Legible monospace — B612 letterforms on Hack's infrastructure. v{version}</div>
+  <div class="tag">A beautiful, highly legible monospace font for terminals, editors, and agentic work. v{version}</div>
   {hero_html}
   {demo_html}
 

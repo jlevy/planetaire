@@ -12,17 +12,19 @@ experiments, and glyph modifications performed during development of
 
 ## Part 1: Nerd Font Base Comparison
 
-Several high-quality monospace Nerd Font families were evaluated for terminal use. All
-are credible, well-crafted fonts with distinct personalities.
+Several high-quality monospace Nerd Font families were evaluated for terminal use.
+All are credible, well-crafted fonts with distinct personalities.
 
 ### B612 Mono Liga Nerd Font
 
 **Source:** [carlosedp/b612](https://github.com/carlosedp/b612) fork of
 [polarsys/b612](https://github.com/polarsys/b612)
 
-**Assessment:** Nicest letters and figures. Best letterforms of any font evaluated.
+**Assessment:** Nicest letters and figures.
+Best letterforms of any font evaluated.
 Designed by Airbus/Intactile DESIGN for aircraft cockpit displays; maximizes distance
-between character forms for disambiguation. Exceptionally legible at small sizes.
+between character forms for disambiguation.
+Exceptionally legible at small sizes.
 
 **Strengths:**
 - Superior letter and digit design, optimized for readability in adverse conditions
@@ -41,9 +43,10 @@ another font providing punctuation and everything else.
 **Source:** [source-foundry/Hack](https://github.com/source-foundry/Hack), patched by
 [Nerd Fonts](https://github.com/ryanoasis/nerd-fonts)
 
-**Assessment:** The very good modern standard option. Less style but very clean and
-nice. Best punctuation and glyphs. Can be used standalone or as a fill-in for better
-punctuation in B612.
+**Assessment:** The very good modern standard option.
+Less style but very clean and nice.
+Best punctuation and glyphs.
+Can be used standalone or as a fill-in for better punctuation in B612.
 
 **Strengths:**
 - Very clean punctuation: consistent sizing and weight across all special characters
@@ -60,11 +63,12 @@ icons. Switched from Mono to non-Mono variant for wider (double-width) Nerd Font
 
 ### Monaspace Ne (MonaspiceNe Nerd Font Mono)
 
-**Source:** [githubnext/monaspace](https://github.com/githubnext/monaspace) "Neon"
+**Source:** [githubnext/monaspace](https://github.com/githubnext/monaspace) “Neon”
 variant, patched by Nerd Fonts
 
-**Assessment:** Another attractive option. Stylish, not quite as clear as Hack. I also
-found I preferred Hack punctuation.
+**Assessment:** Another attractive option.
+Stylish, not quite as clear as Hack.
+I also found I preferred Hack punctuation.
 
 **Strengths:**
 - Visually distinctive and modern
@@ -81,30 +85,32 @@ ultimately replaced by Hack, which had cleaner punctuation.
 
 ### Monaspace Xe (MonaspiceXe Nerd Font Mono)
 
-**Source:** [githubnext/monaspace](https://github.com/githubnext/monaspace) "Xenon"
+**Source:** [githubnext/monaspace](https://github.com/githubnext/monaspace) “Xenon”
 variant
 
-**Assessment:** Interesting but quirkier option. A different Monaspace axis with its own
-character.
+**Assessment:** Interesting but quirkier option.
+A different Monaspace axis with its own character.
 
-**Decision:** Evaluated but not selected. More quirky than Ne variant.
+**Decision:** Evaluated but not selected.
+More quirky than Ne variant.
 
 ### GoMono Nerd Font Mono
 
-**Source:** Go project's monospace font, patched by Nerd Fonts
+**Source:** Go project’s monospace font, patched by Nerd Fonts
 
 **Assessment:** Interesting but quirkier option.
 
-**Decision:** Evaluated but not selected. Has character but not the best fit for
-terminal use.
+**Decision:** Evaluated but not selected.
+Has character but not the best fit for terminal use.
 
 ### iMWritingMono Nerd Font Mono
 
-**Source:** iA Writer's monospace font, patched by Nerd Fonts
+**Source:** iA Writer’s monospace font, patched by Nerd Fonts
 
 **Assessment:** Interesting but quirkier option.
 
-**Decision:** Evaluated but not selected. Designed more for prose than code.
+**Decision:** Evaluated but not selected.
+Designed more for prose than code.
 
 ### RecMonoLinear Nerd Font Mono
 
@@ -130,8 +136,8 @@ terminal use.
 
 Key transitions:
 1. Started with Hack Mono as the sole font
-2. Explored Monaspace Ne, attractive but found Hack's punctuation cleaner
-3. Discovered B612's superior letterforms, tried composite approach
+2. Explored Monaspace Ne, attractive but found Hack’s punctuation cleaner
+3. Discovered B612’s superior letterforms, tried composite approach
 4. Settled on B612 (letters/digits) and Hack (everything else) as the optimal
    combination
 5. Final refinement: switched Hack from Mono to non-Mono for better icon rendering
@@ -142,13 +148,13 @@ Key transitions:
 
 ### The Problem
 
-Standard Bold (weight 700) is too subtle at 12px terminal size. Bold text in a terminal
-needs to be visually *obvious*, for prompts, headings, highlighted output. The jump from
-Regular (400) to Bold (700) wasn't enough.
+Standard Bold (weight 700) is too subtle at 12px terminal size.
+Bold text in a terminal needs to be visually *obvious*, for prompts, headings,
+highlighted output. The jump from Regular (400) to Bold (700) wasn’t enough.
 
 ### The Solution: ExtraBold (800)
 
-Generated ExtraBold (800) weight variants using FontForge's `changeWeight()` API.
+Generated ExtraBold (800) weight variants using FontForge’s `changeWeight()` API.
 
 **Script:** `attic/kerm/bin/embolden_font.py` **Tool:** FontForge (run as
 `fontforge -script embolden_font.py <input.ttf>`)
@@ -161,14 +167,14 @@ WEIGHT_CHANGES = {800: 30, 900: 45}
 # Earlier: {800: 36, 900: 54} — seemed good for Hack
 ```
 
-The `changeWeight` parameter is somewhat trial-and-error and depends on the font's UPM
-and desired boldness. Small increments (10, 14, 20) for subtle differences; bigger for
-heavier outlines.
+The `changeWeight` parameter is somewhat trial-and-error and depends on the font’s UPM
+and desired boldness.
+Small increments (10, 14, 20) for subtle differences; bigger for heavier outlines.
 
 ### Glyph-Specific Handling
 
-Not all glyphs survive emboldening equally. Some complex Nerd Font icons break or look
-wrong when strokes are thickened:
+Not all glyphs survive emboldening equally.
+Some complex Nerd Font icons break or look wrong when strokes are thickened:
 
 ```python
 # Skip entirely (would break or look wrong if emboldened):
@@ -206,9 +212,10 @@ HALF_WEIGHT_GLYPHS = {"dev-babel", "dev-postcss"}
 
 ### Black (900) Weight
 
-Also generated but ultimately not used in the final kerm configuration. Available in the
-Hack Nerd Font variant only. The configuration for 900 weight is preserved in the
-embolden script but was disabled (`WEIGHT_CLASSES = [800]`, not `[800, 900]`).
+Also generated but ultimately not used in the final kerm configuration.
+Available in the Hack Nerd Font variant only.
+The configuration for 900 weight is preserved in the embolden script but was disabled
+(`WEIGHT_CLASSES = [800]`, not `[800, 900]`).
 
 ### Post-Emboldening: ttfautohint
 
@@ -228,7 +235,8 @@ unacceptable for code.
 ### The Dotted Zero
 
 The carlosedp fork of B612 modified the zero glyph to include a **center dot** (a small
-filled rectangle inside the zero). This is the default rendering.
+filled rectangle inside the zero).
+This is the default rendering.
 
 **Technical detail (confirmed via fontTools inspection):**
 - Original B612 zero: **2 contours**, 56 points (outer oval and inner counter)
@@ -245,9 +253,9 @@ The zero glyphs are **byte-for-byte identical** between the kerm fonts (version 
 and the current carlosedp fonts (version 1.009):
 - Same coordinates, same flags, same contour endpoints, same bounding box
 - Both have 3 contours, 60 points
-- The dotted zero design originated in carlosedp's FontLab edits
+- The dotted zero design originated in carlosedp’s FontLab edits
 
-The dotted zero has been working well in kerm; it's clear, unambiguous, and doesn't
+The dotted zero has been working well in kerm; it’s clear, unambiguous, and doesn’t
 distract from reading code.
 
 ### OpenType Feature Alternates
@@ -265,8 +273,8 @@ The carlosedp fork also provides two alternate zero styles via OpenType features
 - Carlosedp fonts (NF 3.4.0): 1 feature record each (different GSUB table structure,
   same functionality)
 
-These features let users choose their preferred zero style in their editor. Example
-VSCode config:
+These features let users choose their preferred zero style in their editor.
+Example VSCode config:
 ```json
 "editor.fontLigatures": "'zero' on"
 ```
@@ -287,7 +295,7 @@ as source.
 
 ## Part 5: Font Compositing Strategy
 
-### CSS-Level Compositing (Kerm's Approach)
+### CSS-Level Compositing (Kerm’s Approach)
 
 Kerm used CSS `unicode-range` to composite B612 and Hack at the browser level:
 
@@ -313,7 +321,7 @@ U+AB30-AB6F   Latin Extended-E
 - All ASCII punctuation: `! @ # $ % ^ & * ( ) - = + [ ] { } | \ ; : ' " , . < > / ?`
 - Box-drawing characters (U+2500-259F)
 - Nerd Font icons (powerline, devicons, Font Awesome, etc.)
-- Any missing glyphs from B612's range
+- Any missing glyphs from B612’s range
 
 **Punctuation ranges that were tested but excluded from B612** (commented out in
 `fonts.ts`):
@@ -329,14 +337,15 @@ U+AB30-AB6F   Latin Extended-E
 // U+007B-007E  Curly braces — rejected
 ```
 
-All punctuation was tested from B612 and rejected; Hack's punctuation is more consistent
+All punctuation was tested from B612 and rejected; Hack’s punctuation is more consistent
 in sizing and visual weight.
 
 ### Limitation of CSS Compositing
 
-CSS `unicode-range` only works in browser/Electron contexts. Does not work in native
-terminals, IDEs, or general font distribution. This is exactly what Planetaire Mono
-solves : binary font merging to produce a standalone TTF.
+CSS `unicode-range` only works in browser/Electron contexts.
+Does not work in native terminals, IDEs, or general font distribution.
+This is exactly what Planetaire Mono solves : binary font merging to produce a
+standalone TTF.
 
 * * *
 
@@ -365,26 +374,27 @@ Tuned through experimentation:
 ### Ligatures
 
 **Disabled** in kerm (`disableLigatures: true`), even though the B612 Liga font has
-FiraCode ligatures baked in via the `calt` OpenType feature. The ligatures are available
-but turned off. This is a per-user preference; some people love code ligatures, others
-find them distracting.
+FiraCode ligatures baked in via the `calt` OpenType feature.
+The ligatures are available but turned off.
+This is a per-user preference; some people love code ligatures, others find them
+distracting.
 
 **Note for Planetaire:** Ligatures are **out of scope** for the initial Planetaire Mono
 release. The carlosedp fork uses [Ligaturizer](https://github.com/ToxicFrog/Ligaturizer)
-to merge FiraCode ligatures into the B612 base via FontLab, a nontrivial pipeline. If we
-add ligature support in the future, some considerations from the carlosedp build:
+to merge FiraCode ligatures into the B612 base via FontLab, a nontrivial pipeline.
+If we add ligature support in the future, some considerations from the carlosedp build:
 - The `/*` and `*/` ligatures are disabled to avoid interfering with comment syntax
 - Ligatures are in the `calt` (contextual alternates) OpenType feature
-- The "Liga" in the font name specifically refers to these FiraCode ligatures
-- We would need to decide whether to make a separate "Liga" variant or include ligatures
+- The “Liga” in the font name specifically refers to these FiraCode ligatures
+- We would need to decide whether to make a separate “Liga” variant or include ligatures
   with a feature toggle (the OpenType `calt` approach is more flexible)
 
 ### Non-Mono Nerd Font Variant
 
 Kerm specifically switched from `Hack Nerd Font Mono` to `Hack Nerd Font` (non-Mono).
 The non-Mono variant uses **double-wide glyphs** for Nerd Font icons, which render much
-better than single-cell-width Mono glyphs. Most modern terminals support double-width
-characters.
+better than single-cell-width Mono glyphs.
+Most modern terminals support double-width characters.
 
 ### Font Stack Fallback Chain
 
@@ -403,19 +413,20 @@ monospace                 → Generic fallback
 
 Derived from the evaluation process:
 
-1. **Legibility over style.** B612's cockpit-optimized letterforms beat stylish
+1. **Legibility over style.** B612’s cockpit-optimized letterforms beat stylish
    alternatives at small sizes and in extended use.
 2. **Composite is better than compromise.** No single font excelled at everything.
-   Combining B612's letters with Hack's punctuation gives the best of both.
+   Combining B612’s letters with Hack’s punctuation gives the best of both.
 3. **Non-Mono for icons.** Double-width Nerd Font glyphs render much better than
-   single-cell-width Mono variants. Most modern terminals support this.
+   single-cell-width Mono variants.
+   Most modern terminals support this.
 4. **ExtraBold for terminal bold.** Standard Bold (700) is too subtle at 12px. ExtraBold
    (800) provides the visual distinction needed for terminal bold text.
 5. **Punctuation quality matters.** Hack was chosen over Monaspace Ne specifically
    because of cleaner, more consistent punctuation, a detail that matters for code
    readability.
 6. **Dotted zero is non-negotiable.** Empty zeros are ambiguous with `O`. The dotted
-   zero from carlosedp's fork is clear and unobtrusive.
+   zero from carlosedp’s fork is clear and unobtrusive.
 
 * * *
 

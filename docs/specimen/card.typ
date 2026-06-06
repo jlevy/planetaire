@@ -16,8 +16,12 @@
 #set page(
   width: if which == "header" { 68em } else { 46em },
   height: auto,
-  margin: if boxy { 1.1em } else { 1.6em },
-  fill: p.page,
+  // More vertical breathing room. The boxy cards (terminal/code) fill the page with
+  // the block background so each image reads as uniformly all-light or all-dark.
+  margin: if which == "header" { 1.6em } else if boxy { (x: 1.3em, y: 1.8em) } else {
+    (x: 1.8em, y: 2.4em)
+  },
+  fill: if boxy { p.term-bg } else { p.page },
 )
 #set text(font: font-family, size: 11pt, fill: p.fg)
 

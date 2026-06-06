@@ -2,10 +2,10 @@
 <img src="docs/images/header.png" alt="Planetaire Mono" width="100%">
 </p>
 
-Planetaire Mono is a beautiful and highly readable font for terminals, code, and
-interacting with AI agents: a lightly adapted fork of
-[B612 Mono](https://b612-font.com/) combined with symbols and icons from
-[Hack](https://sourcefoundry.org/hack/) and [Nerd Fonts](https://www.nerdfonts.com/).
+Planetaire Mono is a beautiful, highly legible monospace font for terminals, editors,
+and agentic work: a lightly adapted fork of [B612 Mono](https://b612-font.com/) combined
+with symbols and icons from [Hack](https://sourcefoundry.org/hack/) and
+[Nerd Fonts](https://www.nerdfonts.com/).
 
 **[Read the type specimen (PDF)](docs/specimen/planetaire-mono-specimen.pdf)** ·
 **[Download the fonts](https://github.com/jlevy/planetaire/releases/latest)**
@@ -148,9 +148,8 @@ See [Download](#download) for the archives and sizes.
 ## Install
 
 > The **fonts** are distributed via
-> [GitHub Releases](https://github.com/jlevy/planetaire/releases).
-> The [PyPI package](https://pypi.org/project/planetaire/) is the **build tooling**, not
-> the font. Install it only to build from source.
+> [GitHub Releases](https://github.com/jlevy/planetaire/releases). This repo is the
+> **build tooling**, not the font itself; you only need it to build from source.
 
 ### macOS
 
