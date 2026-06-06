@@ -62,9 +62,25 @@ Linux copy them to `~/.local/share/fonts/` and run `fc-cache -fv`. The Text arch
 includes WOFF2/WOFF and an `@font-face` stylesheet for the web.
 Per-OS and web details are under [Install](#install).
 
+## High Legibility
+
+<p>
+<img src="docs/images/features-dark.png" width="680" alt="Confusable-character pairs and the dotted-zero variants in Planetaire Mono, on a dark background">
+<br>
+<img src="docs/images/features-light.png" width="680" alt="The same confusable-character pairs and dotted-zero variants on a light background">
+</p>
+
+B612’s letterforms keep commonly confused characters distinct: `Il1|`, `O0o`, `rn` vs
+`m`, `5S`, `8B`, `2Z`. Coverage spans Latin Extended A/B, Greek and Coptic, Cyrillic,
+and Latin Extended Additional: over 12,000 glyphs in the Extended family.
+
 ## Weights
 
 Each family ships 8 variants across 4 weights.
+
+Planetaire Mono adds an **ExtraBold (800)** weight for terminal bold: the jump from
+Regular (400) to Bold (700) is often too subtle at terminal sizes, and ExtraBold gives
+bold text (prompts, headings, highlighted output) the contrast to stand out.
 
 <p>
 <img src="docs/images/weights-dark.png" width="680" alt="Planetaire Mono weight ladder from Regular to ExtraBold, upright and italic, on a dark background">
@@ -85,9 +101,7 @@ Each family ships 8 variants across 4 weights.
 
 ### ExtraBold for Terminals
 
-The jump from Regular (400) to Bold (700) is often too subtle at terminal sizes.
-ExtraBold (800) gives bold text (prompts, headings, highlighted output) the contrast to
-stand out. Map your terminal’s bold to ExtraBold:
+Map your terminal’s bold to ExtraBold:
 
 ```
 # Ghostty
@@ -113,18 +127,6 @@ config.font_rules = {
 
 See [terminal-config.md](docs/terminal-config.md) for Ghostty, Alacritty, WezTerm,
 iTerm2, Kitty, and VS Code.
-
-## High Legibility
-
-<p>
-<img src="docs/images/features-dark.png" width="680" alt="Confusable-character pairs and the dotted-zero variants in Planetaire Mono, on a dark background">
-<br>
-<img src="docs/images/features-light.png" width="680" alt="The same confusable-character pairs and dotted-zero variants on a light background">
-</p>
-
-B612’s letterforms keep commonly confused characters distinct: `Il1|`, `O0o`, `rn` vs
-`m`, `5S`, `8B`, `2Z`. Coverage spans Latin Extended A/B, Greek and Coptic, Cyrillic,
-and Latin Extended Additional: over 12,000 glyphs in the Extended family.
 
 ## Install
 
