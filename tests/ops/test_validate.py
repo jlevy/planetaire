@@ -36,8 +36,13 @@ def test_validate_passes_with_correct_ranges(base_font: TTFont):
 
 
 def test_validate_real_b612(b612_regular: TTFont):
-    """Real B612 font passes basic validation."""
-    issues = validate_font(b612_regular)
+    """Real B612 font passes basic validation.
+
+    expect_monospace=False: the raw donor carries intentional double-width
+    glyphs (e.g. Roman numerals at 2x the cell) that are only normalized to the
+    Planetaire cell during the build, not a property of the source itself.
+    """
+    issues = validate_font(b612_regular, expect_monospace=False)
     errors = [i for i in issues if i.severity == "error"]
     assert len(errors) == 0
 

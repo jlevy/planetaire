@@ -1,8 +1,8 @@
 # Development
 
 > For the font-specific build, regression, specimen, and release workflow, see
-> [fonts-build-and-release.md](fonts-build-and-release.md).
-> This page covers the generic Python/uv development setup.
+> [fonts-build-and-release.md](fonts-build-and-release.md). This page covers the generic
+> Python/uv development setup.
 
 ## Setting Up uv
 
@@ -16,8 +16,8 @@ your own fork will make it easier to contribute) and
 
 ## Basic Developer Workflows
 
-The `Makefile` simply offers shortcuts to `uv` commands for developer convenience.
-(For clarity, GitHub Actions don’t use the Makefile and just call `uv` directly.)
+The `Makefile` simply offers shortcuts to `uv` commands for developer convenience. (For
+clarity, GitHub Actions don’t use the Makefile and just call `uv` directly.)
 
 ```shell
 # First, install all dependencies and set up your virtual environment.
@@ -45,7 +45,7 @@ make upgrade
 
 # To run tests by hand:
 uv run pytest   # all tests
-uv run pytest -s src/module/some_file.py  # one test, showing outputs
+uv run pytest -s tests/ops/test_zero.py  # one test, showing outputs
 
 # Build and install current dev executables, to let you use your dev copies
 # as local tools:
@@ -95,3 +95,7 @@ See [publishing.md](publishing.md) for instructions on publishing to PyPI.
 
 *This file was built with
 [simple-modern-uv](https://github.com/jlevy/simple-modern-uv).*
+
+<!-- This document follows common-doc-guidelines.md.
+See github.com/jlevy/practical-prose and review guidelines before editing.
+-->

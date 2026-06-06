@@ -1,21 +1,38 @@
 name: Release Fonts
 
+# Tag-driven release. Pushing a version tag (vX.Y.Z) is the single trigger and the
+# single source of truth for the version: uv-dynamic-versioning derives the package and
+# font version from the tag. This workflow builds both families, then creates the GitHub
+# Release for the tag and uploads the archives. A manual run (workflow_dispatch) can
+# rebuild and re-upload assets for an existing tag.
+
 on:
-  release:
-    types: [published]
+  push:
+    tags:
+      - "v*"
   workflow_dispatch:
+    inputs:
+      tag:
+        description: "Existing version tag to build and release (e.g. v0.1.0)"
+        required: true
 
 permissions:
   contents: write
 
 jobs:
-  build-and-release:
+  release:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v6
         with:
+          # fetch-depth: 0 so uv-dynamic-versioning can read the tag history.
           fetch-depth: 0
+          ref: ${{ inputs.tag || github.ref }}
+
+      - name: Resolve tag name
+        id: tag
+        run: echo "name=${{ inputs.tag || github.ref_name }}" >> "$GITHUB_OUTPUT"
 
       - name: Install uv
         uses: astral-sh/setup-uv@v7
@@ -60,14 +77,26 @@ jobs:
             PlanetaireMono-Extended.tar.xz PlanetaireMono-Extended.zip \
             PlanetaireMono-Text.tar.xz PlanetaireMono-Text.zip > SHA256SUMS
 
-      - name: Upload release assets
-        if: github.event_name == 'release'
+      - name: Create or update the GitHub Release with assets
         env:
           GH_TOKEN: ${{ github.token }}
+          TAG: ${{ steps.tag.outputs.name }}
         run: |
-          gh release upload "${{ github.event.release.tag_name }}" \
-            PlanetaireMono-Extended.tar.xz \
-            PlanetaireMono-Extended.zip \
-            PlanetaireMono-Text.tar.xz \
-            PlanetaireMono-Text.zip \
+          assets=(
+            PlanetaireMono-Extended.tar.xz
+            PlanetaireMono-Extended.zip
+            PlanetaireMono-Text.tar.xz
+            PlanetaireMono-Text.zip
             SHA256SUMS
+          )
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "Release $TAG already exists; uploading assets (clobber)."
+            gh release upload "$TAG" --clobber "${assets[@]}"
+          else
+            echo "Creating release $TAG."
+            gh release create "$TAG" \
+              --title "Planetaire Mono $TAG" \
+              --generate-notes \
+              --verify-tag \
+              "${assets[@]}"
+          fi

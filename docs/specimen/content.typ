@@ -86,8 +86,11 @@
 #let icon(cp) = str.from-unicode(cp)
 
 // eza directory entry with box-wrapped spans for precise alignment.
+// The permissions field is a fixed-width box (it is the only column whose
+// leading glyph varies: "." for files vs "d" for dirs). Pinning its width
+// keeps every following column aligned even if "." and "d" differ in advance.
 #let dir-entry(p, perms, size, user, date, ic, name, bold-name: false) = {
-  box[#t(perms, p.bright-black)]
+  box(width: 7em)[#t(perms, p.bright-black)]
   box[#t(" ", p.fg)]
   box[#tb(size, p.green)]
   box[#t(" ", p.fg)]
@@ -102,8 +105,25 @@
 
 // ── Reusable content blocks ─────────────────────────────────────
 
+// Home-page header banner (white background): the font name and lineage set in
+// Planetaire Mono itself. Rendered to docs/images/header.png by `build images`.
+#let header-card(p: pal-light) = align(center)[
+  #v(1.5cm)
+  #text(size: 48pt, weight: 500, fill: p.fg)[Planetaire Mono]
+  #v(0.1cm)
+  #text(size: 13pt, weight: 700, fill: p.fg)[
+    B612 LETTERFORMS \u{00B7} HACK INFRASTRUCTURE \u{00B7} NERD FONT ICONS
+  ]
+  #v(0.4cm)
+  #text(size: 13pt, weight: 500, style: "italic", fill: p.fg)[
+    A beautiful, highly legible monospace font for terminals, editors, and agentic work
+  ]
+  #v(1.1cm)
+]
+
 // Syntax-highlighted Python sample.
 #let orbit-code(p: pal-dark) = code-block(p, (
+  (text(weight: "bold")[import], p.magenta), (" math", none), ("\n\n", none),
   (text(weight: "bold")[def], p.magenta), (" analyze_trajectory", none),
   ("(", none), ("altitude", none), (": ", none),
   ("float", p.cyan), (", ", none), ("velocity", none), (": ", none),
@@ -203,9 +223,10 @@
 
 // Legibility: confusable-character disambiguation plus the dotted-zero variants.
 #let legibility-pairs(p: pal-light) = {
+  // Fixed-width glyph column so every gray label starts at the same x.
   let disambig(chars, desc) = {
     grid(
-      columns: (auto, 1fr),
+      columns: (4.5cm, 1fr),
       column-gutter: 1cm,
       align: horizon,
       text(size: 28pt, fill: p.fg)[#chars],
@@ -213,14 +234,16 @@
     )
     v(0.15cm)
   }
+  text(size: 8pt, fill: p.muted, weight: "bold")[KEY GLYPH COMPARISONS]
+  v(0.1cm)
   disambig[I l 1 |][uppercase I \u{00B7} lowercase l \u{00B7} digit 1 \u{00B7} pipe]
   disambig[O 0 o][uppercase O \u{00B7} digit 0 \u{00B7} lowercase o]
-  disambig[r n m][r \u{00B7} n \u{00B7} m \u{2014} clearly distinct in B612]
+  disambig[r n m][r \u{00B7} n \u{00B7} m, distinct in B612]
   disambig[5 S 8 B][digit 5 vs S \u{00B7} digit 8 vs B]
   disambig[2 Z 6 G][digit 2 vs Z \u{00B7} digit 6 vs G]
 
   v(0.3cm)
-  text(size: 8pt, fill: p.muted)[ZERO DOT VARIANTS (OpenType)]
+  text(size: 8pt, fill: p.muted, weight: "bold")[ZERO DOT VARIANTS (OpenType)]
   v(0.1cm)
   grid(
     columns: (1fr, 1fr),
@@ -241,4 +264,77 @@
       #text(size: 11pt, fill: p.fg)[FL350 FL850 10.0.0.1]
     ],
   )
+}
+
+// ── QA surface ──────────────────────────────────────────────────
+// A visual proof of the monospace invariant. Each glyph sits in a box drawn at
+// its own advance width (the red rules mark the true cell edges). Because the
+// font is monospace, every cell is the same width; because nothing is trimmed,
+// all ink sits between its rules. Box-drawing and powerline glyphs are meant to
+// FILL the cell (they tile), so they reach -- and touch -- the rules by design.
+
+#let _qa_rule = 0.4pt + rgb("#d83933")
+
+// One glyph in a box drawn at its advance width, with cell-edge rules.
+#let qa-cell(p, ch, size: 26pt) = box(
+  stroke: (left: _qa_rule, right: _qa_rule),
+  inset: (x: 0pt, y: 2pt),
+)[#text(size: size, fill: p.fg)[#ch]]
+
+#let coding-width-grid(p: pal-light) = {
+  let row(s) = {
+    s.clusters().map(c => qa-cell(p, c)).join(h(5pt))
+    v(0.2cm)
+  }
+  text(size: 8pt, fill: p.muted, weight: "bold")[
+    STANDARD CODING CHARACTERS: TRUE CELL WIDTHS
+  ]
+  v(0.05cm)
+  text(size: 7.5pt, fill: p.muted)[
+    Red rules mark each glyph's advance. Equal-width cells with ink inside mean a
+    clean monospace grid, nothing trimmed.
+  ]
+  v(0.2cm)
+  row("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+  row("abcdefghijklmnopqrstuvwxyz")
+  row("0123456789")
+  row("!\"#$%&'()*+,-./:;<=>?@")
+  row("[\\]^_`{|}~")
+  v(0.1cm)
+  text(size: 7.5pt, fill: p.muted)[Cell-filling glyphs (box-drawing, powerline) reach the rules by design:]
+  v(0.15cm)
+  row("\u{2500}\u{2502}\u{250C}\u{2510}\u{2514}\u{2518}\u{251C}\u{2524}\u{252C}\u{2534}\u{253C}\u{2588}\u{2593}\u{2592}\u{2591}\u{E0B0}\u{E0B2}")
+}
+
+// Same coding string in every weight, each capped by a rule at its right edge.
+// Monospace => every line is the same width => the right rules line up.
+#let weight-alignment(p: pal-light) = {
+  let sample = "if (x == 0) { i = l1|O; }"
+  let row(lbl, wt, it: false) = {
+    let st = if it { "italic" } else { "normal" }
+    grid(
+      columns: (3cm, auto),
+      align: (left + horizon, left + horizon),
+      text(size: 7.5pt, fill: p.muted)[#lbl],
+      box(stroke: (right: _qa_rule), inset: (right: 0pt, y: 2.5pt))[
+        #text(size: 13pt, weight: wt, style: st, fill: p.fg)[#sample]
+      ],
+    )
+    v(0.12cm)
+  }
+  text(size: 8pt, fill: p.muted, weight: "bold")[WEIGHT ALIGNMENT: EVERY WEIGHT IS THE SAME WIDTH]
+  v(0.05cm)
+  text(size: 7.5pt, fill: p.muted)[
+    The same string in all eight variants; the red rule marks each line's right
+    edge. A single vertical line means identical width across every weight.
+  ]
+  v(0.25cm)
+  row("REGULAR (400)", 400)
+  row("ITALIC (400)", 400, it: true)
+  row("MEDIUM (500)", 500)
+  row("MEDIUM ITALIC (500)", 500, it: true)
+  row("BOLD (700)", 700)
+  row("BOLD ITALIC (700)", 700, it: true)
+  row("EXTRABOLD (800)", 800)
+  row("EXTRABOLD ITALIC (800)", 800, it: true)
 }

@@ -31,41 +31,20 @@
 
 // ─── Page 1: Cover ──────────────────────────────────────────────
 
-#v(3cm)
+#v(2cm)
+
+// Shared header block (same source as the README banner) so the cover and the
+// home-page header stay in sync.
+#header-card(p: pal-light)
+
+#v(0.6cm)
 
 #align(center)[
-  #text(size: 36pt, weight: 700)[Planetaire Mono]
-
-  #v(0.5cm)
-  #text(size: 13pt, fill: rgb("#666"))[
-    B612 letterforms\
-    Hack infrastructure\
-    Nerd Font icons
-  ]
-
-  #v(0.8cm)
   #text(size: 10pt, fill: rgb("#666"))[
     Joshua Levy\
     github.com/jlevy/planetaire\
     Version #version#if build-date != "" [ · #build-date]
   ]
-]
-
-#v(1.5cm)
-
-#text(size: 10pt)[
-  Planetaire Mono is a composite monospace font that merges the highly legible
-  letterforms of B612, a typeface designed by Intactile Design for Airbus cockpit
-  displays, with Hack Nerd Font\u{2019}s complete infrastructure: punctuation,
-  symbols, and 12,000+ developer icons.
-]
-
-#v(0.3cm)
-
-#text(size: 10pt)[
-  The result is a font optimized for terminal and editor use that combines
-  aviation-grade character clarity with full programming language coverage.
-  The name is a nod to asteroid B-612 from _The Little Prince_.
 ]
 
 #v(1.5cm)
@@ -132,7 +111,7 @@
 #text(size: 9pt, fill: rgb("#999"))[FRENCH \u{00B7} GERMAN \u{00B7} SPANISH \u{00B7} TURKISH]
 #v(0.15cm)
 #text(size: 11pt)[
-  Les na\u{00EF}fs \u{00E6}githales h\u{00E2}tifs pondsjflam au z\u{00E9}phyr joyeux. Falsches \u{00DC}ben von
+  Les na\u{00EF}fs \u{00E6}githales h\u{00E2}tifs pondent au z\u{00E9}phyr joyeux. Falsches \u{00DC}ben von
   Xylophonmusik qu\u{00E4}lt jeden gr\u{00F6}\u{00DF}eren Zwerg. El veloz murci\u{00E9}lago hind\u{00FA} com\u{00ED}a
   feliz cardillo y kiwi. Pijamal\u{0131} hasta ya\u{011F}\u{0131}z \u{015F}of\u{00F6}re \u{00E7}abucak g\u{00FC}vendi.
 ]
@@ -296,9 +275,11 @@
 #label[CHARACTER DISAMBIGUATION]
 
 // Large character pairs with gray labels.
+// Fixed-width glyph column so every gray label starts at the same x
+// (wide enough for the longest group, the brackets row).
 #let disambig(chars, desc) = {
   grid(
-    columns: (auto, 1fr),
+    columns: (7cm, 1fr),
     column-gutter: 1cm,
     align: horizon,
     text(size: 28pt)[#chars],
@@ -556,7 +537,7 @@
 
 // ─── Provenance & License ───────────────────────────────────────
 
-#section[Planetaire Provenance & License]
+#section[Planetaire Provenance and License]
 
 #text(size: 11pt, weight: 700)[Source Fonts]
 #v(0.2cm)
@@ -602,11 +583,11 @@
 #text(size: 10pt)[
   Planetaire Mono ships in two families built from the same letterforms:
 
-  - *Planetaire Mono* (Extended) — the full build with all ~12,000 Nerd Font icons
+  - *Planetaire Mono* (Extended): the full build with all ~12,000 Nerd Font icons
     and Powerline, for terminals and coding.
-  - *Planetaire Mono Text* — a lightweight web/regular subset (letters, punctuation,
+  - *Planetaire Mono Text*: a lightweight web subset (letters, punctuation,
     box-drawing, block elements, geometric shapes) that drops the Private-Use icons.
-    About *55 KB per weight* in WOFF2 — roughly 18× smaller — and shipped with a ready
+    About *55 KB per weight* in WOFF2, roughly 18× smaller, and shipped with a ready
     `@font-face` stylesheet.
 ]
 
@@ -639,9 +620,32 @@
   and carry a different name.
 
   The constituent fonts carry the following licenses:
-  - *B612 Mono*: SIL Open Font License 1.1 + Eclipse Public License 2.0
+  - *B612 Mono*: SIL Open Font License 1.1 and Eclipse Public License 2.0
   - *Hack*: MIT License
   - *Nerd Fonts* patches: MIT License
 ]
+
+// ─── QA page: monospace invariants ──────────────────────────────
+
+#pagebreak()
+
+#section("Spacing Review")
+
+#text(size: 9.5pt, fill: rgb("#444"))[
+  // Disable smart quotes so the straight Hack apostrophe (U+0027) is shown, rather
+  // than Typst's curly U+2019, which reads as a prime in this monospace context.
+  #set smartquote(enabled: false)
+  Planetaire Mono is built to a single cell width: every glyph (and intentional
+  double-width glyphs at exactly 2x) shares one advance. B612's letters and the
+  FontForge-emboldened weights are normalized to that cell, recentered, and
+  condensed only where ink would otherwise bleed. The two panels below are the
+  visual proof. Review them to confirm no glyph is trimmed and all weights align.
+]
+
+#v(0.5cm)
+#coding-width-grid(p: pal-light)
+
+#v(0.8cm)
+#weight-alignment(p: pal-light)
 
 // Footer is now on every page via the page footer setting.

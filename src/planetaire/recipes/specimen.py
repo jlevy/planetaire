@@ -108,7 +108,7 @@ def render_png(
     output: Path,
     font_dir: Path = FONT_DIR,
     *,
-    ppi: int = 200,
+    ppi: int = 300,
     version: str | None = None,
     inputs: dict[str, str] | None = None,
 ) -> Path:

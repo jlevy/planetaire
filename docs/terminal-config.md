@@ -1,11 +1,31 @@
 # Terminal Configuration
 
-After installing Planetaire Mono, configure your terminal to use it.
+After installing the font, configure your terminal to use it.
+
+To install the font on macOS, download `PlanetaireMono-Extended` from the
+[latest release](https://github.com/jlevy/planetaire/releases/latest), unarchive it,
+then double-click any `.ttf` and click **Install Font** (Font Book) or copy the `.ttf`
+files into `~/Library/Fonts/`. The [README Install section](../README.md#install) covers
+one-line download commands and Linux and web setup.
 
 **Important:** For best results, map bold text to **ExtraBold (weight 800)** instead of
 regular Bold (700). The heavier weight provides much better contrast between normal and
 bold text at terminal font sizes (12-16px). This is how the font was originally designed
 to be used.
+
+## macOS Terminal.app
+
+1. Install the font (see above), then quit and reopen Terminal so it picks up the new
+   font.
+2. Open **Terminal → Settings…** (Cmd+,) and select the **Profiles** tab.
+3. Choose your profile, open the **Text** tab, and click **Change…** under **Font**.
+4. Select **Planetaire Mono Extended**, set the size (14 pt is a good start), and close
+   the font panel.
+5. Check **Use bold fonts** so bold output renders in the bold weight.
+
+Terminal.app applies the family’s **Bold (700)** for bold text and has no per-weight
+bold mapping, so it cannot route bold to ExtraBold.
+For ExtraBold bold text, use Ghostty (below), which supports `font-style-bold`.
 
 ## Ghostty
 
@@ -14,11 +34,13 @@ In `~/.config/ghostty/config`:
 ```
 font-family = "Planetaire Mono Extended"
 font-size = 14
-font-thicken = true
+font-style-bold = "ExtraBold"
+font-style-bold-italic = "ExtraBold Italic"
 ```
 
-Ghostty automatically selects the best weight for bold text.
-With `font-thicken = true`, bold text uses heavier strokes for improved contrast.
+`font-style-bold` maps bold text to the font’s own **ExtraBold** face (the weight the
+font is designed around) instead of synthesizing it from Bold.
+Run `ghostty +list-fonts` if a style name does not resolve.
 
 ## Alacritty
 
@@ -76,19 +98,19 @@ return config
 
 1. Open **Preferences** (Cmd+,)
 2. Go to **Profiles** > **Text**
-3. Click **Font** and select “Planetaire Mono”
+3. Click **Font** and select “Planetaire Mono Extended”
 4. Set size to 14
-5. For the bold font, select “Planetaire Mono ExtraBold”
+5. For the bold font, select “Planetaire Mono Extended ExtraBold”
 
 ## Kitty
 
 In `~/.config/kitty/kitty.conf`:
 
 ```
-font_family      Planetaire Mono
-bold_font        Planetaire Mono ExtraBold
-italic_font      Planetaire Mono Italic
-bold_italic_font Planetaire Mono ExtraBold Italic
+font_family      Planetaire Mono Extended
+bold_font        Planetaire Mono Extended ExtraBold
+italic_font      Planetaire Mono Extended Italic
+bold_italic_font Planetaire Mono Extended ExtraBold Italic
 font_size        14.0
 ```
 
@@ -121,5 +143,9 @@ Planetaire Mono ships with 8 variants:
 | ExtraBold Italic | 800 | Recommended for terminal bold italic |
 
 The jump from Regular (400) to Bold (700) can feel subtle at small terminal sizes.
-ExtraBold (800) provides a visibly heavier stroke that makes bold text — prompts,
-headings, highlighted output — stand out clearly.
+ExtraBold (800) provides a visibly heavier stroke that makes bold text (prompts,
+headings, highlighted output) stand out clearly.
+
+<!-- This document follows common-doc-guidelines.md.
+See github.com/jlevy/practical-prose and review guidelines before editing.
+-->

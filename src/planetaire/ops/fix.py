@@ -47,8 +47,8 @@ def _fix_gasp(font: TTFont) -> None:
     """
     Set GASP table for optimal rendering.
 
-    Range 0xFFFF with flags 0x000A means: use gridfitting and symmetric
-    smoothing at all sizes.
+    Range 0xFFFF with flags 0x000A means: use grayscale rendering and
+    symmetric smoothing at all sizes (no gridfitting; these are unhinted fonts).
     """
     if "gasp" not in font:
         from fontTools.ttLib import newTable

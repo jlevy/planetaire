@@ -6,22 +6,25 @@ Actions, when using the
 
 Thanks to
 [the dynamic versioning plugin](https://github.com/ninoseki/uv-dynamic-versioning/) and
-the [`publish.yml`
-workflow](https://github.com/jlevy/simple-modern-uv/blob/main/template/.github/workflows/publish.yml),
-you can simply create tagged releases (using standard format for the tag name, e.g.
-`v0.1.0`) on GitHub and the tag will trigger a release build, which then uploads it to
-PyPI.
+the
+[`publish.yml` workflow](https://github.com/jlevy/simple-modern-uv/blob/main/template/.github/workflows/publish.yml),
+releases are tag-driven: push a version tag (standard format, e.g. `v0.1.0`) and the tag
+triggers the build, which uploads the package to PyPI.
+
+In this repo the same tag also drives `release-fonts.yml`, which builds the fonts,
+creates the GitHub Release, and attaches the font archives. Both workflows key off the
+tag push directly. See [fonts-build-and-release.md](fonts-build-and-release.md) for the
+font side.
 
 ### First-Time Setup
 
-This part is a little confusing the first time.
-Here is the simplest way to do it.
-For the purposes of this example replace OWNER and PROJECT with the right values.
+This part is a little confusing the first time. Here is the simplest way to do it. For
+the purposes of this example replace OWNER and PROJECT with the right values.
 
 **Note:** These steps assume you already have a GitHub repo with your code pushed. If
 you used [`uvx uvtemplate`](https://github.com/jlevy/uvtemplate), it handles repo
 creation for you. If you're setting up manually, create an **empty** GitHub repo (no
-README, no .gitignore, no license — the template already provides these) and push your
+README, no .gitignore, no license; the template already provides these) and push your
 code to it. See the
 [README](https://github.com/jlevy/simple-modern-uv#option-2-use-copier-and-git-yourself)
 for details.
@@ -45,23 +48,22 @@ for details.
    - Enter the project name, repo owner, repo name, and `publish.yml` as the workflow
      name. (You can leave the “environment name” field blank.)
 
-4. **Create a release** on GitHub:
+4. **Push a version tag:**
 
    - Commit code and make sure it’s running correctly.
 
-   - Go to your GitHub project page, then click on Actions tab.
+   - Confirm all tests are passing in the last CI workflow (Actions tab).
 
-   - Confirm all tests are passing in the last CI workflow.
-     (If you want, you can even publish this template when it’s empty as just a stub
-     project, to try all this out.)
+   - Tag a version (it’s wise to start with a `v`; a good first one is `v0.1.0`) and push
+     it:
 
-   - Go to your GitHub project page, click on Releases.
+     ```shell
+     git tag v0.1.0
+     git push origin v0.1.0
+     ```
 
-   - Fill in the tag and the release name.
-     Select to create a new tag, and pick a version.
-     A good option is `v0.1.0`. (It’s wise to have it start with a `v`.)
-
-   - Submit to create the release.
+   - The tag triggers the workflows; the GitHub Release is created automatically by
+     `release-fonts.yml`.
 
 5. **Confirm it publishes to PyPI**
 
@@ -114,50 +116,37 @@ Follow this checklist for each new release.
 
 #### Create the Release
 
-5. **Generate release notes content:**
-
-   Review changes since the last release:
+5. **Review changes since the last release:**
 
    ```shell
    # Get the last release tag:
    LAST_TAG=$(gh release list --limit 1 --json tagName -q '.[0].tagName')
-   
+
    # View commits since last release:
    git log ${LAST_TAG}..HEAD --oneline
-   
+
    # View full diff:
    git diff ${LAST_TAG}..HEAD
    ```
 
-6. **Create the release with `gh`:**
+6. **Push the tag:**
 
    ```shell
-   NEW_TAG="vX.Y.Z"  # Replace with actual version
-   LAST_TAG=$(gh release list --limit 1 --json tagName -q '.[0].tagName')
-   
-   gh release create "${NEW_TAG}" \
-     --title "${NEW_TAG}" \
-     --notes "$(cat <<'EOF'
-   ## What's Changed
-   
-   [Summarize changes here--see format guide below]
-   
-   ### Full Changelog
-   
-   https://github.com/OWNER/PROJECT/compare/${LAST_TAG}...${NEW_TAG}
-   EOF
-   )"
+   git tag vX.Y.Z      # replace with the actual version
+   git push origin vX.Y.Z
    ```
 
-   Alternatively, use `--generate-notes` for GitHub’s auto-generated notes, or
-   `--notes-file FILENAME` to read from a file.
+   The tag triggers `release-fonts.yml`, which creates the GitHub Release with
+   auto-generated notes and the font archives, and `publish.yml`, which uploads the
+   package to PyPI. Edit the release notes in the GitHub UI afterward if you want to
+   group them under the headings in [Release Notes Format](#release-notes-format).
 
 7. **Verify the release published successfully:**
 
    ```shell
    # Check the release workflow:
    gh run list --workflow=publish.yml --limit 1
-   
+
    # Verify on PyPI (may take a minute):
    # https://pypi.org/project/PROJECT
    ```
@@ -211,3 +200,7 @@ Guidelines:
 
 *This file was built with
 [simple-modern-uv](https://github.com/jlevy/simple-modern-uv).*
+
+<!-- This document follows common-doc-guidelines.md.
+See github.com/jlevy/practical-prose and review guidelines before editing.
+-->

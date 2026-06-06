@@ -8,10 +8,19 @@ on inspection commands and `--no-progress` for CI.
 from __future__ import annotations
 
 import sys
+from enum import StrEnum
 from pathlib import Path
 
 import typer
 from rich.console import Console
+
+
+class OutputFormat(StrEnum):
+    """Output format for inspection commands."""
+
+    text = "text"
+    json = "json"
+
 
 app = typer.Typer(
     name="planetaire",
@@ -63,7 +72,7 @@ def _resolve_font_path(path: Path) -> Path:
 @app.command()
 def info(
     font: Path = typer.Argument(..., help="Path to a font file (.ttf/.otf)"),
-    format: str = typer.Option("text", help="Output format: text or json"),
+    format: OutputFormat = typer.Option(OutputFormat.text, help="Output format: text or json"),
     features: bool = typer.Option(
         False, "--features", help="Show detailed GSUB feature/lookup info"
     ),
@@ -196,7 +205,7 @@ def fix(
 @app.command()
 def validate(
     fonts: list[Path] = typer.Argument(..., help="Path(s) to font file(s)"),
-    format: str = typer.Option("text", help="Output format: text or json"),
+    format: OutputFormat = typer.Option(OutputFormat.text, help="Output format: text or json"),
 ) -> None:
     """Check glyph coverage, metrics, and features for one or more fonts."""
     from dataclasses import asdict
@@ -231,7 +240,7 @@ def validate(
                 err_console.print(f"  [{style}]{severity.upper()}[/{style}] {issue['message']}")
 
     if total_errors:
-        raise SystemExit(2)
+        raise ValidationError(f"{total_errors} validation error(s) found")
 
 
 # -- compare command --
@@ -242,7 +251,7 @@ def compare(
     font_a: Path = typer.Argument(..., help="First font file"),
     font_b: Path = typer.Argument(..., help="Second font file"),
     ranges: str | None = typer.Option(None, help="Unicode ranges to compare (default: all shared)"),
-    format: str = typer.Option("text", help="Output format: text or json"),
+    format: OutputFormat = typer.Option(OutputFormat.text, help="Output format: text or json"),
     strict: bool = typer.Option(False, help="Exit with error if any differences found"),
 ) -> None:
     """Compare glyph outlines between two fonts."""
@@ -341,7 +350,7 @@ def build_text_cmd(
 def build_images_cmd(
     out_dir: Path = typer.Option(Path("docs/images"), help="Directory for README images"),
     font_dir: Path = typer.Option(Path("fonts/output"), help="Directory containing built fonts"),
-    ppi: int = typer.Option(200, help="Render resolution (pixels per inch)"),
+    ppi: int = typer.Option(300, help="Render resolution (pixels per inch)"),
 ) -> None:
     """Render the README images from the specimen's shared content (in sync with the PDF).
 
@@ -362,6 +371,11 @@ def build_images_cmd(
                 render_png(card, out, font_dir, ppi=ppi, inputs={"card": card_name, "theme": theme})
                 err_console.print(f"  {out}")
                 count += 1
+        # White header banner for the top of the README (light/white only).
+        header_out = out_dir / "header.png"
+        render_png(card, header_out, font_dir, ppi=ppi, inputs={"card": "header", "theme": "light"})
+        err_console.print(f"  {header_out}")
+        count += 1
     except subprocess.CalledProcessError as e:
         err_console.print("[red]Typst render failed:[/red]")
         if e.stderr:
@@ -479,3 +493,16 @@ def regression_verify(
     has_changes = any(r.changed > 0 or r.removed > 0 for r in reports)
     if has_changes:
         raise SystemExit(1)
+
+
+def main() -> None:
+    """Entry point: run the app, rendering CLIError cleanly instead of a traceback."""
+    try:
+        app()
+    except CLIError as e:
+        err_console.print(f"[red]Error:[/red] {e}")
+        raise SystemExit(e.exit_code) from e
+
+
+if __name__ == "__main__":
+    main()

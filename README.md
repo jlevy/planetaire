@@ -1,34 +1,52 @@
-# Planetaire Mono
+<p align="center">
+<img src="docs/images/header.png" alt="Planetaire Mono" width="100%">
+</p>
 
-A monospace font for terminals and code that pairs [B612](https://b612-font.com/)’s
-highly legible letterforms with [Hack](https://sourcefoundry.org/hack/)’s programming
-symbols and [Nerd Font](https://www.nerdfonts.com/) icons.
+Planetaire Mono is a beautiful and highly readable font for terminals, code, and
+interacting with AI agents: a lightly adapted fork of
+[B612 Mono](https://b612-font.com/) combined with symbols and icons from
+[Hack](https://sourcefoundry.org/hack/) and [Nerd Fonts](https://www.nerdfonts.com/).
 
-<picture>
-<source media="(prefers-color-scheme: dark)" srcset="docs/images/terminal-dark.png">
-<img src="docs/images/terminal-light.png" width="750" alt="A terminal session in Planetaire Mono: a colored eza listing with Nerd Font icons, a Python one-liner, and a git log">
-</picture>
+**[Read the type specimen (PDF)](docs/specimen/planetaire-mono-specimen.pdf)** ·
+**[Download the fonts](https://github.com/jlevy/planetaire/releases/latest)**
+
+<p align="center">
+<img src="docs/images/terminal-dark.png" width="100%" alt="A terminal session in Planetaire Mono on a dark background: a colored eza listing with Nerd Font icons, a Python one-liner, and a git log">
+<br>
+<img src="docs/images/terminal-light.png" width="100%" alt="The same terminal session in Planetaire Mono on a light background">
+</p>
 
 ## Why
 
 B612 was designed by Intactile Design for Airbus cockpit displays, optimized for reading
 under stress, at odd angles, and in poor lighting.
 Its letterforms are among the most legible drawn for monospace text.
-But B612 alone is not a complete programming font: it lacks the symbol coverage and icon
-ecosystem developers need.
-Planetaire Mono merges B612’s letters and digits into Hack Nerd Font’s base:
+
+But B612 alone is not a complete programming font, and the versions in circulation,
+including the one on [Google Fonts](https://fonts.google.com/specimen/B612+Mono), have
+quirks that make them awkward for code and terminals: most notably an undotted zero that
+is easy to confuse with a capital `O`, plus no symbols or icons for programming.
+
+Planetaire Mono fixes that.
+It merges B612’s letters and digits into Hack Nerd Font’s base and adds a dotted zero:
 
 - **B612 letterforms** for letters, digits, and extended Latin, Greek, and Cyrillic.
-- **A dotted zero** — B612’s zero with a center dot for clear `0` vs `O`, in circle
+- **A dotted zero:** B612’s zero with a center dot for clear `0` vs `O`, in circle
   (default) and rectangle (`ss01`) variants.
 - **Hack punctuation and symbols** for `{}[]()<>` and the rest.
 - **12,000+ Nerd Font icons** (Powerline, Font Awesome, Devicons) in the Extended
   family.
 
-<picture>
-<source media="(prefers-color-scheme: dark)" srcset="docs/images/text-dark.png">
-<img src="docs/images/text-light.png" width="750" alt="A prose passage set in Planetaire Mono, showing body-text legibility">
-</picture>
+With these changes it has become one of the most beautiful and genuinely functional
+monospace fonts I’ve seen; it’s what I use every day.
+It carries a new name to avoid confusion with the original B612, to comply with the
+font’s license terms on naming, and to be a little more memorable.
+
+<p align="center">
+<img src="docs/images/text-dark.png" width="100%" alt="A prose passage set in Planetaire Mono on a dark background, showing body-text legibility">
+<br>
+<img src="docs/images/text-light.png" width="100%" alt="The same prose passage in Planetaire Mono on a light background">
+</p>
 
 ## Download
 
@@ -38,8 +56,8 @@ Get the latest from
 
 | Family | Best for | Includes | Download |
 | --- | --- | --- | --- |
-| **Planetaire Mono Text** *(standard)* | Websites, documents, reading | Letters, punctuation, Greek/Cyrillic, box-drawing. No icons (~55 KB/weight WOFF2). | [`.tar.xz`](https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Text.tar.xz) · [`.zip`](https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Text.zip) |
-| **Planetaire Mono Extended** *(full)* | Terminals, coding, icon-rich CLIs | Everything in Text plus all ~12,000 Nerd Font icons and Powerline (~1 MB/weight). | [`.tar.xz`](https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Extended.tar.xz) · [`.zip`](https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Extended.zip) |
+| **Planetaire Mono Text** *(standard)* | Websites, documents, reading | Letters, punctuation, Greek/Cyrillic, box-drawing. No icons (~67 KB/weight WOFF2). | [`.tar.xz`](https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Text.tar.xz) **1.6 MB** · [`.zip`](https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Text.zip) 1.9 MB |
+| **Planetaire Mono Extended** *(full)* | Terminals, coding, icon-rich CLIs | Everything in Text plus all ~12,000 Nerd Font icons and Powerline (~2.6–4.4 MB/weight TTF). | [`.tar.xz`](https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Extended.tar.xz) **5.4 MB** · [`.zip`](https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Extended.zip) 13 MB |
 
 Both ship the same 8 variants.
 To install: unzip and double-click the `.ttf` files (macOS Font Book or Windows), or on
@@ -47,14 +65,31 @@ Linux copy them to `~/.local/share/fonts/` and run `fc-cache -fv`. The Text arch
 includes WOFF2/WOFF and an `@font-face` stylesheet for the web.
 Per-OS and web details are under [Install](#install).
 
+## High Legibility
+
+<p align="center">
+<img src="docs/images/features-dark.png" width="100%" alt="Confusable-character pairs and the dotted-zero variants in Planetaire Mono, on a dark background">
+<br>
+<img src="docs/images/features-light.png" width="100%" alt="The same confusable-character pairs and dotted-zero variants on a light background">
+</p>
+
+B612’s letterforms keep commonly confused characters distinct: `Il1|`, `O0o`, `rn` vs
+`m`, `5S`, `8B`, `2Z`. Coverage spans Latin Extended A/B, Greek and Coptic, Cyrillic,
+and Latin Extended Additional: over 12,000 glyphs in the Extended family.
+
 ## Weights
 
 Each family ships 8 variants across 4 weights.
 
-<picture>
-<source media="(prefers-color-scheme: dark)" srcset="docs/images/weights-dark.png">
-<img src="docs/images/weights-light.png" width="750" alt="Planetaire Mono weight ladder from Regular to ExtraBold, upright and italic">
-</picture>
+Planetaire Mono adds an **ExtraBold (800)** weight for terminal bold: the jump from
+Regular (400) to Bold (700) is often too subtle at terminal sizes, and ExtraBold gives
+bold text (prompts, headings, highlighted output) the contrast to stand out.
+
+<p align="center">
+<img src="docs/images/weights-dark.png" width="100%" alt="Planetaire Mono weight ladder from Regular to ExtraBold, upright and italic, on a dark background">
+<br>
+<img src="docs/images/weights-light.png" width="100%" alt="The same weight ladder on a light background">
+</p>
 
 | Variant | Weight | Recommended Use |
 | --- | --- | --- |
@@ -69,14 +104,12 @@ Each family ships 8 variants across 4 weights.
 
 ### ExtraBold for Terminals
 
-The jump from Regular (400) to Bold (700) is often too subtle at terminal sizes.
-ExtraBold (800) gives bold text — prompts, headings, highlighted output — the contrast
-to stand out. Map your terminal’s bold to ExtraBold:
+Map your terminal’s bold to ExtraBold:
 
 ```
 # Ghostty
 font-family = "Planetaire Mono Extended"
-font-thicken = true
+font-style-bold = "ExtraBold"
 
 # Alacritty
 [font.bold]
@@ -98,23 +131,26 @@ config.font_rules = {
 See [terminal-config.md](docs/terminal-config.md) for Ghostty, Alacritty, WezTerm,
 iTerm2, Kitty, and VS Code.
 
-## Character Coverage
+## Two Families: Text and Extended
 
-<picture>
-<source media="(prefers-color-scheme: dark)" srcset="docs/images/features-dark.png">
-<img src="docs/images/features-light.png" width="750" alt="Confusable-character pairs and the dotted-zero variants in Planetaire Mono">
-</picture>
+Both families share the same letterforms and the same 8 variants; choose one by how you
+use the font:
 
-B612’s letterforms keep commonly confused characters distinct: `Il1|`, `O0o`, `rn` vs
-`m`, `5S`, `8B`, `2Z`. Coverage spans Latin Extended A/B, Greek and Coptic, Cyrillic,
-and Latin Extended Additional — over 12,000 glyphs in the Extended family.
+- **On the web, use Planetaire Mono Text.** It drops the Nerd Font icons for a much
+  smaller download and ships WOFF2/WOFF with a ready `@font-face` stylesheet, so the
+  smaller package is all you need.
+- **As a local application or terminal font, use Planetaire Mono Extended.** It adds the
+  full set of ~12,000 Nerd Font icons and Powerline glyphs that terminals and CLIs draw,
+  so the complete glyph set is recommended.
+
+See [Download](#download) for the archives and sizes.
 
 ## Install
 
 > The **fonts** are distributed via
 > [GitHub Releases](https://github.com/jlevy/planetaire/releases).
 > The [PyPI package](https://pypi.org/project/planetaire/) is the **build tooling**, not
-> the font — install it only to build from source.
+> the font. Install it only to build from source.
 
 ### macOS
 
@@ -167,14 +203,14 @@ and these images is in [build-assets.runbook.md](docs/build-assets.runbook.md).
 
 ## Credits
 
-- [**B612**](https://b612-font.com/) — Intactile Design for Airbus
+- [**B612**](https://b612-font.com/): Intactile Design for Airbus
   ([polarsys/b612](https://github.com/polarsys/b612)). The letterforms.
-- [**Hack**](https://sourcefoundry.org/hack/) — Chris Simpkins.
+- [**Hack**](https://sourcefoundry.org/hack/): Chris Simpkins.
   The base providing punctuation, symbols, and metrics.
-- [**Nerd Fonts**](https://www.nerdfonts.com/) — Ryan McIntyre.
+- [**Nerd Fonts**](https://www.nerdfonts.com/): Ryan McIntyre.
   12,000+ developer icons.
-- [**carlosedp**](https://github.com/carlosedp/B612-Mono-Liga-NerdFont) — Carlos Eduardo
-  de Paula’s B612 Nerd Font fork, which inspired the dotted zero.
+- [**carlosedp**](https://github.com/carlosedp/b612): Carlos Eduardo de Paula’s B612
+  Nerd Font fork, which inspired the dotted zero.
   Not a build dependency.
 
 ## License
@@ -183,3 +219,7 @@ Planetaire Mono is released under the
 [SIL Open Font License 1.1](https://openfontlicense.org/) (OFL-1.1). The source fonts
 carry: **B612** OFL-1.1 and EPL-2.0; **Hack** MIT; **Nerd Fonts** patches MIT. The build
 tooling is [MIT](LICENSE).
+
+<!-- This document follows common-doc-guidelines.md.
+See github.com/jlevy/practical-prose and review guidelines before editing.
+-->
