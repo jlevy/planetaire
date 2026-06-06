@@ -350,7 +350,7 @@ def build_text_cmd(
 def build_images_cmd(
     out_dir: Path = typer.Option(Path("docs/images"), help="Directory for README images"),
     font_dir: Path = typer.Option(Path("fonts/output"), help="Directory containing built fonts"),
-    ppi: int = typer.Option(200, help="Render resolution (pixels per inch)"),
+    ppi: int = typer.Option(300, help="Render resolution (pixels per inch)"),
 ) -> None:
     """Render the README images from the specimen's shared content (in sync with the PDF).
 

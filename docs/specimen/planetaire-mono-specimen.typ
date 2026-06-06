@@ -650,9 +650,12 @@
 
 #pagebreak()
 
-#section("Monospace QA")
+#section("Spacing Review")
 
 #text(size: 9.5pt, fill: rgb("#444"))[
+  // Disable smart quotes so the straight Hack apostrophe (U+0027) is shown, rather
+  // than Typst's curly U+2019, which reads as a prime in this monospace context.
+  #set smartquote(enabled: false)
   Planetaire Mono is built to a single cell width: every glyph (and intentional
   double-width glyphs at exactly 2x) shares one advance. B612's letters and the
   FontForge-emboldened weights are normalized to that cell, recentered, and
