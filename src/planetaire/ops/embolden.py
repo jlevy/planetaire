@@ -91,7 +91,7 @@ def _build_fontforge_script(
     return f"""\
 import fontforge
 
-font = fontforge.open("{input_path}")
+font = fontforge.open({input_path!r})
 skip = {skip_set}
 half = {half_set}
 
@@ -107,6 +107,6 @@ for glyph in font.glyphs():
         pass
 
 font.os2_weight = {target_weight}
-font.generate("{output_path}")
+font.generate({output_path!r})
 font.close()
 """

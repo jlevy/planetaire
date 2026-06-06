@@ -8,10 +8,19 @@ on inspection commands and `--no-progress` for CI.
 from __future__ import annotations
 
 import sys
+from enum import StrEnum
 from pathlib import Path
 
 import typer
 from rich.console import Console
+
+
+class OutputFormat(StrEnum):
+    """Output format for inspection commands."""
+
+    text = "text"
+    json = "json"
+
 
 app = typer.Typer(
     name="planetaire",
@@ -63,7 +72,7 @@ def _resolve_font_path(path: Path) -> Path:
 @app.command()
 def info(
     font: Path = typer.Argument(..., help="Path to a font file (.ttf/.otf)"),
-    format: str = typer.Option("text", help="Output format: text or json"),
+    format: OutputFormat = typer.Option(OutputFormat.text, help="Output format: text or json"),
     features: bool = typer.Option(
         False, "--features", help="Show detailed GSUB feature/lookup info"
     ),
@@ -196,7 +205,7 @@ def fix(
 @app.command()
 def validate(
     fonts: list[Path] = typer.Argument(..., help="Path(s) to font file(s)"),
-    format: str = typer.Option("text", help="Output format: text or json"),
+    format: OutputFormat = typer.Option(OutputFormat.text, help="Output format: text or json"),
 ) -> None:
     """Check glyph coverage, metrics, and features for one or more fonts."""
     from dataclasses import asdict
@@ -231,7 +240,7 @@ def validate(
                 err_console.print(f"  [{style}]{severity.upper()}[/{style}] {issue['message']}")
 
     if total_errors:
-        raise SystemExit(2)
+        raise ValidationError(f"{total_errors} validation error(s) found")
 
 
 # -- compare command --
@@ -242,7 +251,7 @@ def compare(
     font_a: Path = typer.Argument(..., help="First font file"),
     font_b: Path = typer.Argument(..., help="Second font file"),
     ranges: str | None = typer.Option(None, help="Unicode ranges to compare (default: all shared)"),
-    format: str = typer.Option("text", help="Output format: text or json"),
+    format: OutputFormat = typer.Option(OutputFormat.text, help="Output format: text or json"),
     strict: bool = typer.Option(False, help="Exit with error if any differences found"),
 ) -> None:
     """Compare glyph outlines between two fonts."""
@@ -479,3 +488,16 @@ def regression_verify(
     has_changes = any(r.changed > 0 or r.removed > 0 for r in reports)
     if has_changes:
         raise SystemExit(1)
+
+
+def main() -> None:
+    """Entry point: run the app, rendering CLIError cleanly instead of a traceback."""
+    try:
+        app()
+    except CLIError as e:
+        err_console.print(f"[red]Error:[/red] {e}")
+        raise SystemExit(e.exit_code) from e
+
+
+if __name__ == "__main__":
+    main()
