@@ -8,7 +8,7 @@ Issues = "https://github.com/jlevy/planetaire/issues"
 
 [project]
 name = "planetaire"
-description = "Planetaire Mono font"
+description = "Build tooling for Planetaire Mono, a legible monospace font for terminals, editors, and agentic work"
 authors = [
     { name="jlevy", email="jlevy@users.noreply.github.com" },
 ]
@@ -18,9 +18,7 @@ requires-python = ">=3.12,<4.0"
 dynamic = ["version"]
 
 # https://pypi.org/classifiers/
-# Adjust as needed:
 classifiers = [
-    # Adjust as needed:
     "Development Status :: 4 - Beta",
     # "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
@@ -31,8 +29,6 @@ classifiers = [
     "Programming Language :: Python :: 3.13",
     "Programming Language :: Python :: 3.14",
     "Typing :: Typed",
-    # Include this to avoid accidentally publishing to PyPI:
-    # "Private :: Do Not Upload",
 ]
 
 
