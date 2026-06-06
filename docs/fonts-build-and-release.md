@@ -89,12 +89,29 @@ make html-specimen   # static specimen.html using the Text web fonts
 
 ## Releasing
 
-The fonts are released by `.github/workflows/release-fonts.yml` when a GitHub Release is
-published (tag like `v0.1.0`). It builds both families and uploads:
+Releases are tag-driven. Pushing a version tag (`vX.Y.Z`) is the only trigger and the
+single source of truth for the version, which `uv-dynamic-versioning` derives from the
+tag and threads into the font name tables, `head.fontRevision`, and the specimen.
 
-- `PlanetaireMono-Extended.tar.xz` / `.zip`: full TTFs
-- `PlanetaireMono-Text.tar.xz` / `.zip`: Text TTF, WOFF2, WOFF, and `@font-face` CSS
-- `SHA256SUMS`: checksums for every archive
+```shell
+git tag v0.1.0      # annotate if you prefer: git tag -a v0.1.0 -m "v0.1.0"
+git push origin v0.1.0
+```
+
+The tag fires two independent workflows:
+
+- `.github/workflows/release-fonts.yml` builds both families, creates the GitHub Release
+  for the tag (with auto-generated notes), and uploads the archives:
+  - `PlanetaireMono-Extended.tar.xz` / `.zip`: full TTFs
+  - `PlanetaireMono-Text.tar.xz` / `.zip`: Text TTF, WOFF2, WOFF, and `@font-face` CSS
+  - `SHA256SUMS`: checksums for every archive
+- `.github/workflows/publish.yml` builds the tooling package and publishes it to PyPI.
+
+Both key off the tag push directly rather than chaining off the `release: published`
+event, because the Release is created with the workflow's `GITHUB_TOKEN` and events
+raised by that token do not trigger further workflows. To rebuild and re-upload assets
+for an existing tag, run `release-fonts.yml` manually from the Actions tab and pass the
+tag.
 
 <!-- This document follows common-doc-guidelines.md.
 See github.com/jlevy/practical-prose and review guidelines before editing.
