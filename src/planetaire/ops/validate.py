@@ -24,6 +24,7 @@ def validate_font(
     expected_ranges: list[tuple[int, int]] | None = None,
     expected_weight: int | None = None,
     expected_features: list[str] | None = None,
+    expect_monospace: bool = True,
 ) -> list[Issue]:
     """
     Validate font against expected properties.
@@ -40,6 +41,11 @@ def validate_font(
     upm = font["head"].unitsPerEm
     if upm <= 0 or upm > 16384:
         issues.append(Issue("error", "sanity", f"Unusual UPM value: {upm}"))
+
+    # Monospace invariant: every non-zero glyph shares one advance width, and
+    # no text/coding glyph's ink bleeds past the cell.
+    if expect_monospace:
+        issues.extend(_check_monospace_invariant(font))
 
     # Weight class
     if expected_weight is not None and "OS/2" in font:
@@ -97,6 +103,43 @@ def validate_font(
     # Style-linking consistency (italic/bold bits vs subfamily name)
     issues.extend(_check_style_linking(font))
 
+    return issues
+
+
+def _check_monospace_invariant(font: TTFont) -> list[Issue]:
+    """Check the single-advance-width invariant and ink-within-cell."""
+    from planetaire.ops.monospace import check_monospace
+
+    issues: list[Issue] = []
+    if "glyf" not in font or "hmtx" not in font:
+        return issues
+    report = check_monospace(font)
+    if report.nonuniform:
+        from collections import Counter
+
+        widths = Counter(aw for _, aw in report.nonuniform)
+        sample = ", ".join(f"{n}={aw}" for n, aw in report.nonuniform[:6])
+        issues.append(
+            Issue(
+                "error",
+                "monospace",
+                f"{len(report.nonuniform)} glyph(s) deviate from cell width "
+                f"{report.cell_width} (widths {dict(sorted(widths.items()))}): {sample}"
+                f"{'...' if len(report.nonuniform) > 6 else ''}",
+                details={"cell_width": report.cell_width, "count": len(report.nonuniform)},
+            )
+        )
+    if report.bleed:
+        sample = ", ".join(f"{n}[{x0},{x1}]" for n, _, x0, x1 in report.bleed[:6])
+        issues.append(
+            Issue(
+                "warning",
+                "monospace",
+                f"{len(report.bleed)} text glyph(s) bleed past cell "
+                f"[0,{report.cell_width}]: {sample}{'...' if len(report.bleed) > 6 else ''}",
+                details={"count": len(report.bleed)},
+            )
+        )
     return issues
 
 

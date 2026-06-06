@@ -28,6 +28,7 @@ from planetaire.config import (
 )
 from planetaire.ops.fix import fix_font
 from planetaire.ops.merge import merge_glyphs
+from planetaire.ops.monospace import normalize_monospace, set_fixed_pitch_flags
 from planetaire.ops.rename import rename_font
 from planetaire.ops.subset import save_web_font, subset_font
 from planetaire.ops.validate import validate_font
@@ -145,7 +146,14 @@ def _process_variant(
         version=version,
     )
     dotted = add_dotted_zero(renamed)
-    return fix_font(dotted)
+    fixed = fix_font(dotted)
+    # Enforce true monospace: B612 letters (1300) and FontForge-emboldened
+    # Medium/ExtraBold letters (1360-1420) are pinned to the Hack base cell,
+    # recentered, and condensed only where ink would otherwise bleed. Must run
+    # after the dotted zero so the modified zero is normalized too.
+    normalize_monospace(fixed)
+    set_fixed_pitch_flags(fixed)
+    return fixed
 
 
 def _resolve_variant_sources(

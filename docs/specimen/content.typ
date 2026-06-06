@@ -249,3 +249,76 @@
     ],
   )
 }
+
+// ── QA surface ──────────────────────────────────────────────────
+// A visual proof of the monospace invariant. Each glyph sits in a box drawn at
+// its own advance width (the red rules mark the true cell edges). Because the
+// font is monospace, every cell is the same width; because nothing is trimmed,
+// all ink sits between its rules. Box-drawing and powerline glyphs are meant to
+// FILL the cell (they tile), so they reach -- and touch -- the rules by design.
+
+#let _qa_rule = 0.4pt + rgb("#d83933")
+
+// One glyph in a box drawn at its advance width, with cell-edge rules.
+#let qa-cell(p, ch, size: 26pt) = box(
+  stroke: (left: _qa_rule, right: _qa_rule),
+  inset: (x: 0pt, y: 2pt),
+)[#text(size: size, fill: p.fg)[#ch]]
+
+#let coding-width-grid(p: pal-light) = {
+  let row(s) = {
+    s.clusters().map(c => qa-cell(p, c)).join(h(5pt))
+    v(0.2cm)
+  }
+  text(size: 8pt, fill: p.muted, weight: "bold")[
+    STANDARD CODING CHARACTERS -- TRUE CELL WIDTHS
+  ]
+  v(0.05cm)
+  text(size: 7.5pt, fill: p.muted)[
+    Red rules mark each glyph's advance. Equal-width cells with ink inside = a
+    clean monospace grid, nothing trimmed.
+  ]
+  v(0.2cm)
+  row("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+  row("abcdefghijklmnopqrstuvwxyz")
+  row("0123456789")
+  row("!\"#$%&'()*+,-./:;<=>?@")
+  row("[\\]^_`{|}~")
+  v(0.1cm)
+  text(size: 7.5pt, fill: p.muted)[Cell-filling glyphs (box-drawing, powerline) reach the rules by design:]
+  v(0.15cm)
+  row("\u{2500}\u{2502}\u{250C}\u{2510}\u{2514}\u{2518}\u{251C}\u{2524}\u{252C}\u{2534}\u{253C}\u{2588}\u{2593}\u{2592}\u{2591}\u{E0B0}\u{E0B2}")
+}
+
+// Same coding string in every weight, each capped by a rule at its right edge.
+// Monospace => every line is the same width => the right rules line up.
+#let weight-alignment(p: pal-light) = {
+  let sample = "if (x == 0) { i = l1|O; }"
+  let row(lbl, wt, it: false) = {
+    let st = if it { "italic" } else { "normal" }
+    grid(
+      columns: (3cm, auto),
+      align: (left + horizon, left + horizon),
+      text(size: 7.5pt, fill: p.muted)[#lbl],
+      box(stroke: (right: _qa_rule), inset: (right: 0pt, y: 2.5pt))[
+        #text(size: 13pt, weight: wt, style: st, fill: p.fg)[#sample]
+      ],
+    )
+    v(0.12cm)
+  }
+  text(size: 8pt, fill: p.muted, weight: "bold")[WEIGHT ALIGNMENT -- EVERY WEIGHT IS THE SAME WIDTH]
+  v(0.05cm)
+  text(size: 7.5pt, fill: p.muted)[
+    The same string in all eight variants; the red rule marks each line's right
+    edge. A single vertical line = identical width across every weight.
+  ]
+  v(0.25cm)
+  row("REGULAR (400)", 400)
+  row("ITALIC (400)", 400, it: true)
+  row("MEDIUM (500)", 500)
+  row("MEDIUM ITALIC (500)", 500, it: true)
+  row("BOLD (700)", 700)
+  row("BOLD ITALIC (700)", 700, it: true)
+  row("EXTRABOLD (800)", 800)
+  row("EXTRABOLD ITALIC (800)", 800, it: true)
+}

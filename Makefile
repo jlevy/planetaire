@@ -7,11 +7,19 @@
 .PHONY: default install lint test upgrade build clean
 .PHONY: download build-fonts build-text validate-fonts fonts specimen
 .PHONY: images demo html-specimen site regression-generate regression-verify
+.PHONY: dev-tools qa
 
 default: install lint test
 
 install:
 	uv sync --all-extras
+
+# Install native build tools (typst, fontforge; vhs optional). Idempotent.
+dev-tools:
+	bash scripts/setup-dev-tools.sh
+
+# Post-generation quality checks (monospace invariants, metrics, style linking).
+qa: validate-fonts
 
 lint:
 	uv run python devtools/lint.py

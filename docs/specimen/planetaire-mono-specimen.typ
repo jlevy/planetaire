@@ -646,4 +646,24 @@
   - *Nerd Fonts* patches: MIT License
 ]
 
+// ─── QA page: monospace invariants ──────────────────────────────
+
+#pagebreak()
+
+#section("Monospace QA")
+
+#text(size: 9.5pt, fill: rgb("#444"))[
+  Planetaire Mono is built to a single cell width: every glyph (and intentional
+  double-width glyphs at exactly 2x) shares one advance. B612's letters and the
+  FontForge-emboldened weights are normalized to that cell, recentered, and
+  condensed only where ink would otherwise bleed. The two panels below are the
+  visual proof -- review them to confirm no glyph is trimmed and all weights align.
+]
+
+#v(0.5cm)
+#coding-width-grid(p: pal-light)
+
+#v(0.8cm)
+#weight-alignment(p: pal-light)
+
 // Footer is now on every page via the page footer setting.

@@ -20,8 +20,8 @@ import pytest
 from fontTools.ttLib import TTFont
 
 from planetaire.config import PLANETAIRE_LETTER_RANGES, VARIANTS
-from planetaire.ops.compare import compare_fonts
 from planetaire.ops.merge import scale_font_upm
+from planetaire.ops.monospace import check_monospace
 from planetaire.recipes.planetaire_mono import build_planetaire_mono
 from planetaire.unicode_ranges import codepoints_in_ranges
 
@@ -90,36 +90,48 @@ def scaled_hack_fonts() -> dict[str, TTFont]:
 
 
 @pytest.mark.parametrize("variant", [v["name"] for v in VARIANTS])
-def test_b612_glyphs_binary_identical(variant: str, all_built_fonts: dict[str, TTFont]):
-    """Every B612-range glyph must be binary-identical to the B612 donor.
+def test_b612_letterforms_preserved(variant: str, all_built_fonts: dict[str, TTFont]):
+    """B612 letterforms survive the monospace normalization intact.
 
-    Zero (U+0030) is excluded because the pipeline adds a center dot
-    for disambiguation from uppercase O.
+    The pipeline pins every B612 letter (designed on a 1300 cell) to the Hack
+    base cell, recentering horizontally and condensing only where ink would
+    bleed. That is a pure x-axis transform, so each letter must keep its EXACT
+    vertical metrics and never grow wider than the donor. (It is no longer
+    binary-identical to the donor -- that is the point of the fix.)
+
+    Zero (U+0030) is excluded because the pipeline adds a center dot.
     """
     vdef = next(v for v in VARIANTS if v["name"] == variant)
     donor = TTFont(FONTS_SOURCE / "b612" / vdef["b612_file"])
     pm = all_built_fonts[variant]
     donor_cmap = donor.getBestCmap() or {}
     pm_cmap = pm.getBestCmap() or {}
+    dglyf = donor["glyf"]
+    pglyf = pm["glyf"]
 
-    mismatches = []
     checked = 0
+    problems: list[str] = []
     for cp in sorted(B612_CODEPOINTS):
-        if cp == 0x0030:  # Zero modified by add_dotted_zero
+        if cp == 0x0030:
             continue
         if cp not in donor_cmap or cp not in pm_cmap:
             continue
+        dg = dglyf[donor_cmap[cp]]
+        pg = pglyf[pm_cmap[cp]]
+        dg.recalcBounds(dglyf)
+        pg.recalcBounds(pglyf)
+        if dg.numberOfContours == 0:
+            continue
         checked += 1
-        pm_name = pm_cmap[cp]
-        donor_name = donor_cmap[cp]
-        if _glyph_hash(pm, pm_name) != _glyph_hash(donor, donor_name):
-            mismatches.append(cp)
+        # Vertical metrics must be untouched (transform is x-only).
+        if (pg.yMin, pg.yMax) != (dg.yMin, dg.yMax):
+            problems.append(f"U+{cp:04X} y {(dg.yMin, dg.yMax)}->{(pg.yMin, pg.yMax)}")
+        # Ink may be recentered/condensed but never stretched wider.
+        if (pg.xMax - pg.xMin) > (dg.xMax - dg.xMin) + 2:
+            problems.append(f"U+{cp:04X} wider {dg.xMax - dg.xMin}->{pg.xMax - pg.xMin}")
 
-    assert checked > 0, f"{variant}: No B612 glyphs found"
-    assert len(mismatches) == 0, (
-        f"{variant}: {len(mismatches)}/{checked} B612-range glyphs differ from donor: "
-        + ", ".join(f"U+{cp:04X}" for cp in mismatches[:20])
-    )
+    assert checked > 20, f"{variant}: only {checked} B612 glyphs checked"
+    assert not problems, f"{variant}: {len(problems)} letterform problems: {problems[:10]}"
 
 
 # --- Verify ALL variants: non-B612 glyphs match UPM-scaled Hack (binary identical) ---
@@ -131,15 +143,21 @@ def test_hack_glyphs_binary_identical(
     all_built_fonts: dict[str, TTFont],
     scaled_hack_fonts: dict[str, TTFont],
 ):
-    """Every non-B612 glyph must be binary-identical to UPM-scaled Hack base.
+    """Every non-B612 glyph keeps the UPM-scaled Hack base, unless the monospace
+    normalization had to touch it.
 
-    Since the merge does deepcopy(hack) → scale_upm → overwrite B612 glyphs,
-    all non-B612 glyphs should be exactly what scale_font_upm produced.
+    The merge does deepcopy(hack) -> scale_upm -> overwrite B612 glyphs, so
+    untouched Hack glyphs stay byte-identical. In the FontForge-emboldened
+    weights (Medium/ExtraBold) some Hack glyphs were inflated off the cell grid
+    and are normalized back; those legitimately differ and are skipped here
+    (the monospace invariant test covers them).
     """
     pm = all_built_fonts[variant]
     scaled_hack = scaled_hack_fonts[variant]
     pm_cmap = pm.getBestCmap() or {}
     hack_cmap = scaled_hack.getBestCmap() or {}
+    pm_hmtx = pm["hmtx"]
+    hack_hmtx = scaled_hack["hmtx"]
 
     mismatches = []
     checked = 0
@@ -148,9 +166,12 @@ def test_hack_glyphs_binary_identical(
             continue
         if cp not in hack_cmap:
             continue
-        checked += 1
         pm_name = pm_cmap[cp]
         hack_name = hack_cmap[cp]
+        # Skip glyphs the normalization repositioned (advance changed).
+        if pm_hmtx[pm_name][0] != hack_hmtx[hack_name][0]:
+            continue
+        checked += 1
         if _glyph_hash(pm, pm_name) != _glyph_hash(scaled_hack, hack_name):
             mismatches.append(cp)
 
@@ -185,20 +206,30 @@ def test_nerd_font_glyphs_present(variant: str, all_built_fonts: dict[str, TTFon
 
 @pytest.mark.parametrize("variant", [v["name"] for v in VARIANTS])
 def test_b612_digits_all_present(variant: str, all_built_fonts: dict[str, TTFont]):
-    """Digits 1-9 must be present and match B612 donor exactly.
+    """Digits 1-9 must be present, monospace, and keep the B612 letterform.
 
-    Zero (U+0030) comes from B612 but has a center dot added for
-    disambiguation, so it's verified separately.
+    The digits come from B612 but, like the letters, are normalized to the
+    cell (recentered horizontally), so they are no longer byte-identical to the
+    donor -- their vertical metrics are preserved and they never grow wider.
+
+    Zero (U+0030) has a center dot added and is verified separately.
     """
     vdef = next(v for v in VARIANTS if v["name"] == variant)
     donor = TTFont(FONTS_SOURCE / "b612" / vdef["b612_file"])
     pm = all_built_fonts[variant]
+    cell = check_monospace(pm).cell_width
+    donor_cmap = donor.getBestCmap() or {}
+    pm_cmap = pm.getBestCmap() or {}
 
-    result = compare_fonts(pm, donor, [(0x0031, 0x0039)])
-    assert result.identical == 9, (
-        f"{variant}: expected 9 identical digits (1-9), got {result.identical}"
-    )
-    assert result.different == 0
+    for cp in range(0x31, 0x3A):
+        assert cp in pm_cmap, f"{variant}: digit U+{cp:04X} missing"
+        dg = donor["glyf"][donor_cmap[cp]]
+        pg = pm["glyf"][pm_cmap[cp]]
+        dg.recalcBounds(donor["glyf"])
+        pg.recalcBounds(pm["glyf"])
+        assert pm["hmtx"][pm_cmap[cp]][0] == cell, f"{variant}: digit U+{cp:04X} off cell"
+        assert (pg.yMin, pg.yMax) == (dg.yMin, dg.yMax), f"{variant}: digit U+{cp:04X} y changed"
+        assert (pg.xMax - pg.xMin) <= (dg.xMax - dg.xMin) + 2, f"{variant}: digit U+{cp:04X} wider"
 
 
 @pytest.mark.parametrize("variant", [v["name"] for v in VARIANTS])
@@ -218,20 +249,35 @@ def test_dotted_zero(variant: str, all_built_fonts: dict[str, TTFont]):
 
 
 @pytest.mark.parametrize("variant", [v["name"] for v in VARIANTS])
-def test_b612_letters_recordingpen_match(variant: str, all_built_fonts: dict[str, TTFont]):
-    """Verify A-Z letter outlines match B612 donor (RecordingPen comparison).
+def test_built_fonts_are_monospace(variant: str, all_built_fonts: dict[str, TTFont]):
+    """Headline invariant: every variant is truly monospace.
 
-    Uses tolerance=1.0 because FontForge-emboldened weights (Medium)
-    can introduce sub-unit coordinate rounding in composite glyphs.
-    The binary-identical test provides the stronger guarantee.
+    Before the fix this failed for every weight -- B612 letters were 1300 while
+    the Hack base was 1204, and FontForge-emboldened Medium/ExtraBold letters
+    ranged 1239-1420. After normalization every non-zero glyph shares one cell
+    width, the font declares isFixedPitch, and no core ASCII coding glyph bleeds
+    past the cell.
     """
-    vdef = next(v for v in VARIANTS if v["name"] == variant)
-    donor = TTFont(FONTS_SOURCE / "b612" / vdef["b612_file"])
     pm = all_built_fonts[variant]
+    report = check_monospace(pm)
+    assert report.is_monospace, (
+        f"{variant}: {len(report.nonuniform)} glyph(s) off cell {report.cell_width}: "
+        f"{report.nonuniform[:8]}"
+    )
+    assert pm["post"].isFixedPitch == 1, f"{variant}: isFixedPitch not set"
 
-    result = compare_fonts(pm, donor, [(0x0041, 0x005A)], tolerance=1.0)
-    assert result.identical == 26, f"{variant}: expected 26 identical A-Z, got {result.identical}"
-    assert result.different == 0
+    cmap = pm.getBestCmap() or {}
+    glyf = pm["glyf"]
+    cell = report.cell_width
+    core = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+    bleeders = []
+    for ch in core:
+        name = cmap.get(ord(ch))
+        if name and glyf[name].numberOfContours:
+            glyf[name].recalcBounds(glyf)
+            if glyf[name].xMin < -2 or glyf[name].xMax > cell + 2:
+                bleeders.append(f"{ch}[{glyf[name].xMin},{glyf[name].xMax}]")
+    assert not bleeders, f"{variant}: core glyphs bleed past cell {cell}: {bleeders}"
 
 
 # --- Spot-check: Hack punctuation outlines match (after UPM scaling) ---
@@ -246,23 +292,40 @@ HACK_PUNCT_RANGES = [
 
 
 @pytest.mark.parametrize("variant", [v["name"] for v in VARIANTS])
-def test_hack_punctuation_recordingpen_match(variant: str, all_built_fonts: dict[str, TTFont]):
-    """Verify basic ASCII punctuation matches Hack base (RecordingPen with UPM normalization).
+def test_hack_punctuation_matches_base(
+    variant: str,
+    all_built_fonts: dict[str, TTFont],
+    scaled_hack_fonts: dict[str, TTFont],
+):
+    """ASCII punctuation keeps the UPM-scaled Hack outline, unless normalized.
 
-    Uses tolerance=1.0 because UPM scaling (2048→2000) introduces integer
-    rounding that creates sub-unit coordinate differences. The binary-identical
-    test (test_hack_glyphs_binary_identical) provides the stronger guarantee.
+    Untouched punctuation must be byte-identical to scaled Hack. A few wide
+    punctuation glyphs in the emboldened weights were inflated off the cell and
+    are normalized back; those differ and are skipped (covered by the monospace
+    invariant test).
     """
-    vdef = next(v for v in VARIANTS if v["name"] == variant)
-    base = TTFont(FONTS_SOURCE / "hack" / vdef["hack_file"])
     pm = all_built_fonts[variant]
+    scaled_hack = scaled_hack_fonts[variant]
+    pm_cmap = pm.getBestCmap() or {}
+    hack_cmap = scaled_hack.getBestCmap() or {}
 
-    result = compare_fonts(pm, base, HACK_PUNCT_RANGES, tolerance=1.0)
-    assert result.different == 0, (
-        f"{variant}: {result.different} punctuation glyph(s) differ from Hack: "
-        + ", ".join(f"U+{d.codepoint:04X}" for d in result.diffs if d.status == "different")
+    checked = 0
+    mismatches = []
+    for lo, hi in HACK_PUNCT_RANGES:
+        for cp in range(lo, hi + 1):
+            if cp not in pm_cmap or cp not in hack_cmap:
+                continue
+            pm_name, hack_name = pm_cmap[cp], hack_cmap[cp]
+            if pm["hmtx"][pm_name][0] != scaled_hack["hmtx"][hack_name][0]:
+                continue  # normalized off the cell grid
+            checked += 1
+            if _glyph_hash(pm, pm_name) != _glyph_hash(scaled_hack, hack_name):
+                mismatches.append(cp)
+
+    assert checked > 0, f"{variant}: no untouched punctuation to compare"
+    assert not mismatches, f"{variant}: punctuation differs from Hack: " + ", ".join(
+        f"U+{cp:04X}" for cp in mismatches
     )
-    assert result.identical > 0
 
 
 # --- Sanity checks for intermediate weights (Medium) ---
