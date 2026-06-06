@@ -8,8 +8,9 @@ symbols and [Nerd Font](https://www.nerdfonts.com/) icons.
 **[Download the fonts](https://github.com/jlevy/planetaire/releases/latest)**
 
 <p>
-<img src="docs/images/terminal-dark.png" width="380" alt="A terminal session in Planetaire Mono on a dark background: a colored eza listing with Nerd Font icons, a Python one-liner, and a git log">
-<img src="docs/images/terminal-light.png" width="380" alt="The same terminal session in Planetaire Mono on a light background">
+<img src="docs/images/terminal-dark.png" width="680" alt="A terminal session in Planetaire Mono on a dark background: a colored eza listing with Nerd Font icons, a Python one-liner, and a git log">
+<br>
+<img src="docs/images/terminal-light.png" width="680" alt="The same terminal session in Planetaire Mono on a light background">
 </p>
 
 ## Why
@@ -39,8 +40,9 @@ It carries a new name to avoid confusion with the original B612, to comply with 
 font’s license terms on naming, and to be a little more memorable.
 
 <p>
-<img src="docs/images/text-dark.png" width="380" alt="A prose passage set in Planetaire Mono on a dark background, showing body-text legibility">
-<img src="docs/images/text-light.png" width="380" alt="The same prose passage in Planetaire Mono on a light background">
+<img src="docs/images/text-dark.png" width="680" alt="A prose passage set in Planetaire Mono on a dark background, showing body-text legibility">
+<br>
+<img src="docs/images/text-light.png" width="680" alt="The same prose passage in Planetaire Mono on a light background">
 </p>
 
 ## Download
@@ -65,8 +67,9 @@ Per-OS and web details are under [Install](#install).
 Each family ships 8 variants across 4 weights.
 
 <p>
-<img src="docs/images/weights-dark.png" width="380" alt="Planetaire Mono weight ladder from Regular to ExtraBold, upright and italic, on a dark background">
-<img src="docs/images/weights-light.png" width="380" alt="The same weight ladder on a light background">
+<img src="docs/images/weights-dark.png" width="680" alt="Planetaire Mono weight ladder from Regular to ExtraBold, upright and italic, on a dark background">
+<br>
+<img src="docs/images/weights-light.png" width="680" alt="The same weight ladder on a light background">
 </p>
 
 | Variant | Weight | Recommended Use |
@@ -114,8 +117,9 @@ iTerm2, Kitty, and VS Code.
 ## High Legibility
 
 <p>
-<img src="docs/images/features-dark.png" width="380" alt="Confusable-character pairs and the dotted-zero variants in Planetaire Mono, on a dark background">
-<img src="docs/images/features-light.png" width="380" alt="The same confusable-character pairs and dotted-zero variants on a light background">
+<img src="docs/images/features-dark.png" width="680" alt="Confusable-character pairs and the dotted-zero variants in Planetaire Mono, on a dark background">
+<br>
+<img src="docs/images/features-light.png" width="680" alt="The same confusable-character pairs and dotted-zero variants on a light background">
 </p>
 
 B612’s letterforms keep commonly confused characters distinct: `Il1|`, `O0o`, `rn` vs
