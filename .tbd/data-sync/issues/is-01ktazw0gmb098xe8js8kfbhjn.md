@@ -3,13 +3,15 @@ type: is
 id: is-01ktazw0gmb098xe8js8kfbhjn
 title: Regenerate specimen PDF and showcase images after polish fixes
 kind: task
-status: open
+status: closed
 priority: 2
-version: 2
+version: 3
 labels: []
 dependencies: []
 created_at: 2026-06-05T04:15:12.403Z
-updated_at: 2026-06-05T04:15:20.676Z
+updated_at: 2026-06-06T08:00:20.277Z
+closed_at: 2026-06-06T08:00:20.277Z
+close_reason: Regenerated specimen PDF and all 8 README images with the corrected monospace fonts (typst/fontforge now installed via scripts/setup-dev-tools.sh).
 ---
 The polish pass changed specimen/showcase SOURCES but the rendered artifacts
 could not be regenerated in the review environment (typst and fontforge were
