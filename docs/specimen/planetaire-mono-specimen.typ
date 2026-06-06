@@ -296,9 +296,11 @@
 #label[CHARACTER DISAMBIGUATION]
 
 // Large character pairs with gray labels.
+// Fixed-width glyph column so every gray label starts at the same x
+// (wide enough for the longest group, the brackets row).
 #let disambig(chars, desc) = {
   grid(
-    columns: (auto, 1fr),
+    columns: (7cm, 1fr),
     column-gutter: 1cm,
     align: horizon,
     text(size: 28pt)[#chars],

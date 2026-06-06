@@ -4,19 +4,27 @@ A monospace font for terminals and code that pairs [B612](https://b612-font.com/
 highly legible letterforms with [Hack](https://sourcefoundry.org/hack/)’s programming
 symbols and [Nerd Font](https://www.nerdfonts.com/) icons.
 
-<picture>
-<source media="(prefers-color-scheme: dark)" srcset="docs/images/terminal-dark.png">
-<img src="docs/images/terminal-light.png" width="750" alt="A terminal session in Planetaire Mono: a colored eza listing with Nerd Font icons, a Python one-liner, and a git log">
-</picture>
+📄 **[Read the type specimen (PDF)](docs/specimen/planetaire-mono-specimen.pdf)** ·
+⬇️ **[Download the fonts](https://github.com/jlevy/planetaire/releases/latest)**
+
+<p>
+<img src="docs/images/terminal-dark.png" width="380" alt="A terminal session in Planetaire Mono on a dark background: a colored eza listing with Nerd Font icons, a Python one-liner, and a git log">
+<img src="docs/images/terminal-light.png" width="380" alt="The same terminal session in Planetaire Mono on a light background">
+</p>
 
 ## Why
 
 B612 was designed by Intactile Design for Airbus cockpit displays, optimized for reading
 under stress, at odd angles, and in poor lighting.
 Its letterforms are among the most legible drawn for monospace text.
-But B612 alone is not a complete programming font: it lacks the symbol coverage and icon
-ecosystem developers need.
-Planetaire Mono merges B612’s letters and digits into Hack Nerd Font’s base:
+
+But B612 alone is not a complete programming font, and the versions in circulation —
+including the one on [Google Fonts](https://fonts.google.com/specimen/B612+Mono) — have
+quirks that make them awkward for code and terminals: most notably an undotted zero that
+is easy to confuse with a capital `O`, plus no symbols or icons for programming.
+
+Planetaire Mono fixes that.
+It merges B612’s letters and digits into Hack Nerd Font’s base and adds a dotted zero:
 
 - **B612 letterforms** for letters, digits, and extended Latin, Greek, and Cyrillic.
 - **A dotted zero** — B612’s zero with a center dot for clear `0` vs `O`, in circle
@@ -25,10 +33,15 @@ Planetaire Mono merges B612’s letters and digits into Hack Nerd Font’s base:
 - **12,000+ Nerd Font icons** (Powerline, Font Awesome, Devicons) in the Extended
   family.
 
-<picture>
-<source media="(prefers-color-scheme: dark)" srcset="docs/images/text-dark.png">
-<img src="docs/images/text-light.png" width="750" alt="A prose passage set in Planetaire Mono, showing body-text legibility">
-</picture>
+With these changes it has become one of the most beautiful and genuinely functional
+monospace fonts I’ve seen — it’s what I use every day.
+It carries a new name to avoid confusion with the original B612, to comply with the
+font’s license terms on naming, and to be a little more memorable.
+
+<p>
+<img src="docs/images/text-dark.png" width="380" alt="A prose passage set in Planetaire Mono on a dark background, showing body-text legibility">
+<img src="docs/images/text-light.png" width="380" alt="The same prose passage in Planetaire Mono on a light background">
+</p>
 
 ## Download
 
@@ -51,10 +64,10 @@ Per-OS and web details are under [Install](#install).
 
 Each family ships 8 variants across 4 weights.
 
-<picture>
-<source media="(prefers-color-scheme: dark)" srcset="docs/images/weights-dark.png">
-<img src="docs/images/weights-light.png" width="750" alt="Planetaire Mono weight ladder from Regular to ExtraBold, upright and italic">
-</picture>
+<p>
+<img src="docs/images/weights-dark.png" width="380" alt="Planetaire Mono weight ladder from Regular to ExtraBold, upright and italic, on a dark background">
+<img src="docs/images/weights-light.png" width="380" alt="The same weight ladder on a light background">
+</p>
 
 | Variant | Weight | Recommended Use |
 | --- | --- | --- |
@@ -98,12 +111,12 @@ config.font_rules = {
 See [terminal-config.md](docs/terminal-config.md) for Ghostty, Alacritty, WezTerm,
 iTerm2, Kitty, and VS Code.
 
-## Character Coverage
+## High Legibility
 
-<picture>
-<source media="(prefers-color-scheme: dark)" srcset="docs/images/features-dark.png">
-<img src="docs/images/features-light.png" width="750" alt="Confusable-character pairs and the dotted-zero variants in Planetaire Mono">
-</picture>
+<p>
+<img src="docs/images/features-dark.png" width="380" alt="Confusable-character pairs and the dotted-zero variants in Planetaire Mono, on a dark background">
+<img src="docs/images/features-light.png" width="380" alt="The same confusable-character pairs and dotted-zero variants on a light background">
+</p>
 
 B612’s letterforms keep commonly confused characters distinct: `Il1|`, `O0o`, `rn` vs
 `m`, `5S`, `8B`, `2Z`. Coverage spans Latin Extended A/B, Greek and Coptic, Cyrillic,

@@ -86,8 +86,11 @@
 #let icon(cp) = str.from-unicode(cp)
 
 // eza directory entry with box-wrapped spans for precise alignment.
+// The permissions field is a fixed-width box (it is the only column whose
+// leading glyph varies: "." for files vs "d" for dirs). Pinning its width
+// keeps every following column aligned even if "." and "d" differ in advance.
 #let dir-entry(p, perms, size, user, date, ic, name, bold-name: false) = {
-  box[#t(perms, p.bright-black)]
+  box(width: 7em)[#t(perms, p.bright-black)]
   box[#t(" ", p.fg)]
   box[#tb(size, p.green)]
   box[#t(" ", p.fg)]
@@ -104,6 +107,7 @@
 
 // Syntax-highlighted Python sample.
 #let orbit-code(p: pal-dark) = code-block(p, (
+  (text(weight: "bold")[import], p.magenta), (" math", none), ("\n\n", none),
   (text(weight: "bold")[def], p.magenta), (" analyze_trajectory", none),
   ("(", none), ("altitude", none), (": ", none),
   ("float", p.cyan), (", ", none), ("velocity", none), (": ", none),
@@ -203,9 +207,10 @@
 
 // Legibility: confusable-character disambiguation plus the dotted-zero variants.
 #let legibility-pairs(p: pal-light) = {
+  // Fixed-width glyph column so every gray label starts at the same x.
   let disambig(chars, desc) = {
     grid(
-      columns: (auto, 1fr),
+      columns: (4.5cm, 1fr),
       column-gutter: 1cm,
       align: horizon,
       text(size: 28pt, fill: p.fg)[#chars],
@@ -213,6 +218,8 @@
     )
     v(0.15cm)
   }
+  text(size: 8pt, fill: p.muted, weight: "bold")[KEY GLYPH COMPARISONS]
+  v(0.1cm)
   disambig[I l 1 |][uppercase I \u{00B7} lowercase l \u{00B7} digit 1 \u{00B7} pipe]
   disambig[O 0 o][uppercase O \u{00B7} digit 0 \u{00B7} lowercase o]
   disambig[r n m][r \u{00B7} n \u{00B7} m \u{2014} clearly distinct in B612]
@@ -220,7 +227,7 @@
   disambig[2 Z 6 G][digit 2 vs Z \u{00B7} digit 6 vs G]
 
   v(0.3cm)
-  text(size: 8pt, fill: p.muted)[ZERO DOT VARIANTS (OpenType)]
+  text(size: 8pt, fill: p.muted, weight: "bold")[ZERO DOT VARIANTS (OpenType)]
   v(0.1cm)
   grid(
     columns: (1fr, 1fr),
