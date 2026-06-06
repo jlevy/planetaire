@@ -31,41 +31,20 @@
 
 // ─── Page 1: Cover ──────────────────────────────────────────────
 
-#v(3cm)
+#v(2cm)
+
+// Shared header block (same source as the README banner) so the cover and the
+// home-page header stay in sync.
+#header-card(p: pal-light)
+
+#v(0.6cm)
 
 #align(center)[
-  #text(size: 36pt, weight: 700)[Planetaire Mono]
-
-  #v(0.5cm)
-  #text(size: 13pt, fill: rgb("#666"))[
-    B612 letterforms\
-    Hack infrastructure\
-    Nerd Font icons
-  ]
-
-  #v(0.8cm)
   #text(size: 10pt, fill: rgb("#666"))[
     Joshua Levy\
     github.com/jlevy/planetaire\
     Version #version#if build-date != "" [ · #build-date]
   ]
-]
-
-#v(1.5cm)
-
-#text(size: 10pt)[
-  Planetaire Mono is a composite monospace font that merges the highly legible
-  letterforms of B612, a typeface designed by Intactile Design for Airbus cockpit
-  displays, with Hack Nerd Font\u{2019}s complete infrastructure: punctuation,
-  symbols, and 12,000+ developer icons.
-]
-
-#v(0.3cm)
-
-#text(size: 10pt)[
-  The result is a font optimized for terminal and editor use that combines
-  aviation-grade character clarity with full programming language coverage.
-  The name is a nod to asteroid B-612 from _The Little Prince_.
 ]
 
 #v(1.5cm)

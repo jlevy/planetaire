@@ -108,17 +108,17 @@
 // Home-page header banner (white background): the font name and lineage set in
 // Planetaire Mono itself. Rendered to docs/images/header.png by `build images`.
 #let header-card(p: pal-light) = align(center)[
-  #v(0.1cm)
-  #text(size: 48pt, weight: 700, fill: p.fg)[Planetaire Mono]
-  #v(0.55cm)
-  #text(size: 14pt, fill: p.muted)[
-    B612 letterforms \u{00B7} Hack infrastructure \u{00B7} Nerd Font icons
+  #v(1.2cm)
+  #text(size: 48pt, weight: 500, fill: p.fg)[Planetaire Mono]
+  #v(0.35cm)
+  #text(size: 13pt, weight: 700, fill: p.fg)[
+    B612 LETTERFORMS \u{00B7} HACK INFRASTRUCTURE \u{00B7} NERD FONT ICONS
   ]
   #v(0.4cm)
-  #text(size: 12.5pt, fill: p.fg)[
+  #text(size: 13pt, weight: 500, style: "italic", fill: p.fg)[
     A beautiful, highly legible monospace font for terminals, code, and agentic work
   ]
-  #v(0.1cm)
+  #v(0.8cm)
 ]
 
 // Syntax-highlighted Python sample.
