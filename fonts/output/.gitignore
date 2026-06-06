@@ -1,4 +1,5 @@
-# Generated font files — not committed to git.
-# Run `make fonts` or `planetaire build planetaire-mono` to generate.
-*.ttf
-*.otf
+# Generated font outputs — not committed to git.
+# Run `make fonts` or `planetaire build ...` to regenerate.
+*
+!.gitignore
+!.gitkeep

@@ -37,7 +37,14 @@ def _glyph_hash(font: TTFont, glyph_name: str) -> str:
     h = hashlib.md5()
 
     if glyph_name in glyf:
-        g = glyf[glyph_name]
+        # Compare outlines only (ignore TrueType instructions): the merge strips
+        # donor hinting, so bytecode legitimately differs while shapes must not.
+        g = copy.deepcopy(glyf[glyph_name])
+        if hasattr(g, "program"):
+            from fontTools.ttLib.tables import ttProgram
+
+            g.program = ttProgram.Program()
+            g.program.fromBytecode(b"")
         try:
             h.update(g.compile(glyf))
         except Exception:

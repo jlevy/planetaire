@@ -94,7 +94,7 @@ def generate_manifest(font_dir: Path, version: str = "dev") -> FontManifest:
     """Generate a manifest from built font files."""
     manifest = FontManifest(version=version)
 
-    for ttf_path in sorted(font_dir.glob("PlanetaireMono-*.ttf")):
+    for ttf_path in sorted(font_dir.glob("PlanetaireMonoExtended-*.ttf")):
         font = TTFont(ttf_path)
         variant = ttf_path.stem.split("-")[1]
 
@@ -128,7 +128,11 @@ def generate_manifest(font_dir: Path, version: str = "dev") -> FontManifest:
 
 
 def save_manifest(manifest: FontManifest, path: Path) -> None:
-    """Save manifest to JSON."""
+    """Save manifest to JSON.
+
+    If `path` ends in ``.gz`` the JSON is written compactly and gzip-compressed,
+    which shrinks the per-glyph manifest by ~20x (the committed form).
+    """
     data = {
         "version": manifest.version,
         "variants": [
@@ -143,12 +147,23 @@ def save_manifest(manifest: FontManifest, path: Path) -> None:
             for vm in manifest.variants
         ],
     }
-    path.write_text(json.dumps(data, indent=2) + "\n")
+    if path.suffix == ".gz":
+        import gzip
+
+        payload = json.dumps(data, separators=(",", ":")).encode()
+        path.write_bytes(gzip.compress(payload, compresslevel=9))
+    else:
+        path.write_text(json.dumps(data, indent=2) + "\n")
 
 
 def load_manifest(path: Path) -> FontManifest:
-    """Load manifest from JSON."""
-    data = json.loads(path.read_text())
+    """Load manifest from JSON (transparently handling gzip-compressed ``.gz``)."""
+    if path.suffix == ".gz":
+        import gzip
+
+        data = json.loads(gzip.decompress(path.read_bytes()).decode())
+    else:
+        data = json.loads(path.read_text())
     manifest = FontManifest(version=data["version"])
     for vdata in data["variants"]:
         vm = VariantManifest(

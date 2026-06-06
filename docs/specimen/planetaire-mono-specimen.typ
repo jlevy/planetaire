@@ -1,7 +1,10 @@
 // Planetaire Mono - Font Specimen
 // Build: planetaire build specimen
 
-#let version = "0.1.0"
+// Version is injected by `planetaire build specimen` via `--input version=...`
+// (sys.inputs); falls back to a dev default for direct `typst compile`.
+#let version = sys.inputs.at("version", default: "0.0.0-dev")
+#let build-date = sys.inputs.at("build-date", default: "")
 
 #let page-count = counter(page)
 
@@ -19,69 +22,11 @@
   },
 )
 
-#set text(font: "Planetaire Mono", size: 10pt)
+#set text(font: "Planetaire Mono Extended", size: 10pt)
 
-// Kerm terminal theme colors (dark palette).
-#let kerm = (
-  bg:      rgb("#000000"),
-  fg:      rgb("#ffffff"),
-  black:   rgb("#4d4d4d"),
-  red:     rgb("#eb8f83"),
-  green:   rgb("#6dc481"),
-  yellow:  rgb("#caa94e"),
-  blue:    rgb("#96aced"),
-  magenta: rgb("#dc8dd6"),
-  cyan:    rgb("#55bdcd"),
-  white:   rgb("#dbdbdf"),
-  bright-black: rgb("#bababa"),
-)
-
-// Kerm-derived palette, darkened for light/white backgrounds.
-#let kerm-light = (
-  bg:      rgb("#f6f8fa"),
-  fg:      rgb("#24292f"),
-  comment: rgb("#6e7781"),
-  red:     rgb("#a8342a"),
-  green:   rgb("#1a7f37"),
-  yellow:  rgb("#7d5e00"),
-  blue:    rgb("#0550ae"),
-  magenta: rgb("#8250df"),
-  cyan:    rgb("#0e6b7a"),
-)
-
-// Section heading helper.
-#let section(title) = {
-  text(size: 16pt, weight: 700)[#title]
-  v(0.3cm)
-  line(length: 100%, stroke: 0.5pt + rgb("#ccc"))
-  v(0.5cm)
-}
-
-// Label for character set sections.
-#let label(body) = {
-  text(size: 8pt, fill: rgb("#999"))[#body]
-  v(0.1cm)
-}
-
-// Spaced character display: inserts thin gaps between characters.
-#let spaced(s, gap: 0.25em) = s.clusters().join(h(gap))
-
-// Syntax-highlighted code block with Kerm colors.
-// Each token is a (text, color) pair. Use none for default fg.
-#let code-block(tokens) = {
-  block(
-    fill: kerm.bg,
-    inset: (x: 1.2em, y: 1em),
-    radius: 4pt,
-    width: 100%,
-  )[
-    #set text(size: 9.5pt, fill: kerm.fg)
-    #for tok in tokens {
-      let (s, c) = tok
-      if c == none { s } else { text(fill: c)[#s] }
-    }
-  ]
-}
+// Palette, helpers, and reusable content blocks shared with the README image
+// cards (card.typ) so the home-page images stay in sync with this PDF.
+#import "content.typ": *
 
 
 // ─── Page 1: Cover ──────────────────────────────────────────────
@@ -102,7 +47,7 @@
   #text(size: 10pt, fill: rgb("#666"))[
     Joshua Levy\
     github.com/jlevy/planetaire\
-    Version #version
+    Version #version#if build-date != "" [ · #build-date]
   ]
 ]
 
@@ -221,19 +166,7 @@
 ]
 #v(0.2cm)
 
-#text(size: 10.5pt)[
-  I propose to consider the question, \u{201C}Can machines think?\u{201D} This should
-  begin with definitions of the meaning of the terms \u{201C}machine\u{201D} and
-  \u{201C}think.\u{201D} The definitions might be framed so as to reflect so far as
-  possible the normal use of the words, but this attitude is dangerous.
-  If the meaning of the words \u{201C}machine\u{201D} and \u{201C}think\u{201D} are to be found
-  by examining how they are commonly used it is difficult to escape the
-  conclusion that the meaning and the answer to the question, \u{201C}Can
-  machines think?\u{201D} is to be sought in a statistical survey such as a
-  Gallup poll. But this is absurd. Instead of attempting such a definition
-  I shall replace the question by another, which is closely related to it
-  and is expressed in relatively unambiguous words.
-]
+#turing-passage()
 
 #pagebreak()
 
@@ -246,7 +179,7 @@
 #block[
   #set text(size: 8pt)
   #set par(leading: 0.45em, spacing: 0em)
-  #show raw: set text(font: "Planetaire Mono", size: 8pt)
+  #show raw: set text(font: "Planetaire Mono Extended", size: 8pt)
   #show raw.where(block: true): it => block(width: 100%, fill: none, inset: 0pt, stroke: none, it)
   #show "Host Software": text.with(weight: 700)
   #show "Steve Crocker": text.with(weight: 700)
@@ -285,111 +218,11 @@
 
 #section[Planetaire Terminal]
 
-// Helper for colored spans in the terminal block.
-#let t(body, color) = text(fill: color)[#body]
-#let tb(body, color) = text(fill: color, weight: "bold")[#body]
-
-// Shell prompt helper.
-#let prompt(cmd) = {
-  tb("planetaire", kerm.blue)
-  text(weight: "bold")[ \$ ]
-  cmd
-}
-
-// Nerd Font icon helper.
-#let icon(cp) = str.from-unicode(cp)
-
-// eza directory entry helper with box-wrapped spans for precise alignment.
-#let dir-entry(perms, size, user, date, ic, name, bold-name: false) = {
-  box[#t(perms, kerm.bright-black)]
-  box[#t(" ", kerm.fg)]
-  box[#tb(size, kerm.green)]
-  box[#t(" ", kerm.fg)]
-  box[#tb(user, kerm.yellow)]
-  box[#t(" ", kerm.fg)]
-  box[#t(date, kerm.blue)]
-  box[#t(" ", kerm.fg)]
-  box[#t(ic, kerm.cyan)]
-  box[#t(" ", kerm.fg)]
-  if bold-name { box[#tb(name, kerm.fg)] } else { box[#t(name, kerm.fg)] }
-}
-
-// Python sample with manual Kerm-colored tokens.
-#code-block((
-  // def analyze_trajectory(...)
-  (text(weight: "bold")[def], kerm.magenta), (" analyze_trajectory", none),
-  ("(", none), ("altitude", none), (": ", none),
-  ("float", kerm.cyan), (", ", none), ("velocity", none), (": ", none),
-  ("float", kerm.cyan), (") -> ", none), ("dict", kerm.cyan), (":\n", none),
-
-  // docstring
-  ("    ", none), ("\"\"\"Calculate orbital parameters.\"\"\"", kerm.green), ("\n\n", none),
-
-  // constants
-  ("    G ", none), ("= ", none), ("6.674e-11", kerm.cyan),
-  ("  ", none), ("# gravitational constant", kerm.black), ("\n", none),
-  ("    M ", none), ("= ", none), ("5.972e24", kerm.cyan), ("\n\n", none),
-
-  // if/elif
-  ("    ", none), (text(weight: "bold")[if], kerm.magenta),
-  (" altitude > ", none), ("400_000", kerm.cyan), (":\n", none),
-  ("        orbit_type ", none), ("= ", none),
-  ("\"LEO\"", kerm.green), ("\n", none),
-  ("    ", none), (text(weight: "bold")[elif], kerm.magenta),
-  (" altitude > ", none), ("35_786_000", kerm.cyan), (":\n", none),
-  ("        orbit_type ", none), ("= ", none),
-  ("\"GEO\"", kerm.green), ("\n\n", none),
-
-  // period calculation
-  ("    period ", none), ("= ", none), ("2", kerm.cyan),
-  (" * math.pi * math.sqrt(altitude**", none), ("3", kerm.cyan),
-  (" / (G * M))\n\n", none),
-
-  // return
-  ("    ", none), (text(weight: "bold")[return], kerm.magenta),
-  (" {", none), ("\"type\"", kerm.green), (": orbit_type, ", none),
-  ("\"period\"", kerm.green), (": period, ", none),
-  ("\"v\"", kerm.green), (": velocity}\n", none),
-))
+#orbit-code()
 
 #v(0.3cm)
 
-#block(
-  fill: kerm.bg,
-  inset: (x: 1.2em, y: 1em),
-  radius: 4pt,
-  width: 100%,
-)[
-  #set text(size: 8.5pt, fill: kerm.fg)
-  #set par(leading: 0.4em, justify: false)
-
-  #prompt[eza -l --icons=always . ./docs/specimen/]\
-  .:\
-  #dir-entry("drwxr-xr-x@", "   -", "levy", "15 Feb 23:07", icon(0xF07B), "devtools", bold-name: true)\
-  #dir-entry("drwxr-xr-x@", "   -", "levy", "15 Feb 23:07", icon(0xF07B), "docs", bold-name: true)\
-  #dir-entry("drwxr-xr-x@", "   -", "levy", "15 Feb 23:07", icon(0xF07B), "fonts", bold-name: true)\
-  #dir-entry(".rw-r--r--@", "7.6k", "levy", "16 Feb 09:14", icon(0xE60A), "LICENSE")\
-  #dir-entry(".rw-r--r--@", "1.3k", "levy", "16 Feb 09:14", icon(0xE612), "Makefile")\
-  #dir-entry(".rw-r--r--@", "6.2k", "levy", "16 Feb 09:14", icon(0xE697), "pyproject.toml")\
-  #dir-entry(".rw-r--r--@", "6.4k", "levy", "15 Feb 23:07", icon(0xE706), "README.md")\
-  #dir-entry("drwxr-xr-x@", "   -", "levy", "15 Feb 23:07", icon(0xF07B), "scripts", bold-name: true)\
-  #dir-entry("drwxr-xr-x@", "   -", "levy", "15 Feb 23:07", icon(0xF07B), "src", bold-name: true)\
-  #dir-entry("drwxr-xr-x@", "   -", "levy", "15 Feb 23:07", icon(0xF07B), "tests", bold-name: true)\
-  #dir-entry(".rw-r--r--@", " 63k", "levy", "16 Feb 09:14", icon(0xF023), "uv.lock")\
-  ./docs/specimen/:\
-  #dir-entry(".rw-r--r--@", "188k", "levy", "16 Feb 09:14", icon(0xE635), "planetaire-mono-specimen.pdf")\
-  #dir-entry(".rw-r--r--@", "9.1k", "levy", "15 Feb 23:07", icon(0xE621), "planetaire-mono-specimen.typ")\
-
-  #v(0.15cm)
-  #prompt[python -c "print('Hello from Planetaire Mono!')"]\
-  Hello from Planetaire Mono!\
-
-  #v(0.15cm)
-  #prompt[git log --oneline -3]\
-  #t("5bd69c5", kerm.yellow) Switch B612 source to original polarsys/b612\
-  #t("a1c8e3f", kerm.yellow) Add font comparison and regression detection\
-  #t("e927d01", kerm.yellow) Refactor merge pipeline for original B612\
-]
+#terminal-mockup()
 
 #pagebreak()
 
@@ -442,30 +275,11 @@
 
 #section[Planetaire Weight Comparison]
 
-#let sample = "The quick brown fox jumps over the lazy dog"
-#let digits = "0123456789 AaBbCcDd {[(>)]} !@#$%"
-
-// Weight helper: label, sample, digits on consecutive lines.
-#let weight-row(lbl, wt, it: false) = {
-  label[#lbl]
-  let st = if it { "italic" } else { "normal" }
-  text(size: 12pt, weight: wt, style: st)[#sample]
-  v(0.05cm)
-  text(size: 12pt, weight: wt, style: st)[#digits]
-  v(0.25cm)
-}
-
-#weight-row("REGULAR (400)", 400)
-#weight-row("ITALIC (400)", 400, it: true)
-#weight-row("MEDIUM (500)", 500)
-#weight-row("MEDIUM ITALIC (500)", 500, it: true)
-#weight-row("BOLD (700)", 700)
-#weight-row("BOLD ITALIC (700)", 700, it: true)
-#weight-row("EXTRABOLD (800)", 800)
-#weight-row("EXTRABOLD ITALIC (800)", 800, it: true)
+#weight-ladder()
 
 #v(0.3cm)
 
+#let sample = "The quick brown fox jumps over the lazy dog"
 #label[SIZE COMPARISON: REGULAR AT VARIOUS SIZES]
 #for size in (8, 9, 10, 11, 12) {
   text(size: eval(repr(size) + "pt"))[#sample]
@@ -781,7 +595,40 @@
   Regular, and ExtraBold from Bold, via FontForge emboldening.
 ]
 
+#pagebreak()
+
+#section[Two Families: Extended and Text]
+
+#text(size: 10pt)[
+  Planetaire Mono ships in two families built from the same letterforms:
+
+  - *Planetaire Mono* (Extended) — the full build with all ~12,000 Nerd Font icons
+    and Powerline, for terminals and coding.
+  - *Planetaire Mono Text* — a lightweight web/regular subset (letters, punctuation,
+    box-drawing, block elements, geometric shapes) that drops the Private-Use icons.
+    About *55 KB per weight* in WOFF2 — roughly 18× smaller — and shipped with a ready
+    `@font-face` stylesheet.
+]
+
 #v(0.5cm)
+#text(size: 11pt, weight: 700)[Planetaire Mono Text]
+#v(0.2cm)
+#block(fill: rgb("#f5f5f5"), inset: 12pt, radius: 4pt, width: 100%)[
+  #show raw: set text(font: "Planetaire Mono Text", size: 11pt)
+  ```
+  The quick brown fox jumps over the lazy dog
+  ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz
+  0123456789 !@#$%^&*()[]{} <>=+ — Il1| O0o
+  Greek ΑΒΓ αβγ · Cyrillic АБВ абв · Box ┌─┬─┐ │ ├─┼─┤ └─┴─┘ ▓▒░
+  ```
+]
+#v(0.2cm)
+#text(size: 9pt, fill: rgb("#666"))[
+  For the web: `<link rel="stylesheet" href="planetaire-mono-text.css">` then
+  `font-family: "Planetaire Mono Text"`.
+]
+
+#v(0.6cm)
 #text(size: 11pt, weight: 700)[License]
 #v(0.2cm)
 #text(size: 10pt)[

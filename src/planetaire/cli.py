@@ -195,34 +195,43 @@ def fix(
 
 @app.command()
 def validate(
-    font: Path = typer.Argument(..., help="Path to a font file"),
+    fonts: list[Path] = typer.Argument(..., help="Path(s) to font file(s)"),
     format: str = typer.Option("text", help="Output format: text or json"),
 ) -> None:
-    """Check glyph coverage, metrics, and features."""
+    """Check glyph coverage, metrics, and features for one or more fonts."""
+    from dataclasses import asdict
+    from typing import Any
+
     from fontTools.ttLib import TTFont
 
     from planetaire.ops.validate import validate_font
 
-    path = _resolve_font_path(font)
-    tt_font = TTFont(path)
-    issues = validate_font(tt_font)
+    results: dict[str, list[dict[str, Any]]] = {}
+    total_errors = 0
+    for font in fonts:
+        path = _resolve_font_path(font)
+        issues = validate_font(TTFont(path))
+        results[str(font)] = [asdict(i) for i in issues]
+        total_errors += sum(1 for i in issues if i.severity == "error")
 
     if format == "json":
         import json
-        from dataclasses import asdict
 
-        json.dump([asdict(i) for i in issues], sys.stdout, indent=2)
+        json.dump(results, sys.stdout, indent=2)
         sys.stdout.write("\n")
     else:
-        if not issues:
-            err_console.print("[green]No issues found.[/green]")
-        else:
+        for font, issues in results.items():
+            if not issues:
+                err_console.print(f"[green]{font}: no issues found.[/green]")
+                continue
+            err_console.print(f"[bold]{font}[/bold]")
             for issue in issues:
-                style = {"error": "red", "warning": "yellow", "info": "blue"}[issue.severity]
-                err_console.print(f"[{style}]{issue.severity.upper()}[/{style}] {issue.message}")
-            errors = sum(1 for i in issues if i.severity == "error")
-            if errors:
-                raise SystemExit(2)
+                severity = str(issue["severity"])
+                style = {"error": "red", "warning": "yellow", "info": "blue"}[severity]
+                err_console.print(f"  [{style}]{severity.upper()}[/{style}] {issue['message']}")
+
+    if total_errors:
+        raise SystemExit(2)
 
 
 # -- compare command --
@@ -291,15 +300,13 @@ def embolden(
 
 @build_app.command("download")
 def build_download(
-    output_dir: Path = typer.Option(
-        Path("fonts/source"), help="Directory to download source fonts into"
-    ),
+    output_dir: Path = typer.Option(Path("fonts/source"), help="Directory containing source fonts"),
 ) -> None:
-    """Fetch source fonts from upstream repositories."""
+    """Locate and integrity-check source fonts (verified against SHA256SUMS)."""
     from planetaire.recipes.sources import download_sources
 
-    download_sources(output_dir)
-    err_console.print(f"Source fonts downloaded to {output_dir}")
+    fonts = download_sources(output_dir)
+    err_console.print(f"[green]Verified {len(fonts)} source font(s) in {output_dir}[/green]")
 
 
 @build_app.command("planetaire-mono")
@@ -314,6 +321,81 @@ def build_planetaire_mono(
     for p in outputs:
         err_console.print(f"  {p}")
     err_console.print(f"[green]Built {len(outputs)} font(s)[/green]")
+
+
+@build_app.command("text")
+def build_text_cmd(
+    source_dir: Path = typer.Option(Path("fonts/source"), help="Directory containing source fonts"),
+    output_dir: Path = typer.Option(Path("fonts/output"), help="Directory for output fonts"),
+) -> None:
+    """Build the lightweight Planetaire Mono Text family (WOFF2/WOFF/TTF + CSS)."""
+    from planetaire.recipes.planetaire_mono import build_text
+
+    outputs = build_text(source_dir, output_dir)
+    for p in outputs:
+        err_console.print(f"  {p}")
+    err_console.print(f"[green]Built {len(outputs)} file(s)[/green]")
+
+
+@build_app.command("images")
+def build_images_cmd(
+    out_dir: Path = typer.Option(Path("docs/images"), help="Directory for README images"),
+    font_dir: Path = typer.Option(Path("fonts/output"), help="Directory containing built fonts"),
+    ppi: int = typer.Option(200, help="Render resolution (pixels per inch)"),
+) -> None:
+    """Render the README images from the specimen's shared content (in sync with the PDF).
+
+    Each card is rendered as a matched dark/light pair (<card>-dark.png, <card>-light.png)
+    so the README can switch with the GitHub color scheme.
+    """
+    import subprocess
+
+    from planetaire.recipes.specimen import render_png
+
+    card = Path("docs/specimen/card.typ")
+    card_names = ("terminal", "text", "weights", "features")
+    count = 0
+    try:
+        for card_name in card_names:
+            for theme in ("dark", "light"):
+                out = out_dir / f"{card_name}-{theme}.png"
+                render_png(card, out, font_dir, ppi=ppi, inputs={"card": card_name, "theme": theme})
+                err_console.print(f"  {out}")
+                count += 1
+    except subprocess.CalledProcessError as e:
+        err_console.print("[red]Typst render failed:[/red]")
+        if e.stderr:
+            err_console.print(e.stderr)
+        raise SystemExit(1) from e
+    err_console.print(f"[green]Rendered {count} README images to {out_dir}[/green]")
+
+
+@build_app.command("html-specimen")
+def build_html_specimen_cmd(
+    output: Path = typer.Option(Path("fonts/output/specimen.html"), help="Output HTML path"),
+    css_href: str = typer.Option(
+        "planetaire-mono-text.css", help="Relative href to the @font-face stylesheet"
+    ),
+) -> None:
+    """Generate a static HTML specimen that loads the Text web fonts."""
+    from planetaire.recipes.html_specimen import generate_html_specimen
+
+    path = generate_html_specimen(output, css_href=css_href)
+    err_console.print(f"[green]HTML specimen written to {path}[/green]")
+
+
+@build_app.command("site")
+def build_site_cmd(
+    output_dir: Path = typer.Option(Path("site"), help="Directory for the generated site"),
+    fonts_dir: Path = typer.Option(
+        Path("fonts/output"), help="Directory with built fonts, CSS, and specimen"
+    ),
+) -> None:
+    """Assemble a static site (landing page + specimen + web fonts). No deploy."""
+    from planetaire.recipes.site import generate_site
+
+    index = generate_site(output_dir, fonts_dir)
+    err_console.print(f"[green]Site written to {index.parent} (open {index})[/green]")
 
 
 @build_app.command("specimen")
@@ -350,7 +432,7 @@ regression_app = typer.Typer(
 )
 app.add_typer(regression_app, name="regression")
 
-MANIFEST_PATH = Path("fonts/golden/manifest.json")
+MANIFEST_PATH = Path("fonts/golden/manifest.json.gz")
 
 
 @regression_app.command("generate")

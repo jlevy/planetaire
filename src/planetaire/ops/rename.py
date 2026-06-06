@@ -39,6 +39,10 @@ def rename_font(
 
     if version:
         _set_name(name_table, 5, f"Version {version}")
+        if "head" in font:
+            from planetaire.version import to_font_revision
+
+            font["head"].fontRevision = to_font_revision(version)
 
     if weight is not None and "OS/2" in font:
         font["OS/2"].usWeightClass = weight

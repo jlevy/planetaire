@@ -1,15 +1,16 @@
 # ---- Project Info and Dependencies ----
 
 [project.urls]
+Homepage = "https://github.com/jlevy/planetaire"
 Repository = "https://github.com/jlevy/planetaire"
-# Homepage = "https://..."
-# Documentation = "https://..."
+Documentation = "https://github.com/jlevy/planetaire#readme"
+Issues = "https://github.com/jlevy/planetaire/issues"
 
 [project]
 name = "planetaire"
 description = "Planetaire Mono font"
 authors = [
-    { name="jlevy", email="changeme@example.com" },
+    { name="jlevy", email="jlevy@users.noreply.github.com" },
 ]
 readme = "README.md"
 license = "OFL-1.1 AND MIT"
@@ -38,7 +39,8 @@ classifiers = [
 # ---- Main dependencies ----
 
 dependencies = [
-    "fonttools>=4.61.1",
+    # [woff] pulls in brotli + zopfli for WOFF2/WOFF output.
+    "fonttools[woff]>=4.61.1",
     "typer>=0.15.0",
     "rich>=14.0.0",
     "strif>=0.4.0",
@@ -56,7 +58,6 @@ dev = [
     "rich>=14.3.2",
     "basedpyright>=1.38.0",
     "funlog>=0.2.1",
-    "pillow>=11.0.0",
 ]
 
 [project.scripts]

@@ -177,3 +177,6 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+# Generated static site (run 'make site')
+/site/
