@@ -17,8 +17,8 @@ font-size = 14
 font-thicken = true
 ```
 
-Ghostty automatically selects the best weight for bold text.
-With `font-thicken = true`, bold text uses heavier strokes for improved contrast.
+Ghostty automatically selects the best weight for bold text. With `font-thicken = true`,
+bold text uses heavier strokes for improved contrast.
 
 ## Alacritty
 
@@ -121,5 +121,9 @@ Planetaire Mono ships with 8 variants:
 | ExtraBold Italic | 800 | Recommended for terminal bold italic |
 
 The jump from Regular (400) to Bold (700) can feel subtle at small terminal sizes.
-ExtraBold (800) provides a visibly heavier stroke that makes bold text — prompts,
-headings, highlighted output — stand out clearly.
+ExtraBold (800) provides a visibly heavier stroke that makes bold text (prompts,
+headings, highlighted output) stand out clearly.
+
+<!-- This document follows common-doc-guidelines.md.
+See github.com/jlevy/practical-prose and review guidelines before editing.
+-->

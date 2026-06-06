@@ -1,9 +1,9 @@
 # Building and Releasing the Fonts
 
-This guide covers the font-specific workflow.
-For generic Python/uv setup see [development.md](development.md); for PyPI publishing of
-the *tooling* see [publishing.md](publishing.md); for the full asset-regeneration
-reference (hero image, specimen, terminal demo, external tools) see
+This guide covers the font-specific workflow. For generic Python/uv setup see
+[development.md](development.md); for PyPI publishing of the *tooling* see
+[publishing.md](publishing.md); for the full asset-regeneration reference (hero image,
+specimen, terminal demo, external tools) see
 [build-assets.runbook.md](build-assets.runbook.md).
 
 > **What ships where:** the **fonts** are published as GitHub Release assets; the **PyPI
@@ -11,12 +11,11 @@ reference (hero image, specimen, terminal demo, external tools) see
 
 ## Prerequisites
 
-- **uv** + Python 3.12+ (`uv sync --all-extras`).
-- **FontForge** — *optional*. Only needed to regenerate the intermediate Medium and
-  ExtraBold weights from the base weights.
-  The generated weights are vendored under `fonts/source/`, so a normal build does not
-  need FontForge.
-- **Typst** — *optional*. Only needed to compile the PDF specimen
+- **uv** and Python 3.12+ (`uv sync --all-extras`).
+- **FontForge:** *optional*. Only needed to regenerate the intermediate Medium and
+  ExtraBold weights from the base weights. The generated weights are vendored under
+  `fonts/source/`, so a normal build does not need FontForge.
+- **Typst:** *optional*. Only needed to compile the PDF specimen
   (`planetaire build specimen`).
 
 WOFF2/WOFF output needs `brotli`/`zopfli`, pulled in automatically via
@@ -39,7 +38,7 @@ vendored copies.)
 | Family | Command | Output |
 | --- | --- | --- |
 | **Planetaire Mono Extended** (full) | `planetaire build planetaire-mono` | `PlanetaireMonoExtended-*.ttf` (all Nerd Font icons) |
-| **Planetaire Mono Text** (web/regular) | `planetaire build text` | `PlanetaireMonoText-*.{ttf,woff2,woff}` + `planetaire-mono-text.css` |
+| **Planetaire Mono Text** (web/regular) | `planetaire build text` | `PlanetaireMonoText-*.{ttf,woff2,woff}` and `planetaire-mono-text.css` |
 
 Text is the full build subset to standard-Unicode text glyphs (letters, punctuation,
 box-drawing, block elements, geometric shapes), dropping the Private-Use Nerd Font icons
@@ -60,14 +59,14 @@ Outputs land in `fonts/output/` (gitignored).
 
 ### Pipeline (per variant)
 
-1. **Merge** — copy B612 letter/digit/Greek/Cyrillic outlines into the Hack base,
+1. **Merge:** copy B612 letter/digit/Greek/Cyrillic outlines into the Hack base,
    normalizing UPM 2048 → 2000. Donor TrueType hinting is stripped so B612 letters
    render with grayscale AA (Hack’s glyphs keep their native hinting).
-2. **Rename** — set family/subfamily/PostScript names, weight class, and the version
-   (name IDs 3/5 + `head.fontRevision`) from the canonical package version.
-3. **Dotted zero** — add the center-dot zero (`ss01`/`zero` alternates).
-4. **Fix** — DSIG, `fsType=0`, GASP.
-5. **Validate** — glyph coverage, weight, and italic/bold style-linking.
+2. **Rename:** set family/subfamily/PostScript names, weight class, and the version
+   (name IDs 3/5 and `head.fontRevision`) from the canonical package version.
+3. **Dotted zero:** add the center-dot zero (`ss01`/`zero` alternates).
+4. **Fix:** DSIG, `fsType=0`, GASP.
+5. **Validate:** glyph coverage, weight, and italic/bold style-linking.
 
 ## Regression checks
 
@@ -93,9 +92,9 @@ make html-specimen   # static specimen.html using the Text web fonts
 The fonts are released by `.github/workflows/release-fonts.yml` when a GitHub Release is
 published (tag like `v0.1.0`). It builds both families and uploads:
 
-- `PlanetaireMono-Extended.tar.xz` / `.zip` — full TTFs
-- `PlanetaireMono-Text.tar.xz` / `.zip` — Text TTF + WOFF2 + WOFF + `@font-face` CSS
-- `SHA256SUMS` — checksums for every archive
+- `PlanetaireMono-Extended.tar.xz` / `.zip`: full TTFs
+- `PlanetaireMono-Text.tar.xz` / `.zip`: Text TTF, WOFF2, WOFF, and `@font-face` CSS
+- `SHA256SUMS`: checksums for every archive
 
 <!-- This document follows common-doc-guidelines.md.
 See github.com/jlevy/practical-prose and review guidelines before editing.

@@ -17,9 +17,10 @@
 ## Overview
 
 Planetaire Mono is a high-quality monospace font for terminals and code editors, derived
-from the B612 Mono typeface (originally designed for aircraft cockpit displays by Airbus,
-optimized for legibility). The name "Planetaire" is a nod to the novel *The Little Prince*
-by Antoine de Saint-Exupery, in which the little prince lives on asteroid B-612.
+from the B612 Mono typeface (originally designed for aircraft cockpit displays by
+Airbus, optimized for legibility). The name "Planetaire" is a nod to the novel *The
+Little Prince* by Antoine de Saint-Exupery, in which the little prince lives on asteroid
+B-612.
 
 This project packages:
 1. The **original source fonts** (B612 Mono Liga Nerd Font from the carlosedp fork, plus
@@ -31,7 +32,7 @@ This project packages:
 ## Goals
 
 - Produce a single, self-contained Planetaire Mono font family with all needed glyphs
-  (letters, figures, punctuation, Nerd Font icons) — no CSS fallback chain required.
+  (letters, figures, punctuation, Nerd Font icons); no CSS fallback chain required.
 - Provide Regular (400), Bold (700), ExtraBold (800) weights, each with italic variants.
 - Fix known issues in B612 (uneven special characters) by compositing the best glyphs
   from B612 and Hack.
@@ -46,16 +47,16 @@ This project packages:
 - Supporting variable/OpenType font features beyond what the sources provide.
 - Modifying the Hack Nerd Font itself (used only as a glyph donor).
 
----
+* * *
 
 ## Background
 
 ### The B612 Typeface
 
-B612 is an open-source font family designed for aircraft cockpit displays. It was developed
-by Airbus in collaboration with ENAC and Universite de Toulouse III, with design by
-Intactile DESIGN. Released under the Eclipse Public License v2.0, Eclipse Distribution
-License v1.0, and SIL Open Font License v1.1.
+B612 is an open-source font family designed for aircraft cockpit displays. It was
+developed by Airbus in collaboration with ENAC and Universite de Toulouse III, with
+design by Intactile DESIGN. Released under the Eclipse Public License v2.0, Eclipse
+Distribution License v1.0, and SIL Open Font License v1.1.
 
 Key properties:
 - Maximizes distance between character forms for disambiguation
@@ -69,12 +70,12 @@ for terminal use.
 
 ### The carlosedp/b612 Fork
 
-The fonts used as input come from
-[carlosedp/b612](https://github.com/carlosedp/b612), a fork that adds:
+The fonts used as input come from [carlosedp/b612](https://github.com/carlosedp/b612), a
+fork that adds:
 
 1. **Dotted zero** (default), with OpenType features for alternatives:
-   - `'zero'` — slashed zero
-   - `'ezer'` — empty zero (original B612 style)
+   - `'zero'`: slashed zero
+   - `'ezer'`: empty zero (original B612 style)
    - These were edited in FontLab from VFB sources.
 2. **Ligatures** from FiraCode, applied via the
    [Ligaturizer](https://github.com/ToxicFrog/Ligaturizer) tool using FontForge.
@@ -84,10 +85,10 @@ The fonts used as input come from
    tables).
 
 The fork provides fonts in several directories:
-- `fonts/original/` — unmodified B612 (empty zero, no ligatures, no Nerd Fonts)
-- `fonts/plain/` — B612 with dotted/slashed zero only (no ligatures, no Nerd Fonts)
-- `fonts/ligatures/` — B612 with zero fixes + ligatures (no Nerd Fonts)
-- `fonts/ligatures_nerd/` — B612 with zero fixes + ligatures + Nerd Font glyphs
+- `fonts/original/`: unmodified B612 (empty zero, no ligatures, no Nerd Fonts)
+- `fonts/plain/`: B612 with dotted/slashed zero only (no ligatures, no Nerd Fonts)
+- `fonts/ligatures/`: B612 with zero fixes and ligatures (no Nerd Fonts)
+- `fonts/ligatures_nerd/`: B612 with zero fixes and ligatures and Nerd Font glyphs
 
 The resulting font family is named **B612MonoLigaNerdFont** and provides four base
 variants: Regular, Bold, Italic, BoldItalic.
@@ -100,21 +101,21 @@ variants: Regular, Bold, Italic, BoldItalic.
 based on Bitstream Vera Sans Mono / DejaVu Sans Mono. It has clean, consistent
 punctuation and excellent glyph coverage.
 
-[Nerd Fonts](https://github.com/ryanoasis/nerd-fonts) patches Hack with additional glyphs
-(powerline, Font Awesome, devicons, etc.).
+[Nerd Fonts](https://github.com/ryanoasis/nerd-fonts) patches Hack with additional
+glyphs (powerline, Font Awesome, devicons, etc.).
 
 Key properties:
-- UPM: 2048 (note: differs from B612's 2000 — merging will require UPM normalization)
-- Licensed under MIT (Hack) + Bitstream Vera License (upstream)
-- Nerd Fonts patched versions are under MIT + SIL OFL
+- UPM: 2048 (note: differs from B612's 2000; merging will require UPM normalization)
+- Licensed under MIT (Hack) and Bitstream Vera License (upstream)
+- Nerd Fonts patched versions are under MIT and SIL OFL
 
 **Source repos:** Checked out at `attic/hack-source/` and `attic/nerd-fonts/`
 
 ### The Nerd Fonts Patcher
 
 The [Nerd Fonts patcher](https://github.com/ryanoasis/nerd-fonts) (`font-patcher`) is a
-2,374-line Python script that uses FontForge to inject symbol glyphs into any font. It is
-the standard tool used by both carlosedp and the Nerd Fonts project itself.
+2,374-line Python script that uses FontForge to inject symbol glyphs into any font. It
+is the standard tool used by both carlosedp and the Nerd Fonts project itself.
 
 **Core algorithm (the `copy_glyphs()` method, ~500 lines):**
 1. For each glyph in a symbol font range:
@@ -127,7 +128,7 @@ the standard tool used by both carlosedp and the Nerd Fonts project itself.
 **Glyph sources** (11+ symbol font families in `src/glyphs/`):
 
 | Source | Unicode Range | Description |
-|--------|---------------|-------------|
+| --- | --- | --- |
 | Seti-UI + Custom | U+E4FA-E5FF | Dev file type icons |
 | Devicons | U+E600-E7EF | Programming language icons |
 | Powerline | U+E0A0-E0D7 | Terminal separator arrows |
@@ -142,7 +143,7 @@ the standard tool used by both carlosedp and the Nerd Fonts project itself.
 | Box Drawing | U+2500-259F | Unicode box drawing |
 | Braille | U+2800-28FF | Braille patterns (generated) |
 
-**Scaling system:** Supports multiple stretch modes — `'pa'` (preserve aspect ratio),
+**Scaling system:** Supports multiple stretch modes: `'pa'` (preserve aspect ratio),
 `'xy'` (independent scaling), `'^'` (fill cell height), `'2'` (double-width). Each glyph
 set has configured stretch, alignment, and overlap parameters.
 
@@ -167,7 +168,7 @@ All prior font work was done inside the [kerm](https://github.com/jlevy/kerm) te
 emulator project. The relevant artifacts are archived in `attic/kerm/` within this
 repository.
 
----
+* * *
 
 ## Reconstruction of All Prior Changes
 
@@ -175,11 +176,11 @@ repository.
 
 Two font families were obtained for use in kerm.
 
-**B612MonoLigaNerdFont** — An older build from the carlosedp fork (NOT the current version
-in the repo):
+**B612MonoLigaNerdFont**, an older build from the carlosedp fork (NOT the current
+version in the repo):
 
 | File | Size | Glyphs | Version | Weight |
-|------|------|--------|---------|--------|
+| --- | --- | --- | --- | --- |
 | `B612MonoLigaNerdFont-Regular.ttf` | 1.9 MB | 5,144 | 1.010; ttfautohint v1.8.4 | 400 |
 | `B612MonoLigaNerdFont-Bold.ttf` | 1.9 MB | 5,144 | 1.010 | 700 |
 | `B612MonoLigaNerdFont-Italic.ttf` | 1.9 MB | 5,144 | 1.010 | 400 |
@@ -188,7 +189,7 @@ in the repo):
 **HackNerdFont** (non-Mono variant, for wider double-width Nerd Font glyphs):
 
 | File | Size | Glyphs | Version | Weight |
-|------|------|--------|---------|--------|
+| --- | --- | --- | --- | --- |
 | `HackNerdFont-Regular.ttf` | 2.5 MB | 11,957 | 3.003; Nerd Fonts 3.3.0 | 400 |
 | `HackNerdFont-Bold.ttf` | 2.6 MB | 11,957 | 3.003 | 700 |
 | `HackNerdFont-Italic.ttf` | 2.6 MB | 11,957 | 3.003 | 400 |
@@ -198,7 +199,7 @@ in the repo):
 carlosedp repo:
 
 | Property | Kerm version | Current carlosedp repo |
-|----------|-------------|----------------------|
+| --- | --- | --- |
 | Version | 1.010; ttfautohint v1.8.4 | 1.009; Nerd Fonts 3.4.0 |
 | Glyphs | 5,144 | 11,357 |
 | Size | ~1.9 MB | ~2.5 MB |
@@ -215,17 +216,18 @@ from Nerd Fonts 3.4.0.
 
 ### Step 2: ExtraBold Weight Generation
 
-**Script:** `attic/kerm/bin/embolden_font.py`
-**Tool:** FontForge (run as `fontforge -script embolden_font.py <input.ttf>`)
+**Script:** `attic/kerm/bin/embolden_font.py` **Tool:** FontForge (run as
+`fontforge -script embolden_font.py <input.ttf>`)
 
 **Process:**
 1. Opens a Bold (weight 700) TTF font.
 2. Iterates over all glyphs and applies `glyph.changeWeight()` to increase stroke
    thickness by a configurable number of units.
 3. Selective glyph processing:
-   - **Skip entirely:** `fae-gut`, `dev-ohmyzsh`, `uniE24B` (these glyphs would break
-     or look wrong if emboldened).
-   - **Half-weight:** `dev-babel`, `dev-postcss` (lighter emboldening to preserve detail).
+   - **Skip entirely:** `fae-gut`, `dev-ohmyzsh`, `uniE24B` (these glyphs would break or
+     look wrong if emboldened).
+   - **Half-weight:** `dev-babel`, `dev-postcss` (lighter emboldening to preserve
+     detail).
    - **Full weight:** All other glyphs.
 4. Updates font metadata: `os2_weight`, `fontname`, `fullname`, `familyname`, weight
    string.
@@ -243,7 +245,7 @@ BOLD_SUFFIXES = ["Bold", "BoldItalic", "BoldIta"]
 **Output files generated:**
 
 | File | Size | Weight | Style |
-|------|------|--------|-------|
+| --- | --- | --- | --- |
 | `B612MonoLigaNerdFont-ExtraBold.ttf` | 2.0 MB | 800 | Normal |
 | `B612MonoLigaNerdFont-ExtraBoldItalic.ttf` | 2.0 MB | 800 | Italic |
 
@@ -263,8 +265,8 @@ strategy**:
 
 **Why:**
 - B612 has the most legible and aesthetically pleasing letterforms and figures.
-- B612's punctuation and special characters were found to be inconsistent — uneven sizing
-  and visual weight.
+- B612's punctuation and special characters were found to be inconsistent, with uneven
+  sizing and visual weight.
 - Hack provides cleaner punctuation and comprehensive glyph coverage.
 
 **Limitation:** CSS-level compositing only works in browser/Electron contexts. Does not
@@ -272,7 +274,7 @@ work in native terminals, IDEs, or general distribution.
 
 ### Step 4: Zero Glyph
 
-The original B612 zero (`0`) is ambiguous — it lacks a dot or slash to distinguish it
+The original B612 zero (`0`) is ambiguous: it lacks a dot or slash to distinguish it
 from uppercase `O`.
 
 **Resolution:** The carlosedp fork already fixes this:
@@ -302,21 +304,22 @@ preferred zero style.
 ```
 
 Notable configuration decisions:
-- Bold text uses weight **800** (ExtraBold), not 700 (Bold). This was deliberate — at
+- Bold text uses weight **800** (ExtraBold), not 700 (Bold). This was deliberate: at
   small sizes, standard Bold was not visually distinct enough from Regular.
 - **Ligatures are disabled** (`disableLigatures: true`), even though the B612 Liga font
   has FiraCode ligatures baked in. The ligatures are available via the `calt` OpenType
   feature but turned off in kerm's default config.
 - **Line height** was tuned from 1.15 → 1.0 → settled at 1.04 as the optimal value.
 - **Hack uses the non-Mono variant** (`Hack Nerd Font`, not `Hack Nerd Font Mono`) for
-  double-wide Nerd Font icon glyphs, which render much better than single-cell Mono glyphs.
+  double-wide Nerd Font icon glyphs, which render much better than single-cell Mono
+  glyphs.
 
 ### Step 6: Font Experimentation Timeline
 
-Several font families were evaluated before settling on B612 + Hack:
+Several font families were evaluated before settling on B612 and Hack:
 
 | Date | Commit | Description |
-|------|--------|-------------|
+| --- | --- | --- |
 | 2025-01-13 | `e0ced10b` | `embolden_font.py` created; Hack ExtraBold generated |
 | 2025-01-13 | `68a38693` | Extended to Monaspace Ne ExtraBold |
 | 2025-01-13 | `8c72d3a8` | Added B612MonoLigaNerdFont (all 6 variants) |
@@ -332,13 +335,13 @@ each font, weight experiments, zero glyph analysis, and all configuration tuning
 ### Supporting Scripts
 
 | Script | Purpose | Needed for Planetaire? |
-|--------|---------|----------------------|
-| `attic/kerm/bin/embolden_font.py` | Generate heavier weights via FontForge | Yes — port to module |
-| `attic/kerm/bin/dump_font_metadata.py` | Inspect font metadata via FontForge | Yes — rewrite with fontTools |
-| `attic/kerm/bin/otf_to_ttf.py` | OTF-to-TTF conversion via FontForge | No — sources are TTF |
+| --- | --- | --- |
+| `attic/kerm/bin/embolden_font.py` | Generate heavier weights via FontForge | Yes: port to module |
+| `attic/kerm/bin/dump_font_metadata.py` | Inspect font metadata via FontForge | Yes: rewrite with fontTools |
+| `attic/kerm/bin/otf_to_ttf.py` | OTF-to-TTF conversion via FontForge | No: sources are TTF |
 | `attic/kerm/bin/decode_mac_xattrs.py` | macOS xattr inspection | No |
 
----
+* * *
 
 ## Source Font Provenance
 
@@ -415,7 +418,7 @@ Extract only `HackNerdFont-{Regular,Bold,Italic,BoldItalic}.ttf` (non-Mono varia
 ### License Summary
 
 | Component | License(s) | Copyright |
-|-----------|-----------|-----------|
+| --- | --- | --- |
 | B612 (original) | EPL-2.0 + EDL-1.0 + OFL-1.1 | (c) 2012 AIRBUS |
 | FiraCode ligatures | OFL-1.1 | (c) 2015 Nikita Prokopov |
 | Hack | MIT + Bitstream Vera License | (c) 2018 Source Foundry Authors, (c) 2003 Bitstream |
@@ -428,32 +431,32 @@ redistribution, compatible with all source licenses).
 ### Source Repos (Checked Out in `attic/`)
 
 | Directory | Repository | Purpose |
-|-----------|-----------|---------|
+| --- | --- | --- |
 | `attic/kerm/` | jlevy/kerm | Prior font work, scripts, generated fonts |
 | `attic/b612-carlosedp/` | carlosedp/b612 | B612 fork with zero fixes, ligatures, Nerd Fonts |
 | `attic/b612-original/` | polarsys/b612 | Original B612 for reference |
 | `attic/hack-source/` | source-foundry/Hack | Original Hack font source |
 | `attic/nerd-fonts/` | ryanoasis/nerd-fonts | Nerd Fonts patcher and glyph sources |
 
----
+* * *
 
 ## Analysis of carlosedp Fork (vs. Original polarsys/b612)
 
 The carlosedp fork was compared against the original polarsys/b612 repo to understand
-every change made. The fork history is a single squashed commit
-(`00aec07`, October 9, 2025) that encompasses all modifications.
+every change made. The fork history is a single squashed commit (`00aec07`, October 9,
+2025\) that encompasses all modifications.
 
 ### Changes by Category
 
 #### 1. Source Format Change: UFO -> VFC
 
-The original polarsys repo contained **4,800+ UFO files** (text-based, git-trackable font
-sources) plus VFB (FontForge Binary) files. The carlosedp fork **replaced all of these**
-with 8 **VFC files** (FontLab binary format).
+The original polarsys repo contained **4,800+ UFO files** (text-based, git-trackable
+font sources) plus VFB (FontForge Binary) files. The carlosedp fork **replaced all of
+these** with 8 **VFC files** (FontLab binary format).
 
 **Implication:** The zero glyph modifications were done in FontLab, a proprietary tool
-($99-$399). The VFC format is opaque binary, making it impossible to diff individual glyph
-changes in git. This is a step backward for reproducibility.
+($99-$399). The VFC format is opaque binary, making it impossible to diff individual
+glyph changes in git. This is a step backward for reproducibility.
 
 **For Planetaire:** We do NOT need to reproduce the FontLab editing step. The carlosedp
 fork already provides the finished TTF outputs with dotted zero, slashed zero OpenType
@@ -461,8 +464,8 @@ features, and all glyph modifications baked in. We consume these as pre-built in
 
 #### 2. Zero Glyph Modifications
 
-- Created a dual-zero system: **dotted zero** (default) + **slashed zero** (via `'zero'`
-  OpenType feature) + **empty zero** (via `'ezer'` OpenType feature)
+- Created a dual-zero system: **dotted zero** (default), **slashed zero** (via `'zero'`
+  OpenType feature), and **empty zero** (via `'ezer'` OpenType feature)
 - Applied to both B612 and B612Mono families
 - Also created separate `SlashedZero/` subdirectories with slashed zero as the default
   (font-level variant, not just OpenType feature)
@@ -470,8 +473,8 @@ features, and all glyph modifications baked in. We consume these as pre-built in
 
 #### 3. Ligature Addition
 
-- Used [Ligaturizer](https://github.com/ToxicFrog/Ligaturizer) (carlosedp's own fork)
-  to merge FiraCode ligatures into B612
+- Used [Ligaturizer](https://github.com/ToxicFrog/Ligaturizer) (carlosedp's own fork) to
+  merge FiraCode ligatures into B612
 - Created new font families: `B612Liga` and `B612MonoLiga`
 - Ligatures add 20-40% to font file size
 - Configured via OpenType `calt` (contextual alternates) feature
@@ -483,11 +486,11 @@ features, and all glyph modifications baked in. We consume these as pre-built in
 - Created `B612LigaNerdFont` and `B612MonoLigaNerdFont` families
 - File sizes explode from ~200KB to ~2.5MB per font (10-25x increase)
 - Only applied to ligaturized variants (not plain fonts)
-- Nerd Fonts version not pinned — uses latest Docker image
+- Nerd Fonts version not pinned; uses latest Docker image
 
 #### 5. Build Script Rewrite
 
-- Original `scripts/build.sh` (70 lines): VFB->UFO conversion + DSIG fix
+- Original `scripts/build.sh` (70 lines): VFB->UFO conversion and DSIG fix
 - New `scripts/build.sh` (101 lines): Processes 40+ font variants across all directories
 - Key operations: `gftools fix-nonhinting` on all fonts (fixes GASP, PREP, DSIG tables)
 - Removed VFB->UFO conversion (no longer relevant with VFC sources)
@@ -503,7 +506,7 @@ features, and all glyph modifications baked in. We consume these as pre-built in
 ### Output Organization (48 Total Font Files)
 
 | Directory | Families | Files | Features |
-|-----------|----------|-------|----------|
+| --- | --- | --- | --- |
 | `fonts/original/` | B612, B612Mono | 8 | Unmodified upstream |
 | `fonts/plain/` | B612, B612Mono (+ SlashedZero) | 16 | Dotted/slashed zero |
 | `fonts/ligatures/` | B612Liga, B612MonoLiga (+ SlashedZero) | 16 | + FiraCode ligatures |
@@ -511,7 +514,7 @@ features, and all glyph modifications baked in. We consume these as pre-built in
 
 ### Best Practices to Adopt
 
-1. **`gftools fix-nonhinting`:** Always run as a final step — fixes GASP, PREP, and DSIG
+1. **`gftools fix-nonhinting`:** Always run as a final step. Fixes GASP, PREP, and DSIG
    tables for proper rendering on all platforms. We should include this in our pipeline.
 
 2. **OpenType feature-based variants:** Using `'zero'`/`'ezer'` features instead of
@@ -531,10 +534,10 @@ features, and all glyph modifications baked in. We consume these as pre-built in
 2. **No Docker dependency:** We use Python (fontTools) directly instead of Docker.
 3. **No Ligaturizer step:** B612MonoLigaNerdFont already includes ligatures.
 4. **No Nerd Fonts patcher step:** Both source fonts already include NF glyphs.
-5. **Binary font merging:** Our novel contribution — combining B612 + Hack at the glyph
+5. **Binary font merging:** Our novel contribution, combining B612 and Hack at the glyph
    level, which neither carlosedp nor any existing project does.
 
----
+* * *
 
 ## Approach Evaluation: Nerd Fonts Integration
 
@@ -542,7 +545,8 @@ Three approaches were considered for how Planetaire handles Nerd Font glyphs:
 
 ### Option A: Run the Nerd Fonts Patcher Ourselves
 
-Re-run `font-patcher` on our merged font to inject Nerd Font glyphs from source SVGs/OTFs.
+Re-run `font-patcher` on our merged font to inject Nerd Font glyphs from source
+SVGs/OTFs.
 
 **Pros:**
 - Full control over glyph selection, scaling, and positioning
@@ -578,12 +582,12 @@ Rewrite the core `copy_glyphs()` logic using fontTools instead of FontForge.
 
 ### Option C: Use Pre-Patched Source Fonts (Recommended)
 
-Take B612MonoLigaNerdFont (already has NF 3.4.0 glyphs) and HackNerdFont (already has
-NF 3.3.0+ glyphs) as inputs. Our pipeline only does the novel work: merging letterforms,
+Take B612MonoLigaNerdFont (already has NF 3.4.0 glyphs) and HackNerdFont (already has NF
+3.3.0+ glyphs) as inputs. Our pipeline only does the novel work: merging letterforms,
 generating ExtraBold weights, and renaming.
 
 **Pros:**
-- Simplest approach — no Nerd Fonts patcher dependency at all
+- Simplest approach: no Nerd Fonts patcher dependency at all
 - Both sources already battle-tested with correct glyph scaling/positioning
 - Eliminates FontForge dependency for Nerd Font patching entirely
 - Pure Python pipeline (fontTools) except for ExtraBold generation
@@ -594,10 +598,11 @@ generating ExtraBold weights, and renaming.
 - Can't independently update Nerd Font glyph set without new source fonts
 - Two different NF versions in sources (B612 has 3.4.0, Hack has 3.3.0)
 
-**Mitigation for version mismatch:** Since we're taking *different* glyphs from each font
-(B612 for letters/digits, Hack for punctuation/symbols/NF icons), and Nerd Font glyphs
-primarily come from the Hack base, the version difference is manageable. Both have
-comprehensive NF coverage. We can periodically update source fonts as new versions release.
+**Mitigation for version mismatch:** Since we're taking *different* glyphs from each
+font (B612 for letters/digits, Hack for punctuation/symbols/NF icons), and Nerd Font
+glyphs primarily come from the Hack base, the version difference is manageable. Both
+have comprehensive NF coverage. We can periodically update source fonts as new versions
+release.
 
 **Decision: Option C.** Use pre-patched fonts. This keeps the pipeline straightforward
 Python, avoids Docker and FontForge for NF patching, and focuses our engineering effort
@@ -607,18 +612,19 @@ on the novel merging step that no existing tool provides.
 
 If we ever need to independently re-patch with a newer Nerd Fonts version:
 1. Download the latest `font-patcher` and glyph sources from nerd-fonts releases
-2. Run it on our merged (pre-NF) font: `fontforge -script font-patcher PlanetaireMono.ttf -c`
+2. Run it on our merged (pre-NF) font:
+   `fontforge -script font-patcher PlanetaireMono.ttf -c`
 3. This can be a documented manual step or optional pipeline phase
-4. The patcher is designed for exactly this use case — patching any font
+4. The patcher is designed for exactly this use case: patching any font
 
----
+* * *
 
 ## Design
 
 ### Target Font Family: Planetaire Mono
 
 | Variant | Weight | Style | Source |
-|---------|--------|-------|--------|
+| --- | --- | --- | --- |
 | Planetaire Mono Regular | 400 | Normal | B612 letters/figures merged into Hack base |
 | Planetaire Mono Italic | 400 | Italic | B612 Italic + Hack Italic |
 | Planetaire Mono Bold | 700 | Normal | B612 Bold + Hack Bold |
@@ -628,22 +634,23 @@ If we ever need to independently re-patch with a newer Nerd Fonts version:
 
 #### Naming Convention
 
-The official font family name is **"Planetaire Mono"** (with space). This name appears in:
+The official font family name is **"Planetaire Mono"** (with space). This name appears
+in:
 - Font metadata: name table ID 1 (Family), ID 4 (Full Name), ID 16 (Typographic Family)
 - Terminal/editor font pickers (the name users see and select)
 - All documentation and references
 
-Filenames use **"PlanetaireMono"** (no space), following the Nerd Fonts convention
-(e.g. HackNerdFont-Regular.ttf):
+Filenames use **"PlanetaireMono"** (no space), following the Nerd Fonts convention (e.g.
+HackNerdFont-Regular.ttf):
 - `PlanetaireMono-Regular.ttf`, `PlanetaireMono-Bold.ttf`, etc.
 - Archive names: `PlanetaireMono.tar.xz`
 - Install directory: `~/.local/share/fonts/PlanetaireMono/`
 
-PostScript name (name table ID 6): **"PlanetaireMono-Regular"**, **"PlanetaireMono-Bold"**,
-etc. (PostScript names cannot contain spaces per the spec).
+PostScript name (name table ID 6): **"PlanetaireMono-Regular"**,
+**"PlanetaireMono-Bold"**, etc. (PostScript names cannot contain spaces per the spec).
 
 | Context | Name |
-|---------|------|
+| --- | --- |
 | Font family (metadata, UI) | `Planetaire Mono` |
 | PostScript name | `PlanetaireMono-Regular` |
 | Filenames | `PlanetaireMono-Regular.ttf` |
@@ -653,8 +660,8 @@ etc. (PostScript names cannot contain spaces per the spec).
 ### Approach: Binary Font Merging
 
 Replace the CSS-level unicode-range compositing with actual binary font merging using
-`fontTools` (Python). This produces standalone TTF files that work everywhere — native
-terminals, IDEs, editors — without requiring CSS font stacking.
+`fontTools` (Python). This produces standalone TTF files that work everywhere (native
+terminals, IDEs, editors) without requiring CSS font stacking.
 
 **Merging strategy:**
 1. Start with Hack Nerd Font as the base (full glyph coverage).
@@ -713,7 +720,7 @@ OUTPUT                                       │
 ```
 
 **What the pipeline does NOT do** (handled by upstream):
-- Nerd Fonts patching (already in source fonts — no Docker needed)
+- Nerd Fonts patching (already in source fonts; no Docker needed)
 - Ligature injection (already in B612MonoLigaNerdFont via Ligaturizer)
 - Zero glyph modification (already in B612 via carlosedp's FontLab edits)
 - SVG/OTF glyph source management (Nerd Fonts project handles this)
@@ -756,18 +763,18 @@ src/planetaire/
 
 #### Design Principles
 
-**Function-first**: Every operation is a pure Python function in `ops/`. These
-functions accept fontTools `TTFont` objects (or `Path` for I/O-bound ops) and return
-results. They have no CLI dependencies, no Rich formatting, no side effects beyond
-their arguments. This makes them importable, testable, and composable.
+**Function-first**: Every operation is a pure Python function in `ops/`. These functions
+accept fontTools `TTFont` objects (or `Path` for I/O-bound ops) and return results. They
+have no CLI dependencies, no Rich formatting, no side effects beyond their arguments.
+This makes them importable, testable, and composable.
 
-**CLI as thin wrapper**: `cli.py` uses Typer to wrap each op with argument parsing,
-file I/O, and Rich output formatting. The CLI layer handles loading/saving font files,
+**CLI as thin wrapper**: `cli.py` uses Typer to wrap each op with argument parsing, file
+I/O, and Rich output formatting. The CLI layer handles loading/saving font files,
 parsing command-line arguments (paths, unicode range strings), progress display and
 error formatting, and exit codes.
 
 **Recipes call functions, not CLI**: The `recipes/` modules call `ops/` functions
-directly in Python — no subprocess calls, no CLI overhead. This is faster and
+directly in Python, with no subprocess calls and no CLI overhead. This is faster and
 provides proper error propagation.
 
 Example of the function → CLI → recipe layering:
@@ -817,7 +824,7 @@ def build_planetaire_mono(b612_path: Path, hack_path: Path, output_dir: Path) ->
 
 #### Ops Function Signatures and Implementation Notes
 
-**`ops/info.py`** — Font metadata inspection:
+**`ops/info.py`**: Font metadata inspection:
 ```python
 @dataclass
 class FontInfo:
@@ -840,7 +847,7 @@ def inspect_font(path: Path) -> FontInfo:
 
 Uses `fontTools.ttLib.TTFont` to read `name`, `head`, `OS/2`, `GSUB`, and `cmap` tables.
 
-**`ops/merge.py`** — Glyph merging by unicode range:
+**`ops/merge.py`**: Glyph merging by unicode range:
 ```python
 def merge_glyphs(
     base: TTFont,
@@ -871,7 +878,7 @@ using `fontTools.misc.transform.Transform`. This affects: glyph contours in `gly
 advance widths in `hmtx`, vertical metrics in `OS/2` and `hhea`, and any positioning
 values in `GPOS`.
 
-**`ops/rename.py`** — Font naming:
+**`ops/rename.py`**: Font naming:
 ```python
 def rename_font(
     font: TTFont,
@@ -890,7 +897,7 @@ def rename_font(
     """
 ```
 
-**`ops/fix.py`** — Post-processing fixes:
+**`ops/fix.py`**: Post-processing fixes:
 ```python
 def fix_font(font: TTFont) -> TTFont:
     """Apply standard post-processing fixes.
@@ -909,7 +916,7 @@ We implement the DSIG/fsType/GASP fixes directly in fontTools (referencing the e
 `gftools` as a runtime dependency. If `gftools` is available, we can use it as an
 alternative path.
 
-**`ops/validate.py`** — Font validation:
+**`ops/validate.py`**: Font validation:
 ```python
 @dataclass
 class Issue:
@@ -936,7 +943,7 @@ def validate_font(
     """
 ```
 
-**`ops/compare.py`** — Glyph-level font comparison:
+**`ops/compare.py`**: Glyph-level font comparison:
 ```python
 @dataclass
 class GlyphDiff:
@@ -984,7 +991,7 @@ The comparison uses `fontTools.pens.recordingPen.RecordingPen` to serialize glyp
 outlines into a canonical sequence of drawing operations, then compares these sequences.
 This handles composite glyphs (components), simple outlines, and mixed glyphs uniformly.
 
-**`ops/embolden.py`** — Weight generation (FontForge):
+**`ops/embolden.py`**: Weight generation (FontForge):
 ```python
 def embolden_font(
     input_path: Path,
@@ -1013,7 +1020,7 @@ Internally shells out to `fontforge -script` with an embedded script, or imports
 **Generic font operations** (reusable on any font):
 
 | Command | Description |
-|---------|-------------|
+| --- | --- |
 | `planetaire info <font>` | Inspect font metadata, glyph counts, features |
 | `planetaire merge --base <font> --donor <font> --ranges <ranges> --output <out>` | Copy glyphs from donor into base by unicode range |
 | `planetaire embolden <font> --weight 800 --change 30 --output <out>` | Generate heavier weight variant (requires FontForge) |
@@ -1025,7 +1032,7 @@ Internally shells out to `fontforge -script` with an embedded script, or imports
 **Planetaire-specific recipes** (subcommand group):
 
 | Command | Description |
-|---------|-------------|
+| --- | --- |
 | `planetaire build download [--output-dir <dir>]` | Fetch source fonts from upstream |
 | `planetaire build planetaire-mono [--output-dir <dir>] [--variant regular\|all]` | Run full Planetaire Mono pipeline |
 
@@ -1037,8 +1044,8 @@ Internally shells out to `fontforge -script` with an embedded script, or imports
 - **Dry run**: `--dry-run` on commands that write files
 - **Atomic writes**: All font file output uses `strif.atomic_output_file`
 - **Exit codes**: 0 success, 1 error, 2 validation failure
-- **Error handling**: Custom `CLIError` and `ValidationError` exceptions with
-  consistent formatting and appropriate exit codes
+- **Error handling**: Custom `CLIError` and `ValidationError` exceptions with consistent
+  formatting and appropriate exit codes
 
 #### System Dependency Detection
 
@@ -1075,22 +1082,22 @@ fonts: download build-fonts validate-fonts
 1. **Pure Python pipeline (fontTools), no Docker:**
    - `fontTools` (pure Python, pip-installable) for all glyph copying, metadata editing,
      and validation. No system dependency.
-   - No Docker containers. No Nerd Fonts patcher invocation. No Ligaturizer. All of these
-     are already baked into the pre-built source fonts.
-   - FontForge's `changeWeight()` for emboldening only — this is a complex outline
+   - No Docker containers. No Nerd Fonts patcher invocation. No Ligaturizer. All of
+     these are already baked into the pre-built source fonts.
+   - FontForge's `changeWeight()` for emboldening only; this is a complex outline
      operation with no pure-Python equivalent. FontForge remains a system dependency for
      this one step (`brew install fontforge` / `apt install fontforge`).
    - Alternative: pre-generate ExtraBold variants and include them as source fonts,
      eliminating the FontForge dependency entirely for most users.
 
-2. **Pre-patched source fonts (no re-patching):**
-   Both B612MonoLigaNerdFont and HackNerdFont already include Nerd Font glyphs, ligatures,
-   and zero fixes from their respective upstream build processes. We consume these finished
-   TTFs as inputs rather than re-running the complex patching infrastructure.
+2. **Pre-patched source fonts (no re-patching):** Both B612MonoLigaNerdFont and
+   HackNerdFont already include Nerd Font glyphs, ligatures, and zero fixes from their
+   respective upstream build processes. We consume these finished TTFs as inputs rather
+   than re-running the complex patching infrastructure.
 
-3. **Hack as base font, B612 glyphs overlaid:**
-   Start with Hack (full glyph coverage, Nerd Font icons, clean punctuation) and replace
-   specific glyph ranges with B612 glyphs. This ensures no missing glyphs.
+3. **Hack as base font, B612 glyphs overlaid:** Start with Hack (full glyph coverage,
+   Nerd Font icons, clean punctuation) and replace specific glyph ranges with B612
+   glyphs. This ensures no missing glyphs.
 
 4. **Zero glyph:** B612 from carlosedp already has a dotted zero by default, with
    slashed zero available via `'zero'` OpenType feature. We preserve these features.
@@ -1104,13 +1111,14 @@ fonts: download build-fonts validate-fonts
 
 7. **ttfautohint:** Continue using ttfautohint for TrueType hinting on all output fonts.
 
----
+* * *
 
 ## Implementation Plan
 
 ### Phase 1: Repository Setup and Font Migration
 
-- [ ] Copy latest B612MonoLigaNerdFont TTFs from `attic/b612-carlosedp/fonts/ligatures_nerd/` into `fonts/source/b612/`
+- [ ] Copy latest B612MonoLigaNerdFont TTFs from
+  `attic/b612-carlosedp/fonts/ligatures_nerd/` into `fonts/source/b612/`
 - [ ] Download and copy latest HackNerdFont TTFs (v3.4.0) into `fonts/source/hack/`
 - [ ] Copy license files: B612 `OFL.txt`, `EPL-2.0.html`, `edl-v10.html`; Hack license
 - [ ] Create `fonts/source/README.md` documenting provenance
@@ -1133,7 +1141,8 @@ fonts: download build-fonts validate-fonts
   - Extract configuration (weight classes, change amounts, skip lists) to `config.py`
   - Add proper error handling and logging
   - Document the glyph skip/half-weight lists with rationale
-  - Detect FontForge availability; raise clear error with install instructions if missing
+  - Detect FontForge availability; raise clear error with install instructions if
+    missing
 - [ ] Create `src/planetaire/ops/info.py` using fontTools
   - Read font metadata (name table, OS/2 weight, version, glyph count)
   - Return structured `FontInfo` dataclass for programmatic use
@@ -1183,37 +1192,35 @@ section above.
 
 - [ ] Set up `cli.py` with Typer app, global options (`--format`, `--no-progress`)
 - [ ] Create `ops/` module with generic font operations as pure functions:
-  - `ops/info.py` — `inspect_font(path) -> FontInfo`
-  - `ops/merge.py` — `merge_glyphs(base, donor, ranges) -> TTFont`
-  - `ops/embolden.py` — `embolden_font(font, weight, change) -> TTFont`
-  - `ops/rename.py` — `rename_font(font, family, ...) -> TTFont`
-  - `ops/fix.py` — `fix_font(font) -> TTFont`
-  - `ops/validate.py` — `validate_font(font) -> list[Issue]`
-  - `ops/compare.py` — `compare_fonts(font_a, font_b, ranges) -> CompareResult`
+  - `ops/info.py`: `inspect_font(path) -> FontInfo`
+  - `ops/merge.py`: `merge_glyphs(base, donor, ranges) -> TTFont`
+  - `ops/embolden.py`: `embolden_font(font, weight, change) -> TTFont`
+  - `ops/rename.py`: `rename_font(font, family, ...) -> TTFont`
+  - `ops/fix.py`: `fix_font(font) -> TTFont`
+  - `ops/validate.py`: `validate_font(font) -> list[Issue]`
+  - `ops/compare.py`: `compare_fonts(font_a, font_b, ranges) -> CompareResult`
 - [ ] Register each op as a CLI subcommand in `cli.py`
-- [ ] Create `recipes/planetaire_mono.py` — full Planetaire Mono build pipeline
-  calling ops functions directly (no subprocess):
+- [ ] Create `recipes/planetaire_mono.py`: full Planetaire Mono build pipeline calling
+  ops functions directly (no subprocess):
   - `build_planetaire_mono(source_dir, output_dir, variant)` entry point
-  - For each variant (Regular, Italic, Bold, BoldItalic):
-    a. Load Hack as base, B612 as donor
-    b. `merge_glyphs()` with `PLANETAIRE_LETTER_RANGES` and `copy_gsub_features=['calt', 'zero', 'ezer']`
-    c. `rename_font()` with family="Planetaire Mono", appropriate subfamily/weight
-    d. `fix_font()` for DSIG/GASP/fsType
-    e. `validate_font()` to check output
-    f. Save with `atomic_output_file`
-  - For ExtraBold/ExtraBoldItalic (if FontForge available):
-    a. `embolden_font()` on the Bold/BoldItalic output
-    b. `rename_font()` with weight=800, subfamily="ExtraBold"/"ExtraBold Italic"
-    c. `fix_font()` and `validate_font()`
+  - For each variant (Regular, Italic, Bold, BoldItalic): a. Load Hack as base, B612 as
+    donor b. `merge_glyphs()` with `PLANETAIRE_LETTER_RANGES` and
+    `copy_gsub_features=['calt', 'zero', 'ezer']` c. `rename_font()` with
+    family="Planetaire Mono", appropriate subfamily/weight d. `fix_font()` for
+    DSIG/GASP/fsType e. `validate_font()` to check output f. Save with
+    `atomic_output_file`
+  - For ExtraBold/ExtraBoldItalic (if FontForge available): a. `embolden_font()` on the
+    Bold/BoldItalic output b. `rename_font()` with weight=800,
+    subfamily="ExtraBold"/"ExtraBold Italic" c. `fix_font()` and `validate_font()`
   - Return list of output paths
-- [ ] Create `recipes/sources.py` — download and cache source fonts:
+- [ ] Create `recipes/sources.py`: download and cache source fonts:
   - Download B612MonoLigaNerdFont TTFs from carlosedp/b612 raw.githubusercontent.com
   - Download HackNerdFont from Nerd Fonts releases (Hack.tar.xz), extract non-Mono TTFs
   - Cache to `fonts/source/` to avoid re-downloading
   - Verify file integrity via checksums (SHA-256)
   - Return `dict[str, Path]` mapping variant names to font paths
-- [ ] Create `unicode_ranges.py` — range definitions and `parse_unicode_ranges()`
-- [ ] Create `config.py` — pipeline constants (weight params, skip lists, naming)
+- [ ] Create `unicode_ranges.py`: range definitions and `parse_unicode_ranges()`
+- [ ] Create `config.py`: pipeline constants (weight params, skip lists, naming)
 - [ ] Register recipes as `build` subcommand group (`planetaire build planetaire-mono`,
   `planetaire build download`)
 - [ ] Add system dependency detection for FontForge and ttfautohint with clear error
@@ -1239,8 +1246,8 @@ section above.
 
 ### Phase 7: Testing
 
-- [ ] Create test font fixtures: minimal TTF fonts (~50 glyphs each) using fontTools
-  for fast unit tests (committed to `tests/fixtures/`)
+- [ ] Create test font fixtures: minimal TTF fonts (~50 glyphs each) using fontTools for
+  fast unit tests (committed to `tests/fixtures/`)
 - [ ] Write pytest unit tests for each `ops/` function (see Testing Strategy below)
 - [ ] Write pytest integration test for `recipes/planetaire_mono.py` with fixture fonts
 - [ ] Write tryscript golden tests for CLI subcommands (see Testing Strategy below)
@@ -1251,8 +1258,8 @@ section above.
 ### Phase 8: End-to-End Validation Against Kerm Reference
 
 Verify that Planetaire Mono output fonts produce **identical glyphs** to the prior kerm
-font stack (B612 for letters/digits + Hack for everything else). The only expected
-differences are in metadata/naming tables — the glyph outlines themselves must match.
+font stack (B612 for letters/digits and Hack for everything else). The only expected
+differences are in metadata/naming tables; the glyph outlines themselves must match.
 
 - [ ] Implement `ops/compare.py`: glyph-level font comparison
   - Compare glyph outlines (contour points, control points, component references) for
@@ -1262,8 +1269,9 @@ differences are in metadata/naming tables — the glyph outlines themselves must
   - Output structured `CompareResult` with per-glyph status
   - Support tolerance for floating-point rounding in scaled coordinates
 - [ ] Register `planetaire compare` CLI subcommand
-  - `planetaire compare <font_a> <font_b>` — compare all shared codepoints
-  - `planetaire compare <font_a> <font_b> --ranges "U+0041-005A"` — compare specific ranges
+  - `planetaire compare <font_a> <font_b>`: compare all shared codepoints
+  - `planetaire compare <font_a> <font_b> --ranges "U+0041-005A"`: compare specific
+    ranges
   - `--format text|json` for structured output
   - `--strict` mode that fails on any difference (for CI)
 - [ ] Run full pipeline and compare output against kerm reference fonts:
@@ -1282,18 +1290,19 @@ differences are in metadata/naming tables — the glyph outlines themselves must
 ### Phase 9: Font Showcase and Specimen Generation
 
 Generate compelling visual samples for the README and a PDF specimen sheet. Premium
-monospace fonts (Berkeley Mono, FiraCode, Monaspace) set the bar: dark backgrounds,
-real code samples, crisp retina-quality PNGs, and systematic feature showcases.
+monospace fonts (Berkeley Mono, FiraCode, Monaspace) set the bar: dark backgrounds, real
+code samples, crisp retina-quality PNGs, and systematic feature showcases.
 
 #### README Images (PNG)
 
-**Tool: [freeze](https://github.com/charmbracelet/freeze)** (Charmbracelet) — a Go CLI
+**Tool: [freeze](https://github.com/charmbracelet/freeze)** (Charmbracelet), a Go CLI
 that renders code/terminal output to PNG/SVG with custom font embedding. Key advantages:
-supports `--font.file` for loading Planetaire Mono TTFs directly, `--execute` to
-capture real terminal command output with ANSI colors, configurable background/theme,
-and JSON config files for reproducible generation.
+supports `--font.file` for loading Planetaire Mono TTFs directly, `--execute` to capture
+real terminal command output with ANSI colors, configurable background/theme, and JSON
+config files for reproducible generation.
 
-- [ ] Install freeze: `go install github.com/charmbracelet/freeze@latest` (or download binary)
+- [ ] Install freeze: `go install github.com/charmbracelet/freeze@latest` (or download
+  binary)
 - [ ] Create `docs/showcase/freeze.json` config with:
   - Planetaire Mono font loaded via `font.file`
   - Black background matching kerm terminal color scheme
@@ -1301,7 +1310,7 @@ and JSON config files for reproducible generation.
   - Window chrome disabled for clean look (or minimal, tasteful chrome)
   - Output at 2x display width for retina crispness (render ~1500px, display at 750px)
 - [ ] Generate hero image: 10-15 lines of syntax-highlighted code on dark background
-  - Real code, not lorem ipsum — something that shows off the B612 letterforms
+  - Real code, not lorem ipsum, something that shows off the B612 letterforms
   - Use a syntax theme matching kerm's carefully chosen color palette
 - [ ] Generate monochrome sample: single-color text on black background
   - Shows letterform quality without color distractions
@@ -1309,8 +1318,8 @@ and JSON config files for reproducible generation.
 - [ ] Generate colored console output sample: capture actual terminal command output
   - Use `freeze --execute` to render a real CLI command with ANSI colors
   - Shows the font in its natural habitat
-- [ ] Generate feature showcase: dotted zero vs slashed zero, weight comparison,
-  Nerd Font icons
+- [ ] Generate feature showcase: dotted zero vs slashed zero, weight comparison, Nerd
+  Font icons
 - [ ] Compress all PNGs with `optipng -o7` (lossless)
 - [ ] Store in `docs/images/` directory
 - [ ] Embed in README with `<img src="..." width="750">` for consistent display width
@@ -1323,7 +1332,7 @@ and JSON config files for reproducible generation.
 
 #### PDF Specimen Sheet
 
-**Tool: [typst](https://typst.app/)** — a modern typesetting system (Rust-based
+**Tool: [typst](https://typst.app/)**, a modern typesetting system (Rust-based
 alternative to LaTeX) that natively supports loading custom TTF fonts, has clean
 readable markup, and produces beautiful PDFs. Ideal for automated specimen generation.
 
@@ -1331,19 +1340,20 @@ readable markup, and produces beautiful PDFs. Ideal for automated specimen gener
 - [ ] Create `docs/specimen/planetaire-mono-specimen.typ` template:
   - Load all Planetaire Mono variants (Regular, Italic, Bold, BoldItalic, ExtraBold,
     ExtraBoldItalic) via `#set text(font: ...)` with explicit font file paths
-  - **Page 1 — Cover**: Font name, tagline, version, key properties
-    (B612 letterforms + Hack coverage, 6 weights, Nerd Font icons)
-  - **Page 2 — Character Set**: Full alphabet (upper + lower), digits, punctuation,
-    extended Latin, Greek, Cyrillic — showing every glyph range Planetaire covers
-  - **Page 3 — Weight Comparison**: Same sample text rendered in Regular (400),
-    Bold (700), ExtraBold (800) — both normal and italic
-  - **Page 4 — Code Sample**: Syntax-highlighted code (typst has built-in code
+  - **Page 1, Cover**: Font name, tagline, version, key properties (B612 letterforms and
+    Hack coverage, 6 weights, Nerd Font icons)
+  - **Page 2, Character Set**: Full alphabet (upper and lower), digits, punctuation,
+    extended Latin, Greek, Cyrillic, showing every glyph range Planetaire covers
+  - **Page 3, Weight Comparison**: Same sample text rendered in Regular (400), Bold
+    (700), ExtraBold (800), both normal and italic
+  - **Page 4, Code Sample**: Syntax-highlighted code (typst has built-in code
     highlighting) on a dark background, showing the font in its primary use context
-  - **Page 5 — Feature Showcase**: Dotted zero (default) vs slashed zero (`zero`
-    feature) vs empty zero (`ezer` feature), Nerd Font icon samples, ligature examples
-  - **Page 6 — Provenance and License**: Brief credits (B612/Airbus, carlosedp,
-    Hack, Nerd Fonts), license text (OFL-1.1)
-- [ ] Add `make specimen` target: `typst compile docs/specimen/planetaire-mono-specimen.typ`
+  - **Page 5, Feature Showcase**: Dotted zero (default) vs slashed zero (`zero` feature)
+    vs empty zero (`ezer` feature), Nerd Font icon samples, ligature examples
+  - **Page 6, Provenance and License**: Brief credits (B612/Airbus, carlosedp, Hack,
+    Nerd Fonts), license text (OFL-1.1)
+- [ ] Add `make specimen` target:
+  `typst compile docs/specimen/planetaire-mono-specimen.typ`
 - [ ] Commit generated PDF to repo for easy download
 - [ ] Link to PDF from README
 
@@ -1360,8 +1370,8 @@ readable markup, and produces beautiful PDFs. Ideal for automated specimen gener
   - Concise motivation: what Planetaire Mono is and why it exists
   - Brief background on B612 (Airbus cockpit display font, optimized for legibility)
   - Credit to carlosedp fork (dotted zero, ligatures, Nerd Fonts patching)
-  - What Planetaire Mono changes and why: composite font merging B612 letterforms
-    with Hack punctuation/symbols for a complete, self-contained font
+  - What Planetaire Mono changes and why: composite font merging B612 letterforms with
+    Hack punctuation/symbols for a complete, self-contained font
   - Embed showcase images (hero, monochrome, colored console, features)
   - Link to PDF specimen sheet
   - Installation instructions (download TTFs or build from source)
@@ -1376,14 +1386,14 @@ readable markup, and produces beautiful PDFs. Ideal for automated specimen gener
 
 Package the output fonts for easy installation across platforms. Follow the Nerd Fonts
 pattern: archives on GitHub Releases with clear manual install instructions. Keep it
-minimal — no custom installer, no web font builds, no package manager formulae yet.
+minimal: no custom installer, no web font builds, no package manager formulae yet.
 
 #### Release Artifacts
 
 - [ ] Create `scripts/release.sh` (or Makefile target) that:
   1. Runs the full build pipeline (`planetaire build planetaire-mono`)
-  2. Packages output into `PlanetaireMono.tar.xz` (preferred — ~1/10 the size of zip)
-     and `PlanetaireMono.zip` (for Windows users)
+  2. Packages output into `PlanetaireMono.tar.xz` (preferred, ~1/10 the size of zip) and
+     `PlanetaireMono.zip` (for Windows users)
   3. Includes all 6 variants: Regular, Italic, Bold, BoldItalic, ExtraBold,
      ExtraBoldItalic
   4. Includes `LICENSE` (OFL-1.1) and a brief `README.txt` with credits
@@ -1417,9 +1427,9 @@ PlanetaireMono/
 
 #### Installation Instructions (for README)
 
-**macOS:**
-Download from [GitHub Releases](https://github.com/jlevy/planetaire/releases),
-double-click each `.ttf` to open Font Book, or copy to `~/Library/Fonts/`:
+**macOS:** Download from
+[GitHub Releases](https://github.com/jlevy/planetaire/releases), double-click each
+`.ttf` to open Font Book, or copy to `~/Library/Fonts/`:
 ```bash
 curl -L https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono.tar.xz | tar xJ
 cp PlanetaireMono/*.ttf ~/Library/Fonts/
@@ -1460,16 +1470,15 @@ config.font_size = 14
 
 **iTerm2:** Preferences → Profiles → Text → Font → "Planetaire Mono"
 
-**Note:** Bold text is best mapped to ExtraBold (weight 800) rather than Bold (700)
-for maximum visual distinction at small sizes. This was a deliberate design decision
-from the kerm terminal work (see [font-customization-notes.md](font-customization-notes.md)).
+**Note:** Bold text is best mapped to ExtraBold (weight 800) rather than Bold (700) for
+maximum visual distinction at small sizes. This was a deliberate design decision from
+the kerm terminal work (see [font-customization-notes.md](font-customization-notes.md)).
 
 #### Future: Homebrew Cask
 
-A Homebrew cask (`brew install font-planetaire-mono`) can be added later once the font
-is stable and there's enough demand. The cask formula is straightforward — see Nerd
+## A Homebrew cask (`brew install font-planetaire-mono`) can be added later once the font
+is stable and there's enough demand. The cask formula is straightforward; see Nerd
 Fonts' casks in `Homebrew/homebrew-cask` for the pattern.
----
 
 ## Testing Strategy
 
@@ -1509,10 +1518,10 @@ tests/
 Each `ops/` function is tested with small fixture fonts. Tests verify:
 
 - **info**: Correct metadata extraction (glyph count, UPM, weight, features)
-- **merge**: Glyphs copied for specified ranges, base glyphs preserved elsewhere,
-  cmap updated correctly
-- **embolden**: Output weight increased, metadata updated (requires FontForge;
-  skipped in CI if unavailable via `pytest.mark.skipif`)
+- **merge**: Glyphs copied for specified ranges, base glyphs preserved elsewhere, cmap
+  updated correctly
+- **embolden**: Output weight increased, metadata updated (requires FontForge; skipped
+  in CI if unavailable via `pytest.mark.skipif`)
 - **rename**: Name table entries updated correctly, all name IDs consistent
 - **fix**: DSIG table present, fsType correct
 - **validate**: Detects missing glyphs, wrong metrics, feature issues
@@ -1577,7 +1586,7 @@ Error: [..]nonexistent.ttf[..]
 **What golden tests cover:**
 
 | Test File | Coverage |
-|-----------|----------|
+| --- | --- |
 | `cli-info.tryscript.md` | `planetaire info` text and JSON output, error cases |
 | `cli-merge.tryscript.md` | `planetaire merge` with various range specs, edge cases |
 | `cli-validate.tryscript.md` | `planetaire validate` pass and fail cases |
@@ -1587,8 +1596,8 @@ Error: [..]nonexistent.ttf[..]
 
 **Elision patterns** for unstable output:
 
-- `[..]` — matches variable text on a single line (glyph counts, paths, timing)
-- `...` — matches zero or more complete lines (tables, long listings)
+- `[..]`: matches variable text on a single line (glyph counts, paths, timing)
+- `...`: matches zero or more complete lines (tables, long listings)
 - Custom patterns can be defined in frontmatter for recurring formats
 
 **Running golden tests:**
@@ -1652,31 +1661,31 @@ jobs:
         run: npx tryscript@latest run tests/golden/
 ```
 
----
+* * *
 
 ## Open Questions
 
 ### Resolved
 
-1. **~~Nerd Fonts integration approach~~** — **Resolved: Use pre-patched source fonts
+1. **~~Nerd Fonts integration approach~~**: **Resolved: Use pre-patched source fonts
    (Option C).** Both B612MonoLigaNerdFont and HackNerdFont already include NF glyphs.
    No need to run the patcher ourselves. No Docker. No FontForge for this step.
 
-2. **~~Nerd Font version pinning~~** — **Resolved: Track upstream releases.** Use the
+2. **~~Nerd Font version pinning~~**: **Resolved: Track upstream releases.** Use the
    latest available versions of both source fonts. The carlosedp B612 has NF 3.4.0; Hack
    from Nerd Fonts releases has NF 3.3.0+. Since NF glyphs primarily come from the Hack
    base (which provides punctuation/symbols/icons), version mismatch is manageable.
    Periodically update source font downloads.
 
-3. **~~gftools post-processing~~** — **Resolved: Yes, adopt from carlosedp.** Run
+3. **~~gftools post-processing~~**: **Resolved: Yes, adopt from carlosedp.** Run
    `gftools fix-nonhinting` as a final pipeline step. This is standard practice for
    production font builds.
 
 ### Still Open
 
-4. **UPM normalization direction:** Scale Hack to 2000 (match B612) or scale B612 to 2048
-   (match Hack)? Scaling Hack down preserves B612's original metrics but may affect Hack
-   glyph quality. Need to test both approaches.
+4. **UPM normalization direction:** Scale Hack to 2000 (match B612) or scale B612 to
+   2048 (match Hack)? Scaling Hack down preserves B612's original metrics but may affect
+   Hack glyph quality. Need to test both approaches.
 
 5. **Which B612 glyphs to keep vs replace with Hack?** The current unicode-range covers
    letters and digits but excludes all punctuation. Should any punctuation glyphs from
@@ -1700,14 +1709,14 @@ jobs:
     how do we detect and incorporate updates? Should we pin to specific commit hashes /
     release tags, or track latest?
 
----
+* * *
 
 ## Files Inventory
 
 ### Scripts to Port (from `attic/kerm/bin/`)
 
 | File | Lines | Purpose | Port Strategy |
-|------|-------|---------|---------------|
+| --- | --- | --- | --- |
 | `embolden_font.py` | 180 | Generate heavier weights | Port to module, keep FontForge |
 | `dump_font_metadata.py` | ~96 | Inspect font metadata | Rewrite with fontTools |
 | `otf_to_ttf.py` | 68 | OTF-to-TTF conversion | Skip (sources are TTF) |
@@ -1717,7 +1726,7 @@ jobs:
 **B612 (from `attic/b612-carlosedp/fonts/ligatures_nerd/`):**
 
 | File | Size | Glyphs | UPM |
-|------|------|--------|-----|
+| --- | --- | --- | --- |
 | `B612MonoLigaNerdFont-Regular.ttf` | 2.5 MB | 11,357 | 2000 |
 | `B612MonoLigaNerdFont-Bold.ttf` | 2.5 MB | 11,357 | 2000 |
 | `B612MonoLigaNerdFont-Italic.ttf` | 2.5 MB | 11,357 | 2000 |
@@ -1726,7 +1735,7 @@ jobs:
 **Hack (from Nerd Fonts v3.3.0 in kerm, should update to v3.4.0):**
 
 | File | Size | Glyphs | UPM |
-|------|------|--------|-----|
+| --- | --- | --- | --- |
 | `HackNerdFont-Regular.ttf` | 2.5 MB | 11,957 | 2048 |
 | `HackNerdFont-Bold.ttf` | 2.6 MB | 11,957 | 2048 |
 | `HackNerdFont-Italic.ttf` | 2.6 MB | 11,957 | 2048 |
@@ -1734,15 +1743,15 @@ jobs:
 
 ### Key Configuration (from `attic/kerm/lib/utils/fonts.ts`)
 
-- **B612 unicode range:** Letters (Latin, Greek, Cyrillic) + digits only
+- **B612 unicode range:** Letters (Latin, Greek, Cyrillic) and digits only
 - **Font stack:** B612 (letters) -> Hack (everything else) -> system fallbacks
 - **Bold weight:** 800 (ExtraBold) for terminal bold, not 700
 - **Font size:** 12px default
 
 ## References
 
-- [B612 — Original by Airbus/PolarSys](https://github.com/polarsys/b612)
-- [carlosedp/b612 — Fork with zero fixes, ligatures, Nerd Fonts](https://github.com/carlosedp/b612)
+- [B612: Original by Airbus/PolarSys](https://github.com/polarsys/b612)
+- [carlosedp/b612: Fork with zero fixes, ligatures, and Nerd Fonts](https://github.com/carlosedp/b612)
 - [Hack font](https://github.com/source-foundry/Hack)
 - [Nerd Fonts](https://github.com/ryanoasis/nerd-fonts)
 - [Ligaturizer](https://github.com/ToxicFrog/Ligaturizer)
@@ -1753,3 +1762,7 @@ jobs:
 - Kerm font config: `attic/kerm/lib/utils/fonts.ts`
 - Kerm terminal config: `attic/kerm/app/config/config-default.json`
 - carlosedp build script: `attic/b612-carlosedp/scripts/build.sh`
+
+<!-- This document follows common-doc-guidelines.md.
+See github.com/jlevy/practical-prose and review guidelines before editing.
+-->
