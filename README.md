@@ -1,40 +1,79 @@
-<p align="center">
-<img src="docs/images/header.png" alt="Planetaire Mono" width="100%">
+<p align="center"> <img src="docs/images/header.png" alt="Planetaire Mono" width="100%">
 </p>
 
 Planetaire Mono is a beautiful, highly legible monospace font for terminals, editors,
-and agentic work: a lightly adapted fork of [B612 Mono](https://b612-font.com/) combined
-with symbols and icons from [Hack](https://sourcefoundry.org/hack/) and
+and agentic work.
+
+It is a lightly adapted fork of [B612 Mono](https://b612-font.com/) with added weights,
+symbols from [Hack](https://sourcefoundry.org/hack/), and extensive icons from
 [Nerd Fonts](https://www.nerdfonts.com/).
 
-**[Read the type specimen (PDF)](docs/specimen/planetaire-mono-specimen.pdf)** ·
-**[Download the fonts](https://github.com/jlevy/planetaire/releases/latest)**
+**[Read the Type Specimen (PDF)](docs/specimen/planetaire-mono-specimen.pdf)** ·
+**[Download the Fonts (TTF, WOFF2)](https://github.com/jlevy/planetaire/releases/latest)**
+
+It is [licensed freely](#license) for personal, commercial, and open source use.
 
 ## Why
 
-B612 was designed by Intactile Design for Airbus cockpit displays, optimized for reading
-under stress, at odd angles, and in poor lighting.
-Its letterforms are among the most legible drawn for monospace text.
+### About B612
 
-But B612 alone is not a complete programming font, and the versions in circulation,
-including the one on [Google Fonts](https://fonts.google.com/specimen/B612+Mono), have
-quirks that make them awkward for code and terminals: most notably an undotted zero that
-is easy to confuse with a capital `O`, plus no symbols or icons for programming.
+B612 began not as a typeface but as an aviation research program.
+In 2010 Airbus, [ENAC](https://www.enac.fr/en) (the French civil aviation university),
+and the Université de Toulouse III set out to define and validate an “aeronautical font”
+for cockpit screens: text a pilot can read correctly while fatigued, at oblique angles,
+or under vibration, glare, or near-darkness.
 
-Planetaire Mono fixes that.
-It merges B612’s letters and digits into Hack Nerd Font’s base and adds a dotted zero:
+The shapes were derived experimentally before they were drawn.
+Jean-Luc Vinot (ENAC) and Sylvie Athènes (Toulouse III) built confusion matrices of when
+and how characters get misread
+(“[Legible, are you sure?](https://dl.acm.org/doi/10.1145/2207676.2208387)” at CHI
+2012). In their controlled study, the prototype that became B612 drew slightly more
+correct reads than Verdana and clearly outperformed the legacy avionics font.
+Airbus then commissioned the Montpellier interface studio
+[Intactile Design](https://intactile.com/) (Nicolas Chauveau, Thomas Paillot, and
+Jonathan Favre-Lamarine) to draw the full family of eight variants.
+
+B612 is named for the asteroid home of the Little Prince, a nod to Saint-Exupéry,
+himself an aviator.
+
+B612’s unusual character is a humanist answer to an instrument-panel problem.
+Where earlier cockpit fonts went monolinear and rigid, B612 keeps stroke contrast, opens
+counters, and lengthens ascenders and descenders.
+Each word’s silhouette resolves quickly.
+At stroke junctions it carries small notches (light traps) that keep joins from filling
+in on bright, low-contrast displays.
+The result has quietly human character quirks that are grounded in measured legibility
+gains rather than style.
+
+In 2017, B612 was released as open source through the Eclipse
+[Polarsys](https://github.com/polarsys/b612) project.
+
+However, B612 alone is not a fully usable document or application font.
+The versions in circulation, including the one
+[on Google Fonts](https://fonts.google.com/specimen/B612+Mono), have uneven symbol
+coverage that is awkward for terminal and programming use.
+And the published version has an undotted zero that is easy to confuse with a capital
+`O`.
+
+### About Planetaire Mono
+
+Planetaire Mono arises from this need.
+It merges B612’s letters and digits into Hack Nerd Font’s base.
+It also adds more weights and a dotted zero:
 
 - **B612 letterforms** for letters, digits, and extended Latin, Greek, and Cyrillic.
-- **A dotted zero:** B612’s zero with a center dot for clear `0` vs `O`, in circle
-  (default) and rectangle (`ss01`) variants.
 - **Hack punctuation and symbols** for `{}[]()<>` and the rest.
+- **Eight variants across four weights,** including an added **ExtraBold (800)** for
+  terminal bold (see [Weights](#weights)).
 - **12,000+ Nerd Font icons** (Powerline, Font Awesome, Devicons) in the Extended
   family.
+- **A dotted zero:** B612’s zero with a center dot for clear `0` vs `O`, in circle
+  (default) and rectangle (`ss01`) variants.
 
 With these changes it has become one of the most beautiful and genuinely functional
-monospace fonts I’ve seen; it’s what I use every day.
-It carries a new name to avoid confusion with the original B612, to comply with the
-font’s license terms on naming, and to be a little more memorable.
+monospace fonts I’ve seen.
+I’ve used dozens of terminal fonts over the years, and Planetaire Mono is now what I use
+every day.
 
 <p align="center">
 <img src="docs/images/text-dark.png" width="100%" alt="A prose passage set in Planetaire Mono on a dark background, showing body-text legibility">
@@ -50,17 +89,17 @@ font’s license terms on naming, and to be a little more memorable.
 
 ## Download
 
-Two families, built from the same letterforms.
+Planetaire Mono is available in two packages, built from the same letterforms.
 Get the latest from
 [**GitHub Releases**](https://github.com/jlevy/planetaire/releases/latest):
 
-| Family | Best for | Includes | Download |
+| Package | Best for | Includes | Download |
 | --- | --- | --- | --- |
 | **Planetaire Mono Text** *(standard)* | Websites, documents, reading | Letters, punctuation, Greek/Cyrillic, box-drawing. No icons. TTF + WOFF2 (~67 KB/weight WOFF2). | [`.tar.xz`](https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Text.tar.xz) **~1 MB** · [`.zip`](https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Text.zip) ~1.3 MB |
 | **Planetaire Mono Extended** *(full)* | Terminals, coding, icon-rich CLIs | Everything in Text plus all ~12,000 Nerd Font icons and Powerline. TTF + WOFF2. | [`.tar.xz`](https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Extended.tar.xz) **~19 MB** · [`.zip`](https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Extended.zip) ~24 MB |
 
-Both ship the same 8 variants, each archive laid out as `ttf/` (for local install) and
-`web/` (WOFF2 plus an `@font-face` stylesheet).
+Both packages ship the same 8 variants, each archive laid out as `ttf/` (for local
+install) and `web/` (WOFF2 plus an `@font-face` stylesheet).
 To install locally: unzip and double-click the `ttf/*.ttf` files (macOS Font Book or
 Windows), or on Linux copy them to `~/.local/share/fonts/` and run `fc-cache -fv`.
 Per-OS and web details are under [Install](#install).
@@ -221,9 +260,28 @@ and these images is in [build-assets.runbook.md](docs/build-assets.runbook.md).
 ## License
 
 Planetaire Mono is released under the
-[SIL Open Font License 1.1](https://openfontlicense.org/) (OFL-1.1). The source fonts
-carry: **B612** OFL-1.1 and EPL-2.0; **Hack** MIT; **Nerd Fonts** patches MIT. The build
-tooling is [MIT](LICENSE).
+[SIL Open Font License 1.1](https://openfontlicense.org/) (OFL-1.1), the standard
+license for open fonts.
+In practical terms:
+
+- **Use it for anything, free.** Set text in Planetaire Mono in documents, books,
+  websites, apps, videos, and commercial products, with no fee and no permission needed.
+- **No credit required for use.** Setting text in the font does not obligate you to
+  attribute Planetaire Mono or B612 anywhere, including in publications, commercial
+  work, or open source software.
+  Credit is welcome but optional.
+- **Bundle and redistribute freely, but keep the license with the files.** If you ship
+  the font files themselves (embedding web fonts, packaging them in an app or OS),
+  include the OFL license and copyright notices alongside them.
+  You may not sell the font files on their own.
+- **Don’t reuse the B612 name for modified versions.** OFL lets an author reserve font
+  names, and “B612” is reserved, so a derivative cannot be distributed under that name.
+  That rule is why this fork is called Planetaire Mono.
+
+This is a summary, not legal advice; the [full OFL text](https://openfontlicense.org/)
+is binding. The upstream sources carry their own licenses: **B612** under OFL-1.1 and
+EPL-2.0; **Hack** under MIT; **Nerd Fonts** patches under MIT. The build tooling in this
+repo is [MIT](LICENSE).
 
 <!-- This document follows common-doc-guidelines.md.
 See github.com/jlevy/practical-prose and review guidelines before editing.
