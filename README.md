@@ -143,13 +143,23 @@ use the font:
   full set of ~12,000 Nerd Font icons and Powerline glyphs that terminals and CLIs draw,
   so the complete glyph set is recommended.
 
+**Formats.** Each archive ships:
+
+- **`.ttf`** (both families) — for local install: terminals, editors, and desktop apps
+  (double-click to install, or copy into your OS font directory).
+  See [Install](#install).
+- **`.woff2` and `.woff`** plus a ready **`planetaire-mono-text.css`** (**Text only**) —
+  for the web via `@font-face`: WOFF2 covers modern browsers, WOFF is the fallback.
+  The Extended icon font is local-install (TTF) only.
+
 See [Download](#download) for the archives and sizes.
 
 ## Install
 
 > The **fonts** are distributed via
-> [GitHub Releases](https://github.com/jlevy/planetaire/releases). This repo is the
-> **build tooling**, not the font itself; you only need it to build from source.
+> [GitHub Releases](https://github.com/jlevy/planetaire/releases).
+> This repo is the **build tooling**, not the font itself; you only need it to build
+> from source.
 
 ### macOS
 
