@@ -31,51 +31,68 @@
 
 // ─── Page 1: Cover ──────────────────────────────────────────────
 
-#v(2cm)
+#v(0.2cm)
 
 // Shared header block (same source as the README banner) so the cover and the
-// home-page header stay in sync.
-#header-card(p: pal-light)
+// home-page header stay in sync. The cover passes smaller padding than the banner
+// default since the page margin already gives the title breathing room.
+#header-card(p: pal-light, pad-top: 0.6cm, pad-bottom: 0.7cm)
 
-#v(0.6cm)
+#v(0.25cm)
 
 #align(center)[
-  #text(size: 10pt, fill: rgb("#666"))[
-    Joshua Levy\
+  #text(size: 10pt, fill: black)[
     github.com/jlevy/planetaire\
     Version #version#if build-date != "" [ · #build-date]
   ]
 ]
 
-#v(1.5cm)
+#v(0.65cm)
 
-#grid(
-  columns: (auto, 1fr),
-  gutter: 1.5cm,
-  [
-    #text(size: 9pt, fill: rgb("#666"))[
-      *Weights*\
-      #text(weight: "regular")[Regular] (400)\
-      #text(weight: "regular", style: "italic")[Italic] (400)\
-      #text(weight: 500)[Medium] (500)\
-      #text(weight: 500, style: "italic")[Medium Italic] (500)\
-      #text(weight: "bold")[Bold] (700)\
-      #text(weight: "bold", style: "italic")[Bold Italic] (700)\
-      #text(weight: 800)[ExtraBold] (800)\
-      #text(weight: 800, style: "italic")[ExtraBold Italic] (800)
-    ]
-  ],
-  [
-    #text(size: 9pt, fill: rgb("#666"))[
-      *Features*\
-      B612 base for letterforms (A\u{2013}Z, a\u{2013}z, 0\u{2013}9,\
-      #h(1em)extended Latin, Greek, Cyrillic)\
-      Modified zero (0) for legibility\
-      Punctuation and symbols from Hack\
-      12,000+ icons from Nerd Fonts
-    ]
-  ],
-)
+// The three cover sections share one centered, all-black style: a bold all-caps
+// heading over centered black items. Paragraph spacing is zeroed so the gap after
+// each heading is exactly the explicit v() below (~0.6 of a line) for balance.
+#let cover-heading(t) = {
+  text(size: 9.5pt, weight: "bold", fill: black)[#t]
+  v(0.34cm)
+}
+
+#align(center)[
+  #set par(spacing: 0pt)
+  #cover-heading("FEATURES")
+  #text(size: 9.5pt, fill: black)[
+    B612 base for letterforms\
+    (extended Latin, Greek, Cyrillic)\
+    Punctuation and symbols from Hack\
+    12,000+ icons from Nerd Fonts\
+    Modified zero (0) for legibility
+  ]
+
+  #v(0.65cm)
+  #cover-heading("WEIGHTS")
+  #text(size: 9.5pt, fill: black)[
+    #text(weight: "regular")[Regular] (400)\
+    #text(weight: "regular", style: "italic")[Italic] (400)\
+    #text(weight: 500)[Medium] (500)\
+    #text(weight: 500, style: "italic")[Medium Italic] (500)\
+    #text(weight: 600)[SemiBold] (600)\
+    #text(weight: 600, style: "italic")[SemiBold Italic] (600)\
+    #text(weight: "bold")[Bold] (700)\
+    #text(weight: "bold", style: "italic")[Bold Italic] (700)\
+    #text(weight: 800)[ExtraBold] (800)\
+    #text(weight: 800, style: "italic")[ExtraBold Italic] (800)
+  ]
+
+  #v(0.65cm)
+  #cover-heading("CREDITS")
+  #text(size: 9.5pt, fill: black)[
+    #text(weight: "bold")[Planetaire Mono] packaged and maintained by Joshua Levy\
+    #text(weight: "bold")[B612 Mono] letterforms by Intactile Design for Airbus\
+    #text(weight: "bold")[Hack] base punctuation, symbols, and metrics by Chris Simpkins\
+    #text(weight: "bold")[Nerd Fonts] 12,000+ icons by Ryan McIntyre\
+    Dotted zero inspired by Carlos Eduardo de Paula\u{2019}s B612 Nerd Font fork
+  ]
+]
 
 #pagebreak()
 
@@ -254,16 +271,39 @@
 
 #section[Planetaire Weight Comparison]
 
-#weight-ladder()
+#weight-ladder(compact: true)
 
-#v(0.3cm)
+#pagebreak()
 
-#let sample = "The quick brown fox jumps over the lazy dog"
-#label[SIZE COMPARISON: REGULAR AT VARIOUS SIZES]
-#for size in (8, 9, 10, 11, 12) {
-  text(size: eval(repr(size) + "pt"))[#sample]
-  v(0.08cm)
+
+// ─── Size Waterfall ─────────────────────────────────────────────
+
+#section[Planetaire Size Waterfall]
+
+#v(0.2cm)
+#text(size: 9pt, fill: rgb("#999"))[
+  Planetaire Mono from caption to display size, holding its proportions throughout.
+]
+#v(0.5cm)
+
+#let waterfall-line(sz) = {
+  grid(
+    columns: (1cm, 1fr),
+    column-gutter: 0.5cm,
+    align: (right + bottom, left + bottom),
+    text(size: 7pt, fill: rgb("#bbbbbb"))[#sz],
+    text(size: sz * 1pt)[Planetaire Mono],
+  )
+  v(0.2cm)
 }
+#for s in (8, 9, 10, 11, 12, 14, 16, 20, 24, 30, 36, 44) {
+  waterfall-line(s)
+}
+
+#v(0.6cm)
+#text(size: 8.5pt, weight: "bold", fill: rgb("#888"))[LEGIBILITY AT DISPLAY SIZE]
+#v(0.25cm)
+#text(size: 38pt)[Il1| O0o 0123]
 
 #pagebreak()
 
@@ -535,6 +575,81 @@
 #pagebreak()
 
 
+// ─── Typeface Specification ─────────────────────────────────────
+
+#section[Planetaire Typeface Specification]
+
+#v(0.4cm)
+
+#let spec-group(title) = {
+  text(size: 8.5pt, weight: "bold", fill: rgb("#888"))[#title]
+  v(0.12cm)
+  line(length: 100%, stroke: 0.5pt + rgb("#dddddd"))
+  v(0.15cm)
+}
+#let spec-row(label, value) = {
+  grid(
+    columns: (1fr, auto),
+    column-gutter: 0.5cm,
+    text(size: 9.5pt, fill: rgb("#666"))[#label],
+    text(size: 9.5pt, fill: rgb("#222"))[#value],
+  )
+  v(0.14cm)
+}
+
+#grid(
+  columns: (1fr, 1fr),
+  column-gutter: 1.2cm,
+  [
+    #spec-group("DESIGN")
+    #spec-row("Classification", "Monospace (fixed)")
+    #spec-row("Letterforms", "B612 Mono (humanist)")
+    #spec-row("Families", "Extended, Text")
+    #spec-row("Styles", "10 (5 weights × 2)")
+    #spec-row("Units per em", "2000")
+    #spec-row("Advance width", "1204 (0.602 em)")
+    #spec-row("Italic angle", "0°, true italics")
+
+    #v(0.5cm)
+    #spec-group("WEIGHTS")
+    #spec-row("Regular", "400")
+    #spec-row("Medium", "500")
+    #spec-row("SemiBold", "600")
+    #spec-row("Bold", "700")
+    #spec-row("ExtraBold", "800")
+  ],
+  [
+    #spec-group("VERTICAL METRICS (per 2000 em)")
+    #spec-row("Cap height", "1458")
+    #spec-row("x-height", "1094")
+    #spec-row("Ascender", "1856")
+    #spec-row("Descender", "-472")
+    #spec-row("Line gap", "0")
+
+    #v(0.5cm)
+    #spec-group("GLYPH COVERAGE")
+    #spec-row("Extended", "12,138 glyphs")
+    #spec-row("Text", "1,317 glyphs")
+
+    #v(0.5cm)
+    #spec-group("FORMATS")
+    #spec-row("Local install", "TTF")
+    #spec-row("Web", "WOFF2 + @font-face CSS")
+
+    #v(0.5cm)
+    #spec-group("OPENTYPE")
+    #spec-row("default", "circle-dot zero")
+    #spec-row("ss01 / zero", "rectangle-dot zero")
+
+    #v(0.5cm)
+    #spec-group("LICENSE")
+    #spec-row("All families", "SIL OFL 1.1")
+  ],
+)
+
+#pagebreak()
+
+
 // ─── Provenance & License ───────────────────────────────────────
 
 #section[Planetaire Provenance and License]
@@ -572,7 +687,7 @@
   For each weight variant, the pipeline loads Hack Nerd Font as the base,
   merges B612 letter and digit glyphs by Unicode range, adds a center dot
   to B612\u{2019}s zero for O/0 disambiguation, renames the result, and applies
-  post-processing fixes. Medium weights are generated from
+  post-processing fixes. Medium and SemiBold weights are generated from
   Regular, and ExtraBold from Bold, via FontForge emboldening.
 ]
 

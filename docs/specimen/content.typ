@@ -107,18 +107,29 @@
 
 // Home-page header banner (white background): the font name and lineage set in
 // Planetaire Mono itself. Rendered to docs/images/header.png by `build images`.
-#let header-card(p: pal-light) = align(center)[
-  #v(1.5cm)
+// pad-top / pad-bottom frame the card. The README banner (card.typ) uses the
+// generous defaults; the specimen cover passes smaller values since the page
+// margin already supplies breathing room.
+#let header-card(p: pal-light, pad-top: 1.4cm, pad-bottom: 1.0cm) = align(center)[
+  #v(pad-top)
   #text(size: 48pt, weight: 500, fill: p.fg)[Planetaire Mono]
-  #v(0.1cm)
+  // Vertical rhythm (base ~= 9.5pt body line, 0.47cm): the lineage sits tight
+  // under the title (~0.3 line) as its subtitle; the tagline is set off below
+  // (~1.9 line) as a separate descriptor.
+  #v(0.14cm)
   #text(size: 13pt, weight: 700, fill: p.fg)[
-    B612 LETTERFORMS \u{00B7} HACK INFRASTRUCTURE \u{00B7} NERD FONT ICONS
+    B612 LETTERFORMS\
+    HACK INFRASTRUCTURE\
+    NERD FONT ICONS
   ]
-  #v(0.4cm)
-  #text(size: 13pt, weight: 500, style: "italic", fill: p.fg)[
-    A beautiful, highly legible monospace font for terminals, editors, and agentic work
+  #v(0.9cm)
+  // Tagline in the true Regular (not the synthetic SemiBold), set slightly larger
+  // so it balances against the bold-but-smaller lineage above.
+  #text(size: 14pt, weight: "regular", fill: p.fg)[
+    A beautiful, highly legible monospace font\
+    for terminals, editors, and agentic work
   ]
-  #v(1.1cm)
+  #v(pad-bottom)
 ]
 
 // Syntax-highlighted Python sample.
@@ -201,22 +212,29 @@
 ]
 
 // Weight ladder: every variant on a sample line plus a digits/symbols line.
-#let weight-ladder(p: pal-light) = {
+// `compact` tightens size and spacing so all ten variants fit one specimen page;
+// the README card uses the roomier default.
+#let weight-ladder(p: pal-light, compact: false) = {
   let sample = "The quick brown fox jumps over the lazy dog"
   let digits = "0123456789 AaBbCcDd {[(>)]} !@#$%"
+  let sz = if compact { 10.5pt } else { 12pt }
+  let gap = if compact { 0.1cm } else { 0.25cm }
+  let lblgap = if compact { 0.05cm } else { 0.1cm }
   let row(lbl, wt, it: false) = {
     text(size: 8pt, fill: p.muted)[#lbl]
-    v(0.1cm)
+    v(lblgap)
     let st = if it { "italic" } else { "normal" }
-    text(size: 12pt, weight: wt, style: st, fill: p.fg)[#sample]
+    text(size: sz, weight: wt, style: st, fill: p.fg)[#sample]
     v(0.05cm)
-    text(size: 12pt, weight: wt, style: st, fill: p.fg)[#digits]
-    v(0.25cm)
+    text(size: sz, weight: wt, style: st, fill: p.fg)[#digits]
+    v(gap)
   }
   row("REGULAR (400)", 400)
   row("ITALIC (400)", 400, it: true)
   row("MEDIUM (500)", 500)
   row("MEDIUM ITALIC (500)", 500, it: true)
+  row("SEMIBOLD (600)", 600)
+  row("SEMIBOLD ITALIC (600)", 600, it: true)
   row("BOLD (700)", 700)
   row("BOLD ITALIC (700)", 700, it: true)
   row("EXTRABOLD (800)", 800)
@@ -327,7 +345,7 @@
   text(size: 8pt, fill: p.muted, weight: "bold")[WEIGHT ALIGNMENT: EVERY WEIGHT IS THE SAME WIDTH]
   v(0.05cm)
   text(size: 7.5pt, fill: p.muted)[
-    The same string in all eight variants; the red rule marks each line's right
+    The same string in all ten variants; the red rule marks each line's right
     edge. A single vertical line means identical width across every weight.
   ]
   v(0.25cm)
@@ -335,6 +353,8 @@
   row("ITALIC (400)", 400, it: true)
   row("MEDIUM (500)", 500)
   row("MEDIUM ITALIC (500)", 500, it: true)
+  row("SEMIBOLD (600)", 600)
+  row("SEMIBOLD ITALIC (600)", 600, it: true)
   row("BOLD (700)", 700)
   row("BOLD ITALIC (700)", 700, it: true)
   row("EXTRABOLD (800)", 800)

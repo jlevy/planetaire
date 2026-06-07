@@ -114,18 +114,20 @@ def test_no_dangling_composite_components(source_dir: Path):
 
 
 def test_build_all_variants(source_dir: Path):
-    """Full pipeline builds all 8 variants."""
+    """Full pipeline builds all 10 variants."""
     with tempfile.TemporaryDirectory() as tmpdir:
         output_dir = Path(tmpdir)
         outputs = build_planetaire_mono(source_dir, output_dir)
 
-        # 8 variants emitted in 3 formats (ttf/woff2/woff) plus one @font-face CSS.
+        # 10 variants emitted as TTF + WOFF2 plus one @font-face CSS.
         ttf_names = {p.name for p in outputs if p.suffix == ".ttf"}
-        assert len(ttf_names) == 8
+        assert len(ttf_names) == 10
         assert "PlanetaireMonoExtended-Regular.ttf" in ttf_names
         assert "PlanetaireMonoExtended-Italic.ttf" in ttf_names
         assert "PlanetaireMonoExtended-Medium.ttf" in ttf_names
         assert "PlanetaireMonoExtended-MediumItalic.ttf" in ttf_names
+        assert "PlanetaireMonoExtended-SemiBold.ttf" in ttf_names
+        assert "PlanetaireMonoExtended-SemiBoldItalic.ttf" in ttf_names
         assert "PlanetaireMonoExtended-Bold.ttf" in ttf_names
         assert "PlanetaireMonoExtended-BoldItalic.ttf" in ttf_names
         assert "PlanetaireMonoExtended-ExtraBold.ttf" in ttf_names
@@ -139,6 +141,7 @@ def test_build_all_variants(source_dir: Path):
         # Verify weights across the family
         for filename, expected_weight in [
             ("PlanetaireMonoExtended-Medium.ttf", 500),
+            ("PlanetaireMonoExtended-SemiBold.ttf", 600),
             ("PlanetaireMonoExtended-Bold.ttf", 700),
             ("PlanetaireMonoExtended-ExtraBold.ttf", 800),
         ]:

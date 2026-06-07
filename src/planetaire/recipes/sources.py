@@ -6,8 +6,8 @@ Hack Nerd Font: from ryanoasis/nerd-fonts releases.
 The source fonts are currently vendored under ``fonts/source/`` and verified
 against ``fonts/source/SHA256SUMS``. (Network downloading from upstream is not yet
 implemented; until then this step locates the vendored fonts and checks their
-integrity.) The ExtraBold/Medium B612 variants are generated from the base weights
-via FontForge emboldening (see ops/embolden.py) when not already present.
+integrity.) The Medium/SemiBold/ExtraBold variants are generated from the base
+weights via FontForge emboldening (see ops/embolden.py) when not already present.
 """
 
 from __future__ import annotations

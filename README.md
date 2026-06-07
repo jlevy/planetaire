@@ -63,8 +63,9 @@ It also adds more weights and a dotted zero:
 
 - **B612 letterforms** for letters, digits, and extended Latin, Greek, and Cyrillic.
 - **Hack punctuation and symbols** for `{}[]()<>` and the rest.
-- **Eight variants across four weights,** including an added **ExtraBold (800)** for
-  terminal bold (see [Weights](#weights)).
+- **Ten variants across five weights** (400/500/600/700/800), including added **SemiBold
+  (600)** and **ExtraBold (800)** weights, the latter for terminal bold (see
+  [Weights](#weights)).
 - **12,000+ Nerd Font icons** (Powerline, Font Awesome, Devicons) in the Extended
   family.
 - **A dotted zero:** B612’s zero with a center dot for clear `0` vs `O`, in circle
@@ -98,7 +99,7 @@ Get the latest from
 | **Planetaire Mono Text** *(standard)* | Websites, documents, reading | Letters, punctuation, Greek/Cyrillic, box-drawing. No icons. TTF + WOFF2 (~67 KB/weight WOFF2). | [`.tar.xz`](https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Text.tar.xz) **~1 MB** · [`.zip`](https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Text.zip) ~1.3 MB |
 | **Planetaire Mono Extended** *(full)* | Terminals, coding, icon-rich CLIs | Everything in Text plus all ~12,000 Nerd Font icons and Powerline. TTF + WOFF2. | [`.tar.xz`](https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Extended.tar.xz) **~19 MB** · [`.zip`](https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Extended.zip) ~24 MB |
 
-Both packages ship the same 8 variants, each archive laid out as `ttf/` (for local
+Both packages ship the same 10 variants, each archive laid out as `ttf/` (for local
 install) and `web/` (WOFF2 plus an `@font-face` stylesheet).
 To install locally: unzip and double-click the `ttf/*.ttf` files (macOS Font Book or
 Windows), or on Linux copy them to `~/.local/share/fonts/` and run `fc-cache -fv`.
@@ -118,7 +119,7 @@ and Latin Extended Additional: over 12,000 glyphs in the Extended family.
 
 ## Weights
 
-Each family ships 8 variants across 4 weights.
+Each family ships 10 variants across 5 weights.
 
 Planetaire Mono adds an **ExtraBold (800)** weight for terminal bold: the jump from
 Regular (400) to Bold (700) is often too subtle at terminal sizes, and ExtraBold gives
@@ -136,6 +137,8 @@ bold text (prompts, headings, highlighted output) the contrast to stand out.
 | Italic | 400 | Emphasized text |
 | Medium | 500 | UI labels, intermediate weight |
 | Medium Italic | 500 | UI labels italic |
+| SemiBold | 600 | UI emphasis, intermediate weight |
+| SemiBold Italic | 600 | UI emphasis italic |
 | Bold | 700 | Standard bold |
 | Bold Italic | 700 | Standard bold italic |
 | **ExtraBold** | **800** | **Terminal bold text** |
@@ -172,7 +175,7 @@ iTerm2, Kitty, and VS Code.
 
 ## Two Families: Text and Extended
 
-Both families share the same letterforms and the same 8 variants, and both ship in two
+Both families share the same letterforms and the same 10 variants, and both ship in two
 formats: **TTF** (in `ttf/`) for local install and **WOFF2** (in `web/`, with a ready
 `@font-face` stylesheet) for the web.
 They differ only in glyph coverage:
@@ -226,7 +229,7 @@ From the Text archive’s `web/`:
 </style>
 ```
 
-Each weight and style is declared (400/500/700/800, upright and italic) with
+Each weight and style is declared (400/500/600/700/800, upright and italic) with
 `font-display: swap`.
 
 ## Build from Source

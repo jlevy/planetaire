@@ -129,7 +129,7 @@ In `settings.json`:
 
 ## About the Weights
 
-Planetaire Mono ships with 8 variants:
+Planetaire Mono ships with 10 variants:
 
 | Variant | Weight | Usage |
 | --- | --- | --- |
@@ -137,6 +137,8 @@ Planetaire Mono ships with 8 variants:
 | Italic | 400 | Italic/emphasized text |
 | Medium | 500 | UI labels, intermediate weight |
 | Medium Italic | 500 | UI labels italic |
+| SemiBold | 600 | UI emphasis, intermediate weight |
+| SemiBold Italic | 600 | UI emphasis italic |
 | Bold | 700 | Standard bold |
 | Bold Italic | 700 | Standard bold italic |
 | **ExtraBold** | **800** | **Recommended for terminal bold** |

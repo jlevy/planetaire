@@ -61,14 +61,14 @@ def _glyph_hash(font: TTFont, glyph_name: str) -> str:
 
 @pytest.fixture(scope="module")
 def all_built_fonts() -> dict[str, TTFont]:
-    """Build all 8 Planetaire Mono variants once for the module."""
+    """Build all 10 Planetaire Mono variants once for the module."""
     if not (FONTS_SOURCE / "b612").exists() or not (FONTS_SOURCE / "hack").exists():
         pytest.skip("Source fonts not available")
 
     with tempfile.TemporaryDirectory() as tmpdir:
         outputs = build_planetaire_mono(FONTS_SOURCE, Path(tmpdir))
         ttfs = [p for p in outputs if p.suffix == ".ttf"]
-        assert len(ttfs) == 8
+        assert len(ttfs) == 10
         return {p.stem.split("-")[1]: TTFont(p) for p in ttfs}
 
 
@@ -149,9 +149,9 @@ def test_hack_glyphs_binary_identical(
 
     The merge does deepcopy(hack) -> scale_upm -> overwrite B612 glyphs, so
     untouched Hack glyphs stay byte-identical. In the FontForge-emboldened
-    weights (Medium/ExtraBold) some Hack glyphs were inflated off the cell grid
-    and are normalized back; those legitimately differ and are skipped here
-    (the monospace invariant test covers them).
+    weights (Medium/SemiBold/ExtraBold) some Hack glyphs were inflated off the
+    cell grid and are normalized back; those legitimately differ and are skipped
+    here (the monospace invariant test covers them).
     """
     pm = all_built_fonts[variant]
     scaled_hack = scaled_hack_fonts[variant]
@@ -254,8 +254,8 @@ def test_built_fonts_are_monospace(variant: str, all_built_fonts: dict[str, TTFo
     """Headline invariant: every variant is truly monospace.
 
     Before the fix this failed for every weight -- B612 letters were 1300 while
-    the Hack base was 1204, and FontForge-emboldened Medium/ExtraBold letters
-    ranged 1239-1420. After normalization every non-zero glyph shares one cell
+    the Hack base was 1204, and FontForge-emboldened Medium/SemiBold/ExtraBold
+    letters ranged 1239-1420. After normalization every non-zero glyph shares one cell
     width, the font declares isFixedPitch, and no core ASCII coding glyph bleeds
     past the cell.
     """
@@ -332,7 +332,7 @@ def test_hack_punctuation_matches_base(
 # --- Sanity checks for intermediate weights (Medium) ---
 
 
-_INTERMEDIATE_VARIANTS = ["Medium", "MediumItalic"]
+_INTERMEDIATE_VARIANTS = ["Medium", "MediumItalic", "SemiBold", "SemiBoldItalic"]
 
 
 _REQUIRED_TABLES = {
@@ -387,7 +387,7 @@ def test_weight_progression_stroke_width(all_built_fonts: dict[str, TTFont]):
     as a proxy for stroke weight. At minimum, verifies the OS/2 weight
     class values form a monotonic sequence.
     """
-    weight_order = ["Regular", "Medium", "Bold", "ExtraBold"]
+    weight_order = ["Regular", "Medium", "SemiBold", "Bold", "ExtraBold"]
     weight_classes = []
     for name in weight_order:
         font = all_built_fonts[name]
