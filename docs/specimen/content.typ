@@ -158,6 +158,8 @@
 )[
   #set text(size: 8.5pt, fill: p.fg)
   #set par(leading: 0.4em, justify: false)
+  // Terminal output is literal: keep straight quotes (no smart curly quotes).
+  #set smartquote(enabled: false)
 
   #prompt(p)[eza -l \-\-icons=always . ./docs/specimen/]\
   .:\

@@ -399,7 +399,7 @@
   #set par(leading: 0.5em, justify: false)
 
   #text(weight: 700)[NAME]\
-  #h(2.5em)#text(weight: 700)[ascii] -- octal, hexadecimal and decimal ASCII character sets\
+  #h(2.5em)#text(weight: 700)[ascii] - octal, hexadecimal and decimal ASCII character sets\
   \
   #text(weight: 700)[DESCRIPTION]\
   \
@@ -583,7 +583,7 @@
 #text(size: 10pt)[
   Planetaire Mono ships in two families built from the same letterforms:
 
-  - *Planetaire Mono* (Extended): the full build with all ~12,000 Nerd Font icons
+  - *Planetaire Mono* (Extended): the full build with all \~12,000 Nerd Font icons
     and Powerline, for terminals and coding.
   - *Planetaire Mono Text*: a lightweight web subset (letters, punctuation,
     box-drawing, block elements, geometric shapes) that drops the Private-Use icons.
