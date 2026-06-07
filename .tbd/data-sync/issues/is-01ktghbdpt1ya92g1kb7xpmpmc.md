@@ -3,13 +3,19 @@ type: is
 id: is-01ktghbdpt1ya92g1kb7xpmpmc
 title: "Next release: standardize release archive naming + structure"
 kind: task
-status: open
+status: closed
 priority: 2
-version: 1
+version: 6
 labels: []
 dependencies: []
+child_order_hints:
+  - is-01ktghpbwsnfdqh0qfqy3b4t5b
+  - is-01ktghpc76nm18tnmgakw9zn54
+  - is-01ktghpchc95x4hsrmbmr8sbb8
 created_at: 2026-06-07T07:56:55.374Z
-updated_at: 2026-06-07T07:56:55.374Z
+updated_at: 2026-06-07T08:35:16.249Z
+closed_at: 2026-06-07T08:35:16.249Z
+close_reason: "Packaging redesign implemented (superset + ttf//web subfolders + WOFF2-only + notes). Shipping as v0.1.2. PR #7."
 ---
 Make packaging match font-project conventions and fix the 'Extended sounds like a superset of Text' confusion (the real break: the subset Text has web fonts but the superset Extended does not).
 
