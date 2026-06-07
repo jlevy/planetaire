@@ -143,14 +143,19 @@ use the font:
   full set of ~12,000 Nerd Font icons and Powerline glyphs that terminals and CLIs draw,
   so the complete glyph set is recommended.
 
-**Formats.** Each archive ships:
+**How the downloads are packaged.** Each family is a single archive, offered as both
+`.tar.xz` and `.zip` (identical contents — pick whichever your OS unpacks easily):
 
-- **`.ttf`** (both families) — for local install: terminals, editors, and desktop apps
-  (double-click to install, or copy into your OS font directory).
+- **`PlanetaireMono-Extended`** — 8 `.ttf` files (Regular through ExtraBold, with
+  italics), the full build with all Nerd Font icons.
+  For **local install**: terminals, editors, and desktop apps.
   See [Install](#install).
-- **`.woff2` and `.woff`** plus a ready **`planetaire-mono-text.css`** (**Text only**) —
-  for the web via `@font-face`: WOFF2 covers modern browsers, WOFF is the fallback.
-  The Extended icon font is local-install (TTF) only.
+- **`PlanetaireMono-Text`** — the same 8 weights as `.ttf` for local install, **plus**
+  `.woff2` and `.woff` web fonts and a ready **`planetaire-mono-text.css`**. Use the web
+  fonts via `@font-face` (WOFF2 for modern browsers, WOFF as the fallback).
+
+So `.ttf` is the local-install format (in both archives), and the web fonts
+(`.woff2`/`.woff` + CSS) ship only in the Text archive.
 
 See [Download](#download) for the archives and sizes.
 
