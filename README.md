@@ -56,13 +56,13 @@ Get the latest from
 
 | Family | Best for | Includes | Download |
 | --- | --- | --- | --- |
-| **Planetaire Mono Text** *(standard)* | Websites, documents, reading | Letters, punctuation, Greek/Cyrillic, box-drawing. No icons (~67 KB/weight WOFF2). | [`.tar.xz`](https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Text.tar.xz) **1.6 MB** · [`.zip`](https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Text.zip) 1.9 MB |
-| **Planetaire Mono Extended** *(full)* | Terminals, coding, icon-rich CLIs | Everything in Text plus all ~12,000 Nerd Font icons and Powerline (~2.6–4.4 MB/weight TTF). | [`.tar.xz`](https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Extended.tar.xz) **5.4 MB** · [`.zip`](https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Extended.zip) 13 MB |
+| **Planetaire Mono Text** *(standard)* | Websites, documents, reading | Letters, punctuation, Greek/Cyrillic, box-drawing. No icons. TTF + WOFF2 (~67 KB/weight WOFF2). | [`.tar.xz`](https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Text.tar.xz) **~1 MB** · [`.zip`](https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Text.zip) ~1.3 MB |
+| **Planetaire Mono Extended** *(full)* | Terminals, coding, icon-rich CLIs | Everything in Text plus all ~12,000 Nerd Font icons and Powerline. TTF + WOFF2. | [`.tar.xz`](https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Extended.tar.xz) **~19 MB** · [`.zip`](https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Extended.zip) ~24 MB |
 
-Both ship the same 8 variants.
-To install: unzip and double-click the `.ttf` files (macOS Font Book or Windows), or on
-Linux copy them to `~/.local/share/fonts/` and run `fc-cache -fv`. The Text archive also
-includes WOFF2/WOFF and an `@font-face` stylesheet for the web.
+Both ship the same 8 variants, each archive laid out as `ttf/` (for local install) and
+`web/` (WOFF2 plus an `@font-face` stylesheet).
+To install locally: unzip and double-click the `ttf/*.ttf` files (macOS Font Book or
+Windows), or on Linux copy them to `~/.local/share/fonts/` and run `fc-cache -fv`.
 Per-OS and web details are under [Install](#install).
 
 ## High Legibility
@@ -133,29 +133,33 @@ iTerm2, Kitty, and VS Code.
 
 ## Two Families: Text and Extended
 
-Both families share the same letterforms and the same 8 variants; choose one by how you
-use the font:
+Both families share the same letterforms and the same 8 variants, and both ship in two
+formats: **TTF** (in `ttf/`) for local install and **WOFF2** (in `web/`, with a ready
+`@font-face` stylesheet) for the web.
+They differ only in glyph coverage:
 
-- **On the web, use Planetaire Mono Text.** It drops the Nerd Font icons for a much
-  smaller download and ships WOFF2/WOFF with a ready `@font-face` stylesheet, so the
-  smaller package is all you need.
-- **As a local application or terminal font, use Planetaire Mono Extended.** It adds the
-  full set of ~12,000 Nerd Font icons and Powerline glyphs that terminals and CLIs draw,
-  so the complete glyph set is recommended.
+- **Planetaire Mono Extended** is the full font: everything in Text **plus** the ~12,000
+  Nerd Font icons and Powerline glyphs that terminals and CLIs draw, so it is a superset
+  of Text. **Recommended for local and terminal use**, where TTF is the standard option.
+- **Planetaire Mono Text** is a lightweight subset (no icons), so it is far smaller.
+  **Recommended for the web**, where the WOFF2 stylesheet is the standard option.
 
+Either family works for either purpose; the recommendations are just the common,
+size-conscious defaults.
 See [Download](#download) for the archives and sizes.
 
 ## Install
 
 > The **fonts** are distributed via
-> [GitHub Releases](https://github.com/jlevy/planetaire/releases). This repo is the
-> **build tooling**, not the font itself; you only need it to build from source.
+> [GitHub Releases](https://github.com/jlevy/planetaire/releases).
+> This repo is the **build tooling**, not the font itself; you only need it to build
+> from source.
 
 ### macOS
 
 ```bash
 curl -L https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Extended.tar.xz | tar xJ
-cp PlanetaireMonoExtended-*.ttf ~/Library/Fonts/
+cp ttf/*.ttf ~/Library/Fonts/
 ```
 
 ### Linux
@@ -163,14 +167,16 @@ cp PlanetaireMonoExtended-*.ttf ~/Library/Fonts/
 ```bash
 curl -L https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Extended.tar.xz | tar xJ
 mkdir -p ~/.local/share/fonts/PlanetaireMono
-cp PlanetaireMonoExtended-*.ttf ~/.local/share/fonts/PlanetaireMono/
+cp ttf/*.ttf ~/.local/share/fonts/PlanetaireMono/
 fc-cache -fv
 ```
 
 ### Web (CSS `@font-face`)
 
-Use the Text family on the web.
-The Text archive ships WOFF2/WOFF and a ready `planetaire-mono-text.css`:
+Both families include WOFF2 web fonts and a ready stylesheet in `web/`. The **Text**
+family is recommended for the web (much smaller, no icons); use **Extended** only if you
+need the Nerd Font icons in the browser.
+From the Text archive’s `web/`:
 
 ```html
 <link rel="stylesheet" href="planetaire-mono-text.css">

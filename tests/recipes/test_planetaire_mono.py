@@ -27,10 +27,16 @@ def test_build_produces_regular(source_dir: Path):
         output_dir = Path(tmpdir)
         outputs = build_planetaire_mono(source_dir, output_dir, variant="Regular")
 
-        assert len(outputs) == 1
-        output_path = outputs[0]
+        # Extended is a superset: TTF (local) plus WOFF2/WOFF + CSS (web).
+        names = {p.name for p in outputs}
+        assert "PlanetaireMonoExtended-Regular.ttf" in names
+        assert "PlanetaireMonoExtended-Regular.woff2" in names
+        assert "PlanetaireMonoExtended-Regular.woff" not in names  # WOFF2-only
+        assert "planetaire-mono-extended.css" in names
+        css = (output_dir / "planetaire-mono-extended.css").read_text()
+        assert "Planetaire Mono Extended" in css and "woff2" in css
+        output_path = output_dir / "PlanetaireMonoExtended-Regular.ttf"
         assert output_path.exists()
-        assert output_path.name == "PlanetaireMonoExtended-Regular.ttf"
 
         # Verify metadata
         info = inspect_font(output_path)
@@ -58,7 +64,7 @@ def test_build_text_regular(source_dir: Path):
 
         names = {p.name for p in outputs}
         assert "PlanetaireMonoText-Regular.woff2" in names
-        assert "PlanetaireMonoText-Regular.woff" in names
+        assert "PlanetaireMonoText-Regular.woff" not in names  # web fonts are WOFF2-only
         assert "PlanetaireMonoText-Regular.ttf" in names
         assert "planetaire-mono-text.css" in names
 
@@ -113,16 +119,22 @@ def test_build_all_variants(source_dir: Path):
         output_dir = Path(tmpdir)
         outputs = build_planetaire_mono(source_dir, output_dir)
 
-        assert len(outputs) == 8
-        names = {p.name for p in outputs}
-        assert "PlanetaireMonoExtended-Regular.ttf" in names
-        assert "PlanetaireMonoExtended-Italic.ttf" in names
-        assert "PlanetaireMonoExtended-Medium.ttf" in names
-        assert "PlanetaireMonoExtended-MediumItalic.ttf" in names
-        assert "PlanetaireMonoExtended-Bold.ttf" in names
-        assert "PlanetaireMonoExtended-BoldItalic.ttf" in names
-        assert "PlanetaireMonoExtended-ExtraBold.ttf" in names
-        assert "PlanetaireMonoExtended-ExtraBoldItalic.ttf" in names
+        # 8 variants emitted in 3 formats (ttf/woff2/woff) plus one @font-face CSS.
+        ttf_names = {p.name for p in outputs if p.suffix == ".ttf"}
+        assert len(ttf_names) == 8
+        assert "PlanetaireMonoExtended-Regular.ttf" in ttf_names
+        assert "PlanetaireMonoExtended-Italic.ttf" in ttf_names
+        assert "PlanetaireMonoExtended-Medium.ttf" in ttf_names
+        assert "PlanetaireMonoExtended-MediumItalic.ttf" in ttf_names
+        assert "PlanetaireMonoExtended-Bold.ttf" in ttf_names
+        assert "PlanetaireMonoExtended-BoldItalic.ttf" in ttf_names
+        assert "PlanetaireMonoExtended-ExtraBold.ttf" in ttf_names
+        assert "PlanetaireMonoExtended-ExtraBoldItalic.ttf" in ttf_names
+        # Web fonts + CSS ship too (Extended is a superset of Text).
+        all_names = {p.name for p in outputs}
+        assert "PlanetaireMonoExtended-Regular.woff2" in all_names
+        assert "PlanetaireMonoExtended-Regular.woff" not in all_names  # WOFF2-only
+        assert "planetaire-mono-extended.css" in all_names
 
         # Verify weights across the family
         for filename, expected_weight in [

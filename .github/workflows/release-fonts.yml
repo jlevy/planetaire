@@ -60,18 +60,26 @@ jobs:
 
       - name: Package release archives
         run: |
-          cd fonts/output
-          # Extended: the full build with all Nerd Font icons (TTF).
-          tar -cJf ../../PlanetaireMono-Extended.tar.xz PlanetaireMonoExtended-*.ttf
-          zip ../../PlanetaireMono-Extended.zip PlanetaireMonoExtended-*.ttf
-          # Text: lightweight web/regular build (TTF + WOFF2 + WOFF + @font-face CSS).
-          tar -cJf ../../PlanetaireMono-Text.tar.xz \
-            PlanetaireMonoText-*.ttf PlanetaireMonoText-*.woff2 \
-            PlanetaireMonoText-*.woff planetaire-mono-text.css
-          zip ../../PlanetaireMono-Text.zip \
-            PlanetaireMonoText-*.ttf PlanetaireMonoText-*.woff2 \
-            PlanetaireMonoText-*.woff planetaire-mono-text.css
-          cd ../..
+          out=fonts/output
+          # Stage each family into ttf/ and web/ subfolders with a README, then archive.
+          # Both families ship TTF (local) plus WOFF2/WOFF + CSS (web); Extended adds the
+          # full Nerd Font icon set, so it is a superset of Text. Archive names stay
+          # unversioned so the releases/latest/download/... URLs remain stable.
+          mkdir -p dist/Extended/ttf dist/Extended/web dist/Text/ttf dist/Text/web
+          cp "$out"/PlanetaireMonoExtended-*.ttf dist/Extended/ttf/
+          cp "$out"/PlanetaireMonoExtended-*.woff2 \
+             "$out"/planetaire-mono-extended.css dist/Extended/web/
+          cp docs/release/readme-extended.txt dist/Extended/README.txt
+          cp "$out"/PlanetaireMonoText-*.ttf dist/Text/ttf/
+          cp "$out"/PlanetaireMonoText-*.woff2 \
+             "$out"/planetaire-mono-text.css dist/Text/web/
+          cp docs/release/readme-text.txt dist/Text/README.txt
+
+          tar -cJf PlanetaireMono-Extended.tar.xz -C dist/Extended ttf web README.txt
+          tar -cJf PlanetaireMono-Text.tar.xz -C dist/Text ttf web README.txt
+          ( cd dist/Extended && zip -qr "$GITHUB_WORKSPACE/PlanetaireMono-Extended.zip" ttf web README.txt )
+          ( cd dist/Text && zip -qr "$GITHUB_WORKSPACE/PlanetaireMono-Text.zip" ttf web README.txt )
+
           # Generate checksums for every artifact.
           sha256sum \
             PlanetaireMono-Extended.tar.xz PlanetaireMono-Extended.zip \

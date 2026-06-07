@@ -67,8 +67,9 @@ def all_built_fonts() -> dict[str, TTFont]:
 
     with tempfile.TemporaryDirectory() as tmpdir:
         outputs = build_planetaire_mono(FONTS_SOURCE, Path(tmpdir))
-        assert len(outputs) == 8
-        return {p.stem.split("-")[1]: TTFont(p) for p in outputs}
+        ttfs = [p for p in outputs if p.suffix == ".ttf"]
+        assert len(ttfs) == 8
+        return {p.stem.split("-")[1]: TTFont(p) for p in ttfs}
 
 
 @pytest.fixture(scope="module")
