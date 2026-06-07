@@ -159,7 +159,7 @@
   #set text(size: 8.5pt, fill: p.fg)
   #set par(leading: 0.4em, justify: false)
 
-  #prompt(p)[eza -l --icons=always . ./docs/specimen/]\
+  #prompt(p)[eza -l \-\-icons=always . ./docs/specimen/]\
   .:\
   #dir-entry(p, "drwxr-xr-x@", "   -", "levy", "15 Feb 23:07", icon(0xF07B), "devtools", bold-name: true)\
   #dir-entry(p, "drwxr-xr-x@", "   -", "levy", "15 Feb 23:07", icon(0xF07B), "docs", bold-name: true)\
@@ -179,7 +179,7 @@
   Hello from Planetaire Mono!\
 
   #v(0.15cm)
-  #prompt(p)[git log --oneline -3]\
+  #prompt(p)[git log \-\-oneline -3]\
   #t("5bd69c5", p.yellow) Switch B612 source to original polarsys/b612\
   #t("a1c8e3f", p.yellow) Add font comparison and regression detection\
   #t("e927d01", p.yellow) Refactor merge pipeline for original B612\

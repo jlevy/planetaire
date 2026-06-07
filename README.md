@@ -10,12 +10,6 @@ with symbols and icons from [Hack](https://sourcefoundry.org/hack/) and
 **[Read the type specimen (PDF)](docs/specimen/planetaire-mono-specimen.pdf)** ·
 **[Download the fonts](https://github.com/jlevy/planetaire/releases/latest)**
 
-<p align="center">
-<img src="docs/images/terminal-dark.png" width="100%" alt="A terminal session in Planetaire Mono on a dark background: a colored eza listing with Nerd Font icons, a Python one-liner, and a git log">
-<br>
-<img src="docs/images/terminal-light.png" width="100%" alt="The same terminal session in Planetaire Mono on a light background">
-</p>
-
 ## Why
 
 B612 was designed by Intactile Design for Airbus cockpit displays, optimized for reading
@@ -46,6 +40,12 @@ font’s license terms on naming, and to be a little more memorable.
 <img src="docs/images/text-dark.png" width="100%" alt="A prose passage set in Planetaire Mono on a dark background, showing body-text legibility">
 <br>
 <img src="docs/images/text-light.png" width="100%" alt="The same prose passage in Planetaire Mono on a light background">
+</p>
+
+<p align="center">
+<img src="docs/images/terminal-dark.png" width="100%" alt="A terminal session in Planetaire Mono on a dark background: a colored eza listing with Nerd Font icons, a Python one-liner, and a git log">
+<br>
+<img src="docs/images/terminal-light.png" width="100%" alt="The same terminal session in Planetaire Mono on a light background">
 </p>
 
 ## Download
