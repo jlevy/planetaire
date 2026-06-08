@@ -1,25 +1,58 @@
 """Canonical version resolution for both the Python package and the fonts.
 
-A single source of truth (the installed package version, derived from the git tag
-via uv-dynamic-versioning) is threaded into font name tables, `head.fontRevision`,
+A single source of truth is threaded into font name tables, `head.fontRevision`,
 and the specimen, so the package, the binaries, and the specimen never disagree.
+
+The version comes from the latest git tag when building inside the repo, so a
+dev/editable checkout always reflects the current release (e.g. tag ``v0.1.2`` ->
+``"0.1.2"``, and a future ``v0.1.3`` tag updates everything with no other change).
+Outside a git checkout (an installed package) it falls back to the baked package
+metadata, which uv-dynamic-versioning sets from the same git tag at build time.
 """
 
 from __future__ import annotations
 
 import re
+import subprocess
 from importlib.metadata import PackageNotFoundError
 from importlib.metadata import version as _pkg_version
+from pathlib import Path
 
 _FALLBACK_VERSION = "0.0.0"
 
 
-def get_version() -> str:
-    """Return the canonical package version (e.g. "1.2.3" or "0.1.dev4+g1a2b3c").
+def _git_tag_version() -> str | None:
+    """Release version from the latest git tag (e.g. "0.1.2"), or None.
 
-    Falls back to "0.0.0" when the package metadata is unavailable (e.g. running
-    from a source tree that has not been installed).
+    Returns None outside a git checkout (installed package) or when git is
+    unavailable, so callers fall back to the baked package metadata.
     """
+    try:
+        result = subprocess.run(
+            ["git", "describe", "--tags", "--abbrev=0"],
+            capture_output=True,
+            text=True,
+            check=False,
+            cwd=Path(__file__).resolve().parent,
+        )
+    except OSError:
+        return None
+    if result.returncode != 0:
+        return None
+    match = re.match(r"v?(\d+(?:\.\d+){0,2})", result.stdout.strip())
+    return match.group(1) if match else None
+
+
+def get_version() -> str:
+    """Return the canonical release version (e.g. "0.1.2").
+
+    Prefers the latest git tag (so dev/editable builds reflect the current release
+    even when the installed metadata is stale), then the installed package
+    metadata, then "0.0.0".
+    """
+    git_version = _git_tag_version()
+    if git_version:
+        return git_version
     try:
         return _pkg_version("planetaire")
     except PackageNotFoundError:

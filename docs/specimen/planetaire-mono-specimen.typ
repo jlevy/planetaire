@@ -36,18 +36,20 @@
 // Shared header block (same source as the README banner) so the cover and the
 // home-page header stay in sync. The cover passes smaller padding than the banner
 // default since the page margin already gives the title breathing room.
-#header-card(p: pal-light, pad-top: 0.6cm, pad-bottom: 0.7cm)
+#header-card(p: pal-light, pad-top: 1.5cm, pad-bottom: 0.7cm)
 
 #v(0.25cm)
 
 #align(center)[
   #text(size: 10pt, fill: black)[
-    github.com/jlevy/planetaire\
-    Version #version#if build-date != "" [ · #build-date]
+    Version #version#if build-date != "" [ · #build-date]\
+    github.com/jlevy/planetaire
   ]
 ]
 
-#v(0.65cm)
+// Extra space here drops the three sections toward the lower half of the page,
+// giving the title block above more breathing room.
+#v(2cm)
 
 // The three cover sections share one centered, all-black style: a bold all-caps
 // heading over centered black items. Paragraph spacing is zeroed so the gap after
