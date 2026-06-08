@@ -34,8 +34,9 @@ Airbus then commissioned the Montpellier interface studio
 Jonathan Favre-Lamarine) to draw the full family of eight variants.
 
 B612 is named for the asteroid home of the
-[Little Prince](https://en.wikipedia.org/wiki/The_Little_Prince), a nod to
-Saint-Exupéry, [himself an aviator](https://en.wikipedia.org/wiki/Wind,_Sand_and_Stars).
+[Little Prince](https://en.wikipedia.org/wiki/The_Little_Prince) by Antoine de
+Saint-Exupéry, who was
+[himself an aviator](https://en.wikipedia.org/wiki/Wind,_Sand_and_Stars).
 
 B612’s unusual character is a humanist answer to an instrument-panel problem.
 Where earlier cockpit fonts went monolinear and rigid, B612 keeps stroke contrast, opens
@@ -67,7 +68,7 @@ It also adds more weights and a dotted zero:
   (600)** and **ExtraBold (800)** weights, the latter for terminal bold (see
   [Weights](#weights)).
 - **12,000+ Nerd Font icons** (Powerline, Font Awesome, Devicons) in the Extended
-  family.
+  package.
 - **A dotted zero:** B612’s zero with a center dot for clear `0` vs `O`, in circle
   (default) and rectangle (`ss01`) variants.
 
@@ -83,7 +84,13 @@ every day.
 </p>
 
 <p align="center">
-<img src="docs/images/terminal-dark.png" width="100%" alt="Planetaire Mono on a dark background: a syntax-highlighted analyze_trajectory() Python function above a terminal session with a colored eza listing, a Python one-liner, and a git log">
+<img src="docs/images/code-dark.png" width="100%" alt="A syntax-highlighted analyze_trajectory() Python function in Planetaire Mono on a dark background">
+<br>
+<img src="docs/images/code-light.png" width="100%" alt="The same Python function in Planetaire Mono on a light background">
+</p>
+
+<p align="center">
+<img src="docs/images/terminal-dark.png" width="100%" alt="A terminal session in Planetaire Mono on a dark background: a colored eza listing, a Python one-liner, and a git log">
 <br>
 <img src="docs/images/terminal-light.png" width="100%" alt="The same terminal session in Planetaire Mono on a light background">
 </p>
@@ -115,11 +122,11 @@ Per-OS and web details are under [Install](#install).
 
 B612’s letterforms keep commonly confused characters distinct: `Il1|`, `O0o`, `rn` vs
 `m`, `5S`, `8B`, `2Z`. Coverage spans Latin Extended A/B, Greek and Coptic, Cyrillic,
-and Latin Extended Additional: over 12,000 glyphs in the Extended family.
+and Latin Extended Additional: over 12,000 glyphs in the Extended package.
 
 ## Weights
 
-Each family ships 10 variants across 5 weights.
+Each package ships 10 variants across 5 weights.
 
 Planetaire Mono adds an **ExtraBold (800)** weight for terminal bold: the jump from
 Regular (400) to Bold (700) is often too subtle at terminal sizes, and ExtraBold gives
@@ -199,9 +206,9 @@ Dense fixed-width document text, RFC 1 (1969):
 <img src="docs/images/rfc-light.png" width="100%" alt="The same RFC 1 document on a light background">
 </p>
 
-## Two Families: Text and Extended
+## Two Packages: Text and Extended
 
-Both families share the same letterforms and the same 10 variants, and both ship in two
+Both packages share the same letterforms and the same 10 variants, and both ship in two
 formats: **TTF** (in `ttf/`) for local install and **WOFF2** (in `web/`, with a ready
 `@font-face` stylesheet) for the web.
 They differ only in glyph coverage:
@@ -212,7 +219,7 @@ They differ only in glyph coverage:
 - **Planetaire Mono Text** is a lightweight subset (no icons), so it is far smaller.
   **Recommended for the web**, where the WOFF2 stylesheet is the standard option.
 
-Either family works for either purpose; the recommendations are just the common,
+Either package works for either purpose; the recommendations are just the common,
 size-conscious defaults.
 See [Download](#download) for the archives and sizes.
 
@@ -241,9 +248,9 @@ fc-cache -fv
 
 ### Web (CSS `@font-face`)
 
-Both families include WOFF2 web fonts and a ready stylesheet in `web/`. The **Text**
-family is recommended for the web (much smaller, no icons); use **Extended** only if you
-need the Nerd Font icons in the browser.
+Both packages include WOFF2 web fonts and a ready stylesheet in `web/`. The **Text**
+package is recommended for the web (much smaller, no icons); use **Extended** only if
+you need the Nerd Font icons in the browser.
 From the Text archive’s `web/`:
 
 ```html

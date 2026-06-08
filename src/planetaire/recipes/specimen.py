@@ -75,9 +75,13 @@ def build_specimen(
 
     # Typst --font-path tells it where to find custom fonts; --input passes the
     # canonical version and build date into the document via sys.inputs.
+    # --root is the repo root so the specimen can reference shared assets outside
+    # its own directory (e.g. the little-planet SVG in docs/images).
     cmd = [
         typst_bin,
         "compile",
+        "--root",
+        str(Path.cwd()),
         "--font-path",
         str(font_dir.resolve()),
         "--input",
@@ -138,6 +142,8 @@ def render_png(
     cmd = [
         typst_bin,
         "compile",
+        "--root",
+        str(Path.cwd()),
         "--font-path",
         str(font_dir.resolve()),
         "--format",

@@ -65,20 +65,25 @@ jobs:
           # Both families ship TTF (local) plus WOFF2/WOFF + CSS (web); Extended adds the
           # full Nerd Font icon set, so it is a superset of Text. Archive names stay
           # unversioned so the releases/latest/download/... URLs remain stable.
-          mkdir -p dist/Extended/ttf dist/Extended/web dist/Text/ttf dist/Text/web
+          mkdir -p dist/Extended/ttf dist/Extended/web dist/Extended/licenses \
+                   dist/Text/ttf dist/Text/web dist/Text/licenses
           cp "$out"/PlanetaireMonoExtended-*.ttf dist/Extended/ttf/
           cp "$out"/PlanetaireMonoExtended-*.woff2 \
              "$out"/planetaire-mono-extended.css dist/Extended/web/
           cp docs/release/readme-extended.txt dist/Extended/README.txt
+          cp LICENSE dist/Extended/LICENSE
+          cp fonts/source/licenses/* dist/Extended/licenses/
           cp "$out"/PlanetaireMonoText-*.ttf dist/Text/ttf/
           cp "$out"/PlanetaireMonoText-*.woff2 \
              "$out"/planetaire-mono-text.css dist/Text/web/
           cp docs/release/readme-text.txt dist/Text/README.txt
+          cp LICENSE dist/Text/LICENSE
+          cp fonts/source/licenses/* dist/Text/licenses/
 
-          tar -cJf PlanetaireMono-Extended.tar.xz -C dist/Extended ttf web README.txt
-          tar -cJf PlanetaireMono-Text.tar.xz -C dist/Text ttf web README.txt
-          ( cd dist/Extended && zip -qr "$GITHUB_WORKSPACE/PlanetaireMono-Extended.zip" ttf web README.txt )
-          ( cd dist/Text && zip -qr "$GITHUB_WORKSPACE/PlanetaireMono-Text.zip" ttf web README.txt )
+          tar -cJf PlanetaireMono-Extended.tar.xz -C dist/Extended ttf web README.txt LICENSE licenses
+          tar -cJf PlanetaireMono-Text.tar.xz -C dist/Text ttf web README.txt LICENSE licenses
+          ( cd dist/Extended && zip -qr "$GITHUB_WORKSPACE/PlanetaireMono-Extended.zip" ttf web README.txt LICENSE licenses )
+          ( cd dist/Text && zip -qr "$GITHUB_WORKSPACE/PlanetaireMono-Text.zip" ttf web README.txt LICENSE licenses )
 
           # Generate checksums for every artifact.
           sha256sum \

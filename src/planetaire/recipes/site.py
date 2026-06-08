@@ -129,9 +129,9 @@ def _render_index(
   {demo_html}
 
   <section>
-    <h2>Two families</h2>
+    <h2>Two packages</h2>
     <table>
-      <tr><th>Family</th><th>Best for</th><th>Coverage</th></tr>
+      <tr><th>Package</th><th>Best for</th><th>Coverage</th></tr>
       <tr><td><b>Planetaire Mono Extended</b></td><td>Terminals, coding</td><td>Everything + ~12k Nerd Font icons</td></tr>
       <tr><td><b>Planetaire Mono Text</b></td><td>Web, documents</td><td>Text glyphs + box-drawing (~55 KB/wt WOFF2)</td></tr>
     </table>
@@ -146,7 +146,7 @@ def _render_index(
 
   <section>
     <h2>Use on the web</h2>
-    <p>The Text family ships WOFF2/WOFF and a ready-made stylesheet:</p>
+    <p>The Text package ships WOFF2/WOFF and a ready-made stylesheet:</p>
     <p><code>&lt;link rel="stylesheet" href="planetaire-mono-text.css"&gt;</code><br>
        <code>font-family: "Planetaire Mono Text", monospace;</code></p>
   </section>

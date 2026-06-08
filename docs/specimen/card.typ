@@ -26,8 +26,6 @@
 #set text(font: font-family, size: 11pt, fill: p.fg)
 
 #if which == "terminal" {
-  orbit-code(p: p)
-  v(0.6cm)
   terminal-mockup(p: p)
 } else if which == "code" {
   orbit-code(p: p)
@@ -46,5 +44,16 @@
 } else if which == "rfc" {
   rfc-excerpt(p: p)
 } else if which == "header" {
-  header-card(p: p)
+  // Match the specimen cover's title-block styling so the README banner and the
+  // cover read as the same artwork (compact title close under the planet).
+  header-card(
+    p: p,
+    planet-width: 100%,
+    title-size: 44pt,
+    sub-size: 15pt,
+    tag-size: 15pt,
+    planet-gap: -0.4cm,
+    sub-gap: -0.2cm,
+    tag-gap: 0.68cm,
+  )
 }

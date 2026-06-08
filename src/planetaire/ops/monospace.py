@@ -51,9 +51,39 @@ _TEXT_RANGES = (
     (0x1E00, 0x1EFF),  # Latin Extended Additional
 )
 
+# Unicode ranges of "tiling" glyphs that are designed to fill the cell edge to
+# edge and abut their neighbours seamlessly (box-drawing, block elements,
+# geometric shapes, Braille, Powerline, and the Private-Use icon glyphs). For
+# these, ink MUST stay within the cell -- any overhang would clip or overlap the
+# adjacent cell -- so when one is wider than the cell it is condensed (scaled) to
+# fit. Letters/text glyphs are deliberately NOT in this set: condensing them
+# would thin their strokes unevenly (the widest italics most of all), so they are
+# recentered and allowed to overhang the cell instead, the way italics naturally
+# do. PUA (>= 0xE000) covers Powerline + Nerd Font icons in both the BMP and the
+# supplementary planes.
+_TILING_RANGES = (
+    (0x2500, 0x257F),  # Box Drawing
+    (0x2580, 0x259F),  # Block Elements
+    (0x25A0, 0x25FF),  # Geometric Shapes
+    (0x2800, 0x28FF),  # Braille Patterns
+    (0xE000, 0xF8FF),  # BMP Private Use Area (Powerline + Nerd Font icons)
+    (0xF0000, 0xFFFFD),  # Supplementary Private Use Area-A (Nerd Font icons)
+    (0x100000, 0x10FFFD),  # Supplementary Private Use Area-B
+)
+
 
 def _is_text_codepoint(cp: int) -> bool:
     return any(lo <= cp <= hi for lo, hi in _TEXT_RANGES)
+
+
+def _is_tiling_codepoint(cp: int) -> bool:
+    """True for cell-filling glyphs (box/block/geometric/Braille/PUA icons).
+
+    These tile seamlessly with their neighbours, so their ink must be kept inside
+    the cell (condensed if wider). Everything else -- letters, punctuation, and
+    other text -- is allowed to overhang when recentered.
+    """
+    return any(lo <= cp <= hi for lo, hi in _TILING_RANGES)
 
 
 @dataclass
@@ -154,8 +184,18 @@ def normalize_monospace(
 
     Only glyphs whose advance differs from the cell are touched; glyphs already
     at the cell width (the Hack base, box-drawing, powerline, icons) are left
-    untouched. Touched glyphs are recentered in the cell; if their ink would
-    overflow, they are condensed horizontally just enough to fit.
+    untouched. Touched glyphs are recentered in the cell. How an oversized glyph
+    is handled depends on its kind:
+
+    * Tiling glyphs (box-drawing, block elements, geometric shapes, Braille,
+      Powerline, and Private-Use icons) tile seamlessly with their neighbours, so
+      their ink must stay inside the cell. When wider than the cell they are
+      condensed (scaled in x) just enough to fit.
+    * Letters and other text glyphs are recentered but allowed to overhang the
+      cell. Italics naturally overhang, and horizontally condensing the widest
+      letters would thin their strokes unevenly so they read lighter than narrow
+      glyphs -- the exact artifact this avoids. Their advance is still pinned to
+      the cell, so the font stays monospaced.
 
     Donor (B612) letters are merged unhinted, so rebuilding their outlines via a
     transform pen is lossless. Returns stats: {"normalized", "condensed"}.
@@ -164,6 +204,12 @@ def normalize_monospace(
     hmtx = font["hmtx"]
     glyf = font["glyf"]
     glyphset = font.getGlyphSet()
+    # Glyph name -> codepoint, so an oversized glyph can be classified as a
+    # cell-filling tiling glyph (condense to fit) or a text/letter glyph (allow
+    # overhang). A glyph with no codepoint (no cmap entry) is treated as text.
+    cp_for_glyph: dict[str, int] = {}
+    for cp, name in (font.getBestCmap() or {}).items():
+        cp_for_glyph.setdefault(name, cp)
     normalized = 0
     condensed = 0
 
@@ -186,10 +232,15 @@ def normalize_monospace(
 
         xmin, xmax = bounds
         ink = xmax - xmin
-        # Center the ink in the cell; condense only glyphs whose own ink is
-        # wider than the cell (minus margins) so nothing is trimmed.
+        # Center the ink in the cell. Condense ONLY cell-filling tiling glyphs
+        # whose ink exceeds the cell (minus margins): for those, ink on/over the
+        # edge would clip or collide with the neighbouring cell. Letters/text are
+        # left at full scale and allowed to overhang -- condensing them would thin
+        # the widest (italic) strokes unevenly.
+        cp = cp_for_glyph.get(name)
+        is_tiling = cp is not None and _is_tiling_codepoint(cp)
         sx = 1.0
-        if fit_overflow and ink > max_ink:
+        if fit_overflow and is_tiling and ink > max_ink:
             sx = max_ink / ink
             condensed += 1
         new_ink = ink * sx
