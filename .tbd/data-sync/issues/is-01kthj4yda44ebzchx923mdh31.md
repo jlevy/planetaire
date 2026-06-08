@@ -5,7 +5,7 @@ title: "Planetaire Mono: weight 600, OTF output, and specimen upgrades"
 kind: epic
 status: open
 priority: 2
-version: 33
+version: 38
 labels: []
 dependencies: []
 child_order_hints:
@@ -40,7 +40,12 @@ child_order_hints:
   - is-01ktjsb6f7qd9y3zxgssqzj0ej
   - is-01ktjsgv7wfj0b6cg2ck8nq8gr
   - is-01ktjsvdrpvy38ma6e43vapstx
+  - is-01ktk2213nfb6q89e52f048csz
+  - is-01ktk2219ztszd4n3hj1gxzvf0
+  - is-01ktk221g1attrfzt32fqhapxy
+  - is-01ktk221p7qgw6q8m4epybsbhw
+  - is-01ktk221w673v38cwcb8ypjqa3
 created_at: 2026-06-07T17:30:06.112Z
-updated_at: 2026-06-08T05:03:57.205Z
+updated_at: 2026-06-08T07:27:23.013Z
 ---
 Adopt monospace-font best practices in our own way. Functional: add a SemiBold (600) weight and OTF output. Specimen: a Typeface Specification page, waterfalls, a cohesive identity, and a dedicated credits block. Suggested order: land the 600 weight first (so specimen weight pages reflect it), then OTF, then the specimen pages. Inherent gaps are out of scope here (composite vs single-hand design, drawn-vs-emboldened masters, widths, variable font, ligatures); could be captured as a 'known limitations' docs note.
