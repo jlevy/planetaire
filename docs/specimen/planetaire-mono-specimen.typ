@@ -32,7 +32,9 @@
 //   Dense reproductions (terminal, RFC, code) pin their own tighter leading locally.
 //
 // LAYOUT: never crunch spacing to fit. If content overflows, split across pages (the
-//   About spans two pages). Prefer flexible `1fr` spacers for even cover spacing.
+//   About spans two pages). The cover uses flexible `fr` spacers for vertical rhythm,
+//   intentionally weighted (a larger spacer above the version line) so the version +
+//   credits read as a footer set apart from the title cluster.
 // ────────────────────────────────────────────────────────────────────────────────
 
 #set page(
@@ -92,9 +94,9 @@
   title-size: 44pt,
   sub-size: 15pt,
   tag-size: 15pt,
-  planet-gap: -0.4cm,
-  sub-gap: -0.2cm,
-  tag-gap: 0.68cm,
+  planet-gap: 0.6cm,
+  sub-gap: 0.1cm,
+  tag-gap: 0.95cm,
 )
 
 // CREDITS heading: a bold all-caps label over centered black credit lines.
@@ -104,8 +106,9 @@
 }
 #let b(t) = text(weight: "bold")[#t]
 
-// Generous space below the banner and above the version line.
-#v(1.5fr)
+// Extra-generous space above the version line: a weighted spacer (vs the 1.2fr top
+// and 1.4fr above credits) drops the version + credits low on the page as a footer.
+#v(4.5fr)
 
 #align(center)[
   #text(size: 10pt, weight: "bold", fill: black)[
@@ -129,7 +132,8 @@
   ]
 ]
 
-#v(1fr)
+// No trailing spacer: the weighting above pushes the credits down to rest at the
+// bottom margin, closing the cover as a footer.
 
 #pagebreak()
 
