@@ -105,15 +105,9 @@ agents, editors, and terminals.
 </p>
 
 <p align="center">
-<img src="docs/images/code-dark.png" width="100%" alt="A syntax-highlighted analyze_trajectory() Python function in Planetaire Mono on a dark background">
+<img src="docs/images/rfc-dark.png" width="100%" alt="RFC 1 (1969) set in Planetaire Mono, on a dark background">
 <br>
-<img src="docs/images/code-light.png" width="100%" alt="The same Python function in Planetaire Mono on a light background">
-</p>
-
-<p align="center">
-<img src="docs/images/terminal-dark.png" width="100%" alt="A terminal session in Planetaire Mono on a dark background: a colored eza listing, a Python one-liner, and a git log">
-<br>
-<img src="docs/images/terminal-light.png" width="100%" alt="The same terminal session in Planetaire Mono on a light background">
+<img src="docs/images/rfc-light.png" width="100%" alt="The same RFC 1 document on a light background">
 </p>
 
 <p align="center">
@@ -129,6 +123,18 @@ agents, editors, and terminals.
 </p>
 
 <p align="center">
+<img src="docs/images/code-dark.png" width="100%" alt="A syntax-highlighted analyze_trajectory() Python function in Planetaire Mono on a dark background">
+<br>
+<img src="docs/images/code-light.png" width="100%" alt="The same Python function in Planetaire Mono on a light background">
+</p>
+
+<p align="center">
+<img src="docs/images/terminal-dark.png" width="100%" alt="A terminal session in Planetaire Mono on a dark background: a colored eza listing, a Python one-liner, and a git log">
+<br>
+<img src="docs/images/terminal-light.png" width="100%" alt="The same terminal session in Planetaire Mono on a light background">
+</p>
+
+<p align="center">
 <img src="docs/images/weights-dark.png" width="100%" alt="Planetaire Mono weight ladder from Regular to ExtraBold, upright and italic, on a dark background">
 <br>
 <img src="docs/images/weights-light.png" width="100%" alt="The same weight ladder on a light background">
@@ -138,12 +144,6 @@ agents, editors, and terminals.
 <img src="docs/images/features-dark.png" width="100%" alt="Confusable-character pairs and the dotted-zero variants in Planetaire Mono, on a dark background">
 <br>
 <img src="docs/images/features-light.png" width="100%" alt="The same confusable-character pairs and dotted-zero variants on a light background">
-</p>
-
-<p align="center">
-<img src="docs/images/rfc-dark.png" width="100%" alt="RFC 1 (1969) set in Planetaire Mono, on a dark background">
-<br>
-<img src="docs/images/rfc-light.png" width="100%" alt="The same RFC 1 document on a light background">
 </p>
 
 ## High Legibility
@@ -247,8 +247,9 @@ results, map **bold** text to **ExtraBold (800)** rather than Bold (700): the he
 stroke gives bold output (prompts, headings, highlighted text) clear contrast at
 terminal sizes (12–16px), which is how the font is designed to be used.
 
-**macOS Terminal.app.** Open **Terminal → Settings… → Profiles**, pick your profile, and
-under **Text** click **Change…** to select Planetaire Mono Extended at 14 pt.
+**macOS Terminal.app.** Open **Terminal → Settings… → Profiles**, pick your profile,
+open the **Text** tab, and in the **Font** section click **Change** to select Planetaire
+Mono Extended at 14 pt.
 Check **Use bold fonts** so bold output renders in bold.
 Terminal.app uses the family’s Bold (700) and has no per-weight bold mapping, so it
 can’t route bold to ExtraBold; use Ghostty (below) if you want ExtraBold bold.
@@ -305,7 +306,7 @@ config.font_rules = {
   {
     intensity = 'Bold',
     italic = true,
-    font = wezterm.font('Planetaire Mono Extended', { weight = 'ExtraBold', italic = true }),
+    font = wezterm.font('Planetaire Mono Extended', { weight = 'ExtraBold', style = 'Italic' }),
   },
 }
 
@@ -313,15 +314,18 @@ return config
 ```
 
 **iTerm2.** Open **Preferences → Profiles → Text**, set **Font** to Planetaire Mono
-Extended at 14, and set the bold font to **Planetaire Mono Extended ExtraBold**.
+Extended at 14 pt, and check **Draw bold text in bold font** so bold renders in the
+family’s bold member.
+iTerm2 has no separate bold-font field, so it can’t target the ExtraBold face
+specifically; use Ghostty, Kitty, or the VS Code terminal if you want ExtraBold bold.
 
 **Kitty** — in `~/.config/kitty/kitty.conf`:
 
 ```
-font_family      Planetaire Mono Extended
-bold_font        Planetaire Mono Extended ExtraBold
-italic_font      Planetaire Mono Extended Italic
-bold_italic_font Planetaire Mono Extended ExtraBold Italic
+font_family      family="Planetaire Mono Extended"
+bold_font        family="Planetaire Mono Extended" style="ExtraBold"
+italic_font      family="Planetaire Mono Extended" style="Italic"
+bold_italic_font family="Planetaire Mono Extended" style="ExtraBold Italic"
 font_size        14.0
 ```
 
