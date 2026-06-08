@@ -177,32 +177,11 @@ bold text (prompts, headings, highlighted output) the contrast to stand out.
 
 ### ExtraBold for Terminals
 
-Map your terminal’s bold to ExtraBold:
-
-```
-# Ghostty
-font-family = "Planetaire Mono Extended"
-font-style-bold = "ExtraBold"
-
-# Alacritty
-[font.bold]
-family = "Planetaire Mono Extended"
-style = "ExtraBold"
-
-# WezTerm
-config.font_rules = {
-  {
-    intensity = 'Bold',
-    font = wezterm.font('Planetaire Mono Extended', { weight = 'ExtraBold' }),
-  },
-}
-
-# VS Code terminal
-"terminal.integrated.fontWeightBold": "800"
-```
-
-See [terminal-config.md](docs/terminal-config.md) for Ghostty, Alacritty, WezTerm,
-iTerm2, Kitty, and VS Code.
+For best results, map your terminal’s **bold** to **ExtraBold (800)** rather than Bold
+(700): the heavier stroke gives bold output (prompts, headings, highlighted text) clear
+contrast at terminal sizes, which is how the font is designed to be used.
+Per-terminal setup for Terminal.app, Ghostty, Alacritty, WezTerm, iTerm2, Kitty, and VS
+Code is under [Install → Terminal Configuration](#terminal-configuration).
 
 ## Two Packages: Text and Extended
 
@@ -259,6 +238,102 @@ curl -L https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireM
 mkdir -p ~/.local/share/fonts/PlanetaireMono
 cp ttf/*.ttf ~/.local/share/fonts/PlanetaireMono/
 fc-cache -fv
+```
+
+### Terminal Configuration
+
+After installing the font, point your terminal at **Planetaire Mono Extended**. For best
+results, map **bold** text to **ExtraBold (800)** rather than Bold (700): the heavier
+stroke gives bold output (prompts, headings, highlighted text) clear contrast at
+terminal sizes (12–16px), which is how the font is designed to be used.
+
+**macOS Terminal.app.** Open **Terminal → Settings… → Profiles**, pick your profile, and
+under **Text** click **Change…** to select Planetaire Mono Extended at 14 pt.
+Check **Use bold fonts** so bold output renders in bold.
+Terminal.app uses the family’s Bold (700) and has no per-weight bold mapping, so it
+can’t route bold to ExtraBold; use Ghostty (below) if you want ExtraBold bold.
+
+**Ghostty** — in `~/.config/ghostty/config`:
+
+```
+font-family = "Planetaire Mono Extended"
+font-size = 14
+font-style-bold = "ExtraBold"
+font-style-bold-italic = "ExtraBold Italic"
+```
+
+Run `ghostty +list-fonts` if a style name does not resolve.
+
+**Alacritty** — in `~/.config/alacritty/alacritty.toml`:
+
+```toml
+[font]
+size = 14.0
+
+[font.normal]
+family = "Planetaire Mono Extended"
+style = "Regular"
+
+[font.bold]
+family = "Planetaire Mono Extended"
+style = "ExtraBold"
+
+[font.italic]
+family = "Planetaire Mono Extended"
+style = "Italic"
+
+[font.bold_italic]
+family = "Planetaire Mono Extended"
+style = "ExtraBold Italic"
+```
+
+**WezTerm** — in `~/.wezterm.lua`:
+
+```lua
+local wezterm = require 'wezterm'
+local config = wezterm.config_builder()
+
+config.font = wezterm.font('Planetaire Mono Extended')
+config.font_size = 14.0
+
+-- Map bold to ExtraBold for maximum contrast
+config.font_rules = {
+  {
+    intensity = 'Bold',
+    font = wezterm.font('Planetaire Mono Extended', { weight = 'ExtraBold' }),
+  },
+  {
+    intensity = 'Bold',
+    italic = true,
+    font = wezterm.font('Planetaire Mono Extended', { weight = 'ExtraBold', italic = true }),
+  },
+}
+
+return config
+```
+
+**iTerm2.** Open **Preferences → Profiles → Text**, set **Font** to Planetaire Mono
+Extended at 14, and set the bold font to **Planetaire Mono Extended ExtraBold**.
+
+**Kitty** — in `~/.config/kitty/kitty.conf`:
+
+```
+font_family      Planetaire Mono Extended
+bold_font        Planetaire Mono Extended ExtraBold
+italic_font      Planetaire Mono Extended Italic
+bold_italic_font Planetaire Mono Extended ExtraBold Italic
+font_size        14.0
+```
+
+**VS Code terminal** — in `settings.json`:
+
+```json
+{
+  "terminal.integrated.fontFamily": "Planetaire Mono Extended",
+  "terminal.integrated.fontSize": 14,
+  "terminal.integrated.fontWeight": "normal",
+  "terminal.integrated.fontWeightBold": "800"
+}
 ```
 
 ### Web (CSS `@font-face`)
