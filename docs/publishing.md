@@ -50,18 +50,20 @@ for details.
    - Enter the project name, repo owner, repo name, and `publish.yml` as the workflow
      name. (You can leave the “environment name” field blank.)
 
-4. **Push a version tag:**
+4. **Create a version tag:**
 
    - Commit code and make sure it’s running correctly.
 
    - Confirm all tests are passing in the last CI workflow (Actions tab).
 
-   - Tag a version (it’s wise to start with a `v`; a good first one is `v0.1.0`) and push
-     it:
+   - Tag a version (it’s wise to start with a `v`; a good first one is `v0.1.0`). Prefer
+     `gh`, which also works from web sessions where `git push <tag>` is blocked:
 
      ```shell
-     git tag v0.1.0
-     git push origin v0.1.0
+     gh api repos/OWNER/PROJECT/git/refs \
+       -f ref=refs/tags/v0.1.0 \
+       -f sha="$(git rev-parse origin/main)"
+     # or, from a local checkout: git tag v0.1.0 && git push origin v0.1.0
      ```
 
    - The tag triggers the workflows; the GitHub Release is created automatically by
@@ -131,14 +133,18 @@ Follow this checklist for each new release.
    git diff ${LAST_TAG}..HEAD
    ```
 
-6. **Write the release notes, then push the tag:**
+6. **Write the release notes, then create the tag:**
 
    Add `docs/release/notes/vX.Y.Z.md` using the [Release Notes Format](#release-notes-format)
-   below, and commit it to `main` so the tagged commit contains it. Then tag:
+   below, and commit it to `main` so the tagged commit contains it. Then cut the tag with
+   `gh` (this works from web sessions too, where `git push <tag>` is blocked — see
+   [fonts-build-and-release.md](fonts-build-and-release.md#2-cut-the-tag) for details):
 
    ```shell
-   git tag vX.Y.Z      # replace with the actual version
-   git push origin vX.Y.Z
+   gh api repos/OWNER/PROJECT/git/refs \
+     -f ref=refs/tags/vX.Y.Z \
+     -f sha="$(git rev-parse origin/main)"
+   # or, from a local checkout: git tag vX.Y.Z && git push origin vX.Y.Z
    ```
 
    The tag triggers `release-fonts.yml`, which builds the fonts, creates the GitHub

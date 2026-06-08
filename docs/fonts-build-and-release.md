@@ -106,15 +106,34 @@ existing files under `docs/release/notes/` for examples).
 Commit the notes file (and any other changes) to `main` **before** tagging, so the
 tagged commit contains the notes the workflow reads.
 
-### 2. Push the tag
+### 2. Cut the tag
+
+Tag the `main` commit that carries the notes file. Prefer `gh` (the GitHub API): it works
+everywhere, including Claude Code web sessions where the git proxy rejects tag pushes
+(`git push <tag>` returns HTTP 403).
 
 ```shell
-git tag v0.1.3      # annotate if you prefer: git tag -a v0.1.3 -m "v0.1.3"
-git push origin v0.1.3
+# Lightweight tag on the current main; fires release-fonts.yml.
+gh api repos/jlevy/planetaire/git/refs \
+  -f ref=refs/tags/v0.1.3 \
+  -f sha="$(git rev-parse origin/main)"
 ```
 
-The tag fires `.github/workflows/release-fonts.yml`, which builds both families, creates
-the GitHub Release for the tag, and uploads the archives:
+From a local checkout with tag-push access you can push the tag with git instead
+(annotated is fine — the workflow only needs the tag to exist on the remote):
+
+```shell
+git tag -a v0.1.3 -m "v0.1.3" && git push origin v0.1.3
+```
+
+> **`gh` in web sessions:** managing releases needs `gh auth login` with the `repo` and
+> `workflow` scopes — the `workflow` scope is what lets the tag-creation event trigger
+> `release-fonts.yml` (events from a bare `GITHUB_TOKEN` would not). In web sessions the
+> git remote points at a local proxy, so pass `-R jlevy/planetaire` to `gh run` / `gh
+> release` subcommands that otherwise infer the repo from the remote.
+
+Either way the tag fires `.github/workflows/release-fonts.yml`, which builds both
+families, creates the GitHub Release for the tag, and uploads the archives:
 
 - `PlanetaireMono-Extended.tar.xz` / `.zip`: the full family (TTF + WOFF2 + `@font-face`
   CSS, all Nerd Font icons), with the README and license texts
