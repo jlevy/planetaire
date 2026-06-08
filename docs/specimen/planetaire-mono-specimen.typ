@@ -94,21 +94,16 @@
   title-size: 44pt,
   sub-size: 15pt,
   tag-size: 15pt,
-  planet-gap: 0.6cm,
+  planet-gap: 0.85cm,
   sub-gap: 0.1cm,
   tag-gap: 0.95cm,
 )
 
-// CREDITS heading: a bold all-caps label over centered black credit lines.
-#let cover-heading(t) = {
-  text(size: 9.5pt, weight: "bold", fill: black)[#t]
-  v(0.26cm)
-}
 #let b(t) = text(weight: "bold")[#t]
 
 // Extra-generous space above the version line: a weighted spacer (vs the 1.2fr top
 // and 1.4fr above credits) drops the version + credits low on the page as a footer.
-#v(4.5fr)
+#v(3.55fr)
 
 #align(center)[
   #text(size: 10pt, weight: "bold", fill: black)[
@@ -122,7 +117,6 @@
 
 #align(center)[
   #set par(spacing: 0pt, leading: 0.8em)
-  #cover-heading("CREDITS")
   #text(size: 9.5pt, fill: black)[
     #b[Planetaire Mono] assembled and maintained by #b[Joshua Levy]\
     #b[B612 Mono] letterforms by #b[Intactile Design] for #b[Airbus]\
