@@ -46,7 +46,9 @@
 // Section heading (used on the white specimen pages).
 #let section(title) = {
   text(size: 16pt, weight: 700)[#title]
-  v(0.3cm)
+  // Pull the rule up tight under the title — just below its descenders, not a full line
+  // height down. The negative space cancels the title line box's bottom leading.
+  v(-0.32cm)
   line(length: 100%, stroke: 0.5pt + rgb("#ccc"))
   v(0.5cm)
 }
@@ -276,11 +278,11 @@
       column-gutter: 1cm,
       align: horizon,
       text(size: 28pt, fill: p.fg)[#chars],
-      text(size: 9pt, fill: p.muted)[#desc],
+      text(size: 8pt, fill: p.muted)[#desc],
     )
     v(0.15cm)
   }
-  text(size: 8pt, fill: p.muted, weight: "bold")[KEY GLYPH COMPARISONS]
+  text(size: 8pt, fill: p.muted)[KEY GLYPH COMPARISONS]
   v(0.1cm)
   disambig[I l 1 |][uppercase I \u{00B7} lowercase l \u{00B7} digit 1 \u{00B7} pipe]
   disambig[O 0 o][uppercase O \u{00B7} digit 0 \u{00B7} lowercase o]
@@ -289,20 +291,20 @@
   disambig[2 Z 6 G][digit 2 vs Z \u{00B7} digit 6 vs G]
 
   v(0.3cm)
-  text(size: 8pt, fill: p.muted, weight: "bold")[ZERO DOT VARIANTS (OpenType)]
+  text(size: 8pt, fill: p.muted)[ZERO DOT VARIANTS (OpenType)]
   v(0.1cm)
   grid(
     columns: (1fr, 1fr),
     gutter: 1cm,
     [
-      #text(size: 9pt, fill: p.muted, weight: "bold")[Default (circle dot)]
+      #text(size: 8pt, fill: p.muted)[Default (circle dot)]
       #v(0.1cm)
       #text(size: 36pt, fill: p.fg)[0] #h(0.5cm) #text(size: 18pt, fill: p.fg)[0 O o]
       #v(0.1cm)
       #text(size: 11pt, fill: p.fg)[FL350 FL850 10.0.0.1]
     ],
     [
-      #text(size: 9pt, fill: p.muted, weight: "bold")[ss01 / zero (rectangle dot)]
+      #text(size: 8pt, fill: p.muted)[ss01 / zero (rectangle dot)]
       #v(0.1cm)
       #set text(features: ("ss01",))
       #text(size: 36pt, fill: p.fg)[0] #h(0.5cm) #text(size: 18pt, fill: p.fg)[0 O o]
@@ -333,11 +335,11 @@
     s.clusters().map(c => qa-cell(p, c, italic: italic)).join(h(5pt))
     v(0.2cm)
   }
-  text(size: 8pt, fill: p.muted, weight: "bold")[
+  text(size: 8pt, fill: p.muted)[
     STANDARD CODING CHARACTERS: TRUE CELL WIDTHS#if italic [ (ITALIC)] else []
   ]
   v(0.05cm)
-  text(size: 7.5pt, fill: p.muted)[
+  text(size: 8pt, fill: p.muted)[
     Red rules mark each glyph’s advance. Equal-width cells with ink inside mean a
     clean monospace grid, nothing trimmed.
   ]
@@ -348,7 +350,7 @@
   row("!\"#$%&'()*+,-./:;<=>?@")
   row("[\\]^_`{|}~")
   v(0.1cm)
-  text(size: 7.5pt, fill: p.muted)[Cell-filling glyphs (box-drawing, powerline) reach the rules by design:]
+  text(size: 8pt, fill: p.muted)[Cell-filling glyphs (box-drawing, powerline) reach the rules by design:]
   v(0.15cm)
   row("\u{2500}\u{2502}\u{250C}\u{2510}\u{2514}\u{2518}\u{251C}\u{2524}\u{252C}\u{2534}\u{253C}\u{2588}\u{2593}\u{2592}\u{2591}\u{E0B0}\u{E0B2}")
 }
@@ -362,16 +364,16 @@
     grid(
       columns: (3cm, auto),
       align: (left + horizon, left + horizon),
-      text(size: 7.5pt, fill: p.muted)[#lbl],
+      text(size: 8pt, fill: p.muted)[#lbl],
       box(stroke: (right: _qa_rule), inset: (right: 0pt, y: 2.5pt))[
         #text(size: 13pt, weight: wt, style: st, fill: p.fg)[#sample]
       ],
     )
     v(0.12cm)
   }
-  text(size: 8pt, fill: p.muted, weight: "bold")[WEIGHT ALIGNMENT: EVERY WEIGHT IS THE SAME WIDTH]
+  text(size: 8pt, fill: p.muted)[WEIGHT ALIGNMENT: EVERY WEIGHT IS THE SAME WIDTH]
   v(0.05cm)
-  text(size: 7.5pt, fill: p.muted)[
+  text(size: 8pt, fill: p.muted)[
     The same string in all ten variants; the red rule marks each line’s right
     edge. A single vertical line means identical width across every weight.
   ]
@@ -391,7 +393,7 @@
 // Size waterfall: the name from caption to display size, plus a display-size
 // legibility line. Palette-aware so it renders in dark or light cards.
 #let size-waterfall(p: pal-light) = {
-  text(size: 9pt, fill: p.muted)[
+  text(size: 8pt, fill: p.muted)[
     Planetaire Mono from caption to display size, holding its proportions throughout.
   ]
   v(0.5cm)
@@ -409,14 +411,14 @@
     line(s)
   }
   v(0.6cm)
-  text(size: 8.5pt, weight: "bold", fill: p.muted)[LEGIBILITY AT DISPLAY SIZE]
+  text(size: 8pt, fill: p.muted)[LEGIBILITY AT DISPLAY SIZE]
   v(0.25cm)
   text(size: 38pt, fill: p.fg)[Il1| O0o 0123]
 }
 
 // RFC 1 (Steve Crocker, 1969): dense fixed-width document text.
 #let rfc-excerpt(p: pal-light) = {
-  text(size: 9pt, fill: p.muted)[RFC 1 \u{00B7} STEVE CROCKER, UCLA \u{00B7} 7 APRIL 1969]
+  text(size: 8pt, fill: p.muted)[RFC 1 \u{00B7} STEVE CROCKER, UCLA \u{00B7} 7 APRIL 1969]
   v(0.2cm)
   block[
     #set text(size: 9pt, fill: p.fg)
@@ -431,9 +433,9 @@
 
 // Multi-size body text plus French/German/Spanish/Turkish, Greek, and Cyrillic.
 #let text-sample(p: pal-light) = {
-  let label(t) = text(size: 9pt, fill: p.muted)[#t]
-  label[Planetaire Mono at various sizes, showing B612’s distinctive letterforms optimized for readability at small sizes and on low-resolution displays.]
-  v(0.3cm)
+  let label(t) = text(size: 8pt, fill: p.muted)[#t]
+  label[ENGLISH]
+  v(0.15cm)
   text(size: 14pt, fill: p.fg)[The quick brown fox jumps over the lazy dog. Pack my box with five dozen liquor jugs. How vexingly quick daft zebras jump!]
   v(0.4cm)
   text(size: 11pt, fill: p.fg)[In the great void between stars, instruments must be read without error. Every glyph must be unambiguous: the digit 0 distinct from the letter O, the numeral 1 clearly not a lowercase l or uppercase I. B612 was born from this requirement. Originally designed for cockpit displays at Airbus, where a misread character could mean the difference between FL350 and FL850. Planetaire Mono inherits that precision and pairs it with the full symbol coverage a programmer needs: braces, brackets, pipes, arrows, and 12,000 icons ready for a modern terminal.]

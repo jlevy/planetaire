@@ -1,5 +1,5 @@
 <p align="center">
-<a href="https://cdn.jsdelivr.net/gh/jlevy/planetaire@main/docs/specimen/planetaire-mono-specimen.pdf"><img src="docs/images/header.png" alt="Planetaire Mono — read the type specimen (PDF)" width="100%"></a>
+<a href="https://cdn.jsdelivr.net/gh/jlevy/planetaire@v0.1.4/docs/specimen/planetaire-mono-specimen.pdf"><img src="docs/images/header.png" alt="Planetaire Mono — read the type specimen (PDF)" width="100%"></a>
 </p>
 
 Planetaire Mono is a beautiful, highly legible monospace font for terminals, editors,
@@ -10,7 +10,7 @@ weights, symbols from [Hack](https://github.com/source-foundry/Hack), and extens
 icons from [Nerd Fonts](https://github.com/ryanoasis/nerd-fonts).
 It is [licensed freely](#license) for personal, commercial, and open source use.
 
-**[Read the Type Specimen (PDF)](https://cdn.jsdelivr.net/gh/jlevy/planetaire@main/docs/specimen/planetaire-mono-specimen.pdf)**
+**[Read the Type Specimen (PDF)](https://cdn.jsdelivr.net/gh/jlevy/planetaire@v0.1.4/docs/specimen/planetaire-mono-specimen.pdf)**
 
 **[Download the Fonts (TTF, WOFF2)](https://github.com/jlevy/planetaire/releases/latest)**
 
@@ -19,7 +19,7 @@ It is [licensed freely](#license) for personal, commercial, and open source use.
 ### About B612
 
 B612 began not as a typeface but as an aviation research program.
-In 2010 Airbus, [ENAC](https://www.enac.fr/en) (the French civil aviation university),
+In 2010, Airbus, [ENAC](https://www.enac.fr/en) (the French civil aviation university),
 and the Université de Toulouse III set out to define and validate an “aeronautical font”
 for cockpit screens: text a pilot can read correctly while fatigued, at oblique angles,
 or under vibration, glare, or near-darkness.
@@ -55,11 +55,7 @@ In 2017, B612 was released as open source through the Eclipse
 By historical accident, B612 alone is not a usable document or application font.
 The versions in circulation, including the one
 [on Google Fonts](https://fonts.google.com/specimen/B612+Mono), have oddities and uneven
-symbol coverage that make them awkward for use in modern applications and terminals.
-For example, some of the punctuation and symbols are a bit too thin for programming
-legibility, and the published versions have an undotted zero that is easy to confuse
-with a capital `O`.
-
+symbols that make them awkward for use in modern applications and terminals.
 Planetaire Mono arises from this need.
 It merges B612’s letters and digits into Hack Nerd Font’s base:
 
@@ -219,7 +215,7 @@ Get the latest from
 
 | Package | Best for | Includes | Download |
 | --- | --- | --- | --- |
-| **Planetaire Mono Text** *(standard)* | Websites, documents, reading | Letters, punctuation, Greek/Cyrillic, box-drawing. No icons. TTF + WOFF2 (~67 KB/weight WOFF2). | [`.tar.xz`](https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Text.tar.xz) **~1 MB** · [`.zip`](https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Text.zip) ~1.3 MB |
+| **Planetaire Mono Text** *(standard)* | Websites, documents, reading | Letters, punctuation, Greek/Cyrillic, box-drawing. No icons. TTF + WOFF2 (~65 KB/weight WOFF2). | [`.tar.xz`](https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Text.tar.xz) **~1 MB** · [`.zip`](https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Text.zip) ~1.3 MB |
 | **Planetaire Mono Extended** *(full)* | Terminals, coding, icon-rich CLIs | Everything in Text plus all 10,000+ Nerd Font icons and Powerline. TTF + WOFF2. | [`.tar.xz`](https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Extended.tar.xz) **~19 MB** · [`.zip`](https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Extended.zip) ~24 MB |
 
 Both packages ship the same 10 variants, each archive laid out as `ttf/` (for local
@@ -367,9 +363,13 @@ uv sync --all-extras
 make fonts        # download (verify) -> build Extended + Text -> validate
 ```
 
-The pipeline merges B612 glyphs into the Hack Nerd Font base (normalizing UPM 2048 to
-2000), adds the dotted zero, sets family and version metadata, applies fixes, and
-validates coverage and style linking.
+Planetaire Mono is built with a custom Python pipeline using fontTools.
+For each weight variant, the pipeline loads Hack Nerd Font as the base, merges B612’s
+letter and digit glyphs by Unicode range (normalizing units per em from 2048 to 2000),
+adds a center dot to B612’s zero for O/0 disambiguation, sets family and version
+metadata, applies post-processing fixes, and validates coverage and style linking.
+The intermediate B612 weights (Medium, SemiBold, and ExtraBold) are generated from its
+base weights with FontForge emboldening before merging.
 Full build, specimen, and release steps are in
 [fonts-build-and-release.md](docs/fonts-build-and-release.md); regenerating the specimen
 and these images is in [build-assets.runbook.md](docs/build-assets.runbook.md).

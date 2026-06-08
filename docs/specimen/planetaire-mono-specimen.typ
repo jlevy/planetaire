@@ -43,8 +43,8 @@
   footer: context {
     if page-count.get().first() > 1 {
       align(center)[
-        #text(size: 7pt, fill: muted)[
-          Planetaire Mono \u{00B7} github.com/jlevy/planetaire \u{00B7} OFL-1.1
+        #text(size: 8pt, fill: muted)[
+          Planetaire Mono \u{00B7} github.com/jlevy/planetaire
         ]
       ]
     }
@@ -101,27 +101,24 @@
 
 #let b(t) = text(weight: "bold")[#t]
 
-// Extra-generous space above the version line: a weighted spacer (vs the 1.2fr top
-// and 1.4fr above credits) drops the version + credits low on the page as a footer.
-#v(3.55fr)
+// Version + credits as one centered block low on the page: the version sits just
+// above the credits, a single blank line apart (2.3em ≈ one line, matching the
+// About-page rhythm). The flexible spacer above (= the old 3.55fr + 1.4fr) keeps the
+// banner's position and drops the block low as a footer.
+#v(4.95fr)
 
 #align(center)[
+  #set par(spacing: 0pt, leading: 0.8em)
   #text(size: 10pt, weight: "bold", fill: black)[
     Version #version#if build-date != "" [ · #build-date]\
     github.com/jlevy/planetaire
   ]
-]
-
-// A healthy amount of space around the credits, lower on the page.
-#v(1.4fr)
-
-#align(center)[
-  #set par(spacing: 0pt, leading: 0.8em)
+  #v(2.3em)
   #text(size: 9.5pt, fill: black)[
     #b[Planetaire Mono] assembled and maintained by #b[Joshua Levy]\
     #b[B612 Mono] letterforms by #b[Intactile Design] for #b[Airbus]\
     #b[Hack] base punctuation, symbols, and metrics by #b[Chris Simpkins]\
-    #b[Nerd Fonts] 12,000+ icons by #b[Ryan McIntyre]\
+    #b[Nerd Fonts] 10,000+ icons by #b[Ryan McIntyre]\
     Dotted zero inspired by the B612 fork by #b[Carlos Eduardo de Paula]
   ]
 ]
@@ -146,7 +143,7 @@
   #let about-heading(t) = block(text(size: 10pt, weight: "bold")[#t])
 
   #about-heading("ABOUT B612")
-  B612 began not as a typeface but as an aviation research program. In 2010 Airbus,
+  B612 began not as a typeface but as an aviation research program. In 2010, Airbus,
   ENAC (the French civil aviation university), and the Université de Toulouse III set
   out to define and validate an “aeronautical font” for cockpit screens: text a pilot
   can read correctly while fatigued, at oblique angles, or under vibration, glare, or
@@ -177,22 +174,19 @@
 
   #about-heading("ABOUT PLANETAIRE MONO")
   By historical accident, B612 alone is not a usable document or application font. The
-  versions in circulation, including the one on Google Fonts, have uneven symbol
-  coverage and oddities that make them awkward for modern applications and terminals.
-  Some punctuation and symbols are a bit too thin for programming legibility, and the
-  published versions have an undotted zero easy to confuse with a capital O.
-
+  versions in circulation, including the one on Google Fonts, have oddities and uneven
+  symbols that make them awkward for use in modern applications and terminals.
   Planetaire Mono arises from this need. It merges B612’s letters and digits into Hack
-  Nerd Font’s base. It also adds more weights and a dotted zero:
+  Nerd Font’s base:
 
   #grid(
     columns: (1.204em, 1fr),
     row-gutter: 0.8em,
     [•], [*B612 letterforms* for letters, digits, and extended Latin, Greek, and Cyrillic.],
     [•], [*Hack punctuation and symbols* for `{}[]()<>` and the rest.],
-    [•], [*Ten variants across five weights* (400/500/600/700/800), including added SemiBold (600) and ExtraBold (800) weights, the latter for terminal bold (see Weights).],
-    [•], [*12,000+ Nerd Font icons* (Powerline, Font Awesome, Devicons) in the Extended package.],
-    [•], [*A dotted zero:* B612’s zero with a center dot for clear 0 vs O, in circle (default) and rectangle (ss01) variants.],
+    [•], [*Ten variants across five weights* (400/500/600/700/800), including added SemiBold (600) and ExtraBold (800) weights, the latter especially useful as boldface in the terminal.],
+    [•], [*Over 10,000 Nerd Font icons* (Powerline, Font Awesome, Devicons) in the Extended package, part of 12,000+ total glyphs.],
+    [•], [*A dotted zero:* B612’s zero with a center dot for clear `0` vs `O`, in circle (default) and rectangle (`ss01`) variants.],
   )
 
   Hack has its own lineage: Bitstream Vera Mono (2003) became DejaVu Mono, which Chris
@@ -202,23 +196,30 @@
   distinct in dense code. B612’s own punctuation lacks that weight, which is why
   Planetaire borrows these heavier symbols from Hack.
 
+  Planetaire Mono carries a new name for clarity and to comply with the B612 license.
+
+  #pagebreak()
+
   #about-heading("A PERSONAL NOTE")
   Like architecture, typography is a functional art form. A design may initially appear
   attractive, but you can’t know its true qualities until you live close to it. Or work
   within it.
 
-  A couple of years ago, while building a terminal, I surveyed monospace fonts to find
-  the best ones. B612 wasn’t my obvious first choice, but after trying many of the
-  classic modern options available as Nerd Fonts, I came to realize it still just felt
-  better over time. I was disappointed with the technical flaws that made it hard to use
-  as a full replacement for a workhorse like Hack or JetBrains Mono, so I made an adapted
-  hybrid of B612 — happy with it, but never in clean enough form to publish.
+  A couple of years ago, I was building a terminal and surveyed monospace fonts to find
+  the best ones. B612 wasn’t my obvious first choice, but after trying many of the classic
+  modern options available as Nerd Fonts, I came to realize it still just _felt_ better
+  over time. But I was disappointed with the technical flaws that made it hard to use as a
+  full replacement for a modern, high-quality workhorse typeface such as Hack or JetBrains
+  Mono. I made an adapted hybrid of B612 that I was quite happy with, but it wasn’t in a
+  clean enough form to publish.
 
   Now, Claude Code and Opus 4.8 have made it a pleasure to consolidate this work as
-  Planetaire Mono. I’ve used dozens of terminal fonts over the years, and it is now what
-  I use every day. Thanks to agentic coding, monospace fonts are in greater use than
-  anyone could have imagined; I hope Planetaire Mono’s aesthetics lighten the hours you
-  spend with your agents, editors, and terminals.
+  Planetaire Mono. I’ve used dozens of terminal fonts over the years, and it is now what I
+  use every day.
+
+  Thanks to agentic coding, monospace fonts are now in greater use than anyone could ever
+  have imagined. I hope Planetaire Mono’s aesthetics lighten the hours you spend with your
+  agents, editors, and terminals.
 ]
 
 #pagebreak()
@@ -231,8 +232,9 @@
 #v(0.4cm)
 
 #let spec-group(title) = {
-  text(size: 8.5pt, weight: "bold", fill: muted)[#title]
-  v(0.12cm)
+  text(size: 8pt, fill: muted)[#title]
+  // Rule pulled up tight just under the sub-heading, matching the main page titles.
+  v(-0.16cm)
   line(length: 100%, stroke: 0.5pt + rgb("#ccc"))
   v(0.15cm)
 }
@@ -480,7 +482,7 @@
   columns: (1fr, 1fr),
   gutter: 1cm,
   [
-    #text(size: 9pt, fill: muted, weight: "bold")[Default (circle dot)]
+    #text(size: 8pt, fill: muted)[Default (circle dot)]
     #v(0.1cm)
     #text(size: 36pt)[0]
     #h(0.5cm)
@@ -489,7 +491,7 @@
     #text(size: 11pt)[FL350 FL850 10.0.0.1]
   ],
   [
-    #text(size: 9pt, fill: muted, weight: "bold")[ss01 / zero (rectangle dot)]
+    #text(size: 8pt, fill: muted)[ss01 / zero (rectangle dot)]
     #v(0.1cm)
     #set text(features: ("ss01",))
     #text(size: 36pt)[0]
@@ -567,7 +569,7 @@
 #section[Nerd Font Icons]
 
 #text(size: 9pt, fill: muted)[
-  A selection of the 12,000+ Nerd Font icons included via Hack Nerd Font.
+  A selection of the 10,000+ Nerd Font icons included via Hack Nerd Font.
   Each icon shown with its Unicode codepoint.
 ]
 #v(0.3cm)
@@ -695,9 +697,13 @@
     base font structure: punctuation, symbols, metrics, and Nerd Font integration.
   ],
   [*Nerd Fonts*], [
-    Ryan McIntyre’s icon patching project. 12,000+ developer icons
+    Ryan McIntyre’s icon patching project. 10,000+ developer icons
     including Powerline, Font Awesome, Devicons, Material Design,
     and more, all included via the Hack Nerd Font base.
+  ],
+  [*carlosedp*], [
+    Carlos Eduardo de Paula’s B612 Nerd Font fork, which inspired the
+    dotted zero. Not a build dependency.
   ],
 )
 
@@ -707,15 +713,17 @@
 #text(size: 10pt)[
   Planetaire Mono is built with a custom Python pipeline using fontTools.
   For each weight variant, the pipeline loads Hack Nerd Font as the base,
-  merges B612 letter and digit glyphs by Unicode range, adds a center dot
-  to B612’s zero for O/0 disambiguation, renames the result, and applies
-  post-processing fixes. Medium and SemiBold weights are generated from
-  Regular, and ExtraBold from Bold, via FontForge emboldening.
+  merges B612’s letter and digit glyphs by Unicode range (normalizing units
+  per em from 2048 to 2000), adds a center dot to B612’s zero for O/0
+  disambiguation, sets family and version metadata, applies post-processing
+  fixes, and validates coverage and style linking. The intermediate B612 weights
+  (Medium, SemiBold, and ExtraBold) are generated from its base weights with
+  FontForge emboldening before merging.
 ]
 
 #pagebreak()
 
-#section[Two Packages: Extended and Text]
+#section[Two Packages: Text and Extended]
 
 // Inline raw (e.g. `@font-face`) inherits the surrounding text size via 1em.
 #show raw.where(block: false): set text(size: 1em)
@@ -723,14 +731,20 @@
 #text(size: 10pt)[
   #set par(spacing: 2.3em)
   #set block(spacing: 2.3em)
-  Planetaire Mono ships in two packages built from the same letterforms:
+  Both packages share the same letterforms and the same 10 variants, and both ship in
+  two formats: TTF for local install and WOFF2 (with a ready `@font-face` stylesheet)
+  for the web. They differ only in glyph coverage:
 
-  - *Planetaire Mono Extended*: the full build with all \~12,000 Nerd Font icons
-    and Powerline, for terminals and coding.
-  - *Planetaire Mono Text*: a lightweight web subset (letters, punctuation,
-    box-drawing, block elements, geometric shapes) that drops the Private-Use icons.
-    About *55 KB per weight* in WOFF2, roughly 18× smaller, and shipped with a ready
-    `@font-face` stylesheet.
+  - *Planetaire Mono Extended* is the full font: everything in Text plus the 10,000+
+    Nerd Font icons and Powerline glyphs that terminals and CLIs draw, so it is a
+    superset of Text. Recommended for local and terminal use, where TTF is the standard
+    option.
+  - *Planetaire Mono Text* is a lightweight subset (no icons), so it is far smaller,
+    about 65 KB per weight in WOFF2. Recommended for the web, where the WOFF2 stylesheet
+    is the standard option.
+
+  Either package works for either purpose; the recommendations are just the common,
+  size-conscious defaults.
 ]
 
 #v(0.5cm)
@@ -761,8 +775,9 @@
 
   The constituent fonts carry the following licenses:
   - *B612 Mono*: SIL Open Font License 1.1 and Eclipse Public License 2.0
-  - *Hack*: MIT License
-  - *Nerd Fonts* patches: MIT License
+  - *Hack*: MIT License and the Bitstream Vera License (Hack’s symbols descend from
+    Bitstream Vera, which reserves the names “Bitstream” and “Vera”)
+  - *Nerd Fonts*: glyph fonts under SIL Open Font License 1.1, patcher tooling under MIT
 ]
 
 // ─── QA page: monospace invariants ──────────────────────────────
@@ -771,7 +786,7 @@
 
 #section("Spacing Review")
 
-#text(size: 9.5pt, fill: muted)[
+#text(size: 8pt, fill: muted)[
   Planetaire Mono is built to a single cell width: every glyph (and intentional
   double-width glyphs at exactly 2x) shares one advance. B612’s letters and the
   FontForge-emboldened weights are normalized to that cell, recentered, and
