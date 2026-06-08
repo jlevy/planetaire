@@ -167,7 +167,9 @@ def _check_style_linking(font: TTFont) -> list[Issue]:
         return issues
     sub_l = subfamily.lower()
     name_italic = "italic" in sub_l or "oblique" in sub_l
-    name_bold = "bold" in sub_l
+    # "SemiBold" (600) contains the substring "bold" but is not a bold face: only
+    # Bold (700) and heavier (e.g. "ExtraBold") carry the bold style bit.
+    name_bold = "bold" in sub_l and "semibold" not in sub_l
 
     mac_style = font["head"].macStyle
     fs_selection = font["OS/2"].fsSelection

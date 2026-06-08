@@ -86,3 +86,18 @@ def test_validate_style_linking_detects_name_vs_flag_mismatch(base_font: TTFont)
         if i.severity == "error" and i.category == "style_linking"
     ]
     assert any("do not match subfamily" in i.message for i in errors)
+
+
+def test_validate_style_linking_semibold_not_bold(base_font: TTFont):
+    """'SemiBold' (600) contains the substring 'bold' but is not a bold face.
+
+    Regression: the bold bit is correctly unset, so it must not be flagged as a
+    name/flag mismatch (unlike a true 'Bold' face without the bit).
+    """
+    _set_subfamily(base_font, "SemiBold")
+    errors = [
+        i
+        for i in validate_font(base_font)
+        if i.severity == "error" and i.category == "style_linking"
+    ]
+    assert errors == []
