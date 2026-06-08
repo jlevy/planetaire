@@ -5,9 +5,9 @@ Planetaire Mono is a beautiful, highly legible monospace font for terminals, edi
 and agentic work.
 
 It is a lightly adapted fork of [B612 Mono](https://github.com/polarsys/b612) with added
-weights, symbols from [Hack](https://sourcefoundry.org/hack/), and extensive icons from
-[Nerd Fonts](https://www.nerdfonts.com/). It is [licensed freely](#license) for
-personal, commercial, and open source use.
+weights, symbols from [Hack](https://github.com/source-foundry/Hack), and extensive
+icons from [Nerd Fonts](https://github.com/ryanoasis/nerd-fonts).
+It is [licensed freely](#license) for personal, commercial, and open source use.
 
 **[Read the Type Specimen (PDF)](https://cdn.jsdelivr.net/gh/jlevy/planetaire@main/docs/specimen/planetaire-mono-specimen.pdf)**
 
@@ -67,8 +67,8 @@ It merges B612’s letters and digits into Hack Nerd Font’s base:
 - **Ten variants across five weights** (400/500/600/700/800), including added **SemiBold
   (600)** and **ExtraBold (800)** weights, the latter especially useful as boldface in
   the terminal.
-- **12,000+ Nerd Font icons** (Powerline, Font Awesome, Devicons) in the Extended
-  package.
+- **Over 10,000 Nerd Font icons** (Powerline, Font Awesome, Devicons) in the Extended
+  package, part of 12,000+ total glyphs.
 - **A dotted zero:** B612’s zero with a center dot for clear `0` vs `O`, in circle
   (default) and rectangle (`ss01`) variants.
 
@@ -200,7 +200,7 @@ formats: **TTF** (in `ttf/`) for local install and **WOFF2** (in `web/`, with a 
 `@font-face` stylesheet) for the web.
 They differ only in glyph coverage:
 
-- **Planetaire Mono Extended** is the full font: everything in Text **plus** the ~12,000
+- **Planetaire Mono Extended** is the full font: everything in Text **plus** the 10,000+
   Nerd Font icons and Powerline glyphs that terminals and CLIs draw, so it is a superset
   of Text. **Recommended for local and terminal use**, where TTF is the standard option.
 - **Planetaire Mono Text** is a lightweight subset (no icons), so it is far smaller.
@@ -219,7 +219,7 @@ Get the latest from
 | Package | Best for | Includes | Download |
 | --- | --- | --- | --- |
 | **Planetaire Mono Text** *(standard)* | Websites, documents, reading | Letters, punctuation, Greek/Cyrillic, box-drawing. No icons. TTF + WOFF2 (~67 KB/weight WOFF2). | [`.tar.xz`](https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Text.tar.xz) **~1 MB** · [`.zip`](https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Text.zip) ~1.3 MB |
-| **Planetaire Mono Extended** *(full)* | Terminals, coding, icon-rich CLIs | Everything in Text plus all ~12,000 Nerd Font icons and Powerline. TTF + WOFF2. | [`.tar.xz`](https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Extended.tar.xz) **~19 MB** · [`.zip`](https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Extended.zip) ~24 MB |
+| **Planetaire Mono Extended** *(full)* | Terminals, coding, icon-rich CLIs | Everything in Text plus all 10,000+ Nerd Font icons and Powerline. TTF + WOFF2. | [`.tar.xz`](https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Extended.tar.xz) **~19 MB** · [`.zip`](https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Extended.zip) ~24 MB |
 
 Both packages ship the same 10 variants, each archive laid out as `ttf/` (for local
 install) and `web/` (WOFF2 plus an `@font-face` stylesheet).
@@ -380,7 +380,7 @@ and these images is in [build-assets.runbook.md](docs/build-assets.runbook.md).
 - [**Hack**](https://sourcefoundry.org/hack/): Chris Simpkins.
   The base providing punctuation, symbols, and metrics.
 - [**Nerd Fonts**](https://www.nerdfonts.com/): Ryan McIntyre.
-  12,000+ developer icons.
+  10,000+ developer icons.
 - [**carlosedp**](https://github.com/carlosedp/b612): Carlos Eduardo de Paula’s B612
   Nerd Font fork, which inspired the dotted zero.
   Not a build dependency.
@@ -407,7 +407,10 @@ In practical terms:
 
 This is a summary, not legal advice; the [full OFL text](https://openfontlicense.org/)
 is binding. The upstream sources carry their own licenses: **B612** under OFL-1.1 and
-EPL-2.0; **Hack** under MIT; **Nerd Fonts** patches under MIT. The build tooling in this
+EPL-2.0; **Hack** under MIT and the Bitstream Vera License (Hack’s symbols descend from
+Bitstream Vera, which reserves the names “Bitstream” and “Vera”); **Nerd Fonts** glyph
+fonts under OFL-1.1 with the patcher tooling under MIT. Full license texts for all of
+these ship in the `licenses/` folder of each release archive. The build tooling in this
 repo is [MIT](LICENSE).
 
 <!-- This document follows common-doc-guidelines.md.
