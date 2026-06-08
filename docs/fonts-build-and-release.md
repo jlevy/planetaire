@@ -93,25 +93,44 @@ Releases are tag-driven. Pushing a version tag (`vX.Y.Z`) is the only trigger an
 single source of truth for the version, which `uv-dynamic-versioning` derives from the
 tag and threads into the font name tables, `head.fontRevision`, and the specimen.
 
+### 1. Write the release notes
+
+Add a notes file at `docs/release/notes/<tag>.md` (for example
+`docs/release/notes/v0.1.3.md`). `release-fonts.yml` reads it verbatim as the GitHub
+Release body; if no file exists for the tag it falls back to GitHub's auto-generated
+notes. Match the previous releases: a short product intro, a **Which package?** section,
+then **## What's Changed** and a **Full Changelog** compare link (see the
+[Release Notes Format](publishing.md#release-notes-format) in publishing.md, and the
+existing files under `docs/release/notes/` for examples).
+
+Commit the notes file (and any other changes) to `main` **before** tagging, so the
+tagged commit contains the notes the workflow reads.
+
+### 2. Push the tag
+
 ```shell
-git tag v0.1.0      # annotate if you prefer: git tag -a v0.1.0 -m "v0.1.0"
-git push origin v0.1.0
+git tag v0.1.3      # annotate if you prefer: git tag -a v0.1.3 -m "v0.1.3"
+git push origin v0.1.3
 ```
 
-The tag fires two independent workflows:
+The tag fires `.github/workflows/release-fonts.yml`, which builds both families, creates
+the GitHub Release for the tag, and uploads the archives:
 
-- `.github/workflows/release-fonts.yml` builds both families, creates the GitHub Release
-  for the tag (with auto-generated notes), and uploads the archives:
-  - `PlanetaireMono-Extended.tar.xz` / `.zip`: full TTFs
-  - `PlanetaireMono-Text.tar.xz` / `.zip`: Text TTF, WOFF2, WOFF, and `@font-face` CSS
-  - `SHA256SUMS`: checksums for every archive
-- `.github/workflows/publish.yml` builds the tooling package and publishes it to PyPI.
+- `PlanetaireMono-Extended.tar.xz` / `.zip`: the full family (TTF + WOFF2 + `@font-face`
+  CSS, all Nerd Font icons), with the README and license texts
+- `PlanetaireMono-Text.tar.xz` / `.zip`: the Text subset (TTF + WOFF2 + `@font-face`
+  CSS), with the README and license texts
+- `SHA256SUMS`: checksums for every archive
 
-Both key off the tag push directly rather than chaining off the `release: published`
+It keys off the tag push directly rather than chaining off the `release: published`
 event, because the Release is created with the workflow's `GITHUB_TOKEN` and events
 raised by that token do not trigger further workflows. To rebuild and re-upload assets
-for an existing tag, run `release-fonts.yml` manually from the Actions tab and pass the
-tag.
+(or refresh the notes) for an existing tag, run `release-fonts.yml` manually from the
+Actions tab and pass the tag.
+
+`.github/workflows/publish.yml` (PyPI) is **manual-only** for now: the tag does **not**
+publish to PyPI. Pilot releases ship as GitHub Release assets only; run `publish.yml`
+from the Actions tab once trusted publishing is configured for the project.
 
 <!-- This document follows common-doc-guidelines.md.
 See github.com/jlevy/practical-prose and review guidelines before editing.
