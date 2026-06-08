@@ -12,4 +12,9 @@ Contents:
 Recommended: for the web, use web/ and the included stylesheet. If you need the full
 Nerd Font icon set (for terminals and coding), use Planetaire Mono Extended instead.
 
+License:
+  LICENSE        SIL Open Font License 1.1 (covers this distribution)
+  licenses/      Constituent upstream license texts (B612, Hack, Nerd Fonts)
+
 https://github.com/jlevy/planetaire   (SIL Open Font License 1.1)
+https://openfontlicense.org

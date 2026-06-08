@@ -15,4 +15,9 @@ is usually the better choice.
 
 Tip: map your terminal's bold to ExtraBold (weight 800) for the best contrast.
 
+License:
+  LICENSE        SIL Open Font License 1.1 (covers this distribution)
+  licenses/      Constituent upstream license texts (B612, Hack, Nerd Fonts)
+
 https://github.com/jlevy/planetaire   (SIL Open Font License 1.1)
+https://openfontlicense.org
