@@ -104,14 +104,16 @@
 
 #[
   #set text(size: 10pt, hyphenate: false)
-  #set par(justify: false, leading: 0.62em, spacing: 1.0em)
-  #set list(spacing: 0.55em)
+  #set par(justify: false, leading: 0.62em, spacing: 1.2em)
   #show raw: set text(font: "Planetaire Mono Extended", size: 10pt)
   #show link: underline
   #let about-heading(t) = {
     text(size: 10pt, weight: "bold", fill: black)[#t]
     v(0.38cm)
   }
+  // Monospace-grid bullet: the marker sits in a 2-cell box (1.204em = 2 cells) so the
+  // body and its wrapped lines hang on the cell grid, not at an arbitrary indent.
+  #let mb(body) = grid(columns: (1.204em, 1fr), [•], body)
 
   #about-heading("ABOUT B612")
   B612 began not as a typeface but as an aviation research program. In 2010 Airbus,
@@ -151,14 +153,14 @@
   Planetaire Mono arises from this need. It merges B612's letters and digits into Hack
   Nerd Font's base. It also adds more weights and a dotted zero:
 
-  - *B612 letterforms* for letters, digits, and extended Latin, Greek, and Cyrillic.
-  - *Hack punctuation and symbols* for `{}[]()<>` and the rest.
-  - *Ten variants across five weights* (400/500/600/700/800), including added SemiBold
-    (600) and ExtraBold (800) weights, the latter for terminal bold (see Weights).
-  - *12,000+ Nerd Font icons* (Powerline, Font Awesome, Devicons) in the Extended
-    family.
-  - *A dotted zero:* B612's zero with a center dot for clear 0 vs O, in circle
-    (default) and rectangle (ss01) variants.
+  #block(spacing: 1.2em)[
+    #set par(spacing: 0.55em)
+    #mb[*B612 letterforms* for letters, digits, and extended Latin, Greek, and Cyrillic.]
+    #mb[*Hack punctuation and symbols* for `{}[]()<>` and the rest.]
+    #mb[*Ten variants across five weights* (400/500/600/700/800), including added SemiBold (600) and ExtraBold (800) weights, the latter for terminal bold (see Weights).]
+    #mb[*12,000+ Nerd Font icons* (Powerline, Font Awesome, Devicons) in the Extended family.]
+    #mb[*A dotted zero:* B612's zero with a center dot for clear 0 vs O, in circle (default) and rectangle (ss01) variants.]
+  ]
 
   With these changes it has become one of the most beautiful and genuinely functional
   monospace fonts I've seen. I've used dozens of terminal fonts over the years, and
@@ -168,7 +170,82 @@
 #pagebreak()
 
 
-// ─── Page 3: Text Showcase ──────────────────────────────────────
+// ─── Page 3: Typeface Specification ─────────────────────────────
+
+#section[Planetaire Typeface Specification]
+
+#v(0.4cm)
+
+#let spec-group(title) = {
+  text(size: 8.5pt, weight: "bold", fill: rgb("#888"))[#title]
+  v(0.12cm)
+  line(length: 100%, stroke: 0.5pt + rgb("#dddddd"))
+  v(0.15cm)
+}
+#let spec-row(label, value) = {
+  grid(
+    columns: (1fr, auto),
+    column-gutter: 0.5cm,
+    text(size: 9.5pt, fill: rgb("#666"))[#label],
+    text(size: 9.5pt, fill: rgb("#222"))[#value],
+  )
+  v(0.14cm)
+}
+
+#grid(
+  columns: (1fr, 1fr),
+  column-gutter: 1.2cm,
+  [
+    #spec-group("DESIGN")
+    #spec-row("Classification", "Monospace (fixed)")
+    #spec-row("Letterforms", "B612 Mono (humanist)")
+    #spec-row("Families", "Extended, Text")
+    #spec-row("Styles", "10 (5 weights × 2)")
+    #spec-row("Units per em", "2000")
+    #spec-row("Advance width", "1204 (0.602 em)")
+    #spec-row("Italic angle", "0°, true italics")
+
+    #v(0.5cm)
+    #spec-group("WEIGHTS")
+    #spec-row("Regular", "400")
+    #spec-row("Medium", "500")
+    #spec-row("SemiBold", "600")
+    #spec-row("Bold", "700")
+    #spec-row("ExtraBold", "800")
+  ],
+  [
+    #spec-group("VERTICAL METRICS (per 2000 em)")
+    #spec-row("Cap height", "1458")
+    #spec-row("x-height", "1094")
+    #spec-row("Ascender", "1856")
+    #spec-row("Descender", "-472")
+    #spec-row("Line gap", "0")
+
+    #v(0.5cm)
+    #spec-group("GLYPH COVERAGE")
+    #spec-row("Extended", "12,138 glyphs")
+    #spec-row("Text", "1,317 glyphs")
+
+    #v(0.5cm)
+    #spec-group("FORMATS")
+    #spec-row("Local install", "TTF")
+    #spec-row("Web", "WOFF2 + @font-face CSS")
+
+    #v(0.5cm)
+    #spec-group("OPENTYPE")
+    #spec-row("default", "circle-dot zero")
+    #spec-row("ss01 / zero", "rectangle-dot zero")
+
+    #v(0.5cm)
+    #spec-group("LICENSE")
+    #spec-row("All families", "SIL OFL 1.1")
+  ],
+)
+
+#pagebreak()
+
+
+// ─── Page 4: Text Showcase ──────────────────────────────────────
 
 #section[Planetaire Text Sample]
 
@@ -642,81 +719,6 @@
   (0xE0CC, "honeycomb"), (0xE0CE, "honeycomb-out"),
   (0xE0D0, "ice"), (0xE0D2, "lego-right"), (0xE0D4, "lego-left"),
 ))
-
-#pagebreak()
-
-
-// ─── Typeface Specification ─────────────────────────────────────
-
-#section[Planetaire Typeface Specification]
-
-#v(0.4cm)
-
-#let spec-group(title) = {
-  text(size: 8.5pt, weight: "bold", fill: rgb("#888"))[#title]
-  v(0.12cm)
-  line(length: 100%, stroke: 0.5pt + rgb("#dddddd"))
-  v(0.15cm)
-}
-#let spec-row(label, value) = {
-  grid(
-    columns: (1fr, auto),
-    column-gutter: 0.5cm,
-    text(size: 9.5pt, fill: rgb("#666"))[#label],
-    text(size: 9.5pt, fill: rgb("#222"))[#value],
-  )
-  v(0.14cm)
-}
-
-#grid(
-  columns: (1fr, 1fr),
-  column-gutter: 1.2cm,
-  [
-    #spec-group("DESIGN")
-    #spec-row("Classification", "Monospace (fixed)")
-    #spec-row("Letterforms", "B612 Mono (humanist)")
-    #spec-row("Families", "Extended, Text")
-    #spec-row("Styles", "10 (5 weights × 2)")
-    #spec-row("Units per em", "2000")
-    #spec-row("Advance width", "1204 (0.602 em)")
-    #spec-row("Italic angle", "0°, true italics")
-
-    #v(0.5cm)
-    #spec-group("WEIGHTS")
-    #spec-row("Regular", "400")
-    #spec-row("Medium", "500")
-    #spec-row("SemiBold", "600")
-    #spec-row("Bold", "700")
-    #spec-row("ExtraBold", "800")
-  ],
-  [
-    #spec-group("VERTICAL METRICS (per 2000 em)")
-    #spec-row("Cap height", "1458")
-    #spec-row("x-height", "1094")
-    #spec-row("Ascender", "1856")
-    #spec-row("Descender", "-472")
-    #spec-row("Line gap", "0")
-
-    #v(0.5cm)
-    #spec-group("GLYPH COVERAGE")
-    #spec-row("Extended", "12,138 glyphs")
-    #spec-row("Text", "1,317 glyphs")
-
-    #v(0.5cm)
-    #spec-group("FORMATS")
-    #spec-row("Local install", "TTF")
-    #spec-row("Web", "WOFF2 + @font-face CSS")
-
-    #v(0.5cm)
-    #spec-group("OPENTYPE")
-    #spec-row("default", "circle-dot zero")
-    #spec-row("ss01 / zero", "rectangle-dot zero")
-
-    #v(0.5cm)
-    #spec-group("LICENSE")
-    #spec-row("All families", "SIL OFL 1.1")
-  ],
-)
 
 #pagebreak()
 
