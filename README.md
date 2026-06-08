@@ -4,14 +4,14 @@
 Planetaire Mono is a beautiful, highly legible monospace font for terminals, editors,
 and agentic work.
 
-It is a lightly adapted fork of [B612 Mono](https://b612-font.com/) with added weights,
-symbols from [Hack](https://sourcefoundry.org/hack/), and extensive icons from
-[Nerd Fonts](https://www.nerdfonts.com/).
+It is a lightly adapted fork of [B612 Mono](https://github.com/polarsys/b612) with added
+weights, symbols from [Hack](https://sourcefoundry.org/hack/), and extensive icons from
+[Nerd Fonts](https://www.nerdfonts.com/). It is [licensed freely](#license) for
+personal, commercial, and open source use.
 
-**[Read the Type Specimen (PDF)](docs/specimen/planetaire-mono-specimen.pdf)** ·
+**[Read the Type Specimen (PDF)](docs/specimen/planetaire-mono-specimen.pdf)**
+
 **[Download the Fonts (TTF, WOFF2)](https://github.com/jlevy/planetaire/releases/latest)**
-
-It is [licensed freely](#license) for personal, commercial, and open source use.
 
 ## Why
 
@@ -33,8 +33,9 @@ Airbus then commissioned the Montpellier interface studio
 [Intactile Design](https://intactile.com/) (Nicolas Chauveau, Thomas Paillot, and
 Jonathan Favre-Lamarine) to draw the full family of eight variants.
 
-B612 is named for the asteroid home of the Little Prince, a nod to Saint-Exupéry,
-himself an aviator.
+B612 is named for the asteroid home of the
+[Little Prince](https://en.wikipedia.org/wiki/The_Little_Prince), a nod to
+Saint-Exupéry, [himself an aviator](https://en.wikipedia.org/wiki/Wind,_Sand_and_Stars).
 
 B612’s unusual character is a humanist answer to an instrument-panel problem.
 Where earlier cockpit fonts went monolinear and rigid, B612 keeps stroke contrast, opens
@@ -249,8 +250,8 @@ and these images is in [build-assets.runbook.md](docs/build-assets.runbook.md).
 
 ## Credits
 
-- [**B612**](https://b612-font.com/): Intactile Design for Airbus
-  ([polarsys/b612](https://github.com/polarsys/b612)). The letterforms.
+- [**B612**](https://github.com/polarsys/b612): Intactile Design for Airbus.
+  The letterforms.
 - [**Hack**](https://sourcefoundry.org/hack/): Chris Simpkins.
   The base providing punctuation, symbols, and metrics.
 - [**Nerd Fonts**](https://www.nerdfonts.com/): Ryan McIntyre.

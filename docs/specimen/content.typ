@@ -117,15 +117,15 @@
   // under the title (~0.3 line) as its subtitle; the tagline is set off below
   // (~1.9 line) as a separate descriptor.
   #v(0.14cm)
-  #text(size: 13pt, weight: 700, fill: p.fg)[
+  #text(size: 17pt, weight: 700, fill: p.fg)[
     B612 LETTERFORMS\
     HACK INFRASTRUCTURE\
     NERD FONT ICONS
   ]
-  #v(0.9cm)
+  #v(0.65cm)
   // Tagline in Medium: heavier than Regular so it holds against the bold lineage
   // above, but lighter (and cleaner) than the rougher synthetic SemiBold.
-  #text(size: 13.5pt, weight: 500, fill: p.fg)[
+  #text(size: 17.5pt, weight: 500, fill: p.fg)[
     A beautiful, highly legible monospace font\
     for terminals, editors, and agentic work
   ]

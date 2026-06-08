@@ -41,15 +41,15 @@
 #v(0.25cm)
 
 #align(center)[
-  #text(size: 10pt, fill: black)[
+  #text(size: 10pt, weight: "bold", fill: black)[
     Version #version#if build-date != "" [ · #build-date]\
     github.com/jlevy/planetaire
   ]
 ]
 
-// Extra space here drops the three sections toward the lower half of the page,
-// giving the title block above more breathing room.
-#v(2cm)
+// Even spacing below the title block, matching the section gaps, while keeping the
+// full credits list on the page.
+#v(0.65cm)
 
 // The three cover sections share one centered, all-black style: a bold all-caps
 // heading over centered black items. Paragraph spacing is zeroed so the gap after
@@ -58,6 +58,7 @@
   text(size: 9.5pt, weight: "bold", fill: black)[#t]
   v(0.4cm)
 }
+#let b(t) = text(weight: "bold")[#t]
 
 #align(center)[
   #set par(spacing: 0pt)
@@ -88,11 +89,11 @@
   #v(0.65cm)
   #cover-heading("CREDITS")
   #text(size: 9.5pt, fill: black)[
-    #text(weight: "bold")[Planetaire Mono] packaged and maintained by Joshua Levy\
-    #text(weight: "bold")[B612 Mono] letterforms by Intactile Design for Airbus\
-    #text(weight: "bold")[Hack] base punctuation, symbols, and metrics by Chris Simpkins\
-    #text(weight: "bold")[Nerd Fonts] 12,000+ icons by Ryan McIntyre\
-    Dotted zero inspired by Carlos Eduardo de Paula\u{2019}s B612 Nerd Font fork
+    #b[Planetaire Mono] packaged and maintained by #b[Joshua Levy]\
+    #b[B612 Mono] letterforms by #b[Intactile Design] for #b[Airbus]\
+    #b[Hack] base punctuation, symbols, and metrics by #b[Chris Simpkins]\
+    #b[Nerd Fonts] 12,000+ icons by #b[Ryan McIntyre]\
+    Dotted zero inspired by the #b[B612] fork by #b[Carlos Eduardo de Paula]
   ]
 ]
 
@@ -106,6 +107,7 @@
   #set par(justify: false, leading: 0.62em, spacing: 1.0em)
   #set list(spacing: 0.55em)
   #show raw: set text(font: "Planetaire Mono Extended", size: 10pt)
+  #show link: underline
   #let about-heading(t) = {
     text(size: 10pt, weight: "bold", fill: black)[#t]
     v(0.38cm)
@@ -126,8 +128,10 @@
   interface studio Intactile Design (Nicolas Chauveau, Thomas Paillot, and Jonathan
   Favre-Lamarine) to draw the full family of eight variants.
 
-  B612 is named for the asteroid home of the Little Prince, a nod to Saint-Exupéry,
-  himself an aviator.
+  B612 is named for the asteroid home of the
+  #link("https://en.wikipedia.org/wiki/The_Little_Prince")[Little Prince], a nod to
+  Saint-Exupéry, #link("https://en.wikipedia.org/wiki/Wind,_Sand_and_Stars")[himself an
+  aviator].
 
   B612's unusual character is a humanist answer to an instrument-panel problem. Where
   earlier cockpit fonts went monolinear and rigid, B612 keeps stroke contrast, opens
@@ -765,7 +769,7 @@
 #text(size: 10pt)[
   Planetaire Mono ships in two families built from the same letterforms:
 
-  - *Planetaire Mono* (Extended): the full build with all \~12,000 Nerd Font icons
+  - *Planetaire Mono Extended*: the full build with all \~12,000 Nerd Font icons
     and Powerline, for terminals and coding.
   - *Planetaire Mono Text*: a lightweight web subset (letters, punctuation,
     box-drawing, block elements, geometric shapes) that drops the Private-Use icons.
