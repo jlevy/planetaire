@@ -420,6 +420,11 @@ def build_specimen_cmd(
     ),
     output: Path | None = typer.Option(None, help="Output PDF path (default: same dir as source)"),
     font_dir: Path = typer.Option(Path("fonts/output"), help="Directory containing built fonts"),
+    version: str | None = typer.Option(
+        None,
+        help="Version to stamp into the specimen (default: the canonical git-tag version). "
+        "Pass explicitly at release time to stamp the tag-to-be before it exists.",
+    ),
     open: bool = typer.Option(False, "--open", help="Open the PDF after compilation"),
 ) -> None:
     """Compile the font specimen PDF from Typst source."""
@@ -428,7 +433,7 @@ def build_specimen_cmd(
     from planetaire.recipes.specimen import build_specimen
 
     try:
-        pdf_path = build_specimen(source, output, font_dir, open_after=open)
+        pdf_path = build_specimen(source, output, font_dir, version=version, open_after=open)
     except subprocess.CalledProcessError as e:
         err_console.print("[red]Typst compilation failed:[/red]")
         if e.stderr:

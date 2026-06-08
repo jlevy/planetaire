@@ -1,9 +1,9 @@
 # Building and Releasing the Fonts
 
-This guide covers the font-specific workflow. For generic Python/uv setup see
-[development.md](development.md); for PyPI publishing of the *tooling* see
-[publishing.md](publishing.md); for the full asset-regeneration reference (hero image,
-specimen, terminal demo, external tools) see
+This guide covers the font-specific workflow.
+For generic Python/uv setup see [development.md](development.md); for PyPI publishing of
+the *tooling* see [publishing.md](publishing.md); for the full asset-regeneration
+reference (hero image, specimen, terminal demo, external tools) see
 [build-assets.runbook.md](build-assets.runbook.md).
 
 > **What ships where:** the **fonts** are published as GitHub Release assets; the **PyPI
@@ -13,8 +13,9 @@ specimen, terminal demo, external tools) see
 
 - **uv** and Python 3.12+ (`uv sync --all-extras`).
 - **FontForge:** *optional*. Only needed to regenerate the intermediate Medium and
-  ExtraBold weights from the base weights. The generated weights are vendored under
-  `fonts/source/`, so a normal build does not need FontForge.
+  ExtraBold weights from the base weights.
+  The generated weights are vendored under `fonts/source/`, so a normal build does not
+  need FontForge.
 - **Typst:** *optional*. Only needed to compile the PDF specimen
   (`planetaire build specimen`).
 
@@ -89,48 +90,104 @@ make html-specimen   # static specimen.html using the Text web fonts
 
 ## Releasing
 
-Releases are tag-driven. Pushing a version tag (`vX.Y.Z`) is the only trigger and the
-single source of truth for the version, which `uv-dynamic-versioning` derives from the
-tag and threads into the font name tables, `head.fontRevision`, and the specimen.
+Releases are tag-driven.
+The version tag (`vX.Y.Z`) is the single source of truth for the version:
+`uv-dynamic-versioning` derives the package and font version from it, and
+`planetaire.version.get_version()` threads the same value into the font name tables,
+`head.fontRevision`, and the specimen.
+
+Two artifacts must agree with the tag *and* live inside the tagged commit:
+
+- **The specimen PDF** (`docs/specimen/planetaire-mono-specimen.pdf`) stamps
+  `Version X.Y.Z` on its cover and is served over the jsDelivr CDN.
+- **The README CDN link** is pinned to the tag —
+  `cdn.jsdelivr.net/gh/jlevy/planetaire@vX.Y.Z/...` — so it is immutable, served
+  instantly, and always resolves to the PDF that stamps that same version.
+  (Versioned jsDelivr refs are cached for a year; an `@main` link would lag up to ~12h
+  and could disagree with the PDF’s stamped version.)
+
+This is a chicken-and-egg: the version comes *from* the tag, but the PDF content and the
+README link must be *in* the tagged commit.
+`scripts/release.py` resolves it by stamping the version explicitly, so **always cut
+releases with `make release`** rather than tagging by hand.
+Doing it by hand leaves the committed PDF and CDN link pointing at a stale version.
+
+> **Download links are deliberately not pinned.** The `releases/latest/download/...`
+> URLs in the README and the generated site resolve `latest` server-side, and the
+> release archive names are unversioned, so those URLs stay stable across releases and
+> never need updating — only the CDN specimen link is version-pinned.
 
 ### 1. Write the release notes
 
 Add a notes file at `docs/release/notes/<tag>.md` (for example
 `docs/release/notes/v0.1.3.md`). `release-fonts.yml` reads it verbatim as the GitHub
-Release body; if no file exists for the tag it falls back to GitHub's auto-generated
+Release body; if no file exists for the tag it falls back to GitHub’s auto-generated
 notes. Match the previous releases: a short product intro, a **Which package?** section,
-then **## What's Changed** and a **Full Changelog** compare link (see the
+then **## What’s Changed** and a **Full Changelog** compare link (see the
 [Release Notes Format](publishing.md#release-notes-format) in publishing.md, and the
 existing files under `docs/release/notes/` for examples).
 
-Commit the notes file (and any other changes) to `main` **before** tagging, so the
-tagged commit contains the notes the workflow reads.
+Commit the notes file to `main` **before** running the release script, so the tagged
+commit contains the notes the workflow reads. The release files (`README.md` and the
+specimen PDF) must have no other uncommitted changes, so the review diff shows only what
+the release introduces.
 
-### 2. Cut the tag
-
-Tag the `main` commit that carries the notes file. Prefer `gh` (the GitHub API): it works
-everywhere, including Claude Code web sessions where the git proxy rejects tag pushes
-(`git push <tag>` returns HTTP 403).
+### 2. Prepare the release and review it
 
 ```shell
-# Lightweight tag on the current main; fires release-fonts.yml.
-gh api repos/jlevy/planetaire/git/refs \
-  -f ref=refs/tags/v0.1.3 \
-  -f sha="$(git rev-parse origin/main)"
+make release VERSION=0.1.4        # or: uv run python scripts/release.py prepare 0.1.4
 ```
 
-From a local checkout with tag-push access you can push the tag with git instead
-(annotated is fine — the workflow only needs the tag to exist on the remote):
+This builds the fonts, rebuilds the specimen PDF stamped `Version 0.1.4`, and re-pins
+every README jsDelivr CDN link to `planetaire@v0.1.4` (a plain search/replace from the
+previous ref — no template variables — which also busts the CDN cache, since `@v0.1.4`
+is a URL jsDelivr has never served).
+It then **stops and prints the diff** — nothing is committed yet.
+It refuses to run off `main`, when the tag already exists, or when the release files
+have unrelated uncommitted changes.
+Use `--no-build` to reuse an existing `fonts/output`.
+
+Review the printed diff: confirm both README CDN links now point at `@v0.1.4` and the
+specimen PDF was rebuilt.
+To discard and start over, run the `git checkout` the script prints.
+
+### 3. Finalize the release
 
 ```shell
-git tag -a v0.1.3 -m "v0.1.3" && git push origin v0.1.3
+make release-finalize VERSION=0.1.4   # or: uv run python scripts/release.py finalize 0.1.4
+```
+
+This commits the PDF + README as `release: v0.1.4` and creates the annotated tag
+`v0.1.4` on that commit.
+It re-checks that you are on `main`, the tag is free, and the README is actually pinned
+to `v0.1.4`, then commits only those two files.
+It does **not** push — so nothing publishes as a side effect.
+
+### 4. Push the commit and tag
+
+Pushing the tag is the trigger; push the release commit first so the tag’s commit exists
+on `main`. Prefer `gh` (the GitHub API): it works everywhere, including Claude Code web
+sessions where the git proxy rejects tag pushes (`git push <tag>` returns HTTP 403).
+
+```shell
+git push origin main
+gh api repos/jlevy/planetaire/git/refs \
+  -f ref=refs/tags/v0.1.4 \
+  -f sha="$(git rev-parse v0.1.4^{commit})"   # fires release-fonts.yml
+```
+
+From a local checkout with tag-push access you can push the tag with git instead (the
+script already created the annotated tag):
+
+```shell
+git push origin v0.1.4
 ```
 
 > **`gh` in web sessions:** managing releases needs `gh auth login` with the `repo` and
 > `workflow` scopes — the `workflow` scope is what lets the tag-creation event trigger
-> `release-fonts.yml` (events from a bare `GITHUB_TOKEN` would not). In web sessions the
-> git remote points at a local proxy, so pass `-R jlevy/planetaire` to `gh run` / `gh
-> release` subcommands that otherwise infer the repo from the remote.
+> `release-fonts.yml` (events from a bare `GITHUB_TOKEN` would not).
+> In web sessions the git remote points at a local proxy, so pass `-R jlevy/planetaire`
+> to `gh run` / `gh release` subcommands that otherwise infer the repo from the remote.
 
 Either way the tag fires `.github/workflows/release-fonts.yml`, which builds both
 families, creates the GitHub Release for the tag, and uploads the archives:
@@ -142,10 +199,10 @@ families, creates the GitHub Release for the tag, and uploads the archives:
 - `SHA256SUMS`: checksums for every archive
 
 It keys off the tag push directly rather than chaining off the `release: published`
-event, because the Release is created with the workflow's `GITHUB_TOKEN` and events
-raised by that token do not trigger further workflows. To rebuild and re-upload assets
-(or refresh the notes) for an existing tag, run `release-fonts.yml` manually from the
-Actions tab and pass the tag.
+event, because the Release is created with the workflow’s `GITHUB_TOKEN` and events
+raised by that token do not trigger further workflows.
+To rebuild and re-upload assets (or refresh the notes) for an existing tag, run
+`release-fonts.yml` manually from the Actions tab and pass the tag.
 
 `.github/workflows/publish.yml` (PyPI) is **manual-only** for now: the tag does **not**
 publish to PyPI. Pilot releases ship as GitHub Release assets only; run `publish.yml`

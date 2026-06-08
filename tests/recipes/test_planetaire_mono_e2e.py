@@ -296,8 +296,7 @@ def test_built_fonts_are_monospace(variant: str, all_built_fonts: dict[str, TTFo
             if max(left, 0) - max(right, 0) > 8 or max(right, 0) - max(left, 0) > 8:
                 asymmetric.append(f"{ch}(L={left},R={right})")
     assert not too_wide, (
-        f"{variant}: core glyphs overhang cell {cell} beyond budget "
-        f"{overhang_budget}: {too_wide}"
+        f"{variant}: core glyphs overhang cell {cell} beyond budget {overhang_budget}: {too_wide}"
     )
     assert not asymmetric, (
         f"{variant}: core glyph overhang is not centered (recenter drifted): {asymmetric}"
