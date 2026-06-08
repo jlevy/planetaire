@@ -5,11 +5,15 @@ title: Add SemiBold (600) weight + italic to fill the 500->700 gap
 kind: task
 status: in_progress
 priority: 2
-version: 2
+version: 3
 labels: []
 dependencies: []
 parent_id: is-01kthj4yda44ebzchx923mdh31
 created_at: 2026-06-07T17:31:08.465Z
-updated_at: 2026-06-07T17:45:12.632Z
+updated_at: 2026-06-08T07:18:44.082Z
 ---
 Extend the ladder with SemiBold (600) and SemiBold Italic via the existing FontForge changeWeight approach (as Medium 500 derives from Regular). Tune the change amount so 600 sits cleanly between Medium (500) and Bold (700); review stems/fitting and watch cell bleed. Touch: config.py VARIANTS + weight map; _INTERMEDIATE_WEIGHTS (generate B612Mono-SemiBold/SemiBoldItalic + HackNerdFont-SemiBold/SemiBoldItalic); regenerate golden manifest; tests; specimen weight ladder + waterfall; README weights table; terminal-config. Result: 10 variants per family.
+
+## Notes
+
+Implementation has landed: planetaire_mono.py:59-64 generate B612Mono + HackNerdFont SemiBold/SemiBoldItalic masters, recipes/html_specimen.py includes the ('SemiBold', 600) step, and the SemiBold source TTFs are committed. Before closing, verify: golden manifest regenerated, tests pass, README weights table + terminal-config updated. Residual capped dense-glyph fidelity is split out to plt-ddjw.
