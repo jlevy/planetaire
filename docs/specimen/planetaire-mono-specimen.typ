@@ -53,8 +53,8 @@
   sub-size: 15pt,
   tag-size: 15pt,
   planet-gap: -0.4cm,
-  sub-gap: -0.7cm,
-  tag-gap: 0.18cm,
+  sub-gap: -0.2cm,
+  tag-gap: 0.68cm,
 )
 
 // Cover-section styling: a bold all-caps heading over centered black items, with
@@ -78,9 +78,7 @@
   ]
 ]
 
-// Two line-heights more space than the Version gap above.
 #v(1fr)
-#v(1.1cm)
 
 #align(center)[
   #set par(spacing: 0pt, leading: 0.62em)
@@ -92,9 +90,7 @@
   ]
 ]
 
-// One line-height tighter than the Version/FEATURES gaps above.
 #v(1fr)
-#v(-0.55cm)
 
 #align(center)[
   #set par(spacing: 0pt, leading: 0.62em)
@@ -108,9 +104,7 @@
   ]
 ]
 
-// One line-height tighter than the Version/FEATURES gaps above.
 #v(1fr)
-#v(-0.55cm)
 
 #align(center)[
   #set par(spacing: 0pt, leading: 0.62em)
