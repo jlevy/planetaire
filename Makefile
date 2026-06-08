@@ -7,7 +7,7 @@
 .PHONY: default install lint test upgrade build clean
 .PHONY: download build-fonts build-text validate-fonts fonts specimen
 .PHONY: images demo html-specimen site regression-generate regression-verify
-.PHONY: dev-tools qa
+.PHONY: dev-tools qa release release-finalize
 
 default: install lint test
 
@@ -79,3 +79,14 @@ regression-generate: build-fonts
 
 regression-verify: build-fonts
 	uv run planetaire regression verify
+
+# Release, in two steps with a review gate (see docs/fonts-build-and-release.md):
+#   make release VERSION=0.1.4            # build, stamp PDF, re-pin README -> review the diff
+#   make release-finalize VERSION=0.1.4   # commit + tag the reviewed changes (does not push)
+release:
+	@test -n "$(VERSION)" || { echo "usage: make release VERSION=X.Y.Z"; exit 1; }
+	uv run python scripts/release.py prepare $(VERSION)
+
+release-finalize:
+	@test -n "$(VERSION)" || { echo "usage: make release-finalize VERSION=X.Y.Z"; exit 1; }
+	uv run python scripts/release.py finalize $(VERSION)
