@@ -24,6 +24,9 @@
   fill: if boxy { p.term-bg } else { p.page },
 )
 #set text(font: font-family, size: 11pt, fill: p.fg)
+// Match the specimen's prose line-height (~1.5x). Dense cards (terminal/code/rfc)
+// and the header pin their own tighter leading, so this only affects prose cards.
+#set par(leading: 0.8em)
 
 // Smart quotes OFF: author quotes literally (oriented in prose, straight ASCII in
 // code/terminal), matching the PDF specimen and the flowmark-normalized README.

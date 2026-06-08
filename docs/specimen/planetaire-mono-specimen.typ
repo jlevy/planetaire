@@ -8,13 +8,42 @@
 
 #let page-count = counter(page)
 
+// Palette, helpers, and reusable content blocks shared with the README image cards
+// (card.typ), so the home-page images stay in sync with this PDF. Imported early so the
+// page footer below can use the shared `muted` gray.
+#import "content.typ": *
+
+// ─── DESIGN SYSTEM (read before editing) ────────────────────────────────────────
+// Keep this specimen visually simple and consistent. Only the roles below exist.
+//
+// COLOR — exactly three roles, nothing else:
+//   • Main text        → black             (all prose, headings, samples, spec values)
+//   • Labels / footers → muted = #6e7781   one single gray: captions, sublabels, the
+//                                           page footer, gray descriptive lines
+//   • Hairline rules   → rgb("#ccc")       table/box borders and divider lines
+//   Syntax highlighting and terminal/colorized text keep their own hues (the dark/
+//   light palettes in content.typ). Never add another dark gray or another light gray.
+//
+// VERTICAL RHYTHM — one line-height system everywhere:
+//   • Line height        → leading 0.8em   (~1.5x; one comfortable line)
+//   • Between paragraphs → one blank line  (par spacing 2.3em ≈ 2x the line height)
+//   • List items         → single line     (row-gutter / list spacing 0.8em)
+//   • Around lists/headings → one blank line (block spacing 2.3em)
+//   Dense reproductions (terminal, RFC, code) pin their own tighter leading locally.
+//
+// LAYOUT: never crunch spacing to fit. If content overflows, split across pages (the
+//   About spans two pages). The cover uses flexible `fr` spacers for vertical rhythm,
+//   intentionally weighted (a larger spacer above the version line) so the version +
+//   credits read as a footer set apart from the title cluster.
+// ────────────────────────────────────────────────────────────────────────────────
+
 #set page(
   paper: "a4",
   margin: (top: 2cm, bottom: 2cm, left: 2.5cm, right: 2.5cm),
   footer: context {
     if page-count.get().first() > 1 {
       align(center)[
-        #text(size: 7pt, fill: rgb("#bbb"))[
+        #text(size: 7pt, fill: muted)[
           Planetaire Mono \u{00B7} github.com/jlevy/planetaire \u{00B7} OFL-1.1
         ]
       ]
@@ -29,6 +58,16 @@
 // family for the web-subset demo.
 #show raw: set text(font: "Planetaire Mono Extended")
 
+// Prose line-height: aim for ~1.5x for comfortable reading. On Planetaire Mono
+// (long B612 ascenders/descenders), leading 0.8em ≈ 1.49em baseline-to-baseline —
+// matching the HTML specimen and the 1.4–1.5 readability norm. Dense terminal, RFC,
+// and code blocks (and the cover banner) pin their own tighter leading locally.
+// Prose blocks set paragraph spacing to one blank line (2.3em ≈ 2x line height) locally;
+// list items sit at the standard single line height (0.8em). Structured pages (spec,
+// character set, icons, legibility) keep their own explicit per-element spacing.
+#set par(leading: 0.8em)
+#set list(spacing: 0.8em)
+
 // Smart quotes OFF document-wide. We author quotes literally -- oriented ‘ ’ “ ” in
 // prose, straight ASCII ' " in code/terminal -- exactly as flowmark normalizes the
 // README, so the source is WYSIWYG and stays consistent with it. With smart quotes
@@ -37,47 +76,34 @@
 // rows, which intentionally display exact codepoints.
 #set smartquote(enabled: false)
 
-// Palette, helpers, and reusable content blocks shared with the README image
-// cards (card.typ) so the home-page images stay in sync with this PDF.
-#import "content.typ": *
-
-
 // ─── Page 1: Cover ──────────────────────────────────────────────
 
-// Pull the banner up tight to the top margin; the star field carries its own top
-// whitespace so it still breathes.
-#v(-0.9cm)
+// A clean, generous cover: the planet banner, the version line, and the credits, with
+// flexible (fr) spacers giving big, even breathing room around each. The star field
+// carries its own top whitespace; the spacer above adds plenty more above the image.
+#v(1.2fr)
 
-// Shared header block (same source as the README banner). The cover passes a
-// page-fitting variant: full-bleed star field (wider than the text column, out to
-// the page edges) so the planet stays large while the stars spread across the
-// whole page; compact title/subtitles sit close beneath it.
+// Shared header block (same artwork as the README banner): full-bleed star field out
+// to the page edges, with title/lineage/tagline in solid black for a crisp cover.
 #header-card(
   p: pal-light,
+  fg: black,
   pad-top: 0cm,
-  pad-bottom: 0.05cm,
+  pad-bottom: 0cm,
   planet-width: 20cm,
   title-size: 44pt,
   sub-size: 15pt,
   tag-size: 15pt,
-  planet-gap: -0.4cm,
-  sub-gap: -0.2cm,
-  tag-gap: 0.68cm,
+  planet-gap: 0.85cm,
+  sub-gap: 0.1cm,
+  tag-gap: 0.95cm,
 )
 
-// Cover-section styling: a bold all-caps heading over centered black items, with
-// paragraph spacing zeroed so line breaks alone control the layout.
-#let cover-heading(t) = {
-  text(size: 9.5pt, weight: "bold", fill: black)[#t]
-  v(0.26cm)
-}
 #let b(t) = text(weight: "bold")[#t]
 
-// Flexible (1fr) spacers distribute the leftover height evenly, so Version and the
-// three sections spread down the page and CREDITS lands at the bottom margin (the
-// footer line on later pages). The gap above Version also detaches the title block,
-// which the README banner reuses on its own (graphic + title + subtitles).
-#v(1fr)
+// Extra-generous space above the version line: a weighted spacer (vs the 1.2fr top
+// and 1.4fr above credits) drops the version + credits low on the page as a footer.
+#v(3.55fr)
 
 #align(center)[
   #text(size: 10pt, weight: "bold", fill: black)[
@@ -86,37 +112,11 @@
   ]
 ]
 
-#v(1fr)
+// A healthy amount of space around the credits, lower on the page.
+#v(1.4fr)
 
 #align(center)[
-  #set par(spacing: 0pt, leading: 0.62em)
-  #cover-heading("FEATURES")
-  #text(size: 9.5pt, fill: black)[
-    B612 base for letterforms (extended Latin, Greek, Cyrillic)\
-    Punctuation and symbols from Hack\
-    12,000+ icons from Nerd Fonts
-  ]
-]
-
-#v(1fr)
-
-#align(center)[
-  #set par(spacing: 0pt, leading: 0.62em)
-  #cover-heading("WEIGHTS")
-  #text(size: 9.5pt, fill: black)[
-    #text(weight: "regular")[Regular] (400) · #text(weight: "regular", style: "italic")[Italic] (400)\
-    #text(weight: 500)[Medium] (500) · #text(weight: 500, style: "italic")[Medium Italic] (500)\
-    #text(weight: 600)[SemiBold] (600) · #text(weight: 600, style: "italic")[SemiBold Italic] (600)\
-    #text(weight: "bold")[Bold] (700) · #text(weight: "bold", style: "italic")[Bold Italic] (700)\
-    #text(weight: 800)[ExtraBold] (800) · #text(weight: 800, style: "italic")[ExtraBold Italic] (800)
-  ]
-]
-
-#v(1fr)
-
-#align(center)[
-  #set par(spacing: 0pt, leading: 0.62em)
-  #cover-heading("CREDITS")
+  #set par(spacing: 0pt, leading: 0.8em)
   #text(size: 9.5pt, fill: black)[
     #b[Planetaire Mono] assembled and maintained by #b[Joshua Levy]\
     #b[B612 Mono] letterforms by #b[Intactile Design] for #b[Airbus]\
@@ -126,6 +126,9 @@
   ]
 ]
 
+// No trailing spacer: the weighting above pushes the credits down to rest at the
+// bottom margin, closing the cover as a footer.
+
 #pagebreak()
 
 
@@ -133,17 +136,14 @@
 
 #[
   #set text(size: 10pt, hyphenate: false)
-  // leading: 0.62em; one full blank-line gap = 1em (body) + 0.62em (leading) = 1.62em
-  #set par(justify: false, leading: 0.62em, spacing: 1.62em)
+  // Clean monospace rhythm: 0.8em leading (single line height), one blank line between
+  // paragraphs and around the list (2.3em ≈ 2x line height), and single-line bullets.
+  // The About splits across two pages rather than crunching the spacing to fit.
+  #set par(justify: false, leading: 0.8em, spacing: 2.3em)
+  #set block(spacing: 2.3em)
   #show raw: set text(font: "Planetaire Mono Extended", size: 10pt)
   #show link: underline
-  #let about-heading(t) = {
-    text(size: 10pt, weight: "bold", fill: black)[#t]
-    v(0.38cm)
-  }
-  // Monospace-grid bullet: the marker sits in a 2-cell box (1.204em = 2 cells) so the
-  // body and its wrapped lines hang on the cell grid, not at an arbitrary indent.
-  #let mb(body) = grid(columns: (1.204em, 1fr), [•], body)
+  #let about-heading(t) = block(text(size: 10pt, weight: "bold")[#t])
 
   #about-heading("ABOUT B612")
   B612 began not as a typeface but as an aviation research program. In 2010 Airbus,
@@ -173,28 +173,45 @@
   character quirks that are grounded in measured legibility gains rather than style. In
   2017, B612 was released as open source through the Eclipse Polarsys project.
 
-  However, B612 alone is not a fully usable document or application font. The versions
-  in circulation, including the one on Google Fonts, have uneven symbol coverage that
-  is awkward for terminal and programming use. And the published version has an
-  undotted zero that is easy to confuse with a capital O.
+  #pagebreak()
 
-  #v(0.6cm)
   #about-heading("ABOUT PLANETAIRE MONO")
+  By historical accident, B612 alone is not a usable document or application font. The
+  versions in circulation, including the one on Google Fonts, have uneven symbol
+  coverage and oddities that make them awkward for modern applications and terminals.
+  Some punctuation and symbols are a bit too thin for programming legibility, and the
+  published versions have an undotted zero easy to confuse with a capital O.
+
   Planetaire Mono arises from this need. It merges B612’s letters and digits into Hack
   Nerd Font’s base. It also adds more weights and a dotted zero:
 
-  #block(spacing: 1.62em)[
-    #set par(spacing: 0.55em)
-    #mb[*B612 letterforms* for letters, digits, and extended Latin, Greek, and Cyrillic.]
-    #mb[*Hack punctuation and symbols* for `{}[]()<>` and the rest.]
-    #mb[*Ten variants across five weights* (400/500/600/700/800), including added SemiBold (600) and ExtraBold (800) weights, the latter for terminal bold (see Weights).]
-    #mb[*12,000+ Nerd Font icons* (Powerline, Font Awesome, Devicons) in the Extended package.]
-    #mb[*A dotted zero:* B612’s zero with a center dot for clear 0 vs O, in circle (default) and rectangle (ss01) variants.]
-  ]
+  #grid(
+    columns: (1.204em, 1fr),
+    row-gutter: 0.8em,
+    [•], [*B612 letterforms* for letters, digits, and extended Latin, Greek, and Cyrillic.],
+    [•], [*Hack punctuation and symbols* for `{}[]()<>` and the rest.],
+    [•], [*Ten variants across five weights* (400/500/600/700/800), including added SemiBold (600) and ExtraBold (800) weights, the latter for terminal bold (see Weights).],
+    [•], [*12,000+ Nerd Font icons* (Powerline, Font Awesome, Devicons) in the Extended package.],
+    [•], [*A dotted zero:* B612’s zero with a center dot for clear 0 vs O, in circle (default) and rectangle (ss01) variants.],
+  )
 
-  With these changes it has become one of the most beautiful and genuinely functional
-  monospace fonts I’ve seen. I’ve used dozens of terminal fonts over the years, and
-  Planetaire Mono is now what I use every day.
+  #about-heading("A PERSONAL NOTE")
+  Like architecture, typography is a functional art form. A design may initially appear
+  attractive, but you can’t know its true qualities until you live close to it. Or work
+  within it.
+
+  A couple of years ago, while building a terminal, I surveyed monospace fonts to find
+  the best ones. B612 wasn’t my obvious first choice, but after trying many of the
+  classic modern options available as Nerd Fonts, I came to realize it still just felt
+  better over time. I was disappointed with the technical flaws that made it hard to use
+  as a full replacement for a workhorse like Hack or JetBrains Mono, so I made an adapted
+  hybrid of B612 — happy with it, but never in clean enough form to publish.
+
+  Now, Claude Code and Opus 4.8 have made it a pleasure to consolidate this work as
+  Planetaire Mono. I’ve used dozens of terminal fonts over the years, and it is now what
+  I use every day. Thanks to agentic coding, monospace fonts are in greater use than
+  anyone could have imagined; I hope Planetaire Mono’s aesthetics lighten the hours you
+  spend with your agents, editors, and terminals.
 ]
 
 #pagebreak()
@@ -207,17 +224,17 @@
 #v(0.4cm)
 
 #let spec-group(title) = {
-  text(size: 8.5pt, weight: "bold", fill: rgb("#888"))[#title]
+  text(size: 8.5pt, weight: "bold", fill: muted)[#title]
   v(0.12cm)
-  line(length: 100%, stroke: 0.5pt + rgb("#dddddd"))
+  line(length: 100%, stroke: 0.5pt + rgb("#ccc"))
   v(0.15cm)
 }
 #let spec-row(label, value) = {
   grid(
     columns: (1fr, auto),
     column-gutter: 0.5cm,
-    text(size: 9.5pt, fill: rgb("#666"))[#label],
-    text(size: 9.5pt, fill: rgb("#222"))[#value],
+    text(size: 9.5pt, fill: muted)[#label],
+    text(size: 9.5pt, fill: black)[#value],
   )
   v(0.14cm)
 }
@@ -289,7 +306,7 @@
 #section[Planetaire Iconic Texts]
 
 // Alan Turing, "Computing Machinery and Intelligence" (1950)
-#text(size: 9pt, fill: rgb("#999"))[
+#text(size: 9pt, fill: muted)[
   ALAN TURING \u{00B7} “COMPUTING MACHINERY AND INTELLIGENCE” (1950)
 ]
 #v(0.2cm)
@@ -308,7 +325,7 @@
 
 #section[Planetaire Code Specimen: microGPT]
 
-#text(size: 9pt, fill: rgb("#999"))[
+#text(size: 9pt, fill: muted)[
   Andrej Karpathy’s microGPT: a complete GPT training loop and
   inference engine in 200 lines of pure Python.
 ]
@@ -320,6 +337,7 @@
   width: 100%,
 )[
   #set text(size: 7.5pt)
+  #set par(leading: 0.65em)
   #{
     set raw(theme: "kerm-light.tmTheme")
     raw(read("microgpt.py"), lang: "python", block: true)
@@ -431,7 +449,7 @@
     column-gutter: 1cm,
     align: horizon,
     text(size: 28pt)[#chars],
-    text(size: 9pt, fill: rgb("#999"))[#desc],
+    text(size: 9pt, fill: muted)[#desc],
   )
   v(0.15cm)
 }
@@ -455,7 +473,7 @@
   columns: (1fr, 1fr),
   gutter: 1cm,
   [
-    #text(size: 9pt, fill: rgb("#666"), weight: "bold")[Default (circle dot)]
+    #text(size: 9pt, fill: muted, weight: "bold")[Default (circle dot)]
     #v(0.1cm)
     #text(size: 36pt)[0]
     #h(0.5cm)
@@ -464,7 +482,7 @@
     #text(size: 11pt)[FL350 FL850 10.0.0.1]
   ],
   [
-    #text(size: 9pt, fill: rgb("#666"), weight: "bold")[ss01 / zero (rectangle dot)]
+    #text(size: 9pt, fill: muted, weight: "bold")[ss01 / zero (rectangle dot)]
     #v(0.1cm)
     #set text(features: ("ss01",))
     #text(size: 36pt)[0]
@@ -503,7 +521,7 @@
   \u{0022} \u{0027} \u{0060} \u{201C} \u{201D} \u{2018} \u{2019} \u{00AB} \u{00BB} \u{2039} \u{203A}
 ]
 #v(0.1cm)
-#text(size: 9pt, fill: rgb("#999"))[
+#text(size: 9pt, fill: muted)[
   straight double \u{00B7} straight single \u{00B7} backtick \u{00B7} left double \u{00B7} right double \u{00B7} left single \u{00B7} right single/apostrophe \u{00B7} guillemets \u{00B7} single guillemets
 ]
 #v(0.25cm)
@@ -513,7 +531,7 @@
   \u{00A7} \u{00B6} \u{00A9} \u{00AE} \u{2122} \u{00B0} \u{00B7} \u{2026} \u{2020} \u{2021} \u{00A4} \u{00A2} \u{00A3} \u{00A5} \u{20AC} \u{00AC} \u{00A6}
 ]
 #v(0.1cm)
-#text(size: 9pt, fill: rgb("#999"))[
+#text(size: 9pt, fill: muted)[
   section \u{00B7} pilcrow \u{00B7} copyright \u{00B7} registered \u{00B7} trademark \u{00B7} degree \u{00B7} middle dot \u{00B7} ellipsis \u{00B7} dagger \u{00B7} double dagger \u{00B7} currency \u{00B7} cent \u{00B7} pound \u{00B7} yen \u{00B7} euro \u{00B7} not \u{00B7} broken bar
 ]
 #v(0.25cm)
@@ -523,7 +541,7 @@
   \u{002F} \\ | \u{00A6} \u{2044} \u{2215}
 ]
 #v(0.1cm)
-#text(size: 9pt, fill: rgb("#999"))[
+#text(size: 9pt, fill: muted)[
   solidus \u{00B7} reverse solidus \u{00B7} vertical bar \u{00B7} broken bar \u{00B7} fraction slash \u{00B7} division slash
 ]
 #v(0.25cm)
@@ -541,7 +559,7 @@
 
 #section[Nerd Font Icons]
 
-#text(size: 9pt, fill: rgb("#999"))[
+#text(size: 9pt, fill: muted)[
   A selection of the 12,000+ Nerd Font icons included via Hack Nerd Font.
   Each icon shown with its Unicode codepoint.
 ]
@@ -555,7 +573,7 @@
       align(center)[
         #text(size: 16pt)[#str.from-unicode(cp)]
         #v(-0.1cm)
-        #text(size: 5.5pt, fill: rgb("#999"))[#upper(str(cp, base: 16))]
+        #text(size: 5.5pt, fill: muted)[#upper(str(cp, base: 16))]
       ]
     )
   }
@@ -696,6 +714,8 @@
 #show raw.where(block: false): set text(size: 1em)
 
 #text(size: 10pt)[
+  #set par(spacing: 2.3em)
+  #set block(spacing: 2.3em)
   Planetaire Mono ships in two packages built from the same letterforms:
 
   - *Planetaire Mono Extended*: the full build with all \~12,000 Nerd Font icons
@@ -710,6 +730,7 @@
 #text(size: 11pt, weight: 700)[Planetaire Mono Text]
 #v(0.2cm)
 #block(fill: rgb("#f5f5f5"), inset: 12pt, radius: 4pt, width: 100%)[
+  #set par(leading: 0.65em)
   #show raw: set text(font: "Planetaire Mono Text", size: 11pt)
   ```
   The quick brown fox jumps over the lazy dog
@@ -723,6 +744,8 @@
 #text(size: 11pt, weight: 700)[License]
 #v(0.2cm)
 #text(size: 10pt)[
+  #set par(spacing: 2.3em)
+  #set block(spacing: 2.3em)
   Planetaire Mono is released under the *SIL Open Font License 1.1 (OFL-1.1)*.
 
   The OFL allows free use, modification, and redistribution of the font, including
@@ -741,7 +764,7 @@
 
 #section("Spacing Review")
 
-#text(size: 9.5pt, fill: rgb("#444"))[
+#text(size: 9.5pt, fill: muted)[
   Planetaire Mono is built to a single cell width: every glyph (and intentional
   double-width glyphs at exactly 2x) shares one advance. B612’s letters and the
   FontForge-emboldened weights are normalized to that cell, recentered, and

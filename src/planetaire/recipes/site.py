@@ -105,7 +105,7 @@ def _render_index(
   :root {{ --bg:#0d1117; --fg:#e6edf3; --dim:#7d8590; --accent:#58a6ff; }}
   * {{ box-sizing:border-box; }}
   body {{ margin:0; background:var(--bg); color:var(--fg); font-family:{font_stack};
-          line-height:1.6; padding:3rem clamp(1rem,5vw,5rem); }}
+          line-height:1.5; padding:3rem clamp(1rem,5vw,5rem); }}
   h1 {{ font-size:clamp(2.5rem,8vw,4.5rem); margin:0; font-weight:800; }}
   .tag {{ color:var(--dim); font-size:1.1rem; margin:.5rem 0 2rem; }}
   .hero, .demo {{ width:100%; border:1px solid #30363d; border-radius:10px; margin:1.5rem 0; }}
