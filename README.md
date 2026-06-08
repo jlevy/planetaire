@@ -34,8 +34,9 @@ Airbus then commissioned the Montpellier interface studio
 Jonathan Favre-Lamarine) to draw the full family of eight variants.
 
 B612 is named for the asteroid home of the
-[Little Prince](https://en.wikipedia.org/wiki/The_Little_Prince), a nod to
-Saint-Exupéry, [himself an aviator](https://en.wikipedia.org/wiki/Wind,_Sand_and_Stars).
+[Little Prince](https://en.wikipedia.org/wiki/The_Little_Prince) by Antoine de
+Saint-Exupéry, who was
+[himself an aviator](https://en.wikipedia.org/wiki/Wind,_Sand_and_Stars).
 
 B612’s unusual character is a humanist answer to an instrument-panel problem.
 Where earlier cockpit fonts went monolinear and rigid, B612 keeps stroke contrast, opens
@@ -248,8 +249,8 @@ fc-cache -fv
 ### Web (CSS `@font-face`)
 
 Both packages include WOFF2 web fonts and a ready stylesheet in `web/`. The **Text**
-package is recommended for the web (much smaller, no icons); use **Extended** only if you
-need the Nerd Font icons in the browser.
+package is recommended for the web (much smaller, no icons); use **Extended** only if
+you need the Nerd Font icons in the browser.
 From the Text archive’s `web/`:
 
 ```html

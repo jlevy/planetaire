@@ -52,8 +52,8 @@
     title-size: 44pt,
     sub-size: 15pt,
     tag-size: 15pt,
-    planet-gap: -0.9cm,
-    sub-gap: 0cm,
-    tag-gap: 0.32cm,
+    planet-gap: -0.4cm,
+    sub-gap: -0.7cm,
+    tag-gap: 0.18cm,
   )
 }

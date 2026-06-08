@@ -52,8 +52,8 @@
   title-size: 44pt,
   sub-size: 15pt,
   tag-size: 15pt,
-  planet-gap: -0.9cm,
-  sub-gap: -0.2cm,
+  planet-gap: -0.4cm,
+  sub-gap: -0.7cm,
   tag-gap: 0.18cm,
 )
 
@@ -159,8 +159,8 @@
   Favre-Lamarine) to draw the full family of eight variants.
 
   B612 is named for the asteroid home of the
-  #link("https://en.wikipedia.org/wiki/The_Little_Prince")[Little Prince], a nod to
-  Saint-Exupéry, #link("https://en.wikipedia.org/wiki/Wind,_Sand_and_Stars")[himself an
+  #link("https://en.wikipedia.org/wiki/The_Little_Prince")[Little Prince] by Antoine de
+  Saint-Exupéry, who was #link("https://en.wikipedia.org/wiki/Wind,_Sand_and_Stars")[himself an
   aviator].
 
   B612's unusual character is a humanist answer to an instrument-panel problem. Where
