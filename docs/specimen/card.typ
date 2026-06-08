@@ -26,6 +26,8 @@
 #set text(font: font-family, size: 11pt, fill: p.fg)
 
 #if which == "terminal" {
+  orbit-code(p: p)
+  v(0.6cm)
   terminal-mockup(p: p)
 } else if which == "code" {
   orbit-code(p: p)

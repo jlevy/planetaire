@@ -83,7 +83,7 @@ every day.
 </p>
 
 <p align="center">
-<img src="docs/images/terminal-dark.png" width="100%" alt="A terminal session in Planetaire Mono on a dark background: a colored eza listing with Nerd Font icons, a Python one-liner, and a git log">
+<img src="docs/images/terminal-dark.png" width="100%" alt="Planetaire Mono on a dark background: a syntax-highlighted analyze_trajectory() Python function above a terminal session with a colored eza listing, a Python one-liner, and a git log">
 <br>
 <img src="docs/images/terminal-light.png" width="100%" alt="The same terminal session in Planetaire Mono on a light background">
 </p>
