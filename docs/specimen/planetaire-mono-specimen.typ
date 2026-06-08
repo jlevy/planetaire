@@ -54,7 +54,7 @@
 // each heading is exactly the explicit v() below (~0.6 of a line) for balance.
 #let cover-heading(t) = {
   text(size: 9.5pt, weight: "bold", fill: black)[#t]
-  v(0.34cm)
+  v(0.4cm)
 }
 
 #align(center)[
