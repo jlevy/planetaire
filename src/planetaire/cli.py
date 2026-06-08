@@ -362,7 +362,7 @@ def build_images_cmd(
     from planetaire.recipes.specimen import render_png
 
     card = Path("docs/specimen/card.typ")
-    card_names = ("terminal", "text", "weights", "features", "sample", "waterfall", "rfc")
+    card_names = ("code", "terminal", "text", "weights", "features", "sample", "waterfall", "rfc")
     count = 0
     try:
         for card_name in card_names:

@@ -23,6 +23,11 @@
 )
 
 #set text(font: "Planetaire Mono Extended", size: 10pt)
+// Code/raw uses Planetaire too. Typst's built-in `raw` font is DejaVu Sans Mono,
+// so without this every code block and inline span would silently fall back to
+// DejaVu. Per-block rules below may still override the size or switch to the Text
+// family for the web-subset demo.
+#show raw: set text(font: "Planetaire Mono Extended")
 
 // Palette, helpers, and reusable content blocks shared with the README image
 // cards (card.typ) so the home-page images stay in sync with this PDF.
@@ -36,9 +41,9 @@
 // Shared header block (same source as the README banner) so the cover and the
 // home-page header stay in sync. The cover passes smaller padding than the banner
 // default since the page margin already gives the title breathing room.
-#header-card(p: pal-light, pad-top: 1.5cm, pad-bottom: 0.7cm)
+#header-card(p: pal-light, pad-top: 0.2cm, pad-bottom: 0.3cm, planet-width: 30%)
 
-#v(0.25cm)
+#v(0.05cm)
 
 #align(center)[
   #text(size: 10pt, weight: "bold", fill: black)[
@@ -49,14 +54,14 @@
 
 // Even spacing below the title block, matching the section gaps, while keeping the
 // full credits list on the page.
-#v(0.65cm)
+#v(0.28cm)
 
 // The three cover sections share one centered, all-black style: a bold all-caps
 // heading over centered black items. Paragraph spacing is zeroed so the gap after
 // each heading is exactly the explicit v() below (~0.6 of a line) for balance.
 #let cover-heading(t) = {
   text(size: 9.5pt, weight: "bold", fill: black)[#t]
-  v(0.4cm)
+  v(0.28cm)
 }
 #let b(t) = text(weight: "bold")[#t]
 
@@ -71,7 +76,7 @@
     Modified zero (0) for legibility
   ]
 
-  #v(0.65cm)
+  #v(0.3cm)
   #cover-heading("WEIGHTS")
   #text(size: 9.5pt, fill: black)[
     #text(weight: "regular")[Regular] (400)\
@@ -86,7 +91,7 @@
     #text(weight: 800, style: "italic")[ExtraBold Italic] (800)
   ]
 
-  #v(0.65cm)
+  #v(0.3cm)
   #cover-heading("CREDITS")
   #text(size: 9.5pt, fill: black)[
     #b[Planetaire Mono] packaged and maintained by #b[Joshua Levy]\
@@ -104,7 +109,8 @@
 
 #[
   #set text(size: 10pt, hyphenate: false)
-  #set par(justify: false, leading: 0.62em, spacing: 1.2em)
+  // leading: 0.62em; one full blank-line gap = 1em (body) + 0.62em (leading) = 1.62em
+  #set par(justify: false, leading: 0.62em, spacing: 1.62em)
   #show raw: set text(font: "Planetaire Mono Extended", size: 10pt)
   #show link: underline
   #let about-heading(t) = {
@@ -153,12 +159,12 @@
   Planetaire Mono arises from this need. It merges B612's letters and digits into Hack
   Nerd Font's base. It also adds more weights and a dotted zero:
 
-  #block(spacing: 1.2em)[
+  #block(spacing: 1.62em)[
     #set par(spacing: 0.55em)
     #mb[*B612 letterforms* for letters, digits, and extended Latin, Greek, and Cyrillic.]
     #mb[*Hack punctuation and symbols* for `{}[]()<>` and the rest.]
     #mb[*Ten variants across five weights* (400/500/600/700/800), including added SemiBold (600) and ExtraBold (800) weights, the latter for terminal bold (see Weights).]
-    #mb[*12,000+ Nerd Font icons* (Powerline, Font Awesome, Devicons) in the Extended family.]
+    #mb[*12,000+ Nerd Font icons* (Powerline, Font Awesome, Devicons) in the Extended package.]
     #mb[*A dotted zero:* B612's zero with a center dot for clear 0 vs O, in circle (default) and rectangle (ss01) variants.]
   ]
 
@@ -199,7 +205,7 @@
     #spec-group("DESIGN")
     #spec-row("Classification", "Monospace (fixed)")
     #spec-row("Letterforms", "B612 Mono (humanist)")
-    #spec-row("Families", "Extended, Text")
+    #spec-row("Packages", "Extended, Text")
     #spec-row("Styles", "10 (5 weights × 2)")
     #spec-row("Units per em", "2000")
     #spec-row("Advance width", "1204 (0.602 em)")
@@ -238,7 +244,7 @@
 
     #v(0.5cm)
     #spec-group("LICENSE")
-    #spec-row("All families", "SIL OFL 1.1")
+    #spec-row("All packages", "SIL OFL 1.1")
   ],
 )
 
@@ -303,11 +309,21 @@
 
 #section[Planetaire Terminal]
 
-#orbit-code()
+// The Python example and the terminal session, each shown dark then light,
+// matching the two image pairs in the README.
+#orbit-code(p: pal-dark)
 
 #v(0.3cm)
 
-#terminal-mockup()
+#orbit-code(p: pal-light)
+
+#v(0.6cm)
+
+#terminal-mockup(p: pal-dark)
+
+#v(0.3cm)
+
+#terminal-mockup(p: pal-light)
 
 #pagebreak()
 
@@ -492,42 +508,6 @@
   \u{2500} \u{2502} \u{250C} \u{2510} \u{2514} \u{2518} \u{251C} \u{2524} \u{252C} \u{2534} \u{253C} \u{2550} \u{2551} \u{2554} \u{2557} \u{255A} \u{255D} \u{2560} \u{2563} \u{2566} \u{2569} \u{256C} \u{2580} \u{2584} \u{2588} \u{258C} \u{2590} \u{2591} \u{2592} \u{2593}
 ]
 
-#v(0.3cm)
-
-#label[ASCII CHARACTER TABLE (HEXADECIMAL)]
-#v(0.1cm)
-
-#block(
-  stroke: 0.5pt + rgb("#ccc"),
-  inset: (x: 1.2em, y: 1em),
-  width: 100%,
-)[
-  #set text(size: 7.5pt)
-  #set par(leading: 0.5em, justify: false)
-
-  #text(weight: 700)[NAME]\
-  #h(2.5em)#text(weight: 700)[ascii] - octal, hexadecimal and decimal ASCII character sets\
-  \
-  #text(weight: 700)[DESCRIPTION]\
-  \
-  #h(2.5em)The #text(weight: 700)[hexadecimal] set:\
-  #h(2.5em)00 nul   01 soh   02 stx   03 etx   04 eot   05 enq   06 ack   07 bel\
-  #h(2.5em)08 bs    09 ht    0a nl    0b vt    0c np    0d cr    0e so    0f si\
-  #h(2.5em)10 dle   11 dc1   12 dc2   13 dc3   14 dc4   15 nak   16 syn   17 etb\
-  #h(2.5em)18 can   19 em    1a sub   1b esc   1c fs    1d gs    1e rs    1f us\
-  #h(2.5em)20 sp    21  !    22  "    23  \#    24  \$    25  %    26  &    27  '\
-  #h(2.5em)28  (    29  )    2a  \*    2b  \+    2c  ,    2d  \-    2e  .    2f  /\
-  #h(2.5em)30  0    31  1    32  2    33  3    34  4    35  5    36  6    37  7\
-  #h(2.5em)38  8    39  9    3a  :    3b  ;    3c  <    3d  =    3e  >    3f  ?\
-  #h(2.5em)40  \@    41  A    42  B    43  C    44  D    45  E    46  F    47  G\
-  #h(2.5em)48  H    49  I    4a  J    4b  K    4c  L    4d  M    4e  N    4f  O\
-  #h(2.5em)50  P    51  Q    52  R    53  S    54  T    55  U    56  V    57  W\
-  #h(2.5em)58  X    59  Y    5a  Z    5b  \[    5c  \\    5d  \]    5e  ^    5f  \_\
-  #h(2.5em)60  \`    61  a    62  b    63  c    64  d    65  e    66  f    67  g\
-  #h(2.5em)68  h    69  i    6a  j    6b  k    6c  l    6d  m    6e  n    6f  o\
-  #h(2.5em)70  p    71  q    72  r    73  s    74  t    75  u    76  v    77  w\
-  #h(2.5em)78  x    79  y    7a  z    7b  \{    7c  |    7d  \}    7e  \~    7f del
-]
 
 #pagebreak()
 
@@ -685,10 +665,13 @@
 
 #pagebreak()
 
-#section[Two Families: Extended and Text]
+#section[Two Packages: Extended and Text]
+
+// Inline raw (e.g. `@font-face`) inherits the surrounding text size via 1em.
+#show raw.where(block: false): set text(size: 1em)
 
 #text(size: 10pt)[
-  Planetaire Mono ships in two families built from the same letterforms:
+  Planetaire Mono ships in two packages built from the same letterforms:
 
   - *Planetaire Mono Extended*: the full build with all \~12,000 Nerd Font icons
     and Powerline, for terminals and coding.
@@ -709,11 +692,6 @@
   0123456789 !@#$%^&*()[]{} <>=+ — Il1| O0o
   Greek ΑΒΓ αβγ · Cyrillic АБВ абв · Box ┌─┬─┐ │ ├─┼─┤ └─┴─┘ ▓▒░
   ```
-]
-#v(0.2cm)
-#text(size: 9pt, fill: rgb("#666"))[
-  For the web: `<link rel="stylesheet" href="planetaire-mono-text.css">` then
-  `font-family: "Planetaire Mono Text"`.
 ]
 
 #v(0.6cm)
@@ -751,6 +729,9 @@
 
 #v(0.5cm)
 #coding-width-grid(p: pal-light)
+
+#v(0.8cm)
+#coding-width-grid(p: pal-light, italic: true)
 
 #v(0.8cm)
 #weight-alignment(p: pal-light)

@@ -110,8 +110,13 @@
 // pad-top / pad-bottom frame the card. The README banner (card.typ) uses the
 // generous defaults; the specimen cover passes smaller values since the page
 // margin already supplies breathing room.
-#let header-card(p: pal-light, pad-top: 1.4cm, pad-bottom: 1.0cm) = align(center)[
+#let header-card(p: pal-light, pad-top: 1.4cm, pad-bottom: 1.0cm, planet-width: 60%) = align(center)[
   #v(pad-top)
+  // Little-planet line drawing as a letterhead banner above the title. The SVG's
+  // viewBox is trimmed to the artwork (no dead margin) so it sits close above the
+  // title; planet-width shrinks it to a letterhead strip rather than full bleed.
+  #image("../images/little-planet-vector-trace-v3.svg", width: planet-width)
+  #v(0.3cm)
   #text(size: 48pt, weight: 500, fill: p.fg)[Planetaire Mono]
   // Vertical rhythm (base ~= 9.5pt body line, 0.47cm): the lineage sits tight
   // under the title (~0.3 line) as its subtitle; the tagline is set off below
@@ -296,18 +301,19 @@
 #let _qa_rule = 0.4pt + rgb("#d83933")
 
 // One glyph in a box drawn at its advance width, with cell-edge rules.
-#let qa-cell(p, ch, size: 26pt) = box(
+// italic: render the character in italic style.
+#let qa-cell(p, ch, size: 26pt, italic: false) = box(
   stroke: (left: _qa_rule, right: _qa_rule),
   inset: (x: 0pt, y: 2pt),
-)[#text(size: size, fill: p.fg)[#ch]]
+)[#text(size: size, fill: p.fg, style: if italic { "italic" } else { "normal" })[#ch]]
 
-#let coding-width-grid(p: pal-light) = {
+#let coding-width-grid(p: pal-light, italic: false) = {
   let row(s) = {
-    s.clusters().map(c => qa-cell(p, c)).join(h(5pt))
+    s.clusters().map(c => qa-cell(p, c, italic: italic)).join(h(5pt))
     v(0.2cm)
   }
   text(size: 8pt, fill: p.muted, weight: "bold")[
-    STANDARD CODING CHARACTERS: TRUE CELL WIDTHS
+    STANDARD CODING CHARACTERS: TRUE CELL WIDTHS#if italic [ (ITALIC)] else []
   ]
   v(0.05cm)
   text(size: 7.5pt, fill: p.muted)[
