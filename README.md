@@ -173,6 +173,32 @@ config.font_rules = {
 See [terminal-config.md](docs/terminal-config.md) for Ghostty, Alacritty, WezTerm,
 iTerm2, Kitty, and VS Code.
 
+## Specimens
+
+Body text at a range of sizes, across Latin, Greek, and Cyrillic:
+
+<p align="center">
+<img src="docs/images/sample-dark.png" width="100%" alt="Multi-size body text plus French, German, Spanish, Turkish, Greek, and Cyrillic samples in Planetaire Mono, on a dark background">
+<br>
+<img src="docs/images/sample-light.png" width="100%" alt="The same multi-language text sample on a light background">
+</p>
+
+The same proportions from caption to display size:
+
+<p align="center">
+<img src="docs/images/waterfall-dark.png" width="100%" alt="Planetaire Mono from 8pt to 44pt with a large legibility line, on a dark background">
+<br>
+<img src="docs/images/waterfall-light.png" width="100%" alt="The same size waterfall on a light background">
+</p>
+
+Dense fixed-width document text, RFC 1 (1969):
+
+<p align="center">
+<img src="docs/images/rfc-dark.png" width="100%" alt="RFC 1 (1969) set in Planetaire Mono, on a dark background">
+<br>
+<img src="docs/images/rfc-light.png" width="100%" alt="The same RFC 1 document on a light background">
+</p>
+
 ## Two Families: Text and Extended
 
 Both families share the same letterforms and the same 10 variants, and both ship in two

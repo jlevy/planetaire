@@ -360,3 +360,66 @@
   row("EXTRABOLD (800)", 800)
   row("EXTRABOLD ITALIC (800)", 800, it: true)
 }
+
+// Size waterfall: the name from caption to display size, plus a display-size
+// legibility line. Palette-aware so it renders in dark or light cards.
+#let size-waterfall(p: pal-light) = {
+  text(size: 9pt, fill: p.muted)[
+    Planetaire Mono from caption to display size, holding its proportions throughout.
+  ]
+  v(0.5cm)
+  let line(sz) = {
+    grid(
+      columns: (1cm, 1fr),
+      column-gutter: 0.5cm,
+      align: (right + bottom, left + bottom),
+      text(size: 7pt, fill: p.muted)[#sz],
+      text(size: sz * 1pt, fill: p.fg)[Planetaire Mono],
+    )
+    v(0.2cm)
+  }
+  for s in (8, 9, 10, 11, 12, 14, 16, 20, 24, 30, 36, 44) {
+    line(s)
+  }
+  v(0.6cm)
+  text(size: 8.5pt, weight: "bold", fill: p.muted)[LEGIBILITY AT DISPLAY SIZE]
+  v(0.25cm)
+  text(size: 38pt, fill: p.fg)[Il1| O0o 0123]
+}
+
+// RFC 1 (Steve Crocker, 1969): dense fixed-width document text.
+#let rfc-excerpt(p: pal-light) = {
+  text(size: 9pt, fill: p.muted)[RFC 1 \u{00B7} STEVE CROCKER, UCLA \u{00B7} 7 APRIL 1969]
+  v(0.2cm)
+  block[
+    #set text(size: 8pt, fill: p.fg)
+    #set par(leading: 0.45em, spacing: 0em)
+    #show raw: set text(font: "Planetaire Mono Extended", size: 8pt)
+    #show raw.where(block: true): it => block(width: 100%, fill: none, inset: 0pt, stroke: none, it)
+    #show "Host Software": text.with(weight: 700)
+    #show "Steve Crocker": text.with(weight: 700)
+    #raw(read("rfc1-excerpt.txt"), block: true)
+  ]
+}
+
+// Multi-size body text plus French/German/Spanish/Turkish, Greek, and Cyrillic.
+#let text-sample(p: pal-light) = {
+  let label(t) = text(size: 9pt, fill: p.muted)[#t]
+  label[Planetaire Mono at various sizes, showing B612\u{2019}s distinctive letterforms optimized for readability at small sizes and on low-resolution displays.]
+  v(0.3cm)
+  text(size: 14pt, fill: p.fg)[The quick brown fox jumps over the lazy dog. Pack my box with five dozen liquor jugs. How vexingly quick daft zebras jump!]
+  v(0.4cm)
+  text(size: 11pt, fill: p.fg)[In the great void between stars, instruments must be read without error. Every glyph must be unambiguous: the digit 0 distinct from the letter O, the numeral 1 clearly not a lowercase l or uppercase I. B612 was born from this requirement. Originally designed for cockpit displays at Airbus, where a misread character could mean the difference between FL350 and FL850. Planetaire Mono inherits that precision and pairs it with the full symbol coverage a programmer needs: braces, brackets, pipes, arrows, and 12,000 icons ready for a modern terminal.]
+  v(0.4cm)
+  label[FRENCH \u{00B7} GERMAN \u{00B7} SPANISH \u{00B7} TURKISH]
+  v(0.15cm)
+  text(size: 11pt, fill: p.fg)[Les na\u{00EF}fs \u{00E6}githales h\u{00E2}tifs pondent au z\u{00E9}phyr joyeux. Falsches \u{00DC}ben von Xylophonmusik qu\u{00E4}lt jeden gr\u{00F6}\u{00DF}eren Zwerg. El veloz murci\u{00E9}lago hind\u{00FA} com\u{00ED}a feliz cardillo y kiwi. Pijamal\u{0131} hasta ya\u{011F}\u{0131}z \u{015F}of\u{00F6}re \u{00E7}abucak g\u{00FC}vendi.]
+  v(0.4cm)
+  label[GREEK]
+  v(0.15cm)
+  text(size: 11pt, fill: p.fg)[\u{039E}\u{03B5}\u{03C3}\u{03BA}\u{03B5}\u{03C0}\u{03AC}\u{03B6}\u{03C9} \u{03C4}\u{1F74}\u{03BD} \u{03C8}\u{03C5}\u{03C7}\u{03BF}\u{03C6}\u{03B8}\u{03CC}\u{03C1}\u{03B1} \u{03B2}\u{03B4}\u{03B5}\u{03BB}\u{03C5}\u{03B3}\u{03BC}\u{03AF}\u{03B1}.]
+  v(0.4cm)
+  label[CYRILLIC]
+  v(0.15cm)
+  text(size: 11pt, fill: p.fg)[\u{0421}\u{044A}\u{0435}\u{0448}\u{044C} \u{0436}\u{0435} \u{0435}\u{0449}\u{0451} \u{044D}\u{0442}\u{0438}\u{0445} \u{043C}\u{044F}\u{0433}\u{043A}\u{0438}\u{0445} \u{0444}\u{0440}\u{0430}\u{043D}\u{0446}\u{0443}\u{0437}\u{0441}\u{043A}\u{0438}\u{0445} \u{0431}\u{0443}\u{043B}\u{043E}\u{043A}, \u{0434}\u{0430} \u{0432}\u{044B}\u{043F}\u{0435}\u{0439} \u{0447}\u{0430}\u{044E}. \u{0428}\u{0438}\u{0440}\u{043E}\u{043A}\u{0430}\u{044F} \u{044D}\u{043B}\u{0435}\u{043A}\u{0442}\u{0440}\u{0438}\u{0444}\u{0438}\u{043A}\u{0430}\u{0446}\u{0438}\u{044F} \u{044E}\u{0436}\u{043D}\u{044B}\u{0445} \u{0433}\u{0443}\u{0431}\u{0435}\u{0440}\u{043D}\u{0438}\u{0439} \u{0434}\u{0430}\u{0441}\u{0442} \u{043C}\u{043E}\u{0449}\u{043D}\u{044B}\u{0439} \u{0442}\u{043E}\u{043B}\u{0447}\u{043E}\u{043A} \u{043F}\u{043E}\u{0434}\u{044A}\u{0451}\u{043C}\u{0443} \u{0441}\u{0435}\u{043B}\u{044C}\u{0441}\u{043A}\u{043E}\u{0433}\u{043E} \u{0445}\u{043E}\u{0437}\u{044F}\u{0439}\u{0441}\u{0442}\u{0432}\u{0430}.]
+}

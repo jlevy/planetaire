@@ -39,6 +39,12 @@
   weight-ladder(p: p)
 } else if which == "features" {
   legibility-pairs(p: p)
+} else if which == "sample" {
+  text-sample(p: p)
+} else if which == "waterfall" {
+  size-waterfall(p: p)
+} else if which == "rfc" {
+  rfc-excerpt(p: p)
 } else if which == "header" {
   header-card(p: p)
 }
