@@ -49,14 +49,15 @@ gains rather than style.
 In 2017, B612 was released as open source through the Eclipse
 [Polarsys](https://github.com/polarsys/b612) project.
 
-However, B612 alone is not a fully usable document or application font.
-The versions in circulation, including the one
-[on Google Fonts](https://fonts.google.com/specimen/B612+Mono), have uneven symbol
-coverage that is awkward for terminal and programming use.
-And the published version has an undotted zero that is easy to confuse with a capital
-`O`.
-
 ### About Planetaire Mono
+
+By historical accident, B612 alone is not a usable document or application font.
+The versions in circulation, including the one
+[on Google Fonts](https://fonts.google.com/specimen/B612+Mono), have oddities and uneven
+symbol coverage that make them awkward for use in modern applications and terminals.
+For example, some of the punctuation and symbols are a bit too thin for programming
+legibility, and the published versions have an undotted zero that is easy to confuse
+with a capital `O`.
 
 Planetaire Mono arises from this need.
 It merges B612’s letters and digits into Hack Nerd Font’s base.
@@ -65,17 +66,35 @@ It also adds more weights and a dotted zero:
 - **B612 letterforms** for letters, digits, and extended Latin, Greek, and Cyrillic.
 - **Hack punctuation and symbols** for `{}[]()<>` and the rest.
 - **Ten variants across five weights** (400/500/600/700/800), including added **SemiBold
-  (600)** and **ExtraBold (800)** weights, the latter for terminal bold (see
-  [Weights](#weights)).
+  (600)** and **ExtraBold (800)** weights, the latter especially useful as boldface in
+  the terminal.
 - **12,000+ Nerd Font icons** (Powerline, Font Awesome, Devicons) in the Extended
   package.
 - **A dotted zero:** B612’s zero with a center dot for clear `0` vs `O`, in circle
   (default) and rectangle (`ss01`) variants.
 
-With these changes it has become one of the most beautiful and genuinely functional
-monospace fonts I’ve seen.
-I’ve used dozens of terminal fonts over the years, and Planetaire Mono is now what I use
-every day.
+### A Personal Note
+
+Like architecture, typography is a functional art form.
+A design may initially appear attractive, but you can’t know its true qualities until
+you live close to it.
+Or work within it.
+
+A couple of years ago, I was building a terminal and surveyed monospace fonts to find
+the best ones. B612 wasn’t my obvious first choice, but after trying many of the classic
+modern options available as Nerd Fonts, I came to realize it still just *felt* better
+over time. But I was disappointed with the technical flaws that made it hard to use as a
+full replacement for a modern, high-quality workhorse typeface like Hack.
+I made an adapted hybrid of B612 that I was quite happy with, but it wasn’t in a clean
+enough form to publish.
+
+Now, Claude Code and Opus 4.8 have made it a pleasure to consolidate this work as
+Planetaire Mono. I’ve used dozens of terminal fonts over the years, and it is now what I
+use every day.
+
+Thanks to agentic coding, monospace fonts are now in greater use than anyone could ever
+have imagined. I hope Planetaire Mono’s aesthetics lighten the hours you spend with your
+agents, editors, and terminals.
 
 <p align="center">
 <img src="docs/images/text-dark.png" width="100%" alt="A prose passage set in Planetaire Mono on a dark background, showing body-text legibility">
