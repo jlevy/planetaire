@@ -26,6 +26,8 @@
 #set text(font: font-family, size: 11pt, fill: p.fg)
 
 #if which == "terminal" {
+  orbit-code(p: p)
+  v(0.6cm)
   terminal-mockup(p: p)
 } else if which == "code" {
   orbit-code(p: p)
@@ -37,6 +39,12 @@
   weight-ladder(p: p)
 } else if which == "features" {
   legibility-pairs(p: p)
+} else if which == "sample" {
+  text-sample(p: p)
+} else if which == "waterfall" {
+  size-waterfall(p: p)
+} else if which == "rfc" {
+  rfc-excerpt(p: p)
 } else if which == "header" {
   header-card(p: p)
 }

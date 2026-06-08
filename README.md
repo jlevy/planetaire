@@ -4,14 +4,14 @@
 Planetaire Mono is a beautiful, highly legible monospace font for terminals, editors,
 and agentic work.
 
-It is a lightly adapted fork of [B612 Mono](https://b612-font.com/) with added weights,
-symbols from [Hack](https://sourcefoundry.org/hack/), and extensive icons from
-[Nerd Fonts](https://www.nerdfonts.com/).
+It is a lightly adapted fork of [B612 Mono](https://github.com/polarsys/b612) with added
+weights, symbols from [Hack](https://sourcefoundry.org/hack/), and extensive icons from
+[Nerd Fonts](https://www.nerdfonts.com/). It is [licensed freely](#license) for
+personal, commercial, and open source use.
 
-**[Read the Type Specimen (PDF)](docs/specimen/planetaire-mono-specimen.pdf)** ·
+**[Read the Type Specimen (PDF)](docs/specimen/planetaire-mono-specimen.pdf)**
+
 **[Download the Fonts (TTF, WOFF2)](https://github.com/jlevy/planetaire/releases/latest)**
-
-It is [licensed freely](#license) for personal, commercial, and open source use.
 
 ## Why
 
@@ -33,8 +33,9 @@ Airbus then commissioned the Montpellier interface studio
 [Intactile Design](https://intactile.com/) (Nicolas Chauveau, Thomas Paillot, and
 Jonathan Favre-Lamarine) to draw the full family of eight variants.
 
-B612 is named for the asteroid home of the Little Prince, a nod to Saint-Exupéry,
-himself an aviator.
+B612 is named for the asteroid home of the
+[Little Prince](https://en.wikipedia.org/wiki/The_Little_Prince), a nod to
+Saint-Exupéry, [himself an aviator](https://en.wikipedia.org/wiki/Wind,_Sand_and_Stars).
 
 B612’s unusual character is a humanist answer to an instrument-panel problem.
 Where earlier cockpit fonts went monolinear and rigid, B612 keeps stroke contrast, opens
@@ -44,7 +45,6 @@ At stroke junctions it carries small notches (light traps) that keep joins from 
 in on bright, low-contrast displays.
 The result has quietly human character quirks that are grounded in measured legibility
 gains rather than style.
-
 In 2017, B612 was released as open source through the Eclipse
 [Polarsys](https://github.com/polarsys/b612) project.
 
@@ -63,8 +63,9 @@ It also adds more weights and a dotted zero:
 
 - **B612 letterforms** for letters, digits, and extended Latin, Greek, and Cyrillic.
 - **Hack punctuation and symbols** for `{}[]()<>` and the rest.
-- **Eight variants across four weights,** including an added **ExtraBold (800)** for
-  terminal bold (see [Weights](#weights)).
+- **Ten variants across five weights** (400/500/600/700/800), including added **SemiBold
+  (600)** and **ExtraBold (800)** weights, the latter for terminal bold (see
+  [Weights](#weights)).
 - **12,000+ Nerd Font icons** (Powerline, Font Awesome, Devicons) in the Extended
   family.
 - **A dotted zero:** B612’s zero with a center dot for clear `0` vs `O`, in circle
@@ -82,7 +83,7 @@ every day.
 </p>
 
 <p align="center">
-<img src="docs/images/terminal-dark.png" width="100%" alt="A terminal session in Planetaire Mono on a dark background: a colored eza listing with Nerd Font icons, a Python one-liner, and a git log">
+<img src="docs/images/terminal-dark.png" width="100%" alt="Planetaire Mono on a dark background: a syntax-highlighted analyze_trajectory() Python function above a terminal session with a colored eza listing, a Python one-liner, and a git log">
 <br>
 <img src="docs/images/terminal-light.png" width="100%" alt="The same terminal session in Planetaire Mono on a light background">
 </p>
@@ -98,7 +99,7 @@ Get the latest from
 | **Planetaire Mono Text** *(standard)* | Websites, documents, reading | Letters, punctuation, Greek/Cyrillic, box-drawing. No icons. TTF + WOFF2 (~67 KB/weight WOFF2). | [`.tar.xz`](https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Text.tar.xz) **~1 MB** · [`.zip`](https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Text.zip) ~1.3 MB |
 | **Planetaire Mono Extended** *(full)* | Terminals, coding, icon-rich CLIs | Everything in Text plus all ~12,000 Nerd Font icons and Powerline. TTF + WOFF2. | [`.tar.xz`](https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Extended.tar.xz) **~19 MB** · [`.zip`](https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Extended.zip) ~24 MB |
 
-Both packages ship the same 8 variants, each archive laid out as `ttf/` (for local
+Both packages ship the same 10 variants, each archive laid out as `ttf/` (for local
 install) and `web/` (WOFF2 plus an `@font-face` stylesheet).
 To install locally: unzip and double-click the `ttf/*.ttf` files (macOS Font Book or
 Windows), or on Linux copy them to `~/.local/share/fonts/` and run `fc-cache -fv`.
@@ -118,7 +119,7 @@ and Latin Extended Additional: over 12,000 glyphs in the Extended family.
 
 ## Weights
 
-Each family ships 8 variants across 4 weights.
+Each family ships 10 variants across 5 weights.
 
 Planetaire Mono adds an **ExtraBold (800)** weight for terminal bold: the jump from
 Regular (400) to Bold (700) is often too subtle at terminal sizes, and ExtraBold gives
@@ -136,6 +137,8 @@ bold text (prompts, headings, highlighted output) the contrast to stand out.
 | Italic | 400 | Emphasized text |
 | Medium | 500 | UI labels, intermediate weight |
 | Medium Italic | 500 | UI labels italic |
+| SemiBold | 600 | UI emphasis, intermediate weight |
+| SemiBold Italic | 600 | UI emphasis italic |
 | Bold | 700 | Standard bold |
 | Bold Italic | 700 | Standard bold italic |
 | **ExtraBold** | **800** | **Terminal bold text** |
@@ -170,9 +173,35 @@ config.font_rules = {
 See [terminal-config.md](docs/terminal-config.md) for Ghostty, Alacritty, WezTerm,
 iTerm2, Kitty, and VS Code.
 
+## Specimens
+
+Body text at a range of sizes, across Latin, Greek, and Cyrillic:
+
+<p align="center">
+<img src="docs/images/sample-dark.png" width="100%" alt="Multi-size body text plus French, German, Spanish, Turkish, Greek, and Cyrillic samples in Planetaire Mono, on a dark background">
+<br>
+<img src="docs/images/sample-light.png" width="100%" alt="The same multi-language text sample on a light background">
+</p>
+
+The same proportions from caption to display size:
+
+<p align="center">
+<img src="docs/images/waterfall-dark.png" width="100%" alt="Planetaire Mono from 8pt to 44pt with a large legibility line, on a dark background">
+<br>
+<img src="docs/images/waterfall-light.png" width="100%" alt="The same size waterfall on a light background">
+</p>
+
+Dense fixed-width document text, RFC 1 (1969):
+
+<p align="center">
+<img src="docs/images/rfc-dark.png" width="100%" alt="RFC 1 (1969) set in Planetaire Mono, on a dark background">
+<br>
+<img src="docs/images/rfc-light.png" width="100%" alt="The same RFC 1 document on a light background">
+</p>
+
 ## Two Families: Text and Extended
 
-Both families share the same letterforms and the same 8 variants, and both ship in two
+Both families share the same letterforms and the same 10 variants, and both ship in two
 formats: **TTF** (in `ttf/`) for local install and **WOFF2** (in `web/`, with a ready
 `@font-face` stylesheet) for the web.
 They differ only in glyph coverage:
@@ -226,7 +255,7 @@ From the Text archive’s `web/`:
 </style>
 ```
 
-Each weight and style is declared (400/500/700/800, upright and italic) with
+Each weight and style is declared (400/500/600/700/800, upright and italic) with
 `font-display: swap`.
 
 ## Build from Source
@@ -247,8 +276,8 @@ and these images is in [build-assets.runbook.md](docs/build-assets.runbook.md).
 
 ## Credits
 
-- [**B612**](https://b612-font.com/): Intactile Design for Airbus
-  ([polarsys/b612](https://github.com/polarsys/b612)). The letterforms.
+- [**B612**](https://github.com/polarsys/b612): Intactile Design for Airbus.
+  The letterforms.
 - [**Hack**](https://sourcefoundry.org/hack/): Chris Simpkins.
   The base providing punctuation, symbols, and metrics.
 - [**Nerd Fonts**](https://www.nerdfonts.com/): Ryan McIntyre.

@@ -43,12 +43,25 @@ _EXTRABOLD_FROM_BOLD: dict[str, str] = {
 }
 
 # Mapping for intermediate weight generation from Regular sources.
-# (target_file, source_file, target_weight, change_amount)
-_INTERMEDIATE_WEIGHTS: list[tuple[str, str, int, int]] = [
-    ("B612Mono-Medium.ttf", "B612Mono-Regular.ttf", 500, 40),
-    ("B612Mono-MediumItalic.ttf", "B612Mono-Italic.ttf", 500, 40),
-    ("HackNerdFont-Medium.ttf", "HackNerdFont-Regular.ttf", 500, 40),
-    ("HackNerdFont-MediumItalic.ttf", "HackNerdFont-Italic.ttf", 500, 40),
+# (target_file, source_file, target_weight, change_amount, max_points)
+# max_points caps which glyphs are emboldened: glyphs denser than the cap keep
+# their source outline. A few dozen ultra-dense Nerd Font logo icons (up to
+# ~4,700 points) would otherwise dominate runtime, since changeWeight's
+# self-intersection removal is pathologically slow on them (a full-font pass ran
+# 2+ hours). The cap keeps generation to minutes with no visible difference; see
+# TODO.md (plt-ddjw) to revisit full fidelity. B612 has no glyph near the cap, so
+# it is unaffected there; only Hack's icons are. The cap is applied to SemiBold
+# (newly added); Medium keeps the original full pass so its vendored masters
+# reproduce exactly.
+_INTERMEDIATE_WEIGHTS: list[tuple[str, str, int, int, int | None]] = [
+    ("B612Mono-Medium.ttf", "B612Mono-Regular.ttf", 500, 40, None),
+    ("B612Mono-MediumItalic.ttf", "B612Mono-Italic.ttf", 500, 40, None),
+    ("B612Mono-SemiBold.ttf", "B612Mono-Regular.ttf", 600, 75, 500),
+    ("B612Mono-SemiBoldItalic.ttf", "B612Mono-Italic.ttf", 600, 75, 500),
+    ("HackNerdFont-Medium.ttf", "HackNerdFont-Regular.ttf", 500, 40, None),
+    ("HackNerdFont-MediumItalic.ttf", "HackNerdFont-Italic.ttf", 500, 40, None),
+    ("HackNerdFont-SemiBold.ttf", "HackNerdFont-Regular.ttf", 600, 75, 500),
+    ("HackNerdFont-SemiBoldItalic.ttf", "HackNerdFont-Italic.ttf", 600, 75, 500),
 ]
 
 
@@ -61,8 +74,8 @@ def _ensure_generated_weights(source_dir: Path) -> None:
     """
     from planetaire.ops.embolden import embolden_font
 
-    # Generate intermediate weights (Medium) for both B612 and Hack.
-    for target_file, source_file, target_weight, change_amount in _INTERMEDIATE_WEIGHTS:
+    # Generate intermediate weights (Medium, SemiBold) for both B612 and Hack.
+    for target_file, source_file, target_weight, change_amount, max_points in _INTERMEDIATE_WEIGHTS:
         # Determine which subdirectory based on filename prefix.
         subdir = "b612" if target_file.startswith("B612") else "hack"
         font_dir = source_dir / subdir
@@ -86,7 +99,11 @@ def _ensure_generated_weights(source_dir: Path) -> None:
 
         log.info("Generating %s from %s via FontForge emboldening", target_file, source_file)
         embolden_font(
-            source_path, target_path, target_weight=target_weight, change_amount=change_amount
+            source_path,
+            target_path,
+            target_weight=target_weight,
+            change_amount=change_amount,
+            max_points=max_points,
         )
 
     # Generate ExtraBold B612 from Bold.
@@ -147,9 +164,9 @@ def _process_variant(
     dotted = add_dotted_zero(renamed)
     fixed = fix_font(dotted)
     # Enforce true monospace: B612 letters (1300) and FontForge-emboldened
-    # Medium/ExtraBold letters (1360-1420) are pinned to the Hack base cell,
-    # recentered, and condensed only where ink would otherwise bleed. Must run
-    # after the dotted zero so the modified zero is normalized too.
+    # Medium/SemiBold/ExtraBold letters (1360-1420) are pinned to the Hack base
+    # cell, recentered, and condensed only where ink would otherwise bleed. Must
+    # run after the dotted zero so the modified zero is normalized too.
     normalize_monospace(fixed)
     set_fixed_pitch_flags(fixed)
     return fixed

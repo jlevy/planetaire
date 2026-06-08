@@ -107,18 +107,29 @@
 
 // Home-page header banner (white background): the font name and lineage set in
 // Planetaire Mono itself. Rendered to docs/images/header.png by `build images`.
-#let header-card(p: pal-light) = align(center)[
-  #v(1.5cm)
+// pad-top / pad-bottom frame the card. The README banner (card.typ) uses the
+// generous defaults; the specimen cover passes smaller values since the page
+// margin already supplies breathing room.
+#let header-card(p: pal-light, pad-top: 1.4cm, pad-bottom: 1.0cm) = align(center)[
+  #v(pad-top)
   #text(size: 48pt, weight: 500, fill: p.fg)[Planetaire Mono]
-  #v(0.1cm)
-  #text(size: 13pt, weight: 700, fill: p.fg)[
-    B612 LETTERFORMS \u{00B7} HACK INFRASTRUCTURE \u{00B7} NERD FONT ICONS
+  // Vertical rhythm (base ~= 9.5pt body line, 0.47cm): the lineage sits tight
+  // under the title (~0.3 line) as its subtitle; the tagline is set off below
+  // (~1.9 line) as a separate descriptor.
+  #v(0.14cm)
+  #text(size: 17pt, weight: 700, fill: p.fg)[
+    B612 LETTERFORMS\
+    HACK INFRASTRUCTURE\
+    NERD FONT ICONS
   ]
-  #v(0.4cm)
-  #text(size: 13pt, weight: 500, style: "italic", fill: p.fg)[
-    A beautiful, highly legible monospace font for terminals, editors, and agentic work
+  #v(0.65cm)
+  // Tagline in Medium: heavier than Regular so it holds against the bold lineage
+  // above, but lighter (and cleaner) than the rougher synthetic SemiBold.
+  #text(size: 17.5pt, weight: 500, fill: p.fg)[
+    A beautiful, highly legible monospace font\
+    for terminals, editors, and agentic work
   ]
-  #v(1.1cm)
+  #v(pad-bottom)
 ]
 
 // Syntax-highlighted Python sample.
@@ -201,22 +212,29 @@
 ]
 
 // Weight ladder: every variant on a sample line plus a digits/symbols line.
-#let weight-ladder(p: pal-light) = {
+// `compact` tightens size and spacing so all ten variants fit one specimen page;
+// the README card uses the roomier default.
+#let weight-ladder(p: pal-light, compact: false) = {
   let sample = "The quick brown fox jumps over the lazy dog"
   let digits = "0123456789 AaBbCcDd {[(>)]} !@#$%"
+  let sz = if compact { 10.5pt } else { 12pt }
+  let gap = if compact { 0.1cm } else { 0.25cm }
+  let lblgap = if compact { 0.05cm } else { 0.1cm }
   let row(lbl, wt, it: false) = {
     text(size: 8pt, fill: p.muted)[#lbl]
-    v(0.1cm)
+    v(lblgap)
     let st = if it { "italic" } else { "normal" }
-    text(size: 12pt, weight: wt, style: st, fill: p.fg)[#sample]
+    text(size: sz, weight: wt, style: st, fill: p.fg)[#sample]
     v(0.05cm)
-    text(size: 12pt, weight: wt, style: st, fill: p.fg)[#digits]
-    v(0.25cm)
+    text(size: sz, weight: wt, style: st, fill: p.fg)[#digits]
+    v(gap)
   }
   row("REGULAR (400)", 400)
   row("ITALIC (400)", 400, it: true)
   row("MEDIUM (500)", 500)
   row("MEDIUM ITALIC (500)", 500, it: true)
+  row("SEMIBOLD (600)", 600)
+  row("SEMIBOLD ITALIC (600)", 600, it: true)
   row("BOLD (700)", 700)
   row("BOLD ITALIC (700)", 700, it: true)
   row("EXTRABOLD (800)", 800)
@@ -327,7 +345,7 @@
   text(size: 8pt, fill: p.muted, weight: "bold")[WEIGHT ALIGNMENT: EVERY WEIGHT IS THE SAME WIDTH]
   v(0.05cm)
   text(size: 7.5pt, fill: p.muted)[
-    The same string in all eight variants; the red rule marks each line's right
+    The same string in all ten variants; the red rule marks each line's right
     edge. A single vertical line means identical width across every weight.
   ]
   v(0.25cm)
@@ -335,8 +353,73 @@
   row("ITALIC (400)", 400, it: true)
   row("MEDIUM (500)", 500)
   row("MEDIUM ITALIC (500)", 500, it: true)
+  row("SEMIBOLD (600)", 600)
+  row("SEMIBOLD ITALIC (600)", 600, it: true)
   row("BOLD (700)", 700)
   row("BOLD ITALIC (700)", 700, it: true)
   row("EXTRABOLD (800)", 800)
   row("EXTRABOLD ITALIC (800)", 800, it: true)
+}
+
+// Size waterfall: the name from caption to display size, plus a display-size
+// legibility line. Palette-aware so it renders in dark or light cards.
+#let size-waterfall(p: pal-light) = {
+  text(size: 9pt, fill: p.muted)[
+    Planetaire Mono from caption to display size, holding its proportions throughout.
+  ]
+  v(0.5cm)
+  let line(sz) = {
+    grid(
+      columns: (1cm, 1fr),
+      column-gutter: 0.5cm,
+      align: (right + bottom, left + bottom),
+      text(size: 7pt, fill: p.muted)[#sz],
+      text(size: sz * 1pt, fill: p.fg)[Planetaire Mono],
+    )
+    v(0.2cm)
+  }
+  for s in (8, 9, 10, 11, 12, 14, 16, 20, 24, 30, 36, 44) {
+    line(s)
+  }
+  v(0.6cm)
+  text(size: 8.5pt, weight: "bold", fill: p.muted)[LEGIBILITY AT DISPLAY SIZE]
+  v(0.25cm)
+  text(size: 38pt, fill: p.fg)[Il1| O0o 0123]
+}
+
+// RFC 1 (Steve Crocker, 1969): dense fixed-width document text.
+#let rfc-excerpt(p: pal-light) = {
+  text(size: 9pt, fill: p.muted)[RFC 1 \u{00B7} STEVE CROCKER, UCLA \u{00B7} 7 APRIL 1969]
+  v(0.2cm)
+  block[
+    #set text(size: 8pt, fill: p.fg)
+    #set par(leading: 0.45em, spacing: 0em)
+    #show raw: set text(font: "Planetaire Mono Extended", size: 8pt)
+    #show raw.where(block: true): it => block(width: 100%, fill: none, inset: 0pt, stroke: none, it)
+    #show "Host Software": text.with(weight: 700)
+    #show "Steve Crocker": text.with(weight: 700)
+    #raw(read("rfc1-excerpt.txt"), block: true)
+  ]
+}
+
+// Multi-size body text plus French/German/Spanish/Turkish, Greek, and Cyrillic.
+#let text-sample(p: pal-light) = {
+  let label(t) = text(size: 9pt, fill: p.muted)[#t]
+  label[Planetaire Mono at various sizes, showing B612\u{2019}s distinctive letterforms optimized for readability at small sizes and on low-resolution displays.]
+  v(0.3cm)
+  text(size: 14pt, fill: p.fg)[The quick brown fox jumps over the lazy dog. Pack my box with five dozen liquor jugs. How vexingly quick daft zebras jump!]
+  v(0.4cm)
+  text(size: 11pt, fill: p.fg)[In the great void between stars, instruments must be read without error. Every glyph must be unambiguous: the digit 0 distinct from the letter O, the numeral 1 clearly not a lowercase l or uppercase I. B612 was born from this requirement. Originally designed for cockpit displays at Airbus, where a misread character could mean the difference between FL350 and FL850. Planetaire Mono inherits that precision and pairs it with the full symbol coverage a programmer needs: braces, brackets, pipes, arrows, and 12,000 icons ready for a modern terminal.]
+  v(0.4cm)
+  label[FRENCH \u{00B7} GERMAN \u{00B7} SPANISH \u{00B7} TURKISH]
+  v(0.15cm)
+  text(size: 11pt, fill: p.fg)[Les na\u{00EF}fs \u{00E6}githales h\u{00E2}tifs pondent au z\u{00E9}phyr joyeux. Falsches \u{00DC}ben von Xylophonmusik qu\u{00E4}lt jeden gr\u{00F6}\u{00DF}eren Zwerg. El veloz murci\u{00E9}lago hind\u{00FA} com\u{00ED}a feliz cardillo y kiwi. Pijamal\u{0131} hasta ya\u{011F}\u{0131}z \u{015F}of\u{00F6}re \u{00E7}abucak g\u{00FC}vendi.]
+  v(0.4cm)
+  label[GREEK]
+  v(0.15cm)
+  text(size: 11pt, fill: p.fg)[\u{039E}\u{03B5}\u{03C3}\u{03BA}\u{03B5}\u{03C0}\u{03AC}\u{03B6}\u{03C9} \u{03C4}\u{1F74}\u{03BD} \u{03C8}\u{03C5}\u{03C7}\u{03BF}\u{03C6}\u{03B8}\u{03CC}\u{03C1}\u{03B1} \u{03B2}\u{03B4}\u{03B5}\u{03BB}\u{03C5}\u{03B3}\u{03BC}\u{03AF}\u{03B1}.]
+  v(0.4cm)
+  label[CYRILLIC]
+  v(0.15cm)
+  text(size: 11pt, fill: p.fg)[\u{0421}\u{044A}\u{0435}\u{0448}\u{044C} \u{0436}\u{0435} \u{0435}\u{0449}\u{0451} \u{044D}\u{0442}\u{0438}\u{0445} \u{043C}\u{044F}\u{0433}\u{043A}\u{0438}\u{0445} \u{0444}\u{0440}\u{0430}\u{043D}\u{0446}\u{0443}\u{0437}\u{0441}\u{043A}\u{0438}\u{0445} \u{0431}\u{0443}\u{043B}\u{043E}\u{043A}, \u{0434}\u{0430} \u{0432}\u{044B}\u{043F}\u{0435}\u{0439} \u{0447}\u{0430}\u{044E}. \u{0428}\u{0438}\u{0440}\u{043E}\u{043A}\u{0430}\u{044F} \u{044D}\u{043B}\u{0435}\u{043A}\u{0442}\u{0440}\u{0438}\u{0444}\u{0438}\u{043A}\u{0430}\u{0446}\u{0438}\u{044F} \u{044E}\u{0436}\u{043D}\u{044B}\u{0445} \u{0433}\u{0443}\u{0431}\u{0435}\u{0440}\u{043D}\u{0438}\u{0439} \u{0434}\u{0430}\u{0441}\u{0442} \u{043C}\u{043E}\u{0449}\u{043D}\u{044B}\u{0439} \u{0442}\u{043E}\u{043B}\u{0447}\u{043E}\u{043A} \u{043F}\u{043E}\u{0434}\u{044A}\u{0451}\u{043C}\u{0443} \u{0441}\u{0435}\u{043B}\u{044C}\u{0441}\u{043A}\u{043E}\u{0433}\u{043E} \u{0445}\u{043E}\u{0437}\u{044F}\u{0439}\u{0441}\u{0442}\u{0432}\u{0430}.]
 }

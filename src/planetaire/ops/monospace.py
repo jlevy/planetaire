@@ -6,8 +6,8 @@ into the Hack Nerd Font base (1204-unit cell after UPM normalization). On its
 own the merge copies each source's advance verbatim, so the result is *not*
 monospace: letters end up 1300 wide while punctuation, symbols, box-drawing,
 powerline, and icons stay 1204. FontForge emboldening makes it worse, inflating
-the Medium/ExtraBold letters to 1360-1420 and non-uniformly (e.g. m wider than
-A).
+the Medium/SemiBold/ExtraBold letters to 1360-1420 and non-uniformly (e.g. m wider
+than A).
 
 `check_monospace` reports any deviation from a single cell width (the core
 monospace invariant) plus glyphs whose ink would bleed past the cell.

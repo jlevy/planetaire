@@ -10,8 +10,9 @@
 > kept fully in sync with the implementation.
 > The shipped pipeline differs in a few ways: it merges glyphs from the **original
 > polarsys/b612** sources (not the carlosedp fork), builds its own dotted zero in
-> `ops/zero.py` (rather than copying B612 GSUB features), and ships **8 variants across
-> 4 weights** (400/500/700/800), including a Medium (500) weight not described here.
+> `ops/zero.py` (rather than copying B612 GSUB features), and ships **10 variants across
+> 5 weights** (400/500/600/700/800), including Medium (500) and SemiBold (600) weights
+> not described here.
 > See `README.md` and `src/planetaire/config.py` for the current behavior.
 
 ## Overview

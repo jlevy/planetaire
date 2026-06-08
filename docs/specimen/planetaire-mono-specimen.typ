@@ -31,106 +31,225 @@
 
 // ─── Page 1: Cover ──────────────────────────────────────────────
 
-#v(2cm)
+#v(0.2cm)
 
 // Shared header block (same source as the README banner) so the cover and the
-// home-page header stay in sync.
-#header-card(p: pal-light)
+// home-page header stay in sync. The cover passes smaller padding than the banner
+// default since the page margin already gives the title breathing room.
+#header-card(p: pal-light, pad-top: 1.5cm, pad-bottom: 0.7cm)
 
-#v(0.6cm)
+#v(0.25cm)
 
 #align(center)[
-  #text(size: 10pt, fill: rgb("#666"))[
-    Joshua Levy\
-    github.com/jlevy/planetaire\
-    Version #version#if build-date != "" [ · #build-date]
+  #text(size: 10pt, weight: "bold", fill: black)[
+    Version #version#if build-date != "" [ · #build-date]\
+    github.com/jlevy/planetaire
   ]
 ]
 
-#v(1.5cm)
+// Even spacing below the title block, matching the section gaps, while keeping the
+// full credits list on the page.
+#v(0.65cm)
+
+// The three cover sections share one centered, all-black style: a bold all-caps
+// heading over centered black items. Paragraph spacing is zeroed so the gap after
+// each heading is exactly the explicit v() below (~0.6 of a line) for balance.
+#let cover-heading(t) = {
+  text(size: 9.5pt, weight: "bold", fill: black)[#t]
+  v(0.4cm)
+}
+#let b(t) = text(weight: "bold")[#t]
+
+#align(center)[
+  #set par(spacing: 0pt)
+  #cover-heading("FEATURES")
+  #text(size: 9.5pt, fill: black)[
+    B612 base for letterforms\
+    (extended Latin, Greek, Cyrillic)\
+    Punctuation and symbols from Hack\
+    12,000+ icons from Nerd Fonts\
+    Modified zero (0) for legibility
+  ]
+
+  #v(0.65cm)
+  #cover-heading("WEIGHTS")
+  #text(size: 9.5pt, fill: black)[
+    #text(weight: "regular")[Regular] (400)\
+    #text(weight: "regular", style: "italic")[Italic] (400)\
+    #text(weight: 500)[Medium] (500)\
+    #text(weight: 500, style: "italic")[Medium Italic] (500)\
+    #text(weight: 600)[SemiBold] (600)\
+    #text(weight: 600, style: "italic")[SemiBold Italic] (600)\
+    #text(weight: "bold")[Bold] (700)\
+    #text(weight: "bold", style: "italic")[Bold Italic] (700)\
+    #text(weight: 800)[ExtraBold] (800)\
+    #text(weight: 800, style: "italic")[ExtraBold Italic] (800)
+  ]
+
+  #v(0.65cm)
+  #cover-heading("CREDITS")
+  #text(size: 9.5pt, fill: black)[
+    #b[Planetaire Mono] packaged and maintained by #b[Joshua Levy]\
+    #b[B612 Mono] letterforms by #b[Intactile Design] for #b[Airbus]\
+    #b[Hack] base punctuation, symbols, and metrics by #b[Chris Simpkins]\
+    #b[Nerd Fonts] 12,000+ icons by #b[Ryan McIntyre]\
+    Dotted zero inspired by the #b[B612] fork by #b[Carlos Eduardo de Paula]
+  ]
+]
+
+#pagebreak()
+
+
+// ─── Page 2: About ──────────────────────────────────────────────
+
+#[
+  #set text(size: 10pt, hyphenate: false)
+  #set par(justify: false, leading: 0.62em, spacing: 1.2em)
+  #show raw: set text(font: "Planetaire Mono Extended", size: 10pt)
+  #show link: underline
+  #let about-heading(t) = {
+    text(size: 10pt, weight: "bold", fill: black)[#t]
+    v(0.38cm)
+  }
+  // Monospace-grid bullet: the marker sits in a 2-cell box (1.204em = 2 cells) so the
+  // body and its wrapped lines hang on the cell grid, not at an arbitrary indent.
+  #let mb(body) = grid(columns: (1.204em, 1fr), [•], body)
+
+  #about-heading("ABOUT B612")
+  B612 began not as a typeface but as an aviation research program. In 2010 Airbus,
+  ENAC (the French civil aviation university), and the Université de Toulouse III set
+  out to define and validate an "aeronautical font" for cockpit screens: text a pilot
+  can read correctly while fatigued, at oblique angles, or under vibration, glare, or
+  near-darkness.
+
+  The shapes were derived experimentally before they were drawn. Jean-Luc Vinot (ENAC)
+  and Sylvie Athènes (Toulouse III) built confusion matrices of when and how characters
+  get misread ("Legible, are you sure?" at CHI 2012). In their controlled study, the
+  prototype that became B612 drew slightly more correct reads than Verdana and clearly
+  outperformed the legacy avionics font. Airbus then commissioned the Montpellier
+  interface studio Intactile Design (Nicolas Chauveau, Thomas Paillot, and Jonathan
+  Favre-Lamarine) to draw the full family of eight variants.
+
+  B612 is named for the asteroid home of the
+  #link("https://en.wikipedia.org/wiki/The_Little_Prince")[Little Prince], a nod to
+  Saint-Exupéry, #link("https://en.wikipedia.org/wiki/Wind,_Sand_and_Stars")[himself an
+  aviator].
+
+  B612's unusual character is a humanist answer to an instrument-panel problem. Where
+  earlier cockpit fonts went monolinear and rigid, B612 keeps stroke contrast, opens
+  counters, and lengthens ascenders and descenders. Each word's silhouette resolves
+  quickly. At stroke junctions it carries small notches (light traps) that keep joins
+  from filling in on bright, low-contrast displays. The result has quietly human
+  character quirks that are grounded in measured legibility gains rather than style. In
+  2017, B612 was released as open source through the Eclipse Polarsys project.
+
+  However, B612 alone is not a fully usable document or application font. The versions
+  in circulation, including the one on Google Fonts, have uneven symbol coverage that
+  is awkward for terminal and programming use. And the published version has an
+  undotted zero that is easy to confuse with a capital O.
+
+  #v(0.6cm)
+  #about-heading("ABOUT PLANETAIRE MONO")
+  Planetaire Mono arises from this need. It merges B612's letters and digits into Hack
+  Nerd Font's base. It also adds more weights and a dotted zero:
+
+  #block(spacing: 1.2em)[
+    #set par(spacing: 0.55em)
+    #mb[*B612 letterforms* for letters, digits, and extended Latin, Greek, and Cyrillic.]
+    #mb[*Hack punctuation and symbols* for `{}[]()<>` and the rest.]
+    #mb[*Ten variants across five weights* (400/500/600/700/800), including added SemiBold (600) and ExtraBold (800) weights, the latter for terminal bold (see Weights).]
+    #mb[*12,000+ Nerd Font icons* (Powerline, Font Awesome, Devicons) in the Extended family.]
+    #mb[*A dotted zero:* B612's zero with a center dot for clear 0 vs O, in circle (default) and rectangle (ss01) variants.]
+  ]
+
+  With these changes it has become one of the most beautiful and genuinely functional
+  monospace fonts I've seen. I've used dozens of terminal fonts over the years, and
+  Planetaire Mono is now what I use every day.
+]
+
+#pagebreak()
+
+
+// ─── Page 3: Typeface Specification ─────────────────────────────
+
+#section[Planetaire Typeface Specification]
+
+#v(0.4cm)
+
+#let spec-group(title) = {
+  text(size: 8.5pt, weight: "bold", fill: rgb("#888"))[#title]
+  v(0.12cm)
+  line(length: 100%, stroke: 0.5pt + rgb("#dddddd"))
+  v(0.15cm)
+}
+#let spec-row(label, value) = {
+  grid(
+    columns: (1fr, auto),
+    column-gutter: 0.5cm,
+    text(size: 9.5pt, fill: rgb("#666"))[#label],
+    text(size: 9.5pt, fill: rgb("#222"))[#value],
+  )
+  v(0.14cm)
+}
 
 #grid(
-  columns: (auto, 1fr),
-  gutter: 1.5cm,
+  columns: (1fr, 1fr),
+  column-gutter: 1.2cm,
   [
-    #text(size: 9pt, fill: rgb("#666"))[
-      *Weights*\
-      #text(weight: "regular")[Regular] (400)\
-      #text(weight: "regular", style: "italic")[Italic] (400)\
-      #text(weight: 500)[Medium] (500)\
-      #text(weight: 500, style: "italic")[Medium Italic] (500)\
-      #text(weight: "bold")[Bold] (700)\
-      #text(weight: "bold", style: "italic")[Bold Italic] (700)\
-      #text(weight: 800)[ExtraBold] (800)\
-      #text(weight: 800, style: "italic")[ExtraBold Italic] (800)
-    ]
+    #spec-group("DESIGN")
+    #spec-row("Classification", "Monospace (fixed)")
+    #spec-row("Letterforms", "B612 Mono (humanist)")
+    #spec-row("Families", "Extended, Text")
+    #spec-row("Styles", "10 (5 weights × 2)")
+    #spec-row("Units per em", "2000")
+    #spec-row("Advance width", "1204 (0.602 em)")
+    #spec-row("Italic angle", "0°, true italics")
+
+    #v(0.5cm)
+    #spec-group("WEIGHTS")
+    #spec-row("Regular", "400")
+    #spec-row("Medium", "500")
+    #spec-row("SemiBold", "600")
+    #spec-row("Bold", "700")
+    #spec-row("ExtraBold", "800")
   ],
   [
-    #text(size: 9pt, fill: rgb("#666"))[
-      *Features*\
-      B612 base for letterforms (A\u{2013}Z, a\u{2013}z, 0\u{2013}9,\
-      #h(1em)extended Latin, Greek, Cyrillic)\
-      Modified zero (0) for legibility\
-      Punctuation and symbols from Hack\
-      12,000+ icons from Nerd Fonts
-    ]
+    #spec-group("VERTICAL METRICS (per 2000 em)")
+    #spec-row("Cap height", "1458")
+    #spec-row("x-height", "1094")
+    #spec-row("Ascender", "1856")
+    #spec-row("Descender", "-472")
+    #spec-row("Line gap", "0")
+
+    #v(0.5cm)
+    #spec-group("GLYPH COVERAGE")
+    #spec-row("Extended", "12,138 glyphs")
+    #spec-row("Text", "1,317 glyphs")
+
+    #v(0.5cm)
+    #spec-group("FORMATS")
+    #spec-row("Local install", "TTF")
+    #spec-row("Web", "WOFF2 + @font-face CSS")
+
+    #v(0.5cm)
+    #spec-group("OPENTYPE")
+    #spec-row("default", "circle-dot zero")
+    #spec-row("ss01 / zero", "rectangle-dot zero")
+
+    #v(0.5cm)
+    #spec-group("LICENSE")
+    #spec-row("All families", "SIL OFL 1.1")
   ],
 )
 
 #pagebreak()
 
 
-// ─── Page 2: Text Showcase ──────────────────────────────────────
+// ─── Page 4: Text Showcase ──────────────────────────────────────
 
 #section[Planetaire Text Sample]
 
-#text(size: 9pt, fill: rgb("#999"))[
-  Planetaire Mono at various sizes, showing B612\u{2019}s distinctive letterforms
-  optimized for readability at small sizes and on low-resolution displays.
-]
-#v(0.3cm)
-
-#text(size: 14pt)[
-  The quick brown fox jumps over the lazy dog. Pack my box with
-  five dozen liquor jugs. How vexingly quick daft zebras jump!
-]
-#v(0.4cm)
-
-#text(size: 11pt)[
-  In the great void between stars, instruments must be read without error.
-  Every glyph must be unambiguous: the digit 0 distinct from the letter O,
-  the numeral 1 clearly not a lowercase l or uppercase I. B612 was born
-  from this requirement. Originally designed for cockpit displays at Airbus,
-  where a misread character could mean the difference between FL350 and FL850.
-  Planetaire Mono inherits that precision and pairs it with the full symbol
-  coverage a programmer needs: braces, brackets, pipes, arrows, and 12,000
-  icons ready for a modern terminal.
-]
-#v(0.4cm)
-
-#text(size: 9pt, fill: rgb("#999"))[FRENCH \u{00B7} GERMAN \u{00B7} SPANISH \u{00B7} TURKISH]
-#v(0.15cm)
-#text(size: 11pt)[
-  Les na\u{00EF}fs \u{00E6}githales h\u{00E2}tifs pondent au z\u{00E9}phyr joyeux. Falsches \u{00DC}ben von
-  Xylophonmusik qu\u{00E4}lt jeden gr\u{00F6}\u{00DF}eren Zwerg. El veloz murci\u{00E9}lago hind\u{00FA} com\u{00ED}a
-  feliz cardillo y kiwi. Pijamal\u{0131} hasta ya\u{011F}\u{0131}z \u{015F}of\u{00F6}re \u{00E7}abucak g\u{00FC}vendi.
-]
-#v(0.4cm)
-
-#text(size: 9pt, fill: rgb("#999"))[GREEK]
-#v(0.15cm)
-#text(size: 11pt)[
-  \u{039E}\u{03B5}\u{03C3}\u{03BA}\u{03B5}\u{03C0}\u{03AC}\u{03B6}\u{03C9} \u{03C4}\u{1F74}\u{03BD} \u{03C8}\u{03C5}\u{03C7}\u{03BF}\u{03C6}\u{03B8}\u{03CC}\u{03C1}\u{03B1} \u{03B2}\u{03B4}\u{03B5}\u{03BB}\u{03C5}\u{03B3}\u{03BC}\u{03AF}\u{03B1}.
-]
-#v(0.4cm)
-
-#text(size: 9pt, fill: rgb("#999"))[CYRILLIC]
-#v(0.15cm)
-#text(size: 11pt)[
-  \u{0421}\u{044A}\u{0435}\u{0448}\u{044C} \u{0436}\u{0435} \u{0435}\u{0449}\u{0451} \u{044D}\u{0442}\u{0438}\u{0445} \u{043C}\u{044F}\u{0433}\u{043A}\u{0438}\u{0445} \u{0444}\u{0440}\u{0430}\u{043D}\u{0446}\u{0443}\u{0437}\u{0441}\u{043A}\u{0438}\u{0445} \u{0431}\u{0443}\u{043B}\u{043E}\u{043A}, \u{0434}\u{0430} \u{0432}\u{044B}\u{043F}\u{0435}\u{0439} \u{0447}\u{0430}\u{044E}.
-  \u{0428}\u{0438}\u{0440}\u{043E}\u{043A}\u{0430}\u{044F} \u{044D}\u{043B}\u{0435}\u{043A}\u{0442}\u{0440}\u{0438}\u{0444}\u{0438}\u{043A}\u{0430}\u{0446}\u{0438}\u{044F} \u{044E}\u{0436}\u{043D}\u{044B}\u{0445} \u{0433}\u{0443}\u{0431}\u{0435}\u{0440}\u{043D}\u{0438}\u{0439} \u{0434}\u{0430}\u{0441}\u{0442} \u{043C}\u{043E}\u{0449}\u{043D}\u{044B}\u{0439} \u{0442}\u{043E}\u{043B}\u{0447}\u{043E}\u{043A} \u{043F}\u{043E}\u{0434}\u{044A}\u{0451}\u{043C}\u{0443}
-  \u{0441}\u{0435}\u{043B}\u{044C}\u{0441}\u{043A}\u{043E}\u{0433}\u{043E} \u{0445}\u{043E}\u{0437}\u{044F}\u{0439}\u{0441}\u{0442}\u{0432}\u{0430}.
-]
+#text-sample()
 
 #pagebreak()
 
@@ -150,20 +269,7 @@
 #pagebreak()
 
 // RFC 1 - Steve Crocker, 7 April 1969
-#text(size: 9pt, fill: rgb("#999"))[
-  RFC 1 \u{00B7} STEVE CROCKER, UCLA \u{00B7} 7 APRIL 1969
-]
-#v(0.2cm)
-
-#block[
-  #set text(size: 8pt)
-  #set par(leading: 0.45em, spacing: 0em)
-  #show raw: set text(font: "Planetaire Mono Extended", size: 8pt)
-  #show raw.where(block: true): it => block(width: 100%, fill: none, inset: 0pt, stroke: none, it)
-  #show "Host Software": text.with(weight: 700)
-  #show "Steve Crocker": text.with(weight: 700)
-  #raw(read("rfc1-excerpt.txt"), block: true)
-]
+#rfc-excerpt()
 
 #pagebreak()
 
@@ -254,16 +360,17 @@
 
 #section[Planetaire Weight Comparison]
 
-#weight-ladder()
+#weight-ladder(compact: true)
 
-#v(0.3cm)
+#pagebreak()
 
-#let sample = "The quick brown fox jumps over the lazy dog"
-#label[SIZE COMPARISON: REGULAR AT VARIOUS SIZES]
-#for size in (8, 9, 10, 11, 12) {
-  text(size: eval(repr(size) + "pt"))[#sample]
-  v(0.08cm)
-}
+
+// ─── Size Waterfall ─────────────────────────────────────────────
+
+#section[Planetaire Size Waterfall]
+
+#v(0.2cm)
+#size-waterfall()
 
 #pagebreak()
 
@@ -572,7 +679,7 @@
   For each weight variant, the pipeline loads Hack Nerd Font as the base,
   merges B612 letter and digit glyphs by Unicode range, adds a center dot
   to B612\u{2019}s zero for O/0 disambiguation, renames the result, and applies
-  post-processing fixes. Medium weights are generated from
+  post-processing fixes. Medium and SemiBold weights are generated from
   Regular, and ExtraBold from Bold, via FontForge emboldening.
 ]
 
@@ -583,7 +690,7 @@
 #text(size: 10pt)[
   Planetaire Mono ships in two families built from the same letterforms:
 
-  - *Planetaire Mono* (Extended): the full build with all \~12,000 Nerd Font icons
+  - *Planetaire Mono Extended*: the full build with all \~12,000 Nerd Font icons
     and Powerline, for terminals and coding.
   - *Planetaire Mono Text*: a lightweight web subset (letters, punctuation,
     box-drawing, block elements, geometric shapes) that drops the Private-Use icons.
