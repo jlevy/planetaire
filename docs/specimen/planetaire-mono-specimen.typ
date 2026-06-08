@@ -66,6 +66,14 @@
 #set par(leading: 0.8em)
 #set list(spacing: 0.8em)
 
+// Smart quotes OFF document-wide. We author quotes literally -- oriented ‘ ’ “ ” in
+// prose, straight ASCII ' " in code/terminal -- exactly as flowmark normalizes the
+// README, so the source is WYSIWYG and stays consistent with it. With smart quotes
+// ON, Typst re-curls straight quotes and (worse) turns an apostrophe after a digit
+// like "B612's" into a U+2032 PRIME. The only escapes left are the glyph-showcase
+// rows, which intentionally display exact codepoints.
+#set smartquote(enabled: false)
+
 // ─── Page 1: Cover ──────────────────────────────────────────────
 
 // A clean, generous cover: the planet banner, the version line, and the credits, with
@@ -142,13 +150,13 @@
   #about-heading("ABOUT B612")
   B612 began not as a typeface but as an aviation research program. In 2010 Airbus,
   ENAC (the French civil aviation university), and the Université de Toulouse III set
-  out to define and validate an "aeronautical font" for cockpit screens: text a pilot
+  out to define and validate an “aeronautical font” for cockpit screens: text a pilot
   can read correctly while fatigued, at oblique angles, or under vibration, glare, or
   near-darkness.
 
   The shapes were derived experimentally before they were drawn. Jean-Luc Vinot (ENAC)
   and Sylvie Athènes (Toulouse III) built confusion matrices of when and how characters
-  get misread ("Legible, are you sure?" at CHI 2012). In their controlled study, the
+  get misread (“Legible, are you sure?” at CHI 2012). In their controlled study, the
   prototype that became B612 drew slightly more correct reads than Verdana and clearly
   outperformed the legacy avionics font. Airbus then commissioned the Montpellier
   interface studio Intactile Design (Nicolas Chauveau, Thomas Paillot, and Jonathan
@@ -159,9 +167,9 @@
   Saint-Exupéry, who was #link("https://en.wikipedia.org/wiki/Wind,_Sand_and_Stars")[himself an
   aviator].
 
-  B612's unusual character is a humanist answer to an instrument-panel problem. Where
+  B612’s unusual character is a humanist answer to an instrument-panel problem. Where
   earlier cockpit fonts went monolinear and rigid, B612 keeps stroke contrast, opens
-  counters, and lengthens ascenders and descenders. Each word's silhouette resolves
+  counters, and lengthens ascenders and descenders. Each word’s silhouette resolves
   quickly. At stroke junctions it carries small notches (light traps) that keep joins
   from filling in on bright, low-contrast displays. The result has quietly human
   character quirks that are grounded in measured legibility gains rather than style. In
@@ -175,8 +183,8 @@
   #pagebreak()
 
   #about-heading("ABOUT PLANETAIRE MONO")
-  Planetaire Mono arises from this need. It merges B612's letters and digits into Hack
-  Nerd Font's base. It also adds more weights and a dotted zero:
+  Planetaire Mono arises from this need. It merges B612’s letters and digits into Hack
+  Nerd Font’s base. It also adds more weights and a dotted zero:
 
   #grid(
     columns: (1.204em, 1fr),
@@ -185,11 +193,11 @@
     [•], [*Hack punctuation and symbols* for `{}[]()<>` and the rest.],
     [•], [*Ten variants across five weights* (400/500/600/700/800), including added SemiBold (600) and ExtraBold (800) weights, the latter for terminal bold (see Weights).],
     [•], [*12,000+ Nerd Font icons* (Powerline, Font Awesome, Devicons) in the Extended package.],
-    [•], [*A dotted zero:* B612's zero with a center dot for clear 0 vs O, in circle (default) and rectangle (ss01) variants.],
+    [•], [*A dotted zero:* B612’s zero with a center dot for clear 0 vs O, in circle (default) and rectangle (ss01) variants.],
   )
 
   With these changes it has become one of the most beautiful and genuinely functional
-  monospace fonts I've seen. I've used dozens of terminal fonts over the years, and
+  monospace fonts I’ve seen. I’ve used dozens of terminal fonts over the years, and
   Planetaire Mono is now what I use every day.
 ]
 
@@ -286,7 +294,7 @@
 
 // Alan Turing, "Computing Machinery and Intelligence" (1950)
 #text(size: 9pt, fill: muted)[
-  ALAN TURING \u{00B7} \u{201C}COMPUTING MACHINERY AND INTELLIGENCE\u{201D} (1950)
+  ALAN TURING \u{00B7} “COMPUTING MACHINERY AND INTELLIGENCE” (1950)
 ]
 #v(0.2cm)
 
@@ -305,7 +313,7 @@
 #section[Planetaire Code Specimen: microGPT]
 
 #text(size: 9pt, fill: muted)[
-  Andrej Karpathy\u{2019}s microGPT: a complete GPT training loop and
+  Andrej Karpathy’s microGPT: a complete GPT training loop and
   inference engine in 200 lines of pure Python.
 ]
 #v(0.2cm)
@@ -663,11 +671,11 @@
     disambiguation, with circle (default) and rectangle (ss01) variants.
   ],
   [*Hack*], [
-    Chris Simpkins\u{2019} typeface designed for source code. Provides the
+    Chris Simpkins’ typeface designed for source code. Provides the
     base font structure: punctuation, symbols, metrics, and Nerd Font integration.
   ],
   [*Nerd Fonts*], [
-    Ryan McIntyre\u{2019}s icon patching project. 12,000+ developer icons
+    Ryan McIntyre’s icon patching project. 12,000+ developer icons
     including Powerline, Font Awesome, Devicons, Material Design,
     and more, all included via the Hack Nerd Font base.
   ],
@@ -680,7 +688,7 @@
   Planetaire Mono is built with a custom Python pipeline using fontTools.
   For each weight variant, the pipeline loads Hack Nerd Font as the base,
   merges B612 letter and digit glyphs by Unicode range, adds a center dot
-  to B612\u{2019}s zero for O/0 disambiguation, renames the result, and applies
+  to B612’s zero for O/0 disambiguation, renames the result, and applies
   post-processing fixes. Medium and SemiBold weights are generated from
   Regular, and ExtraBold from Bold, via FontForge emboldening.
 ]
@@ -744,11 +752,8 @@
 #section("Spacing Review")
 
 #text(size: 9.5pt, fill: muted)[
-  // Disable smart quotes so the straight Hack apostrophe (U+0027) is shown, rather
-  // than Typst's curly U+2019, which reads as a prime in this monospace context.
-  #set smartquote(enabled: false)
   Planetaire Mono is built to a single cell width: every glyph (and intentional
-  double-width glyphs at exactly 2x) shares one advance. B612's letters and the
+  double-width glyphs at exactly 2x) shares one advance. B612’s letters and the
   FontForge-emboldened weights are normalized to that cell, recentered, and
   condensed only where ink would otherwise bleed. The two panels below are the
   visual proof. Review them to confirm no glyph is trimmed and all weights align.

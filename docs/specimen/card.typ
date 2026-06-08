@@ -28,12 +28,16 @@
 // and the header pin their own tighter leading, so this only affects prose cards.
 #set par(leading: 0.8em)
 
+// Smart quotes OFF: author quotes literally (oriented in prose, straight ASCII in
+// code/terminal), matching the PDF specimen and the flowmark-normalized README.
+#set smartquote(enabled: false)
+
 #if which == "terminal" {
   terminal-mockup(p: p)
 } else if which == "code" {
   orbit-code(p: p)
 } else if which == "text" {
-  text(size: 9pt, fill: p.muted)[ALAN TURING \u{00B7} \u{201C}COMPUTING MACHINERY AND INTELLIGENCE\u{201D} (1950)]
+  text(size: 9pt, fill: p.muted)[ALAN TURING \u{00B7} “COMPUTING MACHINERY AND INTELLIGENCE” (1950)]
   v(0.3cm)
   turing-passage(p: p, size: 13pt)
 } else if which == "weights" {

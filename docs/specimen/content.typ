@@ -226,14 +226,14 @@
 
 // Alan Turing, "Computing Machinery and Intelligence" (1950).
 #let turing-passage(p: pal-light, size: 10.5pt) = text(size: size, fill: p.fg)[
-  I propose to consider the question, \u{201C}Can machines think?\u{201D} This should
-  begin with definitions of the meaning of the terms \u{201C}machine\u{201D} and
-  \u{201C}think.\u{201D} The definitions might be framed so as to reflect so far as
+  I propose to consider the question, “Can machines think?” This should
+  begin with definitions of the meaning of the terms “machine” and
+  “think.” The definitions might be framed so as to reflect so far as
   possible the normal use of the words, but this attitude is dangerous.
-  If the meaning of the words \u{201C}machine\u{201D} and \u{201C}think\u{201D} are to be found
+  If the meaning of the words “machine” and “think” are to be found
   by examining how they are commonly used it is difficult to escape the
-  conclusion that the meaning and the answer to the question, \u{201C}Can
-  machines think?\u{201D} is to be sought in a statistical survey such as a
+  conclusion that the meaning and the answer to the question, “Can
+  machines think?” is to be sought in a statistical survey such as a
   Gallup poll. But this is absurd.
 ]
 
@@ -338,7 +338,7 @@
   ]
   v(0.05cm)
   text(size: 7.5pt, fill: p.muted)[
-    Red rules mark each glyph's advance. Equal-width cells with ink inside mean a
+    Red rules mark each glyph’s advance. Equal-width cells with ink inside mean a
     clean monospace grid, nothing trimmed.
   ]
   v(0.2cm)
@@ -372,7 +372,7 @@
   text(size: 8pt, fill: p.muted, weight: "bold")[WEIGHT ALIGNMENT: EVERY WEIGHT IS THE SAME WIDTH]
   v(0.05cm)
   text(size: 7.5pt, fill: p.muted)[
-    The same string in all ten variants; the red rule marks each line's right
+    The same string in all ten variants; the red rule marks each line’s right
     edge. A single vertical line means identical width across every weight.
   ]
   v(0.25cm)
@@ -432,7 +432,7 @@
 // Multi-size body text plus French/German/Spanish/Turkish, Greek, and Cyrillic.
 #let text-sample(p: pal-light) = {
   let label(t) = text(size: 9pt, fill: p.muted)[#t]
-  label[Planetaire Mono at various sizes, showing B612\u{2019}s distinctive letterforms optimized for readability at small sizes and on low-resolution displays.]
+  label[Planetaire Mono at various sizes, showing B612’s distinctive letterforms optimized for readability at small sizes and on low-resolution displays.]
   v(0.3cm)
   text(size: 14pt, fill: p.fg)[The quick brown fox jumps over the lazy dog. Pack my box with five dozen liquor jugs. How vexingly quick daft zebras jump!]
   v(0.4cm)
