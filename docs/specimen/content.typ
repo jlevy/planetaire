@@ -69,6 +69,7 @@
   width: 100%,
 )[
   #set text(size: 9.5pt, fill: p.fg)
+  #set par(leading: 0.65em)
   #for tok in tokens {
     let (s, c) = tok
     if c == none { s } else { text(fill: c)[#s] }
@@ -124,6 +125,8 @@
   sub-gap: 0.14cm,
   tag-gap: 0.65cm,
 ) = align(center)[
+  // Keep the banner's tuned line spacing independent of the document prose leading.
+  #set par(leading: 0.65em)
   #v(pad-top)
   // Little-planet line drawing as a letterhead banner above the title; stars fan
   // out to the page margins and planet-width scales the whole field.
@@ -181,7 +184,7 @@
   width: 100%,
 )[
   #set text(size: 8.5pt, fill: p.fg)
-  #set par(leading: 0.4em, justify: false)
+  #set par(leading: 0.52em, justify: false)
   // Terminal output is literal: keep straight quotes (no smart curly quotes).
   #set smartquote(enabled: false)
 
@@ -407,7 +410,7 @@
   v(0.2cm)
   block[
     #set text(size: 9pt, fill: p.fg)
-    #set par(leading: 0.45em, spacing: 0em)
+    #set par(leading: 0.55em, spacing: 0em)
     #show raw: set text(font: "Planetaire Mono Extended", size: 9pt)
     #show raw.where(block: true): it => block(width: 100%, fill: none, inset: 0pt, stroke: none, it)
     #show "Host Software": text.with(weight: 700)

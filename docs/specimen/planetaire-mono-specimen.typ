@@ -29,6 +29,12 @@
 // family for the web-subset demo.
 #show raw: set text(font: "Planetaire Mono Extended")
 
+// Prose line-height: aim for ~1.5x for comfortable reading. On Planetaire Mono
+// (long B612 ascenders/descenders), leading 0.8em ≈ 1.49em baseline-to-baseline —
+// matching the HTML specimen and the 1.4–1.5 readability norm. Dense terminal, RFC,
+// and code blocks (and the cover banner) pin their own tighter leading locally.
+#set par(leading: 0.8em)
+
 // Palette, helpers, and reusable content blocks shared with the README image
 // cards (card.typ) so the home-page images stay in sync with this PDF.
 #import "content.typ": *
@@ -81,7 +87,7 @@
 #v(1fr)
 
 #align(center)[
-  #set par(spacing: 0pt, leading: 0.62em)
+  #set par(spacing: 0pt, leading: 0.8em)
   #cover-heading("FEATURES")
   #text(size: 9.5pt, fill: black)[
     B612 base for letterforms (extended Latin, Greek, Cyrillic)\
@@ -93,7 +99,7 @@
 #v(1fr)
 
 #align(center)[
-  #set par(spacing: 0pt, leading: 0.62em)
+  #set par(spacing: 0pt, leading: 0.8em)
   #cover-heading("WEIGHTS")
   #text(size: 9.5pt, fill: black)[
     #text(weight: "regular")[Regular] (400) · #text(weight: "regular", style: "italic")[Italic] (400)\
@@ -107,7 +113,7 @@
 #v(1fr)
 
 #align(center)[
-  #set par(spacing: 0pt, leading: 0.62em)
+  #set par(spacing: 0pt, leading: 0.8em)
   #cover-heading("CREDITS")
   #text(size: 9.5pt, fill: black)[
     #b[Planetaire Mono] assembled and maintained by #b[Joshua Levy]\
@@ -125,13 +131,14 @@
 
 #[
   #set text(size: 10pt, hyphenate: false)
-  // leading: 0.62em; one full blank-line gap = 1em (body) + 0.62em (leading) = 1.62em
-  #set par(justify: false, leading: 0.62em, spacing: 1.62em)
+  // Comfortable 0.8em leading (~1.5x). Paragraph spacing is a clear break a touch
+  // under a full blank line, which keeps this dense page on one sheet at this leading.
+  #set par(justify: false, leading: 0.8em, spacing: 1.15em)
   #show raw: set text(font: "Planetaire Mono Extended", size: 10pt)
   #show link: underline
   #let about-heading(t) = {
     text(size: 10pt, weight: "bold", fill: black)[#t]
-    v(0.38cm)
+    v(0.3cm)
   }
   // Monospace-grid bullet: the marker sits in a 2-cell box (1.204em = 2 cells) so the
   // body and its wrapped lines hang on the cell grid, not at an arbitrary indent.
@@ -170,13 +177,13 @@
   is awkward for terminal and programming use. And the published version has an
   undotted zero that is easy to confuse with a capital O.
 
-  #v(0.6cm)
+  #v(0.28cm)
   #about-heading("ABOUT PLANETAIRE MONO")
   Planetaire Mono arises from this need. It merges B612's letters and digits into Hack
   Nerd Font's base. It also adds more weights and a dotted zero:
 
-  #block(spacing: 1.62em)[
-    #set par(spacing: 0.55em)
+  #block(spacing: 1.15em)[
+    #set par(spacing: 0.45em)
     #mb[*B612 letterforms* for letters, digits, and extended Latin, Greek, and Cyrillic.]
     #mb[*Hack punctuation and symbols* for `{}[]()<>` and the rest.]
     #mb[*Ten variants across five weights* (400/500/600/700/800), including added SemiBold (600) and ExtraBold (800) weights, the latter for terminal bold (see Weights).]
@@ -312,6 +319,7 @@
   width: 100%,
 )[
   #set text(size: 7.5pt)
+  #set par(leading: 0.65em)
   #{
     set raw(theme: "kerm-light.tmTheme")
     raw(read("microgpt.py"), lang: "python", block: true)
@@ -702,6 +710,7 @@
 #text(size: 11pt, weight: 700)[Planetaire Mono Text]
 #v(0.2cm)
 #block(fill: rgb("#f5f5f5"), inset: 12pt, radius: 4pt, width: 100%)[
+  #set par(leading: 0.65em)
   #show raw: set text(font: "Planetaire Mono Text", size: 11pt)
   ```
   The quick brown fox jumps over the lazy dog
