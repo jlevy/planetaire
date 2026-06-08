@@ -676,7 +676,7 @@
 
 // ─── Provenance & License ───────────────────────────────────────
 
-#section[Planetaire Provenance and License]
+#section[Planetaire Provenance]
 
 #text(size: 11pt, weight: 700)[Source Fonts]
 #v(0.2cm)
@@ -761,25 +761,6 @@
   ```
 ]
 
-#v(0.6cm)
-#text(size: 11pt, weight: 700)[License]
-#v(0.2cm)
-#text(size: 10pt)[
-  #set par(spacing: 2.3em)
-  #set block(spacing: 2.3em)
-  Planetaire Mono is released under the *SIL Open Font License 1.1 (OFL-1.1)*.
-
-  The OFL allows free use, modification, and redistribution of the font, including
-  in commercial products, provided that modified versions are not sold by themselves
-  and carry a different name.
-
-  The constituent fonts carry the following licenses:
-  - *B612 Mono*: SIL Open Font License 1.1 and Eclipse Public License 2.0
-  - *Hack*: MIT License and the Bitstream Vera License (Hack’s symbols descend from
-    Bitstream Vera, which reserves the names “Bitstream” and “Vera”)
-  - *Nerd Fonts*: glyph fonts under SIL Open Font License 1.1, patcher tooling under MIT
-]
-
 // ─── QA page: monospace invariants ──────────────────────────────
 
 #pagebreak()
@@ -802,5 +783,40 @@
 
 #v(0.8cm)
 #weight-alignment(p: pal-light)
+
+// ─── License (full text, own page) ──────────────────────────────
+
+#pagebreak()
+
+#[
+  #set text(size: 10pt, hyphenate: false)
+  #set par(justify: false, leading: 0.8em, spacing: 2.3em)
+  #set block(spacing: 2.3em)
+  #let about-heading(t) = block(text(size: 10pt, weight: "bold")[#t])
+
+  #about-heading("LICENSE")
+  Planetaire Mono is released under the *SIL Open Font License 1.1* (OFL-1.1), the
+  standard license for open fonts. In practical terms:
+
+  - *Use it for anything, free.* Set text in Planetaire Mono in documents, books,
+    websites, apps, videos, and commercial products, with no fee and no permission
+    needed.
+  - *No credit required for use.* Setting text in the font does not obligate you to
+    attribute Planetaire Mono or B612 anywhere, including in publications, commercial
+    work, or open source software. Credit is welcome but optional.
+  - *Bundle and redistribute freely, but keep the license with the files.* If you ship
+    the font files themselves (embedding web fonts, packaging them in an app or OS),
+    include the bundled license and copyright notices alongside them. You may not sell
+    the font files on their own.
+  - *Don’t reuse the B612 name for modified versions.* OFL lets an author reserve font
+    names, and “B612” is reserved, so a derivative cannot be distributed under that name.
+
+  This is a summary, not legal advice; the full OFL text is binding. The upstream
+  sources carry their own licenses: *B612* under OFL-1.1 and EPL-2.0; *Hack* under MIT
+  and the Bitstream Vera License (Hack’s symbols descend from Bitstream Vera, which
+  reserves the names “Bitstream” and “Vera”); *Nerd Fonts* glyph fonts under OFL-1.1
+  with the patcher tooling under MIT. Full license texts for all of these ship in the
+  licenses/ folder of each release archive. The build tooling in this repo is MIT.
+]
 
 // Footer is now on every page via the page footer setting.
