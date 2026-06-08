@@ -3,14 +3,16 @@ type: is
 id: is-01ktk221g1attrfzt32fqhapxy
 title: Rename 'Families' (Text/Extended) to 'Packages' across specimen, README, site
 kind: task
-status: open
+status: closed
 priority: 2
-version: 1
+version: 2
 labels: []
 dependencies: []
 parent_id: is-01kthj4yda44ebzchx923mdh31
 created_at: 2026-06-08T07:27:22.624Z
-updated_at: 2026-06-08T07:27:22.624Z
+updated_at: 2026-06-08T09:44:34.577Z
+closed_at: 2026-06-08T09:44:34.577Z
+close_reason: null
 ---
 Text and Extended are not different font families -- they are the same typeface in different packagings: Extended is the full build (added icons/Nerd Font/Powerline) for terminal/local use; Text is a lightweight web subset; they also differ by format (web vs terminal/local). Calling them 'Families' is inaccurate. Adopt 'Packages' (or a similarly accurate term).
 

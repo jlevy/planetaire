@@ -3,14 +3,16 @@ type: is
 id: is-01ktk221p7qgw6q8m4epybsbhw
 title: "Terminal examples: two separate images, each dark+light, consistent in README and specimen"
 kind: task
-status: open
+status: closed
 priority: 2
-version: 1
+version: 2
 labels: []
 dependencies: []
 parent_id: is-01kthj4yda44ebzchx923mdh31
 created_at: 2026-06-08T07:27:22.822Z
-updated_at: 2026-06-08T07:27:22.822Z
+updated_at: 2026-06-08T09:44:34.746Z
+closed_at: 2026-06-08T09:44:34.745Z
+close_reason: null
 ---
 On the README the terminal images combine two examples into a single image (terminal-dark.png/terminal-light.png at README.md:86-88 pack the syntax-highlighted Python analyze_trajectory() function AND a terminal session into one image). That looks odd, the font sizes between the two are not quite consistent, and the code sample differs from the specimen's. The specimen 'Planetaire Terminal' page (planetaire-mono-specimen.typ:304, #terminal-mockup() at :310) shows the two examples separately.
 

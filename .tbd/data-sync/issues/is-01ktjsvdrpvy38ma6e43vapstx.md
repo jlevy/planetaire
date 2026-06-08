@@ -3,14 +3,16 @@ type: is
 id: is-01ktjsvdrpvy38ma6e43vapstx
 title: Confirm license/copyright notices are included in the distribution
 kind: task
-status: open
+status: closed
 priority: 1
-version: 3
+version: 4
 labels: []
 dependencies: []
 parent_id: is-01kthj4yda44ebzchx923mdh31
 created_at: 2026-06-08T05:03:57.205Z
-updated_at: 2026-06-08T07:18:43.734Z
+updated_at: 2026-06-08T09:44:33.211Z
+closed_at: 2026-06-08T09:44:33.210Z
+close_reason: null
 ---
 CONFIRMED: NOT fully OFL-compliant (pre-existing, not from this PR).
 

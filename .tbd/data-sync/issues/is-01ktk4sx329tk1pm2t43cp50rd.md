@@ -3,14 +3,16 @@ type: is
 id: is-01ktk4sx329tk1pm2t43cp50rd
 title: Specimen embedded DejaVu in code blocks; force Planetaire raw font + font QA
 kind: bug
-status: open
+status: closed
 priority: 2
-version: 1
+version: 2
 labels: []
 dependencies: []
 parent_id: is-01kthj4yda44ebzchx923mdh31
 created_at: 2026-06-08T08:15:21.697Z
-updated_at: 2026-06-08T08:15:21.697Z
+updated_at: 2026-06-08T09:44:33.717Z
+closed_at: 2026-06-08T09:44:33.716Z
+close_reason: null
 ---
 Typst's built-in font for raw (code) elements is DejaVu Sans Mono. Every raw block / inline code span in the specimen that did not explicitly set the Planetaire font (the microGPT code pages 7-9, the inline @font-face span on the Two Packages page) silently rendered in DejaVu, so the specimen PDF embedded DejaVuSansMono + DejaVuSansMono-Oblique.
 

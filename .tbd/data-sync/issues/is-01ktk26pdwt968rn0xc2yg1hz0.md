@@ -3,14 +3,16 @@ type: is
 id: is-01ktk26pdwt968rn0xc2yg1hz0
 title: "Spacing Review: add the standard-coding-characters true-cell-width grid for italics"
 kind: task
-status: open
+status: closed
 priority: 2
-version: 1
+version: 2
 labels: []
 dependencies: []
 parent_id: is-01kthj4yda44ebzchx923mdh31
 created_at: 2026-06-08T07:29:55.132Z
-updated_at: 2026-06-08T07:29:55.132Z
+updated_at: 2026-06-08T09:44:34.411Z
+closed_at: 2026-06-08T09:44:34.410Z
+close_reason: null
 ---
 On the 'Spacing Review' page (docs/specimen/planetaire-mono-specimen.typ:739), coding-width-grid (content.typ:304) shows the standard coding characters (A-Z, a-z, 0-9, punctuation, and cell-filling box/powerline glyphs) at their true cell widths with red advance rules -- but only UPRIGHT. Add the same review for ITALICS so italic glyphs' cell widths and overhang are visible against the rules.
 
