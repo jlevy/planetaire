@@ -9,7 +9,7 @@ weights, symbols from [Hack](https://sourcefoundry.org/hack/), and extensive ico
 [Nerd Fonts](https://www.nerdfonts.com/). It is [licensed freely](#license) for
 personal, commercial, and open source use.
 
-**[Read the Type Specimen (PDF)](docs/specimen/planetaire-mono-specimen.pdf)**
+**[Read the Type Specimen (PDF)](https://cdn.jsdelivr.net/gh/jlevy/planetaire@main/docs/specimen/planetaire-mono-specimen.pdf)**
 
 **[Download the Fonts (TTF, WOFF2)](https://github.com/jlevy/planetaire/releases/latest)**
 
