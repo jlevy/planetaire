@@ -60,8 +60,7 @@ legibility, and the published versions have an undotted zero that is easy to con
 with a capital `O`.
 
 Planetaire Mono arises from this need.
-It merges B612’s letters and digits into Hack Nerd Font’s base.
-It also adds more weights and a dotted zero:
+It merges B612’s letters and digits into Hack Nerd Font’s base:
 
 - **B612 letterforms** for letters, digits, and extended Latin, Greek, and Cyrillic.
 - **Hack punctuation and symbols** for `{}[]()<>` and the rest.
@@ -72,6 +71,17 @@ It also adds more weights and a dotted zero:
   package.
 - **A dotted zero:** B612’s zero with a center dot for clear `0` vs `O`, in circle
   (default) and rectangle (`ss01`) variants.
+
+Hack has its own lineage: Bitstream Vera Mono (2003) became DejaVu Mono, which Chris
+Simpkins reworked in 2015 into a face tuned for source code at small sizes.
+Its signature is functional punctuation: brackets, braces, parentheses, and operators
+are drawn at a heavier weight and given extra spacing next to letters, so they stay
+distinct in dense code.
+B612’s own punctuation lacks that weight, which is why Planetaire borrows these heavier
+symbols from Hack.
+
+Planetaire Mono carries a new name for clarity and to comply with the B612
+[license](#license).
 
 ### A Personal Note
 
@@ -394,7 +404,6 @@ In practical terms:
   You may not sell the font files on their own.
 - **Don’t reuse the B612 name for modified versions.** OFL lets an author reserve font
   names, and “B612” is reserved, so a derivative cannot be distributed under that name.
-  That rule is why this fork is called Planetaire Mono.
 
 This is a summary, not legal advice; the [full OFL text](https://openfontlicense.org/)
 is binding. The upstream sources carry their own licenses: **B612** under OFL-1.1 and
