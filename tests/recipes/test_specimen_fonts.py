@@ -1,16 +1,25 @@
-"""QA: the specimen PDF must embed only Planetaire fonts (no Typst fallback).
+"""QA: the specimen PDF must use the right fonts and the right symbols.
 
-Typst's built-in font for `raw` (code) elements is DejaVu Sans Mono, so any code
-block or inline code span that does not explicitly set the Planetaire font
-silently falls back to DejaVu. This test renders the specimen and asserts every
-embedded font is a Planetaire Mono face, catching any regression where a glyph,
-code block, or inline span escapes the font (plt-uuag).
+Two regressions are guarded here:
+
+1. Font fallback (plt-uuag). Typst's built-in font for `raw` (code) elements is
+   DejaVu Sans Mono, so any code block or inline code span that does not explicitly
+   set the Planetaire font silently falls back to DejaVu. We assert every embedded
+   font is a Planetaire Mono face.
+
+2. Prime-for-apostrophe. Typst's smart quotes turn a straight `'` *after a digit*
+   into a PRIME (U+2032) -- the thin mark meant for 6' feet / 6" inches. So in prose
+   like "B612's" the possessive reads as a prime, not an apostrophe. The specimen
+   disables smart quotes document-wide and authors quotes literally (oriented in
+   prose, straight ASCII in code), but this test is the backstop: the specimen uses
+   no real primes, so the rendered text must contain zero U+2032 (and zero U+2033).
 """
 
 from __future__ import annotations
 
 import re
 import shutil
+import subprocess
 from pathlib import Path
 
 import pytest
@@ -53,4 +62,35 @@ def test_specimen_embeds_only_planetaire_fonts(tmp_path: Path) -> None:
     assert not stray, (
         f"specimen PDF embeds non-Planetaire fonts (Typst fell back): {stray}. "
         f"All embedded fonts: {sorted(fonts)}"
+    )
+
+
+# U+2032 PRIME and U+2033 DOUBLE PRIME -- the marks Typst's smart quotes substitute
+# for a straight ' / " after a digit. The specimen uses no feet/inch measurements,
+# so any occurrence means an apostrophe (e.g. "B612's") was mis-set as a prime.
+_PRIME_CHARS = {"′": "U+2032 PRIME", "″": "U+2033 DOUBLE PRIME"}
+
+
+@pytest.mark.skipif(shutil.which("typst") is None, reason="typst not installed")
+@pytest.mark.skipif(shutil.which("pdftotext") is None, reason="pdftotext not installed")
+def test_specimen_has_no_prime_for_apostrophe(tmp_path: Path) -> None:
+    if not FONT_DIR.exists() or not list(FONT_DIR.glob("PlanetaireMono*.ttf")):
+        pytest.skip("fonts not built; run `planetaire build planetaire-mono` first")
+
+    out = tmp_path / "specimen.pdf"
+    build_specimen(source=SPECIMEN_SOURCE, output=out, font_dir=FONT_DIR)
+
+    text = subprocess.run(
+        ["pdftotext", str(out), "-"],
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+        check=True,
+    ).stdout
+
+    found = sorted({name for ch, name in _PRIME_CHARS.items() if ch in text})
+    assert not found, (
+        f"specimen renders {found} -- a possessive apostrophe after a digit was "
+        f"turned into a prime by Typst smart quotes. Keep smart quotes disabled and "
+        f"write the apostrophe as a literal oriented ’ (U+2019) in the source."
     )
