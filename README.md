@@ -1,4 +1,5 @@
-<p align="center"> <img src="docs/images/header.png" alt="Planetaire Mono" width="100%">
+<p align="center">
+<a href="https://cdn.jsdelivr.net/gh/jlevy/planetaire@main/docs/specimen/planetaire-mono-specimen.pdf"><img src="docs/images/header.png" alt="Planetaire Mono — read the type specimen (PDF)" width="100%"></a>
 </p>
 
 Planetaire Mono is a beautiful, highly legible monospace font for terminals, editors,
@@ -400,7 +401,7 @@ In practical terms:
   Credit is welcome but optional.
 - **Bundle and redistribute freely, but keep the license with the files.** If you ship
   the font files themselves (embedding web fonts, packaging them in an app or OS),
-  include the OFL license and copyright notices alongside them.
+  include the bundled license and copyright notices alongside them.
   You may not sell the font files on their own.
 - **Don’t reuse the B612 name for modified versions.** OFL lets an author reserve font
   names, and “B612” is reserved, so a derivative cannot be distributed under that name.
@@ -410,8 +411,8 @@ is binding. The upstream sources carry their own licenses: **B612** under OFL-1.
 EPL-2.0; **Hack** under MIT and the Bitstream Vera License (Hack’s symbols descend from
 Bitstream Vera, which reserves the names “Bitstream” and “Vera”); **Nerd Fonts** glyph
 fonts under OFL-1.1 with the patcher tooling under MIT. Full license texts for all of
-these ship in the `licenses/` folder of each release archive. The build tooling in this
-repo is [MIT](LICENSE).
+these ship in the `licenses/` folder of each release archive.
+The build tooling in this repo is [MIT](LICENSE).
 
 <!-- This document follows common-doc-guidelines.md.
 See github.com/jlevy/practical-prose and review guidelines before editing.

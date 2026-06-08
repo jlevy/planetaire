@@ -195,6 +195,13 @@
     [•], [*A dotted zero:* B612’s zero with a center dot for clear 0 vs O, in circle (default) and rectangle (ss01) variants.],
   )
 
+  Hack has its own lineage: Bitstream Vera Mono (2003) became DejaVu Mono, which Chris
+  Simpkins reworked in 2015 into a face tuned for source code at small sizes. Its
+  signature is functional punctuation: brackets, braces, parentheses, and operators are
+  drawn at a heavier weight and given extra spacing next to letters, so they stay
+  distinct in dense code. B612’s own punctuation lacks that weight, which is why
+  Planetaire borrows these heavier symbols from Hack.
+
   #about-heading("A PERSONAL NOTE")
   Like architecture, typography is a functional art form. A design may initially appear
   attractive, but you can’t know its true qualities until you live close to it. Or work
