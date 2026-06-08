@@ -181,7 +181,7 @@ For best results, map your terminal’s **bold** to **ExtraBold (800)** rather t
 (700): the heavier stroke gives bold output (prompts, headings, highlighted text) clear
 contrast at terminal sizes, which is how the font is designed to be used.
 Per-terminal setup for Terminal.app, Ghostty, Alacritty, WezTerm, iTerm2, Kitty, and VS
-Code is under [Install → Terminal Configuration](#terminal-configuration).
+Code is under [Terminal Configuration](#terminal-configuration).
 
 ## Two Packages: Text and Extended
 
@@ -213,34 +213,18 @@ Get the latest from
 
 Both packages ship the same 10 variants, each archive laid out as `ttf/` (for local
 install) and `web/` (WOFF2 plus an `@font-face` stylesheet).
-To install locally: unzip and double-click the `ttf/*.ttf` files (macOS Font Book or
-Windows), or on Linux copy them to `~/.local/share/fonts/` and run `fc-cache -fv`.
-Per-OS and web details are under [Install](#install).
 
-## Install
+To install, unzip the archive and add the TTFs:
 
-> The **fonts** are distributed via
-> [GitHub Releases](https://github.com/jlevy/planetaire/releases).
-> This repo is the **build tooling**, not the font itself; you only need it to build
-> from source.
+- **macOS / Windows:** double-click the `ttf/*.ttf` files and click **Install** (macOS
+  Font Book or the Windows font preview).
+- **Linux:** copy them into `~/.local/share/fonts/` and run `fc-cache -fv`.
 
-### macOS
+Then point your terminal at **Planetaire Mono Extended** (see
+[Terminal Configuration](#terminal-configuration)), or load the WOFF2 web fonts (see
+[Web](#web)).
 
-```bash
-curl -L https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Extended.tar.xz | tar xJ
-cp ttf/*.ttf ~/Library/Fonts/
-```
-
-### Linux
-
-```bash
-curl -L https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Extended.tar.xz | tar xJ
-mkdir -p ~/.local/share/fonts/PlanetaireMono
-cp ttf/*.ttf ~/.local/share/fonts/PlanetaireMono/
-fc-cache -fv
-```
-
-### Terminal Configuration
+## Terminal Configuration
 
 After installing the font, point your terminal at **Planetaire Mono Extended**. For best
 results, map **bold** text to **ExtraBold (800)** rather than Bold (700): the heavier
@@ -340,7 +324,7 @@ font_size        14.0
 }
 ```
 
-### Web (CSS `@font-face`)
+## Web
 
 Both packages include WOFF2 web fonts and a ready stylesheet in `web/`. The **Text**
 package is recommended for the web (much smaller, no icons); use **Extended** only if
@@ -360,6 +344,10 @@ Each weight and style is declared (400/500/600/700/800, upright and italic) with
 `font-display: swap`.
 
 ## Build from Source
+
+This repo is the **build tooling**, not the font itself — you only need it to build from
+source. The fonts are distributed via
+[GitHub Releases](https://github.com/jlevy/planetaire/releases).
 
 Requires Python 3.12+ and [uv](https://docs.astral.sh/uv/).
 
