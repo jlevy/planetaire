@@ -5,11 +5,11 @@ title: "Version stamp: keep specimen PDF + title current with the release versio
 kind: task
 status: open
 priority: 3
-version: 1
+version: 2
 labels: []
 dependencies: []
 parent_id: is-01kthj4yda44ebzchx923mdh31
 created_at: 2026-06-07T23:14:58.289Z
-updated_at: 2026-06-07T23:14:58.289Z
+updated_at: 2026-06-08T02:28:26.898Z
 ---
-The specimen injects #version via 'planetaire build specimen --input version=<get_version()>' (from the git tag), but the committed PDF bakes in whatever it was built at -- currently shows v0.1.1. Need a mechanism so the specimen PDF (and any version-bearing artifacts/README) reflect the right version: e.g. regenerate the specimen as part of the release/tag workflow with the release version, or a documented bump step. For later.
+Version derivation FIXED (commit 4e75675): version.py now resolves the release version from the latest git tag (metadata fallback for installed builds), so the specimen/fonts stamp the current release automatically and a new tag updates everything with no manual step. Remaining (P3 release hygiene): ensure the release workflow re-runs 'planetaire build specimen' + 'build images' at the tag so the COMMITTED specimen PDF and README banner reflect the new version (otherwise they lag until the next rebuild).
