@@ -96,6 +96,8 @@ Thanks to agentic coding, monospace fonts are now in greater use than anyone cou
 have imagined. I hope Planetaire Mono’s aesthetics lighten the hours you spend with your
 agents, editors, and terminals.
 
+## Specimens
+
 <p align="center">
 <img src="docs/images/text-dark.png" width="100%" alt="A prose passage set in Planetaire Mono on a dark background, showing body-text legibility">
 <br>
@@ -114,22 +116,23 @@ agents, editors, and terminals.
 <img src="docs/images/terminal-light.png" width="100%" alt="The same terminal session in Planetaire Mono on a light background">
 </p>
 
-## Download
+<p align="center">
+<img src="docs/images/sample-dark.png" width="100%" alt="Multi-size body text plus French, German, Spanish, Turkish, Greek, and Cyrillic samples in Planetaire Mono, on a dark background">
+<br>
+<img src="docs/images/sample-light.png" width="100%" alt="The same multi-language text sample on a light background">
+</p>
 
-Planetaire Mono is available in two packages, built from the same letterforms.
-Get the latest from
-[**GitHub Releases**](https://github.com/jlevy/planetaire/releases/latest):
+<p align="center">
+<img src="docs/images/waterfall-dark.png" width="100%" alt="Planetaire Mono from 8pt to 44pt with a large legibility line, on a dark background">
+<br>
+<img src="docs/images/waterfall-light.png" width="100%" alt="The same size waterfall on a light background">
+</p>
 
-| Package | Best for | Includes | Download |
-| --- | --- | --- | --- |
-| **Planetaire Mono Text** *(standard)* | Websites, documents, reading | Letters, punctuation, Greek/Cyrillic, box-drawing. No icons. TTF + WOFF2 (~67 KB/weight WOFF2). | [`.tar.xz`](https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Text.tar.xz) **~1 MB** · [`.zip`](https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Text.zip) ~1.3 MB |
-| **Planetaire Mono Extended** *(full)* | Terminals, coding, icon-rich CLIs | Everything in Text plus all ~12,000 Nerd Font icons and Powerline. TTF + WOFF2. | [`.tar.xz`](https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Extended.tar.xz) **~19 MB** · [`.zip`](https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Extended.zip) ~24 MB |
-
-Both packages ship the same 10 variants, each archive laid out as `ttf/` (for local
-install) and `web/` (WOFF2 plus an `@font-face` stylesheet).
-To install locally: unzip and double-click the `ttf/*.ttf` files (macOS Font Book or
-Windows), or on Linux copy them to `~/.local/share/fonts/` and run `fc-cache -fv`.
-Per-OS and web details are under [Install](#install).
+<p align="center">
+<img src="docs/images/rfc-dark.png" width="100%" alt="RFC 1 (1969) set in Planetaire Mono, on a dark background">
+<br>
+<img src="docs/images/rfc-light.png" width="100%" alt="The same RFC 1 document on a light background">
+</p>
 
 ## High Legibility
 
@@ -199,32 +202,6 @@ config.font_rules = {
 See [terminal-config.md](docs/terminal-config.md) for Ghostty, Alacritty, WezTerm,
 iTerm2, Kitty, and VS Code.
 
-## Specimens
-
-Body text at a range of sizes, across Latin, Greek, and Cyrillic:
-
-<p align="center">
-<img src="docs/images/sample-dark.png" width="100%" alt="Multi-size body text plus French, German, Spanish, Turkish, Greek, and Cyrillic samples in Planetaire Mono, on a dark background">
-<br>
-<img src="docs/images/sample-light.png" width="100%" alt="The same multi-language text sample on a light background">
-</p>
-
-The same proportions from caption to display size:
-
-<p align="center">
-<img src="docs/images/waterfall-dark.png" width="100%" alt="Planetaire Mono from 8pt to 44pt with a large legibility line, on a dark background">
-<br>
-<img src="docs/images/waterfall-light.png" width="100%" alt="The same size waterfall on a light background">
-</p>
-
-Dense fixed-width document text, RFC 1 (1969):
-
-<p align="center">
-<img src="docs/images/rfc-dark.png" width="100%" alt="RFC 1 (1969) set in Planetaire Mono, on a dark background">
-<br>
-<img src="docs/images/rfc-light.png" width="100%" alt="The same RFC 1 document on a light background">
-</p>
-
 ## Two Packages: Text and Extended
 
 Both packages share the same letterforms and the same 10 variants, and both ship in two
@@ -241,6 +218,23 @@ They differ only in glyph coverage:
 Either package works for either purpose; the recommendations are just the common,
 size-conscious defaults.
 See [Download](#download) for the archives and sizes.
+
+## Download
+
+Planetaire Mono is available in two packages, built from the same letterforms.
+Get the latest from
+[**GitHub Releases**](https://github.com/jlevy/planetaire/releases/latest):
+
+| Package | Best for | Includes | Download |
+| --- | --- | --- | --- |
+| **Planetaire Mono Text** *(standard)* | Websites, documents, reading | Letters, punctuation, Greek/Cyrillic, box-drawing. No icons. TTF + WOFF2 (~67 KB/weight WOFF2). | [`.tar.xz`](https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Text.tar.xz) **~1 MB** · [`.zip`](https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Text.zip) ~1.3 MB |
+| **Planetaire Mono Extended** *(full)* | Terminals, coding, icon-rich CLIs | Everything in Text plus all ~12,000 Nerd Font icons and Powerline. TTF + WOFF2. | [`.tar.xz`](https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Extended.tar.xz) **~19 MB** · [`.zip`](https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Extended.zip) ~24 MB |
+
+Both packages ship the same 10 variants, each archive laid out as `ttf/` (for local
+install) and `web/` (WOFF2 plus an `@font-face` stylesheet).
+To install locally: unzip and double-click the `ttf/*.ttf` files (macOS Font Book or
+Windows), or on Linux copy them to `~/.local/share/fonts/` and run `fc-cache -fv`.
+Per-OS and web details are under [Install](#install).
 
 ## Install
 
