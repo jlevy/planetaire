@@ -49,14 +49,15 @@ gains rather than style.
 In 2017, B612 was released as open source through the Eclipse
 [Polarsys](https://github.com/polarsys/b612) project.
 
-However, B612 alone is not a fully usable document or application font.
-The versions in circulation, including the one
-[on Google Fonts](https://fonts.google.com/specimen/B612+Mono), have uneven symbol
-coverage that is awkward for terminal and programming use.
-And the published version has an undotted zero that is easy to confuse with a capital
-`O`.
-
 ### About Planetaire Mono
+
+By historical accident, B612 alone is not a usable document or application font.
+The versions in circulation, including the one
+[on Google Fonts](https://fonts.google.com/specimen/B612+Mono), have oddities and uneven
+symbol coverage that make them awkward for use in modern applications and terminals.
+For example, some of the punctuation and symbols are a bit too thin for programming
+legibility, and the published versions have an undotted zero that is easy to confuse
+with a capital `O`.
 
 Planetaire Mono arises from this need.
 It merges B612’s letters and digits into Hack Nerd Font’s base.
@@ -65,22 +66,60 @@ It also adds more weights and a dotted zero:
 - **B612 letterforms** for letters, digits, and extended Latin, Greek, and Cyrillic.
 - **Hack punctuation and symbols** for `{}[]()<>` and the rest.
 - **Ten variants across five weights** (400/500/600/700/800), including added **SemiBold
-  (600)** and **ExtraBold (800)** weights, the latter for terminal bold (see
-  [Weights](#weights)).
+  (600)** and **ExtraBold (800)** weights, the latter especially useful as boldface in
+  the terminal.
 - **12,000+ Nerd Font icons** (Powerline, Font Awesome, Devicons) in the Extended
   package.
 - **A dotted zero:** B612’s zero with a center dot for clear `0` vs `O`, in circle
   (default) and rectangle (`ss01`) variants.
 
-With these changes it has become one of the most beautiful and genuinely functional
-monospace fonts I’ve seen.
-I’ve used dozens of terminal fonts over the years, and Planetaire Mono is now what I use
-every day.
+### A Personal Note
+
+Like architecture, typography is a functional art form.
+A design may initially appear attractive, but you can’t know its true qualities until
+you live close to it.
+Or work within it.
+
+A couple of years ago, I was building a terminal and surveyed monospace fonts to find
+the best ones. B612 wasn’t my obvious first choice, but after trying many of the classic
+modern options available as Nerd Fonts, I came to realize it still just *felt* better
+over time. But I was disappointed with the technical flaws that made it hard to use as a
+full replacement for a modern, high-quality workhorse typeface such as Hack or JetBrains
+Mono. I made an adapted hybrid of B612 that I was quite happy with, but it wasn’t in a
+clean enough form to publish.
+
+Now, Claude Code and Opus 4.8 have made it a pleasure to consolidate this work as
+Planetaire Mono. I’ve used dozens of terminal fonts over the years, and it is now what I
+use every day.
+
+Thanks to agentic coding, monospace fonts are now in greater use than anyone could ever
+have imagined. I hope Planetaire Mono’s aesthetics lighten the hours you spend with your
+agents, editors, and terminals.
+
+## Specimens
 
 <p align="center">
 <img src="docs/images/text-dark.png" width="100%" alt="A prose passage set in Planetaire Mono on a dark background, showing body-text legibility">
 <br>
 <img src="docs/images/text-light.png" width="100%" alt="The same prose passage in Planetaire Mono on a light background">
+</p>
+
+<p align="center">
+<img src="docs/images/rfc-dark.png" width="100%" alt="RFC 1 (1969) set in Planetaire Mono, on a dark background">
+<br>
+<img src="docs/images/rfc-light.png" width="100%" alt="The same RFC 1 document on a light background">
+</p>
+
+<p align="center">
+<img src="docs/images/sample-dark.png" width="100%" alt="Multi-size body text plus French, German, Spanish, Turkish, Greek, and Cyrillic samples in Planetaire Mono, on a dark background">
+<br>
+<img src="docs/images/sample-light.png" width="100%" alt="The same multi-language text sample on a light background">
+</p>
+
+<p align="center">
+<img src="docs/images/waterfall-dark.png" width="100%" alt="Planetaire Mono from 8pt to 44pt with a large legibility line, on a dark background">
+<br>
+<img src="docs/images/waterfall-light.png" width="100%" alt="The same size waterfall on a light background">
 </p>
 
 <p align="center">
@@ -95,24 +134,11 @@ every day.
 <img src="docs/images/terminal-light.png" width="100%" alt="The same terminal session in Planetaire Mono on a light background">
 </p>
 
-## Download
-
-Planetaire Mono is available in two packages, built from the same letterforms.
-Get the latest from
-[**GitHub Releases**](https://github.com/jlevy/planetaire/releases/latest):
-
-| Package | Best for | Includes | Download |
-| --- | --- | --- | --- |
-| **Planetaire Mono Text** *(standard)* | Websites, documents, reading | Letters, punctuation, Greek/Cyrillic, box-drawing. No icons. TTF + WOFF2 (~67 KB/weight WOFF2). | [`.tar.xz`](https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Text.tar.xz) **~1 MB** · [`.zip`](https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Text.zip) ~1.3 MB |
-| **Planetaire Mono Extended** *(full)* | Terminals, coding, icon-rich CLIs | Everything in Text plus all ~12,000 Nerd Font icons and Powerline. TTF + WOFF2. | [`.tar.xz`](https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Extended.tar.xz) **~19 MB** · [`.zip`](https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Extended.zip) ~24 MB |
-
-Both packages ship the same 10 variants, each archive laid out as `ttf/` (for local
-install) and `web/` (WOFF2 plus an `@font-face` stylesheet).
-To install locally: unzip and double-click the `ttf/*.ttf` files (macOS Font Book or
-Windows), or on Linux copy them to `~/.local/share/fonts/` and run `fc-cache -fv`.
-Per-OS and web details are under [Install](#install).
-
-## High Legibility
+<p align="center">
+<img src="docs/images/weights-dark.png" width="100%" alt="Planetaire Mono weight ladder from Regular to ExtraBold, upright and italic, on a dark background">
+<br>
+<img src="docs/images/weights-light.png" width="100%" alt="The same weight ladder on a light background">
+</p>
 
 <p align="center">
 <img src="docs/images/features-dark.png" width="100%" alt="Confusable-character pairs and the dotted-zero variants in Planetaire Mono, on a dark background">
@@ -120,23 +146,21 @@ Per-OS and web details are under [Install](#install).
 <img src="docs/images/features-light.png" width="100%" alt="The same confusable-character pairs and dotted-zero variants on a light background">
 </p>
 
+## High Legibility
+
 B612’s letterforms keep commonly confused characters distinct: `Il1|`, `O0o`, `rn` vs
 `m`, `5S`, `8B`, `2Z`. Coverage spans Latin Extended A/B, Greek and Coptic, Cyrillic,
 and Latin Extended Additional: over 12,000 glyphs in the Extended package.
 
 ## Weights
 
+### Additional Weights
+
 Each package ships 10 variants across 5 weights.
 
 Planetaire Mono adds an **ExtraBold (800)** weight for terminal bold: the jump from
 Regular (400) to Bold (700) is often too subtle at terminal sizes, and ExtraBold gives
 bold text (prompts, headings, highlighted output) the contrast to stand out.
-
-<p align="center">
-<img src="docs/images/weights-dark.png" width="100%" alt="Planetaire Mono weight ladder from Regular to ExtraBold, upright and italic, on a dark background">
-<br>
-<img src="docs/images/weights-light.png" width="100%" alt="The same weight ladder on a light background">
-</p>
 
 | Variant | Weight | Recommended Use |
 | --- | --- | --- |
@@ -153,58 +177,11 @@ bold text (prompts, headings, highlighted output) the contrast to stand out.
 
 ### ExtraBold for Terminals
 
-Map your terminal’s bold to ExtraBold:
-
-```
-# Ghostty
-font-family = "Planetaire Mono Extended"
-font-style-bold = "ExtraBold"
-
-# Alacritty
-[font.bold]
-family = "Planetaire Mono Extended"
-style = "ExtraBold"
-
-# WezTerm
-config.font_rules = {
-  {
-    intensity = 'Bold',
-    font = wezterm.font('Planetaire Mono Extended', { weight = 'ExtraBold' }),
-  },
-}
-
-# VS Code terminal
-"terminal.integrated.fontWeightBold": "800"
-```
-
-See [terminal-config.md](docs/terminal-config.md) for Ghostty, Alacritty, WezTerm,
-iTerm2, Kitty, and VS Code.
-
-## Specimens
-
-Body text at a range of sizes, across Latin, Greek, and Cyrillic:
-
-<p align="center">
-<img src="docs/images/sample-dark.png" width="100%" alt="Multi-size body text plus French, German, Spanish, Turkish, Greek, and Cyrillic samples in Planetaire Mono, on a dark background">
-<br>
-<img src="docs/images/sample-light.png" width="100%" alt="The same multi-language text sample on a light background">
-</p>
-
-The same proportions from caption to display size:
-
-<p align="center">
-<img src="docs/images/waterfall-dark.png" width="100%" alt="Planetaire Mono from 8pt to 44pt with a large legibility line, on a dark background">
-<br>
-<img src="docs/images/waterfall-light.png" width="100%" alt="The same size waterfall on a light background">
-</p>
-
-Dense fixed-width document text, RFC 1 (1969):
-
-<p align="center">
-<img src="docs/images/rfc-dark.png" width="100%" alt="RFC 1 (1969) set in Planetaire Mono, on a dark background">
-<br>
-<img src="docs/images/rfc-light.png" width="100%" alt="The same RFC 1 document on a light background">
-</p>
+For best results, map your terminal’s **bold** to **ExtraBold (800)** rather than Bold
+(700): the heavier stroke gives bold output (prompts, headings, highlighted text) clear
+contrast at terminal sizes, which is how the font is designed to be used.
+Per-terminal setup for Terminal.app, Ghostty, Alacritty, WezTerm, iTerm2, Kitty, and VS
+Code is under [Install → Terminal Configuration](#terminal-configuration).
 
 ## Two Packages: Text and Extended
 
@@ -222,6 +199,23 @@ They differ only in glyph coverage:
 Either package works for either purpose; the recommendations are just the common,
 size-conscious defaults.
 See [Download](#download) for the archives and sizes.
+
+## Download
+
+Planetaire Mono is available in two packages, built from the same letterforms.
+Get the latest from
+[**GitHub Releases**](https://github.com/jlevy/planetaire/releases/latest):
+
+| Package | Best for | Includes | Download |
+| --- | --- | --- | --- |
+| **Planetaire Mono Text** *(standard)* | Websites, documents, reading | Letters, punctuation, Greek/Cyrillic, box-drawing. No icons. TTF + WOFF2 (~67 KB/weight WOFF2). | [`.tar.xz`](https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Text.tar.xz) **~1 MB** · [`.zip`](https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Text.zip) ~1.3 MB |
+| **Planetaire Mono Extended** *(full)* | Terminals, coding, icon-rich CLIs | Everything in Text plus all ~12,000 Nerd Font icons and Powerline. TTF + WOFF2. | [`.tar.xz`](https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Extended.tar.xz) **~19 MB** · [`.zip`](https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Extended.zip) ~24 MB |
+
+Both packages ship the same 10 variants, each archive laid out as `ttf/` (for local
+install) and `web/` (WOFF2 plus an `@font-face` stylesheet).
+To install locally: unzip and double-click the `ttf/*.ttf` files (macOS Font Book or
+Windows), or on Linux copy them to `~/.local/share/fonts/` and run `fc-cache -fv`.
+Per-OS and web details are under [Install](#install).
 
 ## Install
 
@@ -244,6 +238,106 @@ curl -L https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireM
 mkdir -p ~/.local/share/fonts/PlanetaireMono
 cp ttf/*.ttf ~/.local/share/fonts/PlanetaireMono/
 fc-cache -fv
+```
+
+### Terminal Configuration
+
+After installing the font, point your terminal at **Planetaire Mono Extended**. For best
+results, map **bold** text to **ExtraBold (800)** rather than Bold (700): the heavier
+stroke gives bold output (prompts, headings, highlighted text) clear contrast at
+terminal sizes (12–16px), which is how the font is designed to be used.
+
+**macOS Terminal.app.** Open **Terminal → Settings… → Profiles**, pick your profile,
+open the **Text** tab, and in the **Font** section click **Change** to select Planetaire
+Mono Extended at 14 pt.
+Check **Use bold fonts** so bold output renders in bold.
+Terminal.app uses the family’s Bold (700) and has no per-weight bold mapping, so it
+can’t route bold to ExtraBold; use Ghostty (below) if you want ExtraBold bold.
+
+**Ghostty** — in `~/.config/ghostty/config`:
+
+```
+font-family = "Planetaire Mono Extended"
+font-size = 14
+font-style-bold = "ExtraBold"
+font-style-bold-italic = "ExtraBold Italic"
+```
+
+Run `ghostty +list-fonts` if a style name does not resolve.
+
+**Alacritty** — in `~/.config/alacritty/alacritty.toml`:
+
+```toml
+[font]
+size = 14.0
+
+[font.normal]
+family = "Planetaire Mono Extended"
+style = "Regular"
+
+[font.bold]
+family = "Planetaire Mono Extended"
+style = "ExtraBold"
+
+[font.italic]
+family = "Planetaire Mono Extended"
+style = "Italic"
+
+[font.bold_italic]
+family = "Planetaire Mono Extended"
+style = "ExtraBold Italic"
+```
+
+**WezTerm** — in `~/.wezterm.lua`:
+
+```lua
+local wezterm = require 'wezterm'
+local config = wezterm.config_builder()
+
+config.font = wezterm.font('Planetaire Mono Extended')
+config.font_size = 14.0
+
+-- Map bold to ExtraBold for maximum contrast
+config.font_rules = {
+  {
+    intensity = 'Bold',
+    font = wezterm.font('Planetaire Mono Extended', { weight = 'ExtraBold' }),
+  },
+  {
+    intensity = 'Bold',
+    italic = true,
+    font = wezterm.font('Planetaire Mono Extended', { weight = 'ExtraBold', style = 'Italic' }),
+  },
+}
+
+return config
+```
+
+**iTerm2.** Open **Preferences → Profiles → Text**, set **Font** to Planetaire Mono
+Extended at 14 pt, and check **Draw bold text in bold font** so bold renders in the
+family’s bold member.
+iTerm2 has no separate bold-font field, so it can’t target the ExtraBold face
+specifically; use Ghostty, Kitty, or the VS Code terminal if you want ExtraBold bold.
+
+**Kitty** — in `~/.config/kitty/kitty.conf`:
+
+```
+font_family      family="Planetaire Mono Extended"
+bold_font        family="Planetaire Mono Extended" style="ExtraBold"
+italic_font      family="Planetaire Mono Extended" style="Italic"
+bold_italic_font family="Planetaire Mono Extended" style="ExtraBold Italic"
+font_size        14.0
+```
+
+**VS Code terminal** — in `settings.json`:
+
+```json
+{
+  "terminal.integrated.fontFamily": "Planetaire Mono Extended",
+  "terminal.integrated.fontSize": 14,
+  "terminal.integrated.fontWeight": "normal",
+  "terminal.integrated.fontWeightBold": "800"
+}
 ```
 
 ### Web (CSS `@font-face`)
