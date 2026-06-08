@@ -11,10 +11,12 @@ the
 releases are tag-driven: push a version tag (standard format, e.g. `v0.1.0`) and the tag
 triggers the build, which uploads the package to PyPI.
 
-In this repo the same tag also drives `release-fonts.yml`, which builds the fonts,
-creates the GitHub Release, and attaches the font archives. Both workflows key off the
-tag push directly. See [fonts-build-and-release.md](fonts-build-and-release.md) for the
-font side.
+In this repo the tag drives `release-fonts.yml`, which builds the fonts, creates the
+GitHub Release, and attaches the font archives — this is the active release path. PyPI
+publishing (`publish.yml`) is **currently manual-only** (run it from the Actions tab when
+trusted publishing is configured); the tag does **not** publish to PyPI yet. See
+[fonts-build-and-release.md](fonts-build-and-release.md) for the font side and the
+release-notes workflow.
 
 ### First-Time Setup
 
@@ -129,26 +131,29 @@ Follow this checklist for each new release.
    git diff ${LAST_TAG}..HEAD
    ```
 
-6. **Push the tag:**
+6. **Write the release notes, then push the tag:**
+
+   Add `docs/release/notes/vX.Y.Z.md` using the [Release Notes Format](#release-notes-format)
+   below, and commit it to `main` so the tagged commit contains it. Then tag:
 
    ```shell
    git tag vX.Y.Z      # replace with the actual version
    git push origin vX.Y.Z
    ```
 
-   The tag triggers `release-fonts.yml`, which creates the GitHub Release with
-   auto-generated notes and the font archives, and `publish.yml`, which uploads the
-   package to PyPI. Edit the release notes in the GitHub UI afterward if you want to
-   group them under the headings in [Release Notes Format](#release-notes-format).
+   The tag triggers `release-fonts.yml`, which builds the fonts, creates the GitHub
+   Release using your `docs/release/notes/vX.Y.Z.md` (falling back to auto-generated
+   notes if none exists), and attaches the font archives. PyPI publishing (`publish.yml`)
+   is manual-only for now, so the tag does not upload to PyPI.
 
 7. **Verify the release published successfully:**
 
    ```shell
    # Check the release workflow:
-   gh run list --workflow=publish.yml --limit 1
+   gh run list --workflow=release-fonts.yml --limit 1
 
-   # Verify on PyPI (may take a minute):
-   # https://pypi.org/project/PROJECT
+   # Confirm the GitHub Release and its attached archives:
+   gh release view vX.Y.Z
    ```
 
 ### Release Notes Format
