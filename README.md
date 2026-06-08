@@ -84,9 +84,9 @@ A couple of years ago, I was building a terminal and surveyed monospace fonts to
 the best ones. B612 wasn’t my obvious first choice, but after trying many of the classic
 modern options available as Nerd Fonts, I came to realize it still just *felt* better
 over time. But I was disappointed with the technical flaws that made it hard to use as a
-full replacement for a modern, high-quality workhorse typeface like Hack.
-I made an adapted hybrid of B612 that I was quite happy with, but it wasn’t in a clean
-enough form to publish.
+full replacement for a modern, high-quality workhorse typeface such as Hack or JetBrains
+Mono. I made an adapted hybrid of B612 that I was quite happy with, but it wasn’t in a
+clean enough form to publish.
 
 Now, Claude Code and Opus 4.8 have made it a pleasure to consolidate this work as
 Planetaire Mono. I’ve used dozens of terminal fonts over the years, and it is now what I
@@ -129,12 +129,10 @@ agents, editors, and terminals.
 </p>
 
 <p align="center">
-<img src="docs/images/rfc-dark.png" width="100%" alt="RFC 1 (1969) set in Planetaire Mono, on a dark background">
+<img src="docs/images/weights-dark.png" width="100%" alt="Planetaire Mono weight ladder from Regular to ExtraBold, upright and italic, on a dark background">
 <br>
-<img src="docs/images/rfc-light.png" width="100%" alt="The same RFC 1 document on a light background">
+<img src="docs/images/weights-light.png" width="100%" alt="The same weight ladder on a light background">
 </p>
-
-## High Legibility
 
 <p align="center">
 <img src="docs/images/features-dark.png" width="100%" alt="Confusable-character pairs and the dotted-zero variants in Planetaire Mono, on a dark background">
@@ -142,23 +140,27 @@ agents, editors, and terminals.
 <img src="docs/images/features-light.png" width="100%" alt="The same confusable-character pairs and dotted-zero variants on a light background">
 </p>
 
+<p align="center">
+<img src="docs/images/rfc-dark.png" width="100%" alt="RFC 1 (1969) set in Planetaire Mono, on a dark background">
+<br>
+<img src="docs/images/rfc-light.png" width="100%" alt="The same RFC 1 document on a light background">
+</p>
+
+## High Legibility
+
 B612’s letterforms keep commonly confused characters distinct: `Il1|`, `O0o`, `rn` vs
 `m`, `5S`, `8B`, `2Z`. Coverage spans Latin Extended A/B, Greek and Coptic, Cyrillic,
 and Latin Extended Additional: over 12,000 glyphs in the Extended package.
 
 ## Weights
 
+### Additional Weights
+
 Each package ships 10 variants across 5 weights.
 
 Planetaire Mono adds an **ExtraBold (800)** weight for terminal bold: the jump from
 Regular (400) to Bold (700) is often too subtle at terminal sizes, and ExtraBold gives
 bold text (prompts, headings, highlighted output) the contrast to stand out.
-
-<p align="center">
-<img src="docs/images/weights-dark.png" width="100%" alt="Planetaire Mono weight ladder from Regular to ExtraBold, upright and italic, on a dark background">
-<br>
-<img src="docs/images/weights-light.png" width="100%" alt="The same weight ladder on a light background">
-</p>
 
 | Variant | Weight | Recommended Use |
 | --- | --- | --- |
