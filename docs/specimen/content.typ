@@ -110,27 +110,35 @@
 // pad-top / pad-bottom frame the card. The README banner (card.typ) uses the
 // generous defaults; the specimen cover passes smaller values since the page
 // margin already supplies breathing room.
-#let header-card(p: pal-light, pad-top: 1.4cm, pad-bottom: 1.0cm, planet-width: 60%) = align(center)[
+// Sizes and inner gaps are parameterized so the README banner can use the large
+// defaults while the (content-dense) specimen cover passes compact values.
+#let header-card(
+  p: pal-light,
+  pad-top: 1.4cm,
+  pad-bottom: 1.0cm,
+  planet-width: 100%,
+  title-size: 48pt,
+  sub-size: 17pt,
+  tag-size: 17.5pt,
+  planet-gap: 0.3cm,
+  sub-gap: 0.14cm,
+  tag-gap: 0.65cm,
+) = align(center)[
   #v(pad-top)
-  // Little-planet line drawing as a letterhead banner above the title. The SVG's
-  // viewBox is trimmed to the artwork (no dead margin) so it sits close above the
-  // title; planet-width shrinks it to a letterhead strip rather than full bleed.
+  // Little-planet line drawing as a letterhead banner above the title; stars fan
+  // out to the page margins and planet-width scales the whole field.
   #image("../images/little-planet-vector-trace-v3.svg", width: planet-width)
-  #v(0.3cm)
-  #text(size: 48pt, weight: 500, fill: p.fg)[Planetaire Mono]
-  // Vertical rhythm (base ~= 9.5pt body line, 0.47cm): the lineage sits tight
-  // under the title (~0.3 line) as its subtitle; the tagline is set off below
-  // (~1.9 line) as a separate descriptor.
-  #v(0.14cm)
-  #text(size: 17pt, weight: 700, fill: p.fg)[
+  #v(planet-gap)
+  #text(size: title-size, weight: 500, fill: p.fg)[Planetaire Mono]
+  #v(sub-gap)
+  #text(size: sub-size, weight: 700, fill: p.fg)[
     B612 LETTERFORMS\
     HACK INFRASTRUCTURE\
     NERD FONT ICONS
   ]
-  #v(0.65cm)
-  // Tagline in Medium: heavier than Regular so it holds against the bold lineage
-  // above, but lighter (and cleaner) than the rougher synthetic SemiBold.
-  #text(size: 17.5pt, weight: 500, fill: p.fg)[
+  #v(tag-gap)
+  // Tagline in Medium: heavier than Regular so it holds against the bold lineage.
+  #text(size: tag-size, weight: 500, fill: p.fg)[
     A beautiful, highly legible monospace font\
     for terminals, editors, and agentic work
   ]
@@ -398,9 +406,9 @@
   text(size: 9pt, fill: p.muted)[RFC 1 \u{00B7} STEVE CROCKER, UCLA \u{00B7} 7 APRIL 1969]
   v(0.2cm)
   block[
-    #set text(size: 8pt, fill: p.fg)
+    #set text(size: 9pt, fill: p.fg)
     #set par(leading: 0.45em, spacing: 0em)
-    #show raw: set text(font: "Planetaire Mono Extended", size: 8pt)
+    #show raw: set text(font: "Planetaire Mono Extended", size: 9pt)
     #show raw.where(block: true): it => block(width: 100%, fill: none, inset: 0pt, stroke: none, it)
     #show "Host Software": text.with(weight: 700)
     #show "Steve Crocker": text.with(weight: 700)

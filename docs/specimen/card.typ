@@ -44,5 +44,16 @@
 } else if which == "rfc" {
   rfc-excerpt(p: p)
 } else if which == "header" {
-  header-card(p: p)
+  // Match the specimen cover's title-block styling so the README banner and the
+  // cover read as the same artwork (compact title close under the planet).
+  header-card(
+    p: p,
+    planet-width: 100%,
+    title-size: 44pt,
+    sub-size: 15pt,
+    tag-size: 15pt,
+    planet-gap: -0.9cm,
+    sub-gap: 0cm,
+    tag-gap: 0.32cm,
+  )
 }

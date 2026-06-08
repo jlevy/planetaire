@@ -36,14 +36,40 @@
 
 // ─── Page 1: Cover ──────────────────────────────────────────────
 
-#v(0.2cm)
+// Pull the banner up tight to the top margin; the star field carries its own top
+// whitespace so it still breathes.
+#v(-0.9cm)
 
-// Shared header block (same source as the README banner) so the cover and the
-// home-page header stay in sync. The cover passes smaller padding than the banner
-// default since the page margin already gives the title breathing room.
-#header-card(p: pal-light, pad-top: 0.2cm, pad-bottom: 0.3cm, planet-width: 30%)
+// Shared header block (same source as the README banner). The cover passes a
+// page-fitting variant: full-bleed star field (wider than the text column, out to
+// the page edges) so the planet stays large while the stars spread across the
+// whole page; compact title/subtitles sit close beneath it.
+#header-card(
+  p: pal-light,
+  pad-top: 0cm,
+  pad-bottom: 0.05cm,
+  planet-width: 20cm,
+  title-size: 44pt,
+  sub-size: 15pt,
+  tag-size: 15pt,
+  planet-gap: -0.9cm,
+  sub-gap: -0.2cm,
+  tag-gap: 0.18cm,
+)
 
-#v(0.05cm)
+// Cover-section styling: a bold all-caps heading over centered black items, with
+// paragraph spacing zeroed so line breaks alone control the layout.
+#let cover-heading(t) = {
+  text(size: 9.5pt, weight: "bold", fill: black)[#t]
+  v(0.26cm)
+}
+#let b(t) = text(weight: "bold")[#t]
+
+// Flexible (1fr) spacers distribute the leftover height evenly, so Version and the
+// three sections spread down the page and CREDITS lands at the bottom margin (the
+// footer line on later pages). The gap above Version also detaches the title block,
+// which the README banner reuses on its own (graphic + title + subtitles).
+#v(1fr)
 
 #align(center)[
   #text(size: 10pt, weight: "bold", fill: black)[
@@ -52,53 +78,49 @@
   ]
 ]
 
-// Even spacing below the title block, matching the section gaps, while keeping the
-// full credits list on the page.
-#v(0.28cm)
-
-// The three cover sections share one centered, all-black style: a bold all-caps
-// heading over centered black items. Paragraph spacing is zeroed so the gap after
-// each heading is exactly the explicit v() below (~0.6 of a line) for balance.
-#let cover-heading(t) = {
-  text(size: 9.5pt, weight: "bold", fill: black)[#t]
-  v(0.28cm)
-}
-#let b(t) = text(weight: "bold")[#t]
+// Two line-heights more space than the Version gap above.
+#v(1fr)
+#v(1.1cm)
 
 #align(center)[
-  #set par(spacing: 0pt)
+  #set par(spacing: 0pt, leading: 0.62em)
   #cover-heading("FEATURES")
   #text(size: 9.5pt, fill: black)[
-    B612 base for letterforms\
-    (extended Latin, Greek, Cyrillic)\
+    B612 base for letterforms (extended Latin, Greek, Cyrillic)\
     Punctuation and symbols from Hack\
-    12,000+ icons from Nerd Fonts\
-    Modified zero (0) for legibility
+    12,000+ icons from Nerd Fonts
   ]
+]
 
-  #v(0.3cm)
+// One line-height tighter than the Version/FEATURES gaps above.
+#v(1fr)
+#v(-0.55cm)
+
+#align(center)[
+  #set par(spacing: 0pt, leading: 0.62em)
   #cover-heading("WEIGHTS")
   #text(size: 9.5pt, fill: black)[
-    #text(weight: "regular")[Regular] (400)\
-    #text(weight: "regular", style: "italic")[Italic] (400)\
-    #text(weight: 500)[Medium] (500)\
-    #text(weight: 500, style: "italic")[Medium Italic] (500)\
-    #text(weight: 600)[SemiBold] (600)\
-    #text(weight: 600, style: "italic")[SemiBold Italic] (600)\
-    #text(weight: "bold")[Bold] (700)\
-    #text(weight: "bold", style: "italic")[Bold Italic] (700)\
-    #text(weight: 800)[ExtraBold] (800)\
-    #text(weight: 800, style: "italic")[ExtraBold Italic] (800)
+    #text(weight: "regular")[Regular] (400) · #text(weight: "regular", style: "italic")[Italic] (400)\
+    #text(weight: 500)[Medium] (500) · #text(weight: 500, style: "italic")[Medium Italic] (500)\
+    #text(weight: 600)[SemiBold] (600) · #text(weight: 600, style: "italic")[SemiBold Italic] (600)\
+    #text(weight: "bold")[Bold] (700) · #text(weight: "bold", style: "italic")[Bold Italic] (700)\
+    #text(weight: 800)[ExtraBold] (800) · #text(weight: 800, style: "italic")[ExtraBold Italic] (800)
   ]
+]
 
-  #v(0.3cm)
+// One line-height tighter than the Version/FEATURES gaps above.
+#v(1fr)
+#v(-0.55cm)
+
+#align(center)[
+  #set par(spacing: 0pt, leading: 0.62em)
   #cover-heading("CREDITS")
   #text(size: 9.5pt, fill: black)[
-    #b[Planetaire Mono] packaged and maintained by #b[Joshua Levy]\
+    #b[Planetaire Mono] assembled and maintained by #b[Joshua Levy]\
     #b[B612 Mono] letterforms by #b[Intactile Design] for #b[Airbus]\
     #b[Hack] base punctuation, symbols, and metrics by #b[Chris Simpkins]\
     #b[Nerd Fonts] 12,000+ icons by #b[Ryan McIntyre]\
-    Dotted zero inspired by the #b[B612] fork by #b[Carlos Eduardo de Paula]
+    Dotted zero inspired by the B612 fork by #b[Carlos Eduardo de Paula]
   ]
 ]
 
@@ -317,7 +339,8 @@
 
 #orbit-code(p: pal-light)
 
-#v(0.6cm)
+// Break so the terminal-session pair (dark + light) sits together on the next page.
+#pagebreak()
 
 #terminal-mockup(p: pal-dark)
 
