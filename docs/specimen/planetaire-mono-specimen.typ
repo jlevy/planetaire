@@ -315,7 +315,7 @@
 #section[Planetaire Iconic Texts]
 
 // Alan Turing, "Computing Machinery and Intelligence" (1950)
-#text(size: 9pt, fill: muted)[
+#text(size: 8pt, fill: muted)[
   ALAN TURING \u{00B7} “COMPUTING MACHINERY AND INTELLIGENCE” (1950)
 ]
 #v(0.2cm)
@@ -334,9 +334,9 @@
 
 #section[Planetaire Code Specimen: microGPT]
 
-#text(size: 9pt, fill: muted)[
-  Andrej Karpathy’s microGPT: a complete GPT training loop and
-  inference engine in 200 lines of pure Python.
+#text(size: 8pt, fill: muted)[
+  Andrej Karpathy’s microGPT: the scalar autograd engine at the core of a
+  complete GPT training loop in ~200 lines of pure Python.
 ]
 #v(0.2cm)
 
@@ -349,7 +349,9 @@
   #set par(leading: 0.65em)
   #{
     set raw(theme: "kerm-light.tmTheme")
-    raw(read("microgpt.py"), lang: "python", block: true)
+    // Show just the first page: dataset, tokenizer, and the full Value autograd
+    // class (the code is ~200 lines; the rest is the model and training loop).
+    raw(read("microgpt.py").split("\n").slice(0, 72).join("\n"), lang: "python", block: true)
   }
 ]
 
