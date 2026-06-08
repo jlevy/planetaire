@@ -44,7 +44,6 @@ At stroke junctions it carries small notches (light traps) that keep joins from 
 in on bright, low-contrast displays.
 The result has quietly human character quirks that are grounded in measured legibility
 gains rather than style.
-
 In 2017, B612 was released as open source through the Eclipse
 [Polarsys](https://github.com/polarsys/b612) project.
 

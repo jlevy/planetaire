@@ -99,7 +99,72 @@
 #pagebreak()
 
 
-// ─── Page 2: Text Showcase ──────────────────────────────────────
+// ─── Page 2: About ──────────────────────────────────────────────
+
+#[
+  #set text(size: 10pt, hyphenate: false)
+  #set par(justify: false, leading: 0.62em, spacing: 1.0em)
+  #set list(spacing: 0.55em)
+  #show raw: set text(font: "Planetaire Mono Extended", size: 10pt)
+  #let about-heading(t) = {
+    text(size: 10pt, weight: "bold", fill: black)[#t]
+    v(0.38cm)
+  }
+
+  #about-heading("ABOUT B612")
+  B612 began not as a typeface but as an aviation research program. In 2010 Airbus,
+  ENAC (the French civil aviation university), and the Université de Toulouse III set
+  out to define and validate an "aeronautical font" for cockpit screens: text a pilot
+  can read correctly while fatigued, at oblique angles, or under vibration, glare, or
+  near-darkness.
+
+  The shapes were derived experimentally before they were drawn. Jean-Luc Vinot (ENAC)
+  and Sylvie Athènes (Toulouse III) built confusion matrices of when and how characters
+  get misread ("Legible, are you sure?" at CHI 2012). In their controlled study, the
+  prototype that became B612 drew slightly more correct reads than Verdana and clearly
+  outperformed the legacy avionics font. Airbus then commissioned the Montpellier
+  interface studio Intactile Design (Nicolas Chauveau, Thomas Paillot, and Jonathan
+  Favre-Lamarine) to draw the full family of eight variants.
+
+  B612 is named for the asteroid home of the Little Prince, a nod to Saint-Exupéry,
+  himself an aviator.
+
+  B612's unusual character is a humanist answer to an instrument-panel problem. Where
+  earlier cockpit fonts went monolinear and rigid, B612 keeps stroke contrast, opens
+  counters, and lengthens ascenders and descenders. Each word's silhouette resolves
+  quickly. At stroke junctions it carries small notches (light traps) that keep joins
+  from filling in on bright, low-contrast displays. The result has quietly human
+  character quirks that are grounded in measured legibility gains rather than style. In
+  2017, B612 was released as open source through the Eclipse Polarsys project.
+
+  However, B612 alone is not a fully usable document or application font. The versions
+  in circulation, including the one on Google Fonts, have uneven symbol coverage that
+  is awkward for terminal and programming use. And the published version has an
+  undotted zero that is easy to confuse with a capital O.
+
+  #v(0.6cm)
+  #about-heading("ABOUT PLANETAIRE MONO")
+  Planetaire Mono arises from this need. It merges B612's letters and digits into Hack
+  Nerd Font's base. It also adds more weights and a dotted zero:
+
+  - *B612 letterforms* for letters, digits, and extended Latin, Greek, and Cyrillic.
+  - *Hack punctuation and symbols* for `{}[]()<>` and the rest.
+  - *Ten variants across five weights* (400/500/600/700/800), including added SemiBold
+    (600) and ExtraBold (800) weights, the latter for terminal bold (see Weights).
+  - *12,000+ Nerd Font icons* (Powerline, Font Awesome, Devicons) in the Extended
+    family.
+  - *A dotted zero:* B612's zero with a center dot for clear 0 vs O, in circle
+    (default) and rectangle (ss01) variants.
+
+  With these changes it has become one of the most beautiful and genuinely functional
+  monospace fonts I've seen. I've used dozens of terminal fonts over the years, and
+  Planetaire Mono is now what I use every day.
+]
+
+#pagebreak()
+
+
+// ─── Page 3: Text Showcase ──────────────────────────────────────
 
 #section[Planetaire Text Sample]
 
