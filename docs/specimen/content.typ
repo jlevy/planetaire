@@ -8,6 +8,10 @@
 
 #let font-family = "Planetaire Mono Extended"
 
+// One legible gray for all labels, captions, and footers (specimen + cards). Main
+// text is black; syntax-highlight and terminal colors keep their own hues below.
+#let muted = rgb("#6e7781")
+
 // Paired palettes. Syntax colors are the Kerm terminal theme (dark) and a darkened
 // Kerm variant tuned for light backgrounds (light).
 #let pal-dark = (
@@ -27,7 +31,7 @@
 #let pal-light = (
   page:         white,
   term-bg:      rgb("#f6f8fa"),
-  fg:           rgb("#24292f"),
+  fg:           black,
   muted:        rgb("#6e7781"),
   comment:      rgb("#6e7781"),
   red:          rgb("#a8342a"),
@@ -49,7 +53,7 @@
 
 // Small gray label (white specimen pages).
 #let label(body) = {
-  text(size: 8pt, fill: rgb("#999"))[#body]
+  text(size: 8pt, fill: muted)[#body]
   v(0.1cm)
 }
 
@@ -115,6 +119,7 @@
 // defaults while the (content-dense) specimen cover passes compact values.
 #let header-card(
   p: pal-light,
+  fg: auto,
   pad-top: 1.4cm,
   pad-bottom: 1.0cm,
   planet-width: 100%,
@@ -124,7 +129,11 @@
   planet-gap: 0.3cm,
   sub-gap: 0.14cm,
   tag-gap: 0.65cm,
-) = align(center)[
+) = {
+  // Title/lineage/tagline color: default to the palette foreground, but callers
+  // (e.g. the specimen cover) can pass `fg: black` for a crisp, solid-black title.
+  let fg = if fg == auto { p.fg } else { fg }
+  align(center)[
   // Keep the banner's tuned line spacing independent of the document prose leading.
   #set par(leading: 0.65em)
   #v(pad-top)
@@ -132,21 +141,22 @@
   // out to the page margins and planet-width scales the whole field.
   #image("../images/little-planet-vector-trace-v3.svg", width: planet-width)
   #v(planet-gap)
-  #text(size: title-size, weight: 500, fill: p.fg)[Planetaire Mono]
+  #text(size: title-size, weight: 500, fill: fg)[Planetaire Mono]
   #v(sub-gap)
-  #text(size: sub-size, weight: 700, fill: p.fg)[
+  #text(size: sub-size, weight: 700, fill: fg)[
     B612 LETTERFORMS\
     HACK INFRASTRUCTURE\
     NERD FONT ICONS
   ]
   #v(tag-gap)
   // Tagline in Medium: heavier than Regular so it holds against the bold lineage.
-  #text(size: tag-size, weight: 500, fill: p.fg)[
+  #text(size: tag-size, weight: 500, fill: fg)[
     A beautiful, highly legible monospace font\
     for terminals, editors, and agentic work
   ]
   #v(pad-bottom)
-]
+  ]
+}
 
 // Syntax-highlighted Python sample.
 #let orbit-code(p: pal-dark) = code-block(p, (
