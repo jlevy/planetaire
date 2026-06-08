@@ -14,9 +14,7 @@ It is [licensed freely](#license) for personal, commercial, and open source use.
 
 **[Download the Fonts (TTF, WOFF2)](https://github.com/jlevy/planetaire/releases/latest)**
 
-## Why
-
-### About B612
+## About B612
 
 B612 began not as a typeface but as an aviation research program.
 In 2010, Airbus, [ENAC](https://www.enac.fr/en) (the French civil aviation university),
@@ -50,7 +48,7 @@ gains rather than style.
 In 2017, B612 was released as open source through the Eclipse
 [Polarsys](https://github.com/polarsys/b612) project.
 
-### About Planetaire Mono
+## About Planetaire Mono
 
 By historical accident, B612 alone is not a usable document or application font.
 The versions in circulation, including the one
@@ -80,7 +78,7 @@ symbols from Hack.
 Planetaire Mono carries a new name for clarity and to comply with the B612
 [license](#license).
 
-### A Personal Note
+## A Personal Note
 
 Like architecture, typography is a functional art form.
 A design may initially appear attractive, but you can’t know its true qualities until
