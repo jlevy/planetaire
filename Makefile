@@ -50,7 +50,8 @@ build-fonts: download
 	uv run planetaire build planetaire-mono
 
 build-text: download
-	uv run planetaire build text
+	uv run planetaire build text --formats ttf
+	uv run planetaire build text --split --italics
 
 validate-fonts:
 	uv run planetaire validate fonts/output/*.ttf

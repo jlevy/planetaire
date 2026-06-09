@@ -238,11 +238,13 @@ Decisions taken while implementing, recorded here so they can be revisited:
   terminal-config docs, and release workflow were all updated accordingly. ("Planetaire
   Mono" remains the *project* name.)
 - **Text drops TrueType hinting.** `build_text` subsets with `drop_hinting=True`. This
-  halves web-font size (~55 KB vs ~110 KB WOFF2/weight) and avoids carrying Hack’s
-  hinting, which is tuned for Hack outlines rather than the merged B612 letterforms. The
-  hinting policy for the *full* TTFs is still open under `plt-d6t8`.
-- **Measured Text output (Regular):** 1,317 glyphs, 149 KB TTF, 75 KB WOFF, **55 KB
-  WOFF2**, vs ~2.6 MB TTF / ~984 KB WOFF2 for the full build.
+  kept full Text WOFF2s in the 53-77 KB/weight range before split delivery, and avoids
+  carrying Hack’s hinting, which is tuned for Hack outlines rather than the merged B612
+  letterforms. The hinting policy for the *full* TTFs is still open under `plt-d6t8`.
+- **Measured old single-file Text output (Regular):** 1,317 glyphs, about 53 KB WOFF2
+  after web metadata trims, vs ~2.6 MB TTF / ~984 KB WOFF2 for the full build. Current
+  release web output is the smaller split profile: Regular/Bold, Latin + Latin Extended,
+  Greek, Cyrillic, and Cyrillic Extended, with optional Regular/Bold italics.
 
 ## Open Questions
 
