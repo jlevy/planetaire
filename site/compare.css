@@ -1,0 +1,656 @@
+/* Planetaire Mono font comparison tool. */
+
+/* Live comparison fonts. These are intentionally CDN-backed so the comparison
+   page can render the same major programming-font shortlist without vendoring
+   every external face into this repository. Hack is loaded by compare.html
+   because Fontsource does not currently publish @fontsource/hack. */
+@font-face {
+  font-family: "Planetaire Mono Compare";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src:
+    url("fonts/PlanetaireMonoText-Regular.woff2") format("woff2"),
+    url("https://cdn.jsdelivr.net/gh/jlevy/planetaire@v0.1.4/site/fonts/PlanetaireMonoText-Regular.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Planetaire Mono Compare";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 500;
+  src:
+    url("fonts/PlanetaireMonoText-Medium.woff2") format("woff2"),
+    url("https://cdn.jsdelivr.net/gh/jlevy/planetaire@v0.1.4/site/fonts/PlanetaireMonoText-Medium.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Planetaire Mono Compare";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 600;
+  src:
+    url("fonts/PlanetaireMonoText-SemiBold.woff2") format("woff2"),
+    url("https://cdn.jsdelivr.net/gh/jlevy/planetaire@v0.1.4/site/fonts/PlanetaireMonoText-SemiBold.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Planetaire Mono Compare";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 700;
+  src:
+    url("fonts/PlanetaireMonoText-Bold.woff2") format("woff2"),
+    url("https://cdn.jsdelivr.net/gh/jlevy/planetaire@v0.1.4/site/fonts/PlanetaireMonoText-Bold.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Planetaire Mono Compare";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 800;
+  src:
+    url("fonts/PlanetaireMonoText-ExtraBold.woff2") format("woff2"),
+    url("https://cdn.jsdelivr.net/gh/jlevy/planetaire@v0.1.4/site/fonts/PlanetaireMonoText-ExtraBold.woff2") format("woff2");
+}
+@font-face {
+  font-family: "JetBrains Mono Compare";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 800;
+  src: url("https://cdn.jsdelivr.net/fontsource/fonts/jetbrains-mono:vf@latest/latin-wght-normal.woff2") format("woff2-variations");
+}
+@font-face {
+  font-family: "Fira Code Compare";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 300 700;
+  src: url("https://cdn.jsdelivr.net/fontsource/fonts/fira-code:vf@latest/latin-wght-normal.woff2") format("woff2-variations");
+}
+@font-face {
+  font-family: "Cascadia Code Compare";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 200 700;
+  src: url("https://cdn.jsdelivr.net/fontsource/fonts/cascadia-code:vf@latest/latin-wght-normal.woff2") format("woff2-variations");
+}
+@font-face {
+  font-family: "Source Code Pro Compare";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 200 900;
+  src: url("https://cdn.jsdelivr.net/fontsource/fonts/source-code-pro:vf@latest/latin-wght-normal.woff2") format("woff2-variations");
+}
+@font-face {
+  font-family: "IBM Plex Mono Compare";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url("https://cdn.jsdelivr.net/fontsource/fonts/ibm-plex-mono@latest/latin-400-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Iosevka Compare";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url("https://cdn.jsdelivr.net/fontsource/fonts/iosevka@latest/latin-400-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Monaspace Neon Compare";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url("https://cdn.jsdelivr.net/fontsource/fonts/monaspace-neon@latest/latin-400-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Geist Mono Compare";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url("https://cdn.jsdelivr.net/fontsource/fonts/geist-mono:vf@latest/latin-wght-normal.woff2") format("woff2-variations");
+}
+@font-face {
+  font-family: "PT Mono Compare";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url("https://cdn.jsdelivr.net/fontsource/fonts/pt-mono@latest/latin-400-normal.woff2") format("woff2");
+}
+
+:root {
+  --compare-max: 1180px;
+  --proof-size: 14px;
+  --proof-weight: 400;
+  --proof-max-width: 32rem;
+  --proof-max-height: clamp(14rem, 38vh, 24rem);
+  --proof-card-width: var(--proof-max-width);
+  --proof-sample-height: auto;
+  --font-option-width: 15rem;
+  --proof-border: rgba(27, 31, 36, 0.07);
+  --proof-shadow: 0 1px 8px rgba(27, 31, 36, 0.055);
+  --ui-font: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --editor-font: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+}
+
+html[data-theme="dark"] {
+  --proof-border: rgba(240, 246, 252, 0.08);
+  --proof-shadow: 0 1px 10px rgba(0, 0, 0, 0.24);
+}
+
+.proof-foot {
+  transition: var(--ui-transition);
+}
+
+body {
+  font-family: var(--ui-font);
+  font-size: 0.95rem;
+}
+
+.compare-wrap {
+  max-width: var(--compare-max);
+  font-family: var(--ui-font);
+}
+
+.compare-wrap .site-nav {
+  margin-bottom: 2.75rem;
+}
+
+.compare-page-header {
+  margin: 0 0 1.5rem;
+  font-family: var(--ui-font);
+}
+
+.compare-page-header h1 {
+  margin: 0;
+  font-family: var(--ui-font);
+  font-size: 1.35rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.compare-controls {
+  display: grid;
+  grid-template-columns: minmax(11rem, 14rem) minmax(18rem, 24rem) minmax(7rem, 9rem) minmax(20rem, 1fr);
+  gap: 1rem;
+  align-items: start;
+  padding: 0.15rem 0 0;
+  margin: 0 0 1.6rem;
+}
+
+.control {
+  min-width: 0;
+}
+
+.control > label,
+.control-label,
+.picker-head h2 {
+  display: block;
+  color: var(--gray);
+  font-family: var(--ui-font);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1.4;
+  text-transform: uppercase;
+  margin: 0 0 0.45rem;
+}
+
+.control select,
+.control textarea,
+.control input[type="number"] {
+  width: 100%;
+}
+
+.control select,
+.control textarea,
+.control input[type="number"] {
+  font-family: var(--ui-font);
+  font-size: 0.9rem;
+  line-height: 1.4;
+  color: var(--ink);
+  background: var(--bg);
+  border: 1.5px solid var(--ink);
+  border-radius: var(--radius);
+  transition: var(--ui-transition);
+}
+
+.control select {
+  min-height: 2.55rem;
+  padding: 0.45rem 0.6rem;
+}
+
+.control input[type="number"] {
+  min-height: 2.55rem;
+  padding: 0.45rem 0.55rem;
+}
+
+.control textarea {
+  display: block;
+  min-height: 9rem;
+  resize: vertical;
+  font-family: var(--editor-font);
+  font-size: 0.84rem;
+  padding: 0.7rem 0.8rem;
+  line-height: var(--lh-tight);
+  white-space: pre;
+  overflow: auto;
+  border: 1px solid var(--rule);
+  scrollbar-width: thin;
+  scrollbar-color: rgba(128, 128, 128, 0.45) transparent;
+}
+
+.control-text {
+  grid-column: 1 / -1;
+}
+
+.control textarea::-webkit-scrollbar {
+  height: 7px;
+  width: 7px;
+}
+
+.control textarea::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.control textarea::-webkit-scrollbar-thumb {
+  background: rgba(128, 128, 128, 0.35);
+  border-radius: 999px;
+}
+
+.control textarea:hover::-webkit-scrollbar-thumb {
+  background: rgba(128, 128, 128, 0.55);
+}
+
+.control-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 2.55rem;
+}
+
+.control-row-size {
+  gap: 0.55rem;
+}
+
+.size-input {
+  flex: 0 0 5.25rem;
+}
+
+.size-input[hidden] {
+  display: none;
+}
+
+.size-preset {
+  flex: 0 1 8rem;
+}
+
+.options-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem 0.9rem;
+  align-items: flex-start;
+  justify-content: flex-start;
+  min-height: 2.55rem;
+}
+
+.option-stack {
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.35rem;
+}
+
+.control-options select {
+  width: auto;
+  min-width: 7rem;
+  min-height: 1.9rem;
+  padding: 0.3rem 0.45rem;
+  font-size: 0.78rem;
+  line-height: 1.25;
+}
+
+.check-control {
+  display: inline-flex;
+  gap: 0.45rem;
+  align-items: center;
+  color: var(--ink);
+  font-family: var(--ui-font);
+  font-size: 0.76rem;
+  font-weight: 600;
+  line-height: 1.25;
+  text-transform: none;
+  letter-spacing: 0;
+  margin: 0;
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.check-control input {
+  width: 0.95rem;
+  height: 0.95rem;
+  margin: 0;
+  accent-color: var(--ink);
+}
+
+.compare-inline-theme {
+  flex: 0 0 auto;
+  margin: 0 0 0 auto;
+}
+
+.compare-inline-theme .ts-group {
+  border: 1.5px solid var(--ink);
+}
+
+.compare-inline-theme .ts-opt {
+  min-width: 0;
+  padding: 0.35rem 0.65rem;
+  font-family: var(--ui-font);
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1.62;
+}
+
+.font-picker {
+  margin: 0 0 3.25rem;
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.picker-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 0 0.8rem;
+}
+
+.picker-head h2 {
+  padding: 0;
+  border: 0;
+}
+
+.picker-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.mini-btn {
+  font-family: var(--ui-font);
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1.4;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--ink);
+  background: var(--bg);
+  border: 1.5px solid var(--ink);
+  border-radius: var(--radius);
+  padding: 0.35rem 0.65rem;
+  cursor: pointer;
+  transition: var(--ui-transition);
+}
+
+.mini-btn:hover {
+  background: var(--hover-bg);
+}
+
+.font-checks {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(var(--font-option-width), 1fr));
+  gap: 0.55rem;
+}
+
+.font-option {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.55rem;
+  align-items: start;
+  min-width: 0;
+  padding: 0.6rem 0.65rem;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  background: var(--bg);
+  cursor: pointer;
+  transition: var(--ui-transition);
+}
+
+.font-option:hover {
+  background: var(--hover-bg);
+}
+
+.font-option input {
+  width: 1rem;
+  height: 1rem;
+  margin: 0.18rem 0 0;
+  accent-color: var(--ink);
+}
+
+.font-name {
+  display: block;
+  color: var(--ink);
+  font-family: var(--ui-font);
+  font-size: 0.88rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.font-note {
+  display: block;
+  color: var(--gray);
+  font-family: var(--ui-font);
+  font-size: 0.76rem;
+  line-height: 1.35;
+  margin-top: 0.12rem;
+}
+
+.proof-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--proof-card-width)), var(--proof-card-width)));
+  gap: 1rem;
+  align-items: start;
+  justify-content: start;
+}
+
+.proof-grid.is-empty {
+  grid-template-columns: 1fr;
+  min-height: 7rem;
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
+}
+
+.proof {
+  position: relative;
+  width: var(--proof-card-width);
+  max-width: 100%;
+  min-width: 0;
+  border: 1px solid var(--proof-border);
+  border-radius: var(--radius);
+  box-shadow: var(--proof-shadow);
+  background: var(--bg);
+  overflow: hidden;
+  transition: var(--ui-transition);
+}
+
+.proof:focus {
+  outline: 1px solid var(--gray);
+  outline-offset: 2px;
+}
+
+.proof-title {
+  min-width: 0;
+  color: var(--ink);
+  font-family: var(--ui-font);
+  font-size: 0.88rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.proof-meta {
+  color: var(--gray);
+  font-family: var(--ui-font);
+  font-size: 0.76rem;
+  line-height: 1.35;
+  margin-top: 0.12rem;
+}
+
+.proof-sample {
+  margin: 0;
+  padding: 1rem;
+  height: var(--proof-sample-height);
+  max-height: var(--proof-max-height);
+  font-family: var(--proof-font), ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: var(--proof-size);
+  font-weight: var(--proof-weight);
+  line-height: 1.45;
+  color: var(--ink);
+  background: var(--bg);
+  border: 0;
+  border-radius: 0;
+  white-space: pre;
+  overflow: auto;
+  tab-size: 4;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  transition: var(--ui-transition);
+}
+
+.proof-sample::-webkit-scrollbar {
+  height: 0;
+  width: 0;
+}
+
+.proof-sample.is-code,
+.proof-sample.is-terminal {
+  background: var(--bg);
+}
+
+.proof-sample.is-ligatures {
+  font-variant-ligatures: common-ligatures discretionary-ligatures contextual;
+  font-feature-settings:
+    "liga" 1,
+    "clig" 1,
+    "calt" 1,
+    "dlig" 1,
+    "ss01" 1,
+    "ss02" 1,
+    "ss03" 1,
+    "ss04" 1,
+    "ss05" 1,
+    "ss06" 1,
+    "ss07" 1,
+    "ss08" 1,
+    "ss09" 1,
+    "ss10" 1,
+    "ss11" 1;
+}
+
+.tok-comment,
+.term-dim {
+  color: var(--syn-comment);
+}
+
+.tok-keyword {
+  color: var(--syn-kw);
+  font-weight: var(--fw-bold);
+}
+
+.tok-type,
+.tok-number {
+  color: var(--syn-type);
+}
+
+.tok-string {
+  color: var(--syn-string);
+}
+
+.term-prompt,
+.term-path,
+.term-hash {
+  color: var(--syn-blue);
+  font-weight: var(--fw-bold);
+}
+
+.term-command,
+.term-size {
+  color: var(--syn-green);
+  font-weight: var(--fw-bold);
+}
+
+.term-user,
+.term-date {
+  color: var(--syn-yellow);
+}
+
+.proof-foot {
+  display: block;
+  padding: 0.48rem 0.7rem 0.55rem;
+  border-top: 1px solid var(--rule);
+  color: var(--gray);
+  background: var(--bg);
+}
+
+.proof-grid.labels-overlay .proof-foot {
+  position: absolute;
+  left: 0.7rem;
+  bottom: 0.7rem;
+  z-index: 2;
+  width: min(var(--font-option-width), calc(100% - 1.4rem));
+  max-width: calc(100% - 1.4rem);
+  padding: 0.4rem 0.52rem 0.45rem;
+  border: 1px solid var(--rule);
+  background: rgba(246, 248, 250, 0.94);
+  color: #57606a;
+  opacity: 0;
+  pointer-events: none;
+}
+
+html[data-theme="dark"] .proof-grid.labels-overlay .proof-foot {
+  background: rgba(48, 54, 61, 0.90);
+  color: #c9d1d9;
+}
+
+.proof-grid.labels-overlay .proof-meta {
+  color: var(--ink);
+}
+
+.proof-grid.labels-overlay .proof:hover .proof-foot,
+.proof-grid.labels-overlay .proof:focus .proof-foot,
+.proof-grid.labels-overlay .proof:focus-within .proof-foot {
+  opacity: 1;
+}
+
+.proof-foot .proof-title,
+.proof-foot .proof-meta {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.empty-state {
+  color: var(--gray);
+  font-family: var(--ui-font);
+  font-size: 0.95rem;
+  line-height: 1.45;
+  padding: 0;
+  text-align: center;
+}
+
+@media (max-width: 860px) {
+  .compare-controls {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 620px) {
+  .compare-wrap {
+    padding-top: 48px;
+  }
+
+  .compare-inline-theme { margin-left: 0; }
+
+  .proof-foot .proof-title,
+  .proof-foot .proof-meta {
+    white-space: normal;
+  }
+}

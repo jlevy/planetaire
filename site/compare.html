@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Planetaire Mono Font Comparator</title>
+<meta name="description" content="Compare Planetaire Mono against selectable monospace fonts with editable code, terminal, prose, and confusable-character samples.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="fonts/planetaire-mono-text.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hack-font@3/build/web/hack-subset.css">
+<link rel="stylesheet" href="style.css?v=20260609-nav-top-space">
+<link rel="stylesheet" href="compare.css?v=20260609-font-comparator-final">
+
+<script>
+(function () {
+  var themeVars = {
+    light: {
+      "--ink": "#000",
+      "--gray": "#6e7781",
+      "--rule": "#d7dbdf",
+      "--surface": "#fff",
+      "--bg": "#fff",
+      "--hover-bg": "#e8eaed",
+      "--syn-comment": "var(--l-comment)",
+      "--syn-kw": "var(--l-magenta)",
+      "--syn-type": "var(--l-cyan)",
+      "--syn-string": "var(--l-green)",
+      "--syn-num": "var(--l-cyan)",
+      "--syn-yellow": "var(--l-yellow)",
+      "--syn-blue": "var(--l-blue)",
+      "--syn-green": "var(--l-green)",
+      "--syn-dim": "var(--l-muted)"
+    },
+    dark: {
+      "--ink": "#e6edf3",
+      "--gray": "#8b949e",
+      "--rule": "#30363d",
+      "--surface": "#000",
+      "--bg": "#000",
+      "--hover-bg": "#262c36",
+      "--syn-comment": "var(--d-comment)",
+      "--syn-kw": "var(--d-magenta)",
+      "--syn-type": "var(--d-cyan)",
+      "--syn-string": "var(--d-green)",
+      "--syn-num": "var(--d-cyan)",
+      "--syn-yellow": "var(--d-yellow)",
+      "--syn-blue": "var(--d-blue)",
+      "--syn-green": "var(--d-green)",
+      "--syn-dim": "var(--d-brightblack)"
+    }
+  };
+  window.applyCompareThemeVars = function (theme) {
+    var vars = themeVars[theme] || themeVars.light;
+    for (var key in vars) document.documentElement.style.setProperty(key, vars[key]);
+  };
+  var m = document.cookie.match(/(?:^|;\s*)plt-theme=(light|dark)/);
+  var theme = m && m[1];
+  if (!theme) { try { theme = localStorage.getItem('plt-theme'); } catch (e) {} }
+  if (theme !== 'light' && theme !== 'dark') {
+    theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  }
+  document.documentElement.setAttribute('data-theme', theme);
+  window.applyCompareThemeVars(theme);
+})();
+</script>
+</head>
+<body>
+<div class="wrap compare-wrap">
+  <nav class="site-nav" aria-label="Primary">
+    <span class="site-nav-pages">
+      <a class="site-nav-tab" href="index.html">Planetaire</a>
+      <a class="site-nav-tab" href="compare.html" aria-current="page">Compare</a>
+    </span>
+    <a class="site-nav-external" href="https://github.com/jlevy/planetaire" target="_blank" rel="noopener">GitHub →</a>
+  </nav>
+
+  <header class="compare-page-header">
+    <h1>Monospace Font Comparisons</h1>
+  </header>
+
+  <section class="compare-controls" aria-label="Comparison controls">
+    <div class="control">
+      <label for="sample-select">Text Sample</label>
+      <select id="sample-select"></select>
+    </div>
+
+    <div class="control">
+      <label for="font-size-preset">Font Size</label>
+      <div class="control-row control-row-size">
+        <select id="font-size-preset" class="size-preset" aria-label="Common font sizes">
+          <option value="8">8 px</option>
+          <option value="10">10 px</option>
+          <option value="12">12 px</option>
+          <option value="14">14 px</option>
+          <option value="16" selected>16 px</option>
+          <option value="18">18 px</option>
+          <option value="20">20 px</option>
+          <option value="24">24 px</option>
+          <option value="28">28 px</option>
+          <option value="32">32 px</option>
+          <option value="36">36 px</option>
+          <option value="40">40 px</option>
+          <option value="48">48 px</option>
+          <option value="custom">Custom...</option>
+        </select>
+        <input id="font-size" class="size-input" type="number" min="2" max="128" step="1" value="16" inputmode="numeric" aria-label="Custom font size in pixels" hidden>
+      </div>
+    </div>
+
+    <div class="control control-weight">
+      <label for="font-weight">Font Weight</label>
+      <select id="font-weight">
+        <option value="400" selected>400</option>
+        <option value="500">500</option>
+        <option value="600">600</option>
+        <option value="700">700</option>
+        <option value="800">800</option>
+      </select>
+    </div>
+
+    <div class="control control-options">
+      <span class="control-label" id="options-label">Options</span>
+      <div class="options-row" aria-labelledby="options-label">
+        <div class="option-stack">
+          <select id="card-size" aria-label="Card size">
+            <option value="large" selected>Large</option>
+            <option value="medium">Medium</option>
+            <option value="small">Small</option>
+          </select>
+          <label class="check-control" for="hide-labels">
+            <input id="hide-labels" type="checkbox" checked>
+            <span>Hide font names</span>
+          </label>
+        </div>
+        <div class="theme-switch compare-inline-theme" role="group" aria-label="Theme">
+          <span class="ts-group">
+            <button type="button" class="ts-opt" data-theme-set="light">Light</button>
+            <button type="button" class="ts-opt" data-theme-set="dark">Dark</button>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="control control-text">
+      <label for="sample-text">Text</label>
+      <textarea id="sample-text" spellcheck="false"></textarea>
+    </div>
+  </section>
+
+  <section class="font-picker" aria-labelledby="font-picker-heading">
+    <div class="picker-head">
+      <h2 id="font-picker-heading">Fonts</h2>
+      <div class="picker-actions">
+        <button type="button" class="mini-btn" data-font-action="default">Default</button>
+        <button type="button" class="mini-btn" data-font-action="all">All</button>
+        <button type="button" class="mini-btn" data-font-action="clear">Clear</button>
+      </div>
+    </div>
+    <div class="font-checks" id="font-checks"></div>
+  </section>
+
+  <main class="proof-grid" id="proof-grid" aria-label="Font comparison proofs"></main>
+
+  <footer>
+    Planetaire Mono · <a href="https://github.com/jlevy/planetaire">github.com/jlevy/planetaire</a>
+  </footer>
+</div>
+
+<script>
+(function () {
+  const opts = document.querySelectorAll('.ts-opt');
+  if (!opts.length) return;
+  const apply = (theme) => {
+    document.documentElement.setAttribute('data-theme', theme);
+    if (window.applyCompareThemeVars) window.applyCompareThemeVars(theme);
+    try { document.cookie = 'plt-theme=' + theme + '; path=/; max-age=31536000; SameSite=Lax'; } catch (e) {}
+    try { localStorage.setItem('plt-theme', theme); } catch (e) {}
+    opts.forEach(o => o.setAttribute('aria-pressed', String(o.dataset.themeSet === theme)));
+  };
+  const current = document.documentElement.getAttribute('data-theme') || 'light';
+  opts.forEach(o => o.setAttribute('aria-pressed', String(o.dataset.themeSet === current)));
+  opts.forEach(o => o.addEventListener('click', () => apply(o.dataset.themeSet)));
+})();
+</script>
+<script src="compare.js?v=20260609-font-comparator-final"></script>
+</body>
+</html>

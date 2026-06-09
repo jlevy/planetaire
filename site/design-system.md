@@ -96,13 +96,18 @@ Do not introduce an h4 in prose. Field captions inside demos use `.label` (small
 caps), which reads as a quieter tier than an h3 (body black caps) — black vs gray, body
 vs small, exactly the two-color / two-size split.
 
+- The homepage hero title, lineage, tagline/prose, and content headings stay in
+  Planetaire Mono Text. The sans-serif UI face is reserved for chrome such as the top nav,
+  tabs, buttons, theme switch, footer, and comparison controls.
+
 - **`h3` sits in the regular paragraph rhythm** — the gap above and below it equals the
   one paragraph gap (`--space-para`), shared with `<p>`, for a traditional manuscript feel
   (same as the specimens). No extra heading space.
 
 ## Spacing
 
-- Page: max width `720px`, centered, `80px` top padding (airy, like the cover).
+- Page: max width `720px`, centered, `52px` top padding so the shared nav sits near
+  the top without feeling pinned to the viewport edge.
 - One paragraph gap, `--space-para` (`1.1rem`), is shared by `<p>` and `h3`.
 - **Hero** mirrors the specimen cover's generous vertical rhythm: large planet graphic
   (max `700px`), ample space below it, and generous spacing around the lineage / switch.
@@ -113,8 +118,14 @@ vs small, exactly the two-color / two-size split.
 
 All button text is **CAPS** (via `text-transform`, authored mixed-case).
 
-- **Buttons:** three in the hero — *Download Fonts* (latest GitHub release), *Specimen PDF →*
-  (opens the PDF in a new tab), and *GitHub →* (the repo). Identical style: `--ink` border,
+- **Top nav:** a minimal gray caps row above the hero. Planetaire and Compare are page
+  tabs, left-aligned on a hairline rule and using the same active underline as the main
+  About / Samples / Installation tabs. The nav expands to the shared wide compare-page
+  width on large screens while the homepage content remains on its narrower reading
+  column. GitHub is an external link, separated at right with an arrow and no active-tab
+  state.
+- **Buttons:** two in the hero — *Download Fonts* (latest GitHub release) and
+  *Specimen PDF →* (opens the PDF in a new tab). Identical style: `--ink` border,
   transparent fill, invert on hover. No primary/secondary distinction.
 - **Theme switch:** a centered Light/Dark control directly below the CTAs (not a corner
   toggle) — seeing the font on both backgrounds is a primary way to evaluate it. Two

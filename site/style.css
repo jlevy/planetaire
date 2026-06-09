@@ -45,6 +45,7 @@
   --radius: 1px;        /* corner radius, used everywhere */
 
   /* type scale */
+  --ui-font: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --fs-display: 3.25rem;
   --fs-h2: 1.625rem;
   --fs-body: 1rem;
@@ -64,7 +65,10 @@
   --fw-medium: 500;
   --fw-bold: 700;
 
+  --ui-transition: color 360ms ease, background-color 360ms ease, border-color 360ms ease, opacity 360ms ease;
+
   --max: 720px;
+  --nav-max: 1180px;
 
   /* code/terminal demo palettes (the one exception to two-color) ---------- */
   /* pal-light (content.typ) */
@@ -110,8 +114,7 @@ body { overflow-x: hidden; }   /* guard against side-scroll; also clips the plan
 /* Gentle, general transition so light/dark mode eases rather than snaps.
    Only themeable properties; placed once, globally. */
 *, *::before, *::after {
-  transition: background-color 0.45s ease, border-color 0.45s ease,
-              color 0.45s ease, fill 0.45s ease, filter 0.45s ease, opacity 0.45s ease;
+  transition: var(--ui-transition), fill 360ms ease, filter 360ms ease;
 }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none; } }
 
@@ -128,7 +131,7 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-.wrap { max-width: var(--max); margin: 0 auto; padding: 80px 0 96px; }
+.wrap { max-width: var(--max); margin: 0 auto; padding: 52px 0 96px; }
 
 /* ---- Type ---------------------------------------------------------------- */
 
@@ -155,7 +158,13 @@ h3 {
 }
 p { margin: 0 0 var(--space-para); }
 
-a { color: var(--ink); text-decoration: underline; text-underline-offset: 2px; border-radius: var(--radius); }
+a {
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  border-radius: var(--radius);
+  transition: var(--ui-transition);
+}
 /* Consistent hover everywhere: ink text + a mode-appropriate gray background. */
 a:hover { color: var(--ink); background: var(--hover-bg); }
 a:focus-visible, button:focus-visible {
@@ -177,13 +186,61 @@ em, i { font-style: italic; }
   margin: 1.4rem 0 0.5rem;
 }
 
+/* ---- Top nav ------------------------------------------------------------- */
+
+.site-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 1.7rem;
+  width: min(var(--nav-max), calc(100vw - 40px));
+  margin: 0 0 4.25rem 50%;
+  transform: translateX(-50%);
+  border-bottom: 1px solid var(--rule);
+  font-family: var(--ui-font);
+}
+.site-nav-pages {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.7rem;
+}
+.site-nav-tab, .site-nav-external, .tab-opt {
+  display: inline-block;
+  font-family: var(--ui-font);
+  font-size: 0.72rem;
+  font-weight: var(--fw-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  color: var(--gray);
+  border-radius: 0;
+  transition: var(--ui-transition);
+}
+.site-nav-tab, .tab-opt {
+  padding: 0.55rem 0 0.45rem;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+}
+.site-nav-external {
+  flex: 0 0 auto;
+  padding: 0.55rem 0 0.45rem;
+}
+.site-nav-tab:hover, .site-nav-external:hover, .tab-opt:hover {
+  color: var(--ink);
+  background: transparent;
+}
+.site-nav-tab[aria-current="page"] {
+  color: var(--ink);
+  border-bottom-color: var(--ink);
+}
+
 /* ---- Hero ---------------------------------------------------------------- */
 
 /* Title cluster — a self-contained brand block echoing the PDF specimen
    cover: large wordmark and black bold lineage, both bigger than body, with
    generous vertical rhythm. Its sizes are bespoke to this cluster (like the
    cover), not part of the four-size chrome scale. */
-.hero { text-align: center; margin: 3rem 0 6.5rem; }
+.hero { text-align: center; margin: 0 0 6.5rem; }
 /* The planet frame bleeds wider than the 720px column on large screens (up to
    ~940px, ~30% wider, centered). On narrow screens the image keeps a minimum
    width so the planet stays legible, and the frame crops the star-filled sides
@@ -218,15 +275,19 @@ em, i { font-style: italic; }
 .cta { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin: 3.8rem 0 0; }
 .btn {
   display: inline-block;
+  font-family: var(--ui-font);
+  font-size: 0.72rem;
   font-weight: var(--fw-bold);
   text-transform: uppercase;
   letter-spacing: 0.04em;
   text-decoration: none;
-  padding: 0.55rem 1.2rem;
+  line-height: 1.62;
+  padding: 0.35rem 0.65rem;
   border: 1.5px solid var(--ink);
   border-radius: var(--radius);
   color: var(--ink);
   background: var(--bg);
+  transition: var(--ui-transition);
 }
 .btn:hover { background: var(--hover-bg); color: var(--ink); }
 
@@ -241,23 +302,11 @@ em, i { font-style: italic; }
   border-bottom: 1px solid var(--rule);
 }
 .tab-opt {
-  display: inline-block;
-  font-family: inherit;
-  font-size: var(--fs-body);
-  font-weight: var(--fw-bold);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  text-decoration: none;
-  padding: 0.55rem 0 0.65rem;
   border: 0;
   border-bottom: 2px solid transparent;
-  border-radius: 0;
-  color: var(--gray);
   background: transparent;
   cursor: pointer;
-  margin-bottom: -1px;
 }
-.tab-opt:hover { color: var(--ink); background: transparent; }
 .tab-opt[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--ink); }
 .tab-panel[hidden] { display: none; }
 .tab-panel > h2:first-child { margin-top: 0; }
@@ -270,6 +319,8 @@ li { margin: 0.3rem 0; }
 table { border-collapse: collapse; width: 100%; margin: 1.2rem 0; font-size: var(--fs-body); }
 th, td { border: 1px solid var(--rule); padding: 8px 10px; text-align: left; vertical-align: top; overflow-wrap: break-word; }
 th { font-weight: var(--fw-bold); background: var(--surface); }
+.download-file { display: block; white-space: nowrap; }
+.download-file + .download-file { margin-top: 0.2rem; }
 @media (max-width: 620px) {
   table {
     display: block;
@@ -321,7 +372,13 @@ pre:hover::-webkit-scrollbar-thumb, .cellrow:hover::-webkit-scrollbar-thumb, tab
 
 /* Code/terminal panel — follows the page theme. Background and text track the
    theme; the syntax colors switch via the --syn-* vars (light ↔ dark). */
-.panel { background: var(--surface); color: var(--ink); border: 1px solid var(--rule); padding: 1rem 1.2rem; }
+.panel {
+  background: var(--surface);
+  color: var(--ink);
+  border: 1px solid var(--rule);
+  padding: 1rem 1.2rem;
+  transition: var(--ui-transition);
+}
 .panel .cm { color: var(--syn-comment); }
 .panel .kw { color: var(--syn-kw); font-weight: var(--fw-bold); }
 .panel .ty { color: var(--syn-type); }
@@ -371,7 +428,27 @@ pre:hover::-webkit-scrollbar-thumb, .cellrow:hover::-webkit-scrollbar-thumb, tab
 
 /* ---- Misc ---------------------------------------------------------------- */
 
-footer { margin-top: 4rem; padding-top: 1.5rem; border-top: 1px solid var(--rule); color: var(--gray); font-size: var(--fs-small); text-align: center; }
+footer {
+  margin-top: 4rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--rule);
+  color: var(--gray);
+  font-family: var(--ui-font);
+  font-size: var(--fs-small);
+  text-align: center;
+}
+footer a,
+footer a {
+  color: inherit;
+  background: transparent;
+  text-decoration: none;
+  transition: var(--ui-transition);
+}
+footer a:hover {
+  color: var(--ink);
+  background: transparent;
+  text-decoration: none;
+}
 
 /* ---- Theme switch (centered, below the CTAs) ----------------------------- */
 /* A prominent Light/Dark control — seeing the font on both backgrounds is a
@@ -380,14 +457,15 @@ footer { margin-top: 4rem; padding-top: 1.5rem; border-top: 1px solid var(--rule
 /* Light/Dark control: two equal-width segments. The CURRENT theme is the
    emphasized (filled) segment; the other is muted, so the fill alone shows the
    toggle position. */
-.theme-switch { display: inline-flex; justify-content: center; margin: 2.8rem 0 0; }
+.theme-switch { display: inline-flex; justify-content: center; margin: 2.8rem 0 0; font-family: var(--ui-font); }
 .theme-switch .ts-group { display: inline-flex; border: 1.5px solid var(--ink); border-radius: var(--radius); overflow: hidden; }
 .theme-switch .ts-opt {
-  font-family: inherit; font-weight: var(--fw-bold); font-size: var(--fs-body);
-  line-height: 1.6;   /* <button> won't inherit it; match .btn so heights are equal */
+  font-family: var(--ui-font); font-weight: var(--fw-bold); font-size: 0.72rem;
+  line-height: 1.62;   /* <button> won't inherit it; match .btn so heights are equal */
   text-transform: uppercase; letter-spacing: 0.04em;
-  min-width: 6rem; text-align: center; padding: 0.55rem 1.2rem; cursor: pointer;
+  min-width: 0; text-align: center; padding: 0.35rem 0.65rem; cursor: pointer;
   background: var(--bg); color: var(--gray); border: none;
+  transition: var(--ui-transition);
 }
 .theme-switch .ts-opt + .ts-opt { border-left: 1.5px solid var(--ink); }
 .theme-switch .ts-opt[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
