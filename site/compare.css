@@ -241,6 +241,7 @@ body {
 }
 
 .compare-view-tabs {
+  justify-content: flex-start;
   margin: 0 0 1rem;
   padding-top: 0.5rem;
 }
