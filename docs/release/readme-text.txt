@@ -14,6 +14,17 @@ Contents:
 Recommended: for the web, use web/ and the included stylesheet(s). If you need the full
 Nerd Font icon set (for terminals and coding), use Planetaire Mono Extended instead.
 
+Web delivery notes:
+  - Preload PlanetaireMonoText-Regular-latin.woff2 when Planetaire text appears above
+    the fold. Also preload PlanetaireMonoText-Bold-latin.woff2 if bold text appears
+    above the fold.
+  - Use font-family: var(--planetaire-mono-text-font-stack); after loading the CSS.
+    The stylesheet includes a metric-matched local fallback face for stable line height
+    during font-display: swap.
+  - Serve WOFF2 files from a versioned path or fingerprinted filename with
+    Cache-Control: public, max-age=31536000, immutable. Keep CSS cache shorter if font
+    URLs inside it are not versioned.
+
 License:
   LICENSE        SIL Open Font License 1.1 (covers this distribution)
   licenses/      Constituent upstream license texts (B612, Hack, Nerd Fonts)

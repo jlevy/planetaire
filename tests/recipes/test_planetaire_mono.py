@@ -121,7 +121,9 @@ def test_build_text_split_regular(source_dir: Path):
         assert 0x0041 not in latin_ext_cmap
 
         css = (output_dir / "planetaire-mono-text.css").read_text()
-        assert css.count("\n@font-face") == 2
+        assert css.count("font-family: 'Planetaire Mono Text';") == 2
+        assert "font-family: 'Planetaire Mono Text Fallback';" in css
+        assert "--planetaire-mono-text-font-stack" in css
         assert "font-style: normal" in css
         assert "font-weight: 400" in css
         assert "PlanetaireMonoText-Regular-latin.woff2" in css
@@ -148,7 +150,9 @@ def test_build_text_split_italic_companion(source_dir: Path):
         assert "planetaire-mono-text-italics.css" in names
 
         css = (output_dir / "planetaire-mono-text-italics.css").read_text()
-        assert css.count("\n@font-face") == 2
+        assert css.count("font-family: 'Planetaire Mono Text';") == 2
+        assert "font-family: 'Planetaire Mono Text Fallback';" in css
+        assert "--planetaire-mono-text-font-stack" in css
         assert "font-style: italic" in css
         assert "font-weight: 400" in css
         assert "unicode-range: U+0000-00FF,U+0131" in css

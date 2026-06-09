@@ -340,12 +340,14 @@ you need the Nerd Font icons in the browser.
 From the Text archive’s `web/`:
 
 ```html
+<link rel="preload" as="font" type="font/woff2" href="PlanetaireMonoText-Regular-latin.woff2" crossorigin>
+<!-- Optional: preload the bold Latin slice if bold text appears above the fold. -->
+<link rel="preload" as="font" type="font/woff2" href="PlanetaireMonoText-Bold-latin.woff2" crossorigin>
 <link rel="stylesheet" href="planetaire-mono-text.css">
 <!-- Optional: regular/bold italics. -->
 <link rel="stylesheet" href="planetaire-mono-text-italics.css">
-<link rel="preload" as="font" type="font/woff2" href="PlanetaireMonoText-Regular-latin.woff2" crossorigin>
 <style>
-  body { font-family: "Planetaire Mono Text", ui-monospace, monospace; }
+  body { font-family: var(--planetaire-mono-text-font-stack); }
   /* rectangle zero instead of the dotted circle: */
   .code { font-feature-settings: "ss01" 1; }
 </style>
@@ -354,7 +356,13 @@ From the Text archive’s `web/`:
 The default Text web stylesheet declares Regular (400) and Bold (700), upright, split
 into Google Fonts-style `latin` and `latin-ext` unicode ranges. Browsers fetch the Latin
 file for ordinary English text and fetch Latin Extended only when the page uses it. Add
-the italic stylesheet only when the app renders italic text.
+the italic stylesheet only when the app renders italic text. The generated CSS also
+defines `--planetaire-mono-text-font-stack`, which includes a metric-matched local
+fallback face so line height stays stable while `font-display: swap` loads the WOFF2.
+
+For production, serve the WOFF2 files from a versioned path or fingerprinted filename
+with `Cache-Control: public, max-age=31536000, immutable`. Keep the CSS cache shorter if
+the font URLs inside it are not versioned.
 
 ## Build from Source
 

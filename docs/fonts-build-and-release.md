@@ -47,7 +47,10 @@ box-drawing, block elements, geometric shapes), dropping the Private-Use Nerd Fo
 and Powerline. The release archive keeps that full Text coverage in `ttf/`, but the
 `web/` folder uses a Google Fonts-style split: Regular/Bold upright as the base CSS,
 Latin and Latin Extended WOFF2 files, and an optional Regular/Bold italic companion CSS.
-Browsers fetch only the unicode ranges and styles a page actually uses.
+Browsers fetch only the unicode ranges and styles a page actually uses. The generated
+CSS also includes a local metric-matched fallback face and a
+`--planetaire-mono-text-font-stack` custom property for stable line height during
+`font-display: swap`.
 
 ## Build
 
