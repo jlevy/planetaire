@@ -374,12 +374,23 @@ em, i { font-style: italic; }
   font-size: 1.3rem;
   letter-spacing: 0.05em;
   line-height: 1.6;
-  margin: 3rem 0;
+  margin: 3rem 0 1.6rem;
+}
+.hero-intro {
+  max-width: 42rem;
+  margin: 0 auto;
+  text-align: left;
+}
+.hero-intro p {
+  margin: 0;
+}
+.hero-intro p + p {
+  margin-top: 1rem;
 }
 
 /* ---- Buttons ------------------------------------------------------------- */
 
-.cta { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin: 3.8rem 0 0; }
+.cta { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin: 2.6rem 0 0; }
 .btn {
   display: inline-block;
   font-family: var(--ui-font);
@@ -397,6 +408,20 @@ em, i { font-style: italic; }
   transition: var(--ui-transition);
 }
 .btn:hover { background: var(--hover-bg); color: var(--ink); }
+
+@media (max-width: 620px) {
+  .hero .planet-frame {
+    margin-bottom: 2.2rem;
+  }
+
+  .hero .lineage {
+    margin: 1.7rem 0 0.6rem;
+  }
+
+  .cta {
+    margin-top: 0.8rem;
+  }
+}
 
 /* ---- Main tabs ----------------------------------------------------------- */
 
