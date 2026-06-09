@@ -16,17 +16,20 @@
     background-color 360ms ease,
     border-color 360ms ease,
     color 360ms ease;
-  --proof-border: rgba(27, 31, 36, 0.07);
-  --proof-shadow: 0 1px 8px rgba(27, 31, 36, 0.055);
+  --proof-border: rgba(27, 31, 36, 0.08);
+  --proof-shadow:
+    0 1px 2px rgba(27, 31, 36, 0.055),
+    0 3px 14px rgba(27, 31, 36, 0.085);
   --ui-font: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --editor-font: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
 }
 
 html[data-theme="dark"] {
-  --proof-border: rgba(240, 246, 252, 0.14);
+  --proof-border: rgba(240, 246, 252, 0.16);
   --proof-shadow:
-    0 0 0 1px rgba(240, 246, 252, 0.025),
-    0 1px 10px rgba(240, 246, 252, 0.055);
+    0 0 0 1px rgba(240, 246, 252, 0.035),
+    0 0 14px rgba(240, 246, 252, 0.11),
+    0 5px 18px rgba(0, 0, 0, 0.28);
 }
 
 body {
@@ -718,11 +721,12 @@ html[data-theme="dark"] .font-select-wrap select {
 }
 
 html[data-theme="dark"] .proof-grid.labels-overlay .proof-foot {
-  border-color: rgba(240, 246, 252, 0.14);
+  border-color: rgba(240, 246, 252, 0.16);
   background: rgba(48, 54, 61, 0.90);
   box-shadow:
-    0 0 0 1px rgba(240, 246, 252, 0.025),
-    0 1px 10px rgba(240, 246, 252, 0.07);
+    0 0 0 1px rgba(240, 246, 252, 0.035),
+    0 0 14px rgba(240, 246, 252, 0.12),
+    0 5px 18px rgba(0, 0, 0, 0.30);
   color: #c9d1d9;
 }
 
