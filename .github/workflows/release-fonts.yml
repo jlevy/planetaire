@@ -64,9 +64,10 @@ jobs:
           out=fonts/output
           # Stage each family into ttf/ and web/ subfolders with a README, then archive.
           # Both families ship TTF for local use plus WOFF2/CSS for the web; Text web
-          # output is split to the slim Regular/Bold Latin profile. Extended adds the
-          # full Nerd Font icon set, so it is a superset of Text. Archive names stay
-          # unversioned so the releases/latest/download/... URLs remain stable.
+          # output is split to the slim Regular/Bold Latin, Greek, and Cyrillic profile.
+          # Extended adds the full Nerd Font icon set, so it is a superset of Text.
+          # Archive names stay unversioned so the releases/latest/download/... URLs
+          # remain stable.
           mkdir -p dist/Extended/ttf dist/Extended/web dist/Extended/licenses \
                    dist/Text/ttf dist/Text/web dist/Text/licenses
           cp "$out"/PlanetaireMonoExtended-*.ttf dist/Extended/ttf/

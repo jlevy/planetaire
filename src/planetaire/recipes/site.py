@@ -138,7 +138,7 @@ def _render_index(
     <table>
       <tr><th>Package</th><th>Best for</th><th>Coverage</th></tr>
       <tr><td><b>Planetaire Mono Extended</b></td><td>Terminals, coding</td><td>Everything + ~12k Nerd Font icons</td></tr>
-      <tr><td><b>Planetaire Mono Text</b></td><td>Web, documents</td><td>TTF: full text coverage. Web: slim Regular/Bold Latin split.</td></tr>
+      <tr><td><b>Planetaire Mono Text</b></td><td>Web, documents</td><td>TTF: full text coverage. Web: slim Regular/Bold Latin, Greek, and Cyrillic split.</td></tr>
     </table>
   </section>
 
@@ -151,7 +151,7 @@ def _render_index(
 
   <section>
     <h2>Use on the web</h2>
-    <p>The Text web CSS uses the same family name for a smaller Regular/Bold Latin split:</p>
+    <p>The Text web CSS uses the same family name for a smaller Regular/Bold script split:</p>
     <p><code>&lt;link rel="stylesheet" href="planetaire-mono-text.css"&gt;</code><br>
        <code>&lt;link rel="stylesheet" href="planetaire-mono-text-italics.css"&gt;</code><br>
        <code>font-family: var(--planetaire-mono-text-font-stack);</code></p>

@@ -317,7 +317,7 @@ def build_text(
     Same letterforms as the full build. By default, output is subset to the full
     standard-Unicode Text coverage and emitted as WOFF2/WOFF/TTF plus a generated
     ``@font-face`` stylesheet. With ``split=True``, emit Google Fonts-style WOFF2
-    subsets for the slim web profile: Regular/Bold upright, Latin + Latin Extended;
+    subsets for the slim web profile: Regular/Bold upright, Latin, Greek, and Cyrillic;
     optionally add the matching italic companion.
 
     Returns the list of written paths (fonts and the CSS file).

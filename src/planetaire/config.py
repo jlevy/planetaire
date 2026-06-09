@@ -68,9 +68,16 @@ TEXT_SUBSET_GROUPS: dict[str, TextSubsetDef] = {
     ),
 }
 
-# First slim web package: same CSS family as Text, Regular/Bold only, upright only,
-# split into Latin and Latin Extended WOFF2 files.
-TEXT_SLIM_WEB_SUBSETS: tuple[str, ...] = ("latin", "latin-ext")
+# First slim web package: same CSS family as Text, Regular/Bold only, split into
+# Google Fonts-style script subsets. Greek Extended is defined above for future
+# coverage, but the current Text font has no encoded U+1F00-1FFF glyphs.
+TEXT_SLIM_WEB_SUBSETS: tuple[str, ...] = (
+    "latin",
+    "latin-ext",
+    "greek",
+    "cyrillic",
+    "cyrillic-ext",
+)
 TEXT_SLIM_WEB_VARIANTS: tuple[str, ...] = ("Regular", "Bold")
 TEXT_SLIM_WEB_ITALIC_VARIANTS: tuple[str, ...] = ("Italic", "BoldItalic")
 

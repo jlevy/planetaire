@@ -244,7 +244,7 @@ Decisions taken while implementing, recorded here so they can be revisited:
 - **Measured old single-file Text output (Regular):** 1,317 glyphs, about 53 KB WOFF2
   after web metadata trims, vs ~2.6 MB TTF / ~984 KB WOFF2 for the full build. Current
   release web output is the smaller split profile: Regular/Bold, Latin + Latin Extended,
-  with optional Regular/Bold italics.
+  Greek, Cyrillic, and Cyrillic Extended, with optional Regular/Bold italics.
 
 ## Open Questions
 

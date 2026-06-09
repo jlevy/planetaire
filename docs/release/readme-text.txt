@@ -7,8 +7,9 @@ family.
 Contents:
   web/   Slim WOFF2 web fonts and @font-face CSS. The base stylesheet
          planetaire-mono-text.css declares Regular/Bold upright faces split into
-         latin and latin-ext ranges. Load planetaire-mono-text-italics.css as an
-         optional companion for Regular/Bold italics.
+         latin, latin-ext, greek, cyrillic, and cyrillic-ext ranges. Load
+         planetaire-mono-text-italics.css as an optional companion for Regular/Bold
+         italics.
   ttf/   TrueType fonts for local install (documents, editors) if you want it on desktop.
 
 Recommended: for the web, use web/ and the included stylesheet(s). If you need the full

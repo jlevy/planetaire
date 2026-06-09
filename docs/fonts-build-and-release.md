@@ -40,17 +40,24 @@ vendored copies.)
 | --- | --- | --- |
 | **Planetaire Mono Extended** (full) | `planetaire build planetaire-mono` | `PlanetaireMonoExtended-*.ttf` (all Nerd Font icons) |
 | **Planetaire Mono Text** (local text TTFs) | `planetaire build text --formats ttf` | `PlanetaireMonoText-*.ttf` |
-| **Planetaire Mono Text** (slim web) | `planetaire build text --split --italics` | `PlanetaireMonoText-{Regular,Bold}{,Italic}-{latin,latin-ext}.woff2`, `planetaire-mono-text.css`, and `planetaire-mono-text-italics.css` |
+| **Planetaire Mono Text** (slim web) | `planetaire build text --split --italics` | `PlanetaireMonoText-{Regular,Bold}{,Italic}-{latin,latin-ext,greek,cyrillic,cyrillic-ext}.woff2`, `planetaire-mono-text.css`, and `planetaire-mono-text-italics.css` |
 
 Text is the full build subset to standard-Unicode text glyphs (letters, punctuation,
 box-drawing, block elements, geometric shapes), dropping the Private-Use Nerd Font icons
 and Powerline. The release archive keeps that full Text coverage in `ttf/`, but the
 `web/` folder uses a Google Fonts-style split: Regular/Bold upright as the base CSS,
-Latin and Latin Extended WOFF2 files, and an optional Regular/Bold italic companion CSS.
-Browsers fetch only the unicode ranges and styles a page actually uses. The generated
-CSS also includes a local metric-matched fallback face and a
+Latin, Latin Extended, Greek, Cyrillic, and Cyrillic Extended WOFF2 files, plus an
+optional Regular/Bold italic companion CSS. Browsers fetch only the unicode ranges and
+styles a page actually uses, so adding Greek/Cyrillic support does not increase the font
+payload for Latin-only pages. The generated CSS also includes a local metric-matched
+fallback face and a
 `--planetaire-mono-text-font-stack` custom property for stable line height during
 `font-display: swap`.
+
+Additional named split subsets can be requested with `--subsets`, using the subset names
+defined in `src/planetaire/config.py`. `greek-ext` is defined for parity with the Google
+Fonts model, but the current Text font has no encoded Greek Extended (`U+1F00-1FFF`)
+coverage, so the build warns and skips that file.
 
 ## Build
 

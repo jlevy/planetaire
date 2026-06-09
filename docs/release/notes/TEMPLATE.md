@@ -22,9 +22,10 @@ Each archive contains:
   license texts.
 
 Extended is a superset of Text. Text TTFs include all standard text styles; Text web
-fonts ship the slim Regular/Bold Latin + Latin Extended split, with optional italic CSS.
-Use the `.tar.xz` archives when possible; `.zip` is provided for Windows and tools that
-do not handle `.tar.xz`.
+fonts ship a slim Regular/Bold unicode-range split for Latin, Greek, and Cyrillic, with
+optional italic CSS. Browsers fetch only the script ranges a page uses. Use the `.tar.xz`
+archives when possible; `.zip` is provided for Windows and tools that do not handle
+`.tar.xz`.
 
 Verify downloads with `SHA256SUMS` from this release page.
 

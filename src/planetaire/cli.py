@@ -14,6 +14,8 @@ from pathlib import Path
 import typer
 from rich.console import Console
 
+from planetaire.config import TEXT_SLIM_WEB_SUBSETS
+
 
 class OutputFormat(StrEnum):
     """Output format for inspection commands."""
@@ -347,7 +349,7 @@ def build_text_cmd(
         help="Emit Google Fonts-style unicode-range WOFF2 subsets for the slim web profile",
     ),
     subsets: str = typer.Option(
-        "latin,latin-ext",
+        ",".join(TEXT_SLIM_WEB_SUBSETS),
         help="Comma-separated split subset names from config (used with --split)",
     ),
     italics: bool = typer.Option(

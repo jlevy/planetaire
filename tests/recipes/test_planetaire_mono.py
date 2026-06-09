@@ -104,7 +104,7 @@ def test_build_text_regular(source_dir: Path):
 
 
 def test_build_text_split_regular(source_dir: Path):
-    """Split Text build emits Google Fonts-style Latin range WOFF2s + CSS."""
+    """Split Text build emits Google Fonts-style script range WOFF2s + CSS."""
     with tempfile.TemporaryDirectory() as tmpdir:
         output_dir = Path(tmpdir)
         outputs = build_text(
@@ -118,6 +118,9 @@ def test_build_text_split_regular(source_dir: Path):
         names = {p.name for p in outputs}
         assert "PlanetaireMonoText-Regular-latin.woff2" in names
         assert "PlanetaireMonoText-Regular-latin-ext.woff2" in names
+        assert "PlanetaireMonoText-Regular-greek.woff2" in names
+        assert "PlanetaireMonoText-Regular-cyrillic.woff2" in names
+        assert "PlanetaireMonoText-Regular-cyrillic-ext.woff2" in names
         assert "PlanetaireMonoText-Regular.ttf" not in names
         assert "planetaire-mono-text.css" in names
         assert "planetaire-mono-text-italics.css" not in names
@@ -136,8 +139,27 @@ def test_build_text_split_regular(source_dir: Path):
         assert 0x0100 in latin_ext_cmap
         assert 0x0041 not in latin_ext_cmap
 
+        greek_cmap = TTFont(output_dir / "PlanetaireMonoText-Regular-greek.woff2").getBestCmap()
+        assert greek_cmap is not None
+        assert 0x0391 in greek_cmap
+        assert 0x0041 not in greek_cmap
+
+        cyrillic_cmap = TTFont(
+            output_dir / "PlanetaireMonoText-Regular-cyrillic.woff2"
+        ).getBestCmap()
+        assert cyrillic_cmap is not None
+        assert 0x0410 in cyrillic_cmap
+        assert 0x0041 not in cyrillic_cmap
+
+        cyrillic_ext_cmap = TTFont(
+            output_dir / "PlanetaireMonoText-Regular-cyrillic-ext.woff2"
+        ).getBestCmap()
+        assert cyrillic_ext_cmap is not None
+        assert 0x0462 in cyrillic_ext_cmap
+        assert 0x0041 not in cyrillic_ext_cmap
+
         css = (output_dir / "planetaire-mono-text.css").read_text()
-        assert css.count("font-family: 'Planetaire Mono Text';") == 2
+        assert css.count("font-family: 'Planetaire Mono Text';") == 5
         assert "font-family: 'Planetaire Mono Text Fallback';" in css
         assert "--planetaire-mono-text-font-stack" in css
         assert "size-adjust: 100%;" in css
@@ -149,6 +171,9 @@ def test_build_text_split_regular(source_dir: Path):
         assert "PlanetaireMonoText-Regular-latin.woff2" in css
         assert "unicode-range: U+0000-00FF,U+0131" in css
         assert "unicode-range: U+0100-024F,U+0259" in css
+        assert "unicode-range: U+0370-03FF" in css
+        assert "unicode-range: U+0301,U+0400-045F" in css
+        assert "unicode-range: U+0460-052F" in css
 
 
 def test_build_text_split_italic_companion(source_dir: Path):
@@ -166,16 +191,21 @@ def test_build_text_split_italic_companion(source_dir: Path):
         names = {p.name for p in outputs}
         assert "PlanetaireMonoText-Italic-latin.woff2" in names
         assert "PlanetaireMonoText-Italic-latin-ext.woff2" in names
+        assert "PlanetaireMonoText-Italic-greek.woff2" in names
+        assert "PlanetaireMonoText-Italic-cyrillic.woff2" in names
+        assert "PlanetaireMonoText-Italic-cyrillic-ext.woff2" in names
         assert "planetaire-mono-text.css" not in names
         assert "planetaire-mono-text-italics.css" in names
 
         css = (output_dir / "planetaire-mono-text-italics.css").read_text()
-        assert css.count("font-family: 'Planetaire Mono Text';") == 2
+        assert css.count("font-family: 'Planetaire Mono Text';") == 5
         assert "font-family: 'Planetaire Mono Text Fallback';" not in css
         assert "--planetaire-mono-text-font-stack" not in css
         assert "font-style: italic" in css
         assert "font-weight: 400" in css
         assert "unicode-range: U+0000-00FF,U+0131" in css
+        assert "unicode-range: U+0370-03FF" in css
+        assert "unicode-range: U+0301,U+0400-045F" in css
 
 
 def test_build_text_split_italics_companion_does_not_duplicate_fallback(source_dir: Path):
