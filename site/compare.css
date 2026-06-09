@@ -263,11 +263,7 @@ body {
 }
 
 .picker-head {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem 1rem;
-  align-items: center;
-  justify-content: space-between;
+  display: block;
   margin: 0 0 0.8rem;
 }
 
@@ -280,6 +276,7 @@ body {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
+  margin-top: 0;
 }
 
 .font-select-wrap {
@@ -439,7 +436,7 @@ html[data-theme="dark"] .font-select-wrap select {
   gap: 0.55rem;
 }
 
-.font-group-more .font-group-grid {
+.font-group.is-collapsible .font-group-grid {
   max-height: 0;
   overflow: hidden;
   opacity: 0;
@@ -452,7 +449,7 @@ html[data-theme="dark"] .font-select-wrap select {
     visibility 0s linear 360ms;
 }
 
-.font-group-more.is-expanded .font-group-grid {
+.font-group.is-collapsible.is-expanded .font-group-grid {
   max-height: 90rem;
   opacity: 1;
   visibility: visible;
@@ -786,7 +783,7 @@ html[data-theme="dark"] .proof-grid.labels-overlay .proof-foot {
 @media (prefers-reduced-motion: reduce) {
   .font-option,
   .font-group-toggle::after,
-  .font-group-more .font-group-grid,
+  .font-group.is-collapsible .font-group-grid,
   .proof-grid.labels-overlay .proof-foot {
     transition: none;
   }

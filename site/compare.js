@@ -423,16 +423,29 @@ function renderFontPicker() {
     return label;
   };
 
-  const makeFontGroup = (title, groupFonts) => {
+  const makeFontGroup = (title, groupFonts, options = {}) => {
     const section = document.createElement("section");
     section.className = "font-group";
+    if (options.kind) section.classList.add(`font-group-${options.kind}`, "is-collapsible");
+    if (options.expanded) section.classList.add("is-expanded");
 
-    const heading = document.createElement("h3");
-    heading.className = "font-group-title";
+    const heading = options.kind ? document.createElement("button") : document.createElement("h3");
+    heading.className = options.kind ? "font-group-toggle" : "font-group-title";
     heading.textContent = title;
+    if (options.kind) {
+      heading.type = "button";
+      heading.setAttribute("aria-expanded", String(Boolean(options.expanded)));
+    }
 
     const grid = document.createElement("div");
     grid.className = "font-group-grid";
+    if (options.kind) {
+      grid.id = `${options.kind}-fonts-grid`;
+      heading.setAttribute("aria-controls", grid.id);
+      heading.addEventListener("click", () => {
+        setFontGroupExpanded(options.kind, !section.classList.contains("is-expanded"));
+      });
+    }
     for (const font of groupFonts) grid.appendChild(makeFontOption(font));
 
     section.append(heading, grid);
@@ -442,29 +455,16 @@ function renderFontPicker() {
   const popularFonts = fonts.filter((font) => font.default);
   const moreFonts = fonts.filter((font) => !font.default);
 
-  els.checks.appendChild(makeFontGroup("Popular Fonts", popularFonts));
+  els.checks.appendChild(makeFontGroup("Popular Fonts", popularFonts, {
+    expanded: true,
+    kind: "popular",
+  }));
 
   if (moreFonts.length) {
-    const moreSection = makeFontGroup("More Fonts", moreFonts);
-    moreSection.classList.add("font-group-more");
-
-    const heading = moreSection.querySelector(".font-group-title");
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = "font-group-toggle";
-    button.setAttribute("aria-expanded", "false");
-    button.textContent = "More Fonts";
-    heading.replaceWith(button);
-
-    const grid = moreSection.querySelector(".font-group-grid");
-    grid.id = "more-fonts-grid";
-    button.setAttribute("aria-controls", grid.id);
-
-    button.addEventListener("click", () => {
-      setMoreFontsExpanded(!moreSection.classList.contains("is-expanded"));
-    });
-
-    els.checks.appendChild(moreSection);
+    els.checks.appendChild(makeFontGroup("More Fonts", moreFonts, {
+      expanded: false,
+      kind: "more",
+    }));
     syncMoreFontsExpansion();
   }
 
@@ -516,12 +516,14 @@ function applyFontStyle(value) {
   document.documentElement.style.setProperty("--proof-style", value);
 }
 
-function setChecked(ids) {
+function setChecked(ids, options = {}) {
   const selected = new Set(ids);
   els.checks.querySelectorAll("input[type='checkbox']").forEach((input) => {
     input.checked = selected.has(input.value);
   });
-  setMoreFontsExpanded(moreFontsHaveSelection());
+  if (options.expandPopular) setFontGroupExpanded("popular", true);
+  if (options.collapseMore) setFontGroupExpanded("more", false);
+  else setMoreFontsExpanded(moreFontsHaveSelection());
   renderProofs();
 }
 
@@ -529,12 +531,16 @@ function moreFontsHaveSelection() {
   return Boolean(els.checks.querySelector(".font-group-more input[type='checkbox']:checked"));
 }
 
-function setMoreFontsExpanded(expanded) {
-  const section = els.checks.querySelector(".font-group-more");
+function setFontGroupExpanded(kind, expanded) {
+  const section = els.checks.querySelector(`.font-group-${kind}`);
   if (!section) return;
   section.classList.toggle("is-expanded", expanded);
   const button = section.querySelector(".font-group-toggle");
   if (button) button.setAttribute("aria-expanded", String(expanded));
+}
+
+function setMoreFontsExpanded(expanded) {
+  setFontGroupExpanded("more", expanded);
 }
 
 function syncMoreFontsExpansion() {
@@ -657,9 +663,18 @@ window.addEventListener("resize", queueProofDimensionSync);
 
 document.querySelectorAll("[data-font-action]").forEach((button) => {
   button.addEventListener("click", () => {
-    if (button.dataset.fontAction === "all") setChecked(fonts.map((font) => font.id));
-    if (button.dataset.fontAction === "clear") setChecked([]);
-    if (button.dataset.fontAction === "popular") setChecked(fonts.filter((font) => font.default).map((font) => font.id));
+    if (button.dataset.fontAction === "all") {
+      setChecked(fonts.map((font) => font.id), { expandPopular: true });
+    }
+    if (button.dataset.fontAction === "clear") {
+      setChecked([], { expandPopular: true });
+    }
+    if (button.dataset.fontAction === "popular") {
+      setChecked(fonts.filter((font) => font.default).map((font) => font.id), {
+        collapseMore: true,
+        expandPopular: true,
+      });
+    }
   });
 });
 
