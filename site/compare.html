@@ -6,13 +6,9 @@
 <title>Planetaire Mono Font Comparator</title>
 <meta name="description" content="Compare Planetaire Mono against selectable monospace fonts with editable code, terminal, prose, and confusable-character samples.">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="fonts/planetaire-mono-text.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hack-font@3/build/web/hack-subset.css">
-<link rel="stylesheet" href="style.css?v=20260609-nav-top-space">
-<link rel="stylesheet" href="compare.css?v=20260609-font-comparator-final">
+<link rel="stylesheet" href="style.css?v=20260609-nav-transition-4">
+<link rel="stylesheet" href="compare.css?v=20260609-nav-transition-4">
 
 <script>
 (function () {
@@ -87,27 +83,17 @@
       <select id="sample-select"></select>
     </div>
 
-    <div class="control">
-      <label for="font-size-preset">Font Size</label>
-      <div class="control-row control-row-size">
-        <select id="font-size-preset" class="size-preset" aria-label="Common font sizes">
-          <option value="8">8 px</option>
-          <option value="10">10 px</option>
-          <option value="12">12 px</option>
-          <option value="14">14 px</option>
-          <option value="16" selected>16 px</option>
-          <option value="18">18 px</option>
-          <option value="20">20 px</option>
-          <option value="24">24 px</option>
-          <option value="28">28 px</option>
-          <option value="32">32 px</option>
-          <option value="36">36 px</option>
-          <option value="40">40 px</option>
-          <option value="48">48 px</option>
-          <option value="custom">Custom...</option>
-        </select>
-        <input id="font-size" class="size-input" type="number" min="2" max="128" step="1" value="16" inputmode="numeric" aria-label="Custom font size in pixels" hidden>
-      </div>
+    <div class="control control-size">
+      <label for="font-size">Font Size</label>
+      <input id="font-size" class="size-input" type="number" min="2" max="256" step="1" value="16" inputmode="numeric">
+    </div>
+
+    <div class="control control-style">
+      <label for="font-style">Style</label>
+      <select id="font-style">
+        <option value="normal" selected>Roman</option>
+        <option value="italic">Italic</option>
+      </select>
     </div>
 
     <div class="control control-weight">
@@ -122,19 +108,17 @@
     </div>
 
     <div class="control control-options">
-      <span class="control-label" id="options-label">Options</span>
-      <div class="options-row" aria-labelledby="options-label">
-        <div class="option-stack">
-          <select id="card-size" aria-label="Card size">
-            <option value="large" selected>Large</option>
-            <option value="medium">Medium</option>
-            <option value="small">Small</option>
-          </select>
-          <label class="check-control" for="hide-labels">
-            <input id="hide-labels" type="checkbox" checked>
-            <span>Hide font names</span>
-          </label>
-        </div>
+      <label for="card-size">Card Size</label>
+      <div class="options-row">
+        <select id="card-size">
+          <option value="large" selected>Large</option>
+          <option value="medium">Medium</option>
+          <option value="small">Small</option>
+        </select>
+        <label class="check-control" for="hide-labels">
+          <input id="hide-labels" type="checkbox" checked>
+          <span>Hide Font Names</span>
+        </label>
         <div class="theme-switch compare-inline-theme" role="group" aria-label="Theme">
           <span class="ts-group">
             <button type="button" class="ts-opt" data-theme-set="light">Light</button>
@@ -185,6 +169,7 @@
   opts.forEach(o => o.addEventListener('click', () => apply(o.dataset.themeSet)));
 })();
 </script>
-<script src="compare.js?v=20260609-font-comparator-final"></script>
+<script src="nav-transition.js?v=20260609-nav-transition-4"></script>
+<script src="compare.js?v=20260609-nav-transition-4"></script>
 </body>
 </html>

@@ -66,6 +66,8 @@
   --fw-bold: 700;
 
   --ui-transition: color 360ms ease, background-color 360ms ease, border-color 360ms ease, opacity 360ms ease;
+  --page-transition-duration: 100ms;
+  --nav-transition-duration: 45ms;
 
   --max: 720px;
   --nav-max: 1180px;
@@ -111,12 +113,43 @@ html[data-theme="dark"] .hero .planet { filter: invert(1); }
 html { font-size: 16px; -webkit-text-size-adjust: 100%; overflow-x: hidden; }
 body { overflow-x: hidden; }   /* guard against side-scroll; also clips the planet's off-screen bleed box */
 
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: var(--page-transition-duration);
+  animation-timing-function: ease;
+}
+
+::view-transition-old(root) {
+  animation-name: page-fade-out;
+}
+
+::view-transition-new(root) {
+  animation-name: page-fade-in;
+}
+
+@keyframes page-fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes page-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
 /* Gentle, general transition so light/dark mode eases rather than snaps.
    Only themeable properties; placed once, globally. */
 *, *::before, *::after {
   transition: var(--ui-transition), fill 360ms ease, filter 360ms ease;
 }
-@media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none; } }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none; }
+
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 1ms;
+  }
+}
 
 body {
   font-family: "Planetaire Mono Text", ui-monospace, "SF Mono", Menlo, monospace;
@@ -131,7 +164,26 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-.wrap { max-width: var(--max); margin: 0 auto; padding: 52px 0 96px; }
+.wrap {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 28px 0 96px;
+  transition: opacity var(--nav-transition-duration) ease-out;
+}
+
+html.is-page-leaving .wrap {
+  opacity: 0.9;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wrap {
+    transition: none;
+  }
+
+  html.is-page-leaving .wrap {
+    opacity: 1;
+  }
+}
 
 /* ---- Type ---------------------------------------------------------------- */
 
@@ -308,6 +360,13 @@ em, i { font-style: italic; }
   cursor: pointer;
 }
 .tab-opt[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--ink); }
+.tab-content {
+  transition: opacity var(--page-transition-duration) ease, transform var(--page-transition-duration) ease;
+}
+.tab-content.is-transitioning {
+  opacity: 0;
+  transform: translateY(0.16rem);
+}
 .tab-panel[hidden] { display: none; }
 .tab-panel > h2:first-child { margin-top: 0; }
 

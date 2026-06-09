@@ -25,8 +25,8 @@ const fonts = [
   {
     id: "hack",
     name: "Hack",
-    family: "Hack",
-    source: "jsDelivr npm",
+    family: "Hack Compare",
+    source: "jsDelivr",
     description: fontDescriptions.hack,
     default: true,
   },
@@ -47,19 +47,19 @@ const fonts = [
     default: true,
   },
   {
-    id: "geist",
-    name: "Geist Mono",
-    family: "Geist Mono Compare",
-    source: "Fontsource",
-    description: fontDescriptions.geist,
-  },
-  {
     id: "jetbrains",
     name: "JetBrains Mono",
     family: "JetBrains Mono Compare",
     source: "Fontsource",
     description: fontDescriptions.jetbrains,
     default: true,
+  },
+  {
+    id: "geist",
+    name: "Geist Mono",
+    family: "Geist Mono Compare",
+    source: "Fontsource",
+    description: fontDescriptions.geist,
   },
   {
     id: "source-code-pro",
@@ -78,8 +78,8 @@ const fonts = [
   {
     id: "inconsolata",
     name: "Inconsolata",
-    family: "Inconsolata",
-    source: "Google Fonts",
+    family: "Inconsolata Compare",
+    source: "Fontsource",
     description: fontDescriptions.inconsolata,
   },
   {
@@ -196,13 +196,12 @@ const els = {
   hideLabels: document.getElementById("hide-labels"),
   sample: document.getElementById("sample-select"),
   size: document.getElementById("font-size"),
-  sizePreset: document.getElementById("font-size-preset"),
+  fontStyle: document.getElementById("font-style"),
   weight: document.getElementById("font-weight"),
 };
 
 const SIZE_MIN = 2;
-const SIZE_MAX = 128;
-const SIZE_PRESETS = ["8", "10", "12", "14", "16", "18", "20", "24", "28", "32", "36", "40", "48"];
+const SIZE_MAX = 256;
 
 function escapeHtml(value) {
   return value.replace(/[&<>]/g, (ch) => ({
@@ -450,25 +449,21 @@ function coerceSize(value) {
   return Math.min(Math.max(parsed, SIZE_MIN), SIZE_MAX);
 }
 
-function syncSizePreset(value) {
-  const formatted = formatSizeValue(value);
-  const usesPreset = SIZE_PRESETS.includes(formatted);
-  els.sizePreset.value = usesPreset ? formatted : "custom";
-  els.size.hidden = usesPreset;
-}
-
-function applySize(value, { syncInput = false, syncPreset = true } = {}) {
+function applySize(value, { syncInput = false } = {}) {
   const size = coerceSize(value);
   if (size === null) return null;
   const formatted = formatSizeValue(size);
   document.documentElement.style.setProperty("--proof-size", `${formatted}px`);
-  if (syncPreset) syncSizePreset(size);
   if (syncInput) els.size.value = formatted;
   return size;
 }
 
 function applyWeight(value) {
   document.documentElement.style.setProperty("--proof-weight", value);
+}
+
+function applyFontStyle(value) {
+  document.documentElement.style.setProperty("--proof-style", value);
 }
 
 function setChecked(ids) {
@@ -483,6 +478,7 @@ renderSampleOptions();
 renderFontPicker();
 els.editor.value = currentSample().text;
 applySize(els.size.value);
+applyFontStyle(els.fontStyle.value);
 applyWeight(els.weight.value);
 renderProofs();
 
@@ -493,28 +489,39 @@ els.sample.addEventListener("change", () => {
 
 els.editor.addEventListener("input", renderProofs);
 els.cardSize.addEventListener("change", queueProofDimensionSync);
+els.size.addEventListener("keydown", (event) => {
+  if (event.key !== "ArrowUp" && event.key !== "ArrowDown") return;
+  event.preventDefault();
+  const fallback = coerceSize(getComputedStyle(document.documentElement).getPropertyValue("--proof-size")) || 16;
+  const current = coerceSize(els.size.value) || fallback;
+  const step = Number.parseFloat(els.size.step) || 1;
+  const next = current + (event.key === "ArrowUp" ? step : -step);
+  if (applySize(next, { syncInput: true }) !== null) queueProofDimensionSync();
+});
+
 els.size.addEventListener("input", () => {
-  if (applySize(els.size.value, { syncPreset: false }) !== null) queueProofDimensionSync();
+  const parsed = Number.parseFloat(els.size.value);
+  const size = applySize(els.size.value);
+  if (size !== null) {
+    if (parsed > SIZE_MAX) els.size.value = formatSizeValue(size);
+    queueProofDimensionSync();
+  }
 });
 
 els.size.addEventListener("change", () => {
-  if (applySize(els.size.value, { syncInput: true, syncPreset: false }) !== null) queueProofDimensionSync();
-});
-
-els.sizePreset.addEventListener("change", () => {
-  if (els.sizePreset.value === "custom") {
-    els.size.hidden = false;
-    els.size.focus();
-    els.size.select();
-    return;
+  if (applySize(els.size.value, { syncInput: true }) === null) {
+    els.size.value = formatSizeValue(coerceSize(getComputedStyle(document.documentElement).getPropertyValue("--proof-size")) || 16);
   }
-  els.size.value = els.sizePreset.value;
-  applySize(els.sizePreset.value);
   queueProofDimensionSync();
 });
 
 els.weight.addEventListener("change", () => {
   applyWeight(els.weight.value);
+  queueProofDimensionSync();
+});
+
+els.fontStyle.addEventListener("change", () => {
+  applyFontStyle(els.fontStyle.value);
   queueProofDimensionSync();
 });
 

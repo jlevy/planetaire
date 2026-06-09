@@ -23,7 +23,7 @@
      icons — those ship only in the Extended package. See ../docs/website.runbook.md.
 ------------------------------------------------------------------------- -->
 <link rel="stylesheet" href="fonts/planetaire-mono-text.css">
-<link rel="stylesheet" href="style.css?v=20260609-nav-top-space">
+<link rel="stylesheet" href="style.css?v=20260609-nav-transition-4">
 
 <!-- Set the theme before first paint (no flash): cookie, then localStorage,
      then OS preference. The cookie makes the choice stick on revisit. -->
@@ -734,7 +734,32 @@ coverage and style linking.</p>
 (function () {
   const tabs = Array.from(document.querySelectorAll('.tab-opt'));
   const panels = Array.from(document.querySelectorAll('.tab-panel'));
+  const content = document.querySelector('.tab-content');
   if (!tabs.length || !panels.length) return;
+
+  let transitionTimer = null;
+
+  const transition = (update) => {
+    if (document.startViewTransition) {
+      try {
+        const viewTransition = document.startViewTransition(update);
+        if (viewTransition.ready) viewTransition.ready.catch(() => {});
+        if (viewTransition.updateCallbackDone) viewTransition.updateCallbackDone.catch(() => {});
+        if (viewTransition.finished) viewTransition.finished.catch(() => {});
+      } catch (e) {
+        update();
+      }
+    } else if (content && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      clearTimeout(transitionTimer);
+      content.classList.add('is-transitioning');
+      transitionTimer = setTimeout(() => {
+        update();
+        requestAnimationFrame(() => content.classList.remove('is-transitioning'));
+      }, 80);
+    } else {
+      update();
+    }
+  };
 
   const panelForHash = (hash) => {
     if (!hash || hash === '#') return null;
@@ -763,7 +788,12 @@ coverage and style linking.</p>
 
   const activateForHash = (hash, options = {}) => {
     const panelName = panelForHash(hash) || 'about';
-    activate(panelName, options);
+    const update = () => activate(panelName, options);
+    if (options.transition) {
+      transition(update);
+    } else {
+      update();
+    }
     if (options.scroll && hash && hash !== '#' + panelName) {
       requestAnimationFrame(() => {
         const target = document.getElementById(decodeURIComponent(hash.slice(1)));
@@ -773,7 +803,9 @@ coverage and style linking.</p>
   };
 
   tabs.forEach(tab => {
-    tab.addEventListener('click', () => activate(tab.dataset.tabSet, { push: true }));
+    tab.addEventListener('click', () => {
+      transition(() => activate(tab.dataset.tabSet, { push: true }));
+    });
     tab.addEventListener('keydown', event => {
       if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
       event.preventDefault();
@@ -781,7 +813,7 @@ coverage and style linking.</p>
       const dir = event.key === 'ArrowRight' ? 1 : -1;
       const next = tabs[(current + dir + tabs.length) % tabs.length];
       next.focus();
-      activate(next.dataset.tabSet, { push: true });
+      transition(() => activate(next.dataset.tabSet, { push: true }));
     });
   });
 
@@ -793,10 +825,10 @@ coverage and style linking.</p>
     if (!panelName) return;
     event.preventDefault();
     history.pushState(null, '', hash);
-    activateForHash(hash, { scroll: true });
+    activateForHash(hash, { scroll: true, transition: true });
   });
 
-  window.addEventListener('popstate', () => activateForHash(location.hash, { scroll: true }));
+  window.addEventListener('popstate', () => activateForHash(location.hash, { scroll: true, transition: true }));
   activateForHash(location.hash);
 })();
 
@@ -821,5 +853,6 @@ coverage and style linking.</p>
   }
 })();
 </script>
+<script src="nav-transition.js?v=20260609-nav-transition-4"></script>
 </body>
 </html>
