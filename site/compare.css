@@ -117,7 +117,10 @@ body {
 
 .control textarea {
   display: block;
-  min-height: 9rem;
+  height: 6.25rem;
+  min-height: 6.25rem;
+  height: calc(4lh + 1.4rem + 2px);
+  min-height: calc(4lh + 1.4rem + 2px);
   resize: vertical;
   font-family: var(--editor-font);
   font-size: 0.84rem;
@@ -258,6 +261,7 @@ body {
 
 .compare-view-tabs {
   margin: 0 0 1rem;
+  padding-top: 0.5rem;
 }
 
 .font-picker {
