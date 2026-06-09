@@ -214,13 +214,11 @@ em, i { font-style: italic; }
 }
 .hero .tagline { color: var(--ink); font-weight: var(--fw-medium); font-size: 1.3rem; line-height: 1.5; margin: 3rem 0 0; }
 
-/* ---- Buttons and tabs ---------------------------------------------------- */
+/* ---- Buttons ------------------------------------------------------------- */
 
 .cta { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin: 3.8rem 0 0; }
-.btn, .tab-opt {
+.btn {
   display: inline-block;
-  font-family: inherit;
-  font-size: var(--fs-body);
   font-weight: var(--fw-bold);
   text-transform: uppercase;
   letter-spacing: 0.04em;
@@ -230,12 +228,8 @@ em, i { font-style: italic; }
   border-radius: var(--radius);
   color: var(--ink);
   background: var(--bg);
-  cursor: pointer;
 }
 .btn:hover { background: var(--hover-bg); color: var(--ink); }
-.tab-opt:hover { background: var(--hover-bg); color: var(--ink); }
-.tab-opt[aria-selected="true"] { background: var(--ink); color: var(--bg); }
-.tab-opt[aria-selected="true"]:focus-visible { outline-color: var(--bg); outline-offset: -4px; }
 
 /* ---- Main tabs ----------------------------------------------------------- */
 
@@ -243,10 +237,29 @@ em, i { font-style: italic; }
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 1.7rem;
   margin: -2rem 0 4.25rem;
+  border-bottom: 1px solid var(--rule);
 }
-.tab-opt { min-width: 9rem; }
+.tab-opt {
+  display: inline-block;
+  font-family: inherit;
+  font-size: var(--fs-body);
+  font-weight: var(--fw-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  padding: 0.55rem 0 0.65rem;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  color: var(--gray);
+  background: transparent;
+  cursor: pointer;
+  margin-bottom: -1px;
+}
+.tab-opt:hover { color: var(--ink); background: transparent; }
+.tab-opt[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--ink); }
 .tab-panel[hidden] { display: none; }
 .tab-panel > h2:first-child { margin-top: 0; }
 
