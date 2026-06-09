@@ -68,16 +68,15 @@ _EXTRABOLD_FROM_BOLD: dict[str, str] = {
 # self-intersection removal is pathologically slow on them (a full-font pass ran
 # 2+ hours). The cap keeps generation to minutes with no visible difference; see
 # TODO.md (plt-ddjw) to revisit full fidelity. B612 has no glyph near the cap, so
-# it is unaffected there; only Hack's icons are. The cap is applied to SemiBold
-# (newly added); Medium keeps the original full pass so its vendored masters
-# reproduce exactly.
+# it is unaffected there; only Hack's icons are. Hack Medium and SemiBold use
+# the cap; otherwise a clean regeneration stalls in the dense Nerd Font logos.
 _INTERMEDIATE_WEIGHTS: list[tuple[str, str, int, int, int | None]] = [
     ("B612Mono-Medium.ttf", "B612Mono-Regular.ttf", 500, 40, None),
     ("B612Mono-MediumItalic.ttf", "B612Mono-Italic.ttf", 500, 40, None),
     ("B612Mono-SemiBold.ttf", "B612Mono-Regular.ttf", 600, 75, 500),
     ("B612Mono-SemiBoldItalic.ttf", "B612Mono-Italic.ttf", 600, 75, 500),
-    ("HackNerdFont-Medium.ttf", "HackNerdFont-Regular.ttf", 500, 40, None),
-    ("HackNerdFont-MediumItalic.ttf", "HackNerdFont-Italic.ttf", 500, 40, None),
+    ("HackNerdFont-Medium.ttf", "HackNerdFont-Regular.ttf", 500, 40, 500),
+    ("HackNerdFont-MediumItalic.ttf", "HackNerdFont-Italic.ttf", 500, 40, 500),
     ("HackNerdFont-SemiBold.ttf", "HackNerdFont-Regular.ttf", 600, 75, 500),
     ("HackNerdFont-SemiBoldItalic.ttf", "HackNerdFont-Italic.ttf", 600, 75, 500),
 ]
