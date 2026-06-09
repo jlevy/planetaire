@@ -411,6 +411,10 @@ function renderFontPicker() {
   els.checks.innerHTML = "";
   els.fontSelect.innerHTML = "";
 
+  const preventMultiClickTextSelection = (event) => {
+    if (event.detail > 1) event.preventDefault();
+  };
+
   const makeFontOption = (font) => {
     const label = document.createElement("label");
     label.className = "font-option";
@@ -420,6 +424,7 @@ function renderFontPicker() {
         <span class="font-name">${escapeHtml(font.name)}</span>
         <span class="font-note">${escapeHtml(fontInfo(font))}</span>
       </span>`;
+    label.addEventListener("mousedown", preventMultiClickTextSelection);
     return label;
   };
 
