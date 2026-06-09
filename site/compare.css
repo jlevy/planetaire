@@ -61,7 +61,7 @@ body {
 
 .compare-controls {
   display: grid;
-  grid-template-columns: minmax(11rem, 14rem) max-content max-content max-content minmax(20rem, 1fr);
+  grid-template-columns: minmax(11rem, 14rem) max-content max-content max-content;
   gap: 1rem;
   align-items: start;
   padding: 0.15rem 0 0;
@@ -87,12 +87,14 @@ body {
 }
 
 .control select,
+.card-mode-controls select,
 .control textarea,
 .control input[type="number"] {
   width: 100%;
 }
 
 .control select,
+.card-mode-controls select,
 .control textarea,
 .control input[type="number"] {
   font-family: var(--ui-font);
@@ -105,7 +107,8 @@ body {
   transition: var(--ui-transition);
 }
 
-.control select {
+.control select,
+.card-mode-controls select {
   min-height: var(--control-min-height);
   padding: var(--control-padding-block) var(--control-padding-inline);
 }
@@ -173,26 +176,21 @@ body {
   width: 6.75rem;
 }
 
-.options-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem 0.9rem;
-  align-items: center;
-  justify-content: flex-start;
-  min-height: 2.55rem;
-}
-
-.control-options select {
-  flex: 0 0 auto;
-  width: 7.5rem;
-}
-
 .card-mode-controls {
   display: flex;
   flex: 0 1 auto;
   flex-wrap: wrap;
   gap: 0.75rem 0.9rem;
   align-items: center;
+}
+
+.picker-card-controls {
+  gap: 0.55rem 0.8rem;
+}
+
+.picker-card-controls select {
+  flex: 0 0 auto;
+  width: 7.5rem;
 }
 
 .card-mode-controls[hidden],
@@ -211,6 +209,7 @@ body {
   cursor: not-allowed;
 }
 
+.inline-select-control,
 .check-control {
   display: inline-flex;
   gap: 0.42rem;
@@ -253,11 +252,15 @@ body {
 }
 
 .picker-head {
-  display: block;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem 1rem;
+  align-items: center;
   margin: 0 0 0.8rem;
 }
 
 .picker-head h2 {
+  margin: 0;
   padding: 0;
   border: 0;
 }
@@ -267,6 +270,14 @@ body {
   flex-wrap: wrap;
   gap: 0.5rem;
   margin-top: 0;
+}
+
+.picker-tools {
+  display: flex;
+  flex: 1 1 auto;
+  flex-wrap: wrap;
+  gap: 0.55rem 1rem;
+  align-items: center;
 }
 
 .font-select-wrap {
@@ -292,6 +303,7 @@ body {
 }
 
 .control select,
+.card-mode-controls select,
 .font-select-wrap select {
   appearance: none;
   border: 1px solid var(--rule);
@@ -304,6 +316,7 @@ body {
 }
 
 html[data-theme="dark"] .control select,
+html[data-theme="dark"] .card-mode-controls select,
 html[data-theme="dark"] .font-select-wrap select {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1.5 1.5 6 6l4.5-4.5' fill='none' stroke='%23e6edf3' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
 }
@@ -400,19 +413,20 @@ html[data-theme="dark"] .font-select-wrap select {
   transition: var(--ui-transition);
 }
 
-.font-group-toggle::after {
+.font-group-toggle::before {
   content: "";
+  flex: 0 0 auto;
   width: 0.42rem;
   height: 0.42rem;
   border-right: 1.5px solid currentColor;
   border-bottom: 1.5px solid currentColor;
-  transform: rotate(45deg) translateY(-0.08rem);
-  transform-origin: 58% 58%;
+  transform: rotate(-45deg);
+  transform-origin: 50% 50%;
   transition: transform 180ms ease, border-color 360ms ease;
 }
 
-.font-group-toggle[aria-expanded="true"]::after {
-  transform: rotate(225deg) translateY(-0.08rem);
+.font-group-toggle[aria-expanded="true"]::before {
+  transform: rotate(45deg);
 }
 
 .font-group-toggle:hover,
@@ -580,21 +594,12 @@ html[data-theme="dark"] .font-select-wrap select {
 
 .proof-grid.is-full-page .proof {
   width: 100%;
-  border: 0;
-  border-radius: 0;
-  box-shadow: none;
-  background: transparent;
-  overflow: visible;
-}
-
-.proof-grid.is-full-page .proof:focus {
-  outline: 0;
 }
 
 .proof-grid.is-full-page .proof-sample {
   height: auto;
   max-height: none;
-  padding: 0;
+  padding: 1.15rem 1.25rem;
   overflow-x: auto;
   overflow-y: visible;
   scrollbar-width: thin;
@@ -774,7 +779,7 @@ html[data-theme="dark"] .proof-grid.labels-overlay .proof-foot {
 
 @media (prefers-reduced-motion: reduce) {
   .font-option,
-  .font-group-toggle::after,
+  .font-group-toggle::before,
   .font-group.is-collapsible .font-group-grid,
   .proof-grid.labels-overlay .proof-foot {
     transition: none;

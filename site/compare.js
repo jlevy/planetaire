@@ -38,6 +38,7 @@ function readTextSource(id) {
 }
 
 const microgptSource = readTextSource("microgpt-source");
+const rfc1Source = readTextSource("rfc1-source");
 const turingFullSource = readTextSource("turing-full-source");
 
 const samples = {
@@ -45,6 +46,11 @@ const samples = {
     label: "Alan Turing: Computing Machinery",
     mode: "plain",
     text: turingFullSource,
+  },
+  rfc1: {
+    label: "RFC 1: Host Software",
+    mode: "plain",
+    text: rfc1Source,
   },
   code: {
     label: "microGPT Source",
@@ -429,22 +435,24 @@ function renderFontPicker() {
   };
 
   const makeFontGroup = (title, groupFonts, options = {}) => {
+    const collapsible = Boolean(options.collapsible);
     const section = document.createElement("section");
     section.className = "font-group";
-    if (options.kind) section.classList.add(`font-group-${options.kind}`, "is-collapsible");
+    if (options.kind) section.classList.add(`font-group-${options.kind}`);
+    if (collapsible) section.classList.add("is-collapsible");
     if (options.expanded) section.classList.add("is-expanded");
 
-    const heading = options.kind ? document.createElement("button") : document.createElement("h3");
-    heading.className = options.kind ? "font-group-toggle" : "font-group-title";
+    const heading = collapsible ? document.createElement("button") : document.createElement("h3");
+    heading.className = collapsible ? "font-group-toggle" : "font-group-title";
     heading.textContent = title;
-    if (options.kind) {
+    if (collapsible) {
       heading.type = "button";
       heading.setAttribute("aria-expanded", String(Boolean(options.expanded)));
     }
 
     const grid = document.createElement("div");
     grid.className = "font-group-grid";
-    if (options.kind) {
+    if (collapsible) {
       grid.id = `${options.kind}-fonts-grid`;
       heading.setAttribute("aria-controls", grid.id);
       heading.addEventListener("click", () => {
@@ -461,12 +469,14 @@ function renderFontPicker() {
   const moreFonts = fonts.filter((font) => !font.default);
 
   els.checks.appendChild(makeFontGroup("Popular Fonts", popularFonts, {
+    collapsible: true,
     expanded: true,
     kind: "popular",
   }));
 
   if (moreFonts.length) {
     els.checks.appendChild(makeFontGroup("More Fonts", moreFonts, {
+      collapsible: true,
       expanded: false,
       kind: "more",
     }));
@@ -572,6 +582,7 @@ function setViewMode(mode) {
   els.pickerActions.hidden = fullMode;
   els.checks.hidden = fullMode;
   els.fontSelectWrap.hidden = !fullMode;
+  els.cardModeControls.hidden = fullMode;
   els.cardModeControls.classList.toggle("is-disabled", fullMode);
   els.cardModeControls.setAttribute("aria-disabled", String(fullMode));
   els.cardSize.disabled = fullMode;

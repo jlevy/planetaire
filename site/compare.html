@@ -8,7 +8,7 @@
 
 <link rel="stylesheet" href="fonts/planetaire-mono-text.css">
 <link rel="stylesheet" href="style.css?v=20260609-control-scale-1">
-<link rel="stylesheet" href="compare.css?v=20260609-keyboard-textselect-1">
+<link rel="stylesheet" href="compare.css?v=20260609-font-group-chevrons-1">
 
 <script>
 (function () {
@@ -114,23 +114,6 @@
       </select>
     </div>
 
-    <div class="control control-options">
-      <span class="control-label">Card Size</span>
-      <div class="options-row">
-        <span class="card-mode-controls" id="card-mode-controls">
-          <select id="card-size" aria-label="Card size">
-            <option value="large" selected>Large</option>
-            <option value="medium">Medium</option>
-            <option value="small">Small</option>
-          </select>
-          <label class="check-control" for="show-labels">
-            <input id="show-labels" type="checkbox">
-            <span>Show Font Names</span>
-          </label>
-        </span>
-      </div>
-    </div>
-
     <div class="control control-text">
       <label for="sample-text">Text</label>
       <textarea id="sample-text" rows="3" spellcheck="false"></textarea>
@@ -138,17 +121,33 @@
   </section>
 
   <nav class="tabs compare-view-tabs" aria-label="Comparison layout" role="tablist">
-    <button type="button" class="tab-opt" id="layout-cards-tab" role="tab" aria-controls="font-checks proof-grid" aria-selected="true" data-view-mode="cards">Cards</button>
-    <button type="button" class="tab-opt" id="layout-full-tab" role="tab" aria-controls="font-select-wrap proof-grid" aria-selected="false" data-view-mode="full">Full Page</button>
+    <button type="button" class="tab-opt" id="layout-cards-tab" role="tab" aria-controls="font-checks proof-grid" aria-selected="true" data-view-mode="cards">Card View</button>
+    <button type="button" class="tab-opt" id="layout-full-tab" role="tab" aria-controls="font-select-wrap proof-grid" aria-selected="false" data-view-mode="full">Page View</button>
   </nav>
 
   <section class="font-picker" aria-labelledby="font-picker-heading">
     <div class="picker-head">
       <h2 id="font-picker-heading">Fonts</h2>
-      <div class="picker-actions">
-        <button type="button" class="mini-btn" data-font-action="popular">Popular</button>
-        <button type="button" class="mini-btn" data-font-action="all">All</button>
-        <button type="button" class="mini-btn" data-font-action="clear">Clear</button>
+      <div class="picker-tools">
+        <div class="picker-actions">
+          <button type="button" class="mini-btn" data-font-action="popular">Popular</button>
+          <button type="button" class="mini-btn" data-font-action="all">All</button>
+          <button type="button" class="mini-btn" data-font-action="clear">Clear</button>
+        </div>
+        <span class="card-mode-controls picker-card-controls" id="card-mode-controls">
+          <label class="inline-select-control" for="card-size">
+            <span>Card Size</span>
+            <select id="card-size">
+              <option value="large" selected>Large</option>
+              <option value="medium">Medium</option>
+              <option value="small">Small</option>
+            </select>
+          </label>
+          <label class="check-control" for="show-labels">
+            <input id="show-labels" type="checkbox">
+            <span>Show Font Names</span>
+          </label>
+        </span>
       </div>
     </div>
     <div class="font-select-wrap" id="font-select-wrap" hidden>
@@ -449,7 +448,63 @@ answer) 105621. Q: Do you play chess? A: Yes. Q: I have K at my K1, and no other
 pieces. You have only K at K6 and R at R1. It is your move. What do you play? A:
 (After a pause of 15 seconds) R-R8 mate.
 </script>
+<script type="text/plain" id="rfc1-source">
+Network Working Group                                   Steve Crocker
+Request for Comments: 1                                          UCLA
+                                                         7 April 1969
+
+
+                         Title:   Host Software
+                        Author:   Steve Crocker
+                          Installation:   UCLA
+                          Date:   7 April 1969
+             Network Working Group Request for Comment:   1
+
+
+Introduction
+
+   The software for the ARPA Network exists partly in the IMPs and
+   partly in the respective HOSTs.  BB&N has specified the software of
+   the IMPs and it is the responsibility of the HOST groups to agree on
+   HOST software.
+
+   During the summer of 1968, representatives from the initial four
+   sites met several times to discuss the HOST software and initial
+   experiments on the network.  There emerged from these meetings a
+   working group of three, Steve Carr from Utah, Jeff Rulifson from SRI,
+   and Steve Crocker of UCLA, who met during the fall and winter.  The
+   most recent meeting was in the last week of March in Utah.  Also
+   present was Bill Duvall of SRI who has recently started working with
+   Jeff Rulifson.
+
+   Somewhat independently, Gerard DeLoche of UCLA has been working on
+   the HOST-IMP interface.
+
+   I present here some of the tentative agreements reached and some of
+   the open questions encountered.  Very little of what is here is firm
+   and reactions are expected.
+
+I.   A Summary of the IMP Software
+
+Messages
+
+   Information is transmitted from HOST to HOST in bundles called
+   messages.  A message is any stream of not more than 8080 bits,
+   together with its header.  The header is 16 bits and contains the
+   following information:
+
+           Destination     5 bits
+           Link            8 bits
+           Trace           1 bit
+           Spare           2 bits
+
+   The destination is the numerical code for the HOST to which the
+   message should be sent.  The trace bit signals the IMPs to record
+   status information about the message and send the information back to
+   the NMC (Network Measurement Center, i.e., UCLA).  The spare bits are
+   unused.
+</script>
 <script src="compare-fonts.js?v=20260609-font-groups-1"></script>
-<script src="compare.js?v=20260609-keyboard-textselect-1"></script>
+<script src="compare.js?v=20260609-font-group-chevrons-1"></script>
 </body>
 </html>
