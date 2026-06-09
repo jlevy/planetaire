@@ -240,7 +240,7 @@
       npmDownloadsLastMonth: 250853,
       description: "Adobe source family, neutral coding face",
       brandRefs: ["Nerd Fonts"],
-      nerdFont: nerdFont({ name: "SauceCodePro", version: "2.042", notes: "Nerd Fonts distribution uses a renamed Source Code Pro family." }),
+      nerdFont: nerdFont({ name: "SauceCodePro", version: "2.042", notes: "Nerd Fonts distribution uses a renamed family because Adobe Source reserved-name/trademark terms apply." }),
       faces: [face({ style: "normal", weight: "200 900", sources: [fontsourceVariable("source-code-pro")] })],
     },
     {
