@@ -11,12 +11,11 @@ the
 releases are tag-driven: push a version tag (standard format, e.g. `v0.1.0`) and the tag
 triggers the build, which uploads the package to PyPI.
 
-In this repo the tag drives `release-fonts.yml`, which builds the fonts, creates the
-GitHub Release, and attaches the font archives — this is the active release path. PyPI
-publishing (`publish.yml`) is **currently manual-only** (run it from the Actions tab when
-trusted publishing is configured); the tag does **not** publish to PyPI yet. See
-[fonts-build-and-release.md](fonts-build-and-release.md) for the font side and the
-release-notes workflow.
+In this repo the active release path is font-specific: follow
+[fonts-build-and-release.md](fonts-build-and-release.md). The tag drives
+`release-fonts.yml`, which builds the fonts, creates the GitHub Release, and attaches
+the font archives. PyPI publishing (`publish.yml`) is **manual-only** for now; the tag
+does **not** publish to PyPI.
 
 ### First-Time Setup
 
@@ -50,30 +49,35 @@ for details.
    - Enter the project name, repo owner, repo name, and `publish.yml` as the workflow
      name. (You can leave the “environment name” field blank.)
 
-4. **Create a version tag:**
+4. **Prepare and publish the font release:**
 
    - Commit code and make sure it’s running correctly.
 
    - Confirm all tests are passing in the last CI workflow (Actions tab).
 
-   - Tag a version (it’s wise to start with a `v`; a good first one is `v0.1.0`). Prefer
-     `gh`, which also works from web sessions where `git push <tag>` is blocked:
+   - Add curated notes at `docs/release/notes/vX.Y.Z.md` using
+     [`docs/release/notes/TEMPLATE.md`](release/notes/TEMPLATE.md).
+
+   - Use the font release script; it prepares the version-stamped specimen and README,
+     then creates the release commit and annotated tag after review:
 
      ```shell
-     gh api repos/OWNER/PROJECT/git/refs \
-       -f ref=refs/tags/v0.1.0 \
-       -f sha="$(git rev-parse origin/main)"
-     # or, from a local checkout: git tag v0.1.0 && git push origin v0.1.0
+     make release VERSION=X.Y.Z
+     make release-finalize VERSION=X.Y.Z
      ```
 
-   - The tag triggers the workflows; the GitHub Release is created automatically by
-     `release-fonts.yml`.
+   - Push `main` and the tag as described in
+     [fonts-build-and-release.md](fonts-build-and-release.md#4-push-the-commit-and-tag).
+     The tag triggers `release-fonts.yml`.
 
-5. **Confirm it publishes to PyPI**
+5. **Confirm the GitHub font release publishes**
 
    - Watch for the release workflow in the GitHub Actions tab.
 
-   - If it succeeds, you should see it appear at `https://pypi.org/project/PROJECT`.
+   - If it succeeds, you should see the GitHub Release and attached font archives.
+
+   - Run the manual PyPI workflow separately only when you are intentionally publishing
+     the build tooling package.
 
 ### Publishing Subsequent Releases
 
@@ -133,24 +137,24 @@ Follow this checklist for each new release.
    git diff ${LAST_TAG}..HEAD
    ```
 
-6. **Write the release notes, then create the tag:**
+6. **Write the release notes, then prepare and tag the release:**
 
-   Add `docs/release/notes/vX.Y.Z.md` using the [Release Notes Format](#release-notes-format)
-   below, and commit it to `main` so the tagged commit contains it. Then cut the tag with
-   `gh` (this works from web sessions too, where `git push <tag>` is blocked — see
-   [fonts-build-and-release.md](fonts-build-and-release.md#2-cut-the-tag) for details):
+   Add `docs/release/notes/vX.Y.Z.md` by copying
+   [`docs/release/notes/TEMPLATE.md`](release/notes/TEMPLATE.md), and commit it to
+   `main` so the tagged commit contains the release page text. Then use the font release
+   script so the README CDN links and specimen PDF are pinned to the same tag:
 
    ```shell
-   gh api repos/OWNER/PROJECT/git/refs \
-     -f ref=refs/tags/vX.Y.Z \
-     -f sha="$(git rev-parse origin/main)"
-   # or, from a local checkout: git tag vX.Y.Z && git push origin vX.Y.Z
+   make release VERSION=X.Y.Z
+   make release-finalize VERSION=X.Y.Z
    ```
 
+   Then push `main` and the tag as described in
+   [fonts-build-and-release.md](fonts-build-and-release.md#4-push-the-commit-and-tag).
    The tag triggers `release-fonts.yml`, which builds the fonts, creates the GitHub
-   Release using your `docs/release/notes/vX.Y.Z.md` (falling back to auto-generated
-   notes if none exists), and attaches the font archives. PyPI publishing (`publish.yml`)
-   is manual-only for now, so the tag does not upload to PyPI.
+   Release using your curated notes, and attaches the font archives. The workflow fails
+   if the notes file is missing. PyPI publishing (`publish.yml`) is manual-only for now,
+   so the tag does not upload to PyPI.
 
 7. **Verify the release published successfully:**
 
@@ -164,37 +168,21 @@ Follow this checklist for each new release.
 
 ### Release Notes Format
 
-Use this structure for release notes:
-
-```markdown
-## What's Changed
-
-### Bug Fixes
-
-**Short title of fix**
-
-Description of what was fixed and why it matters.
-
-### New Features
-
-**Short title of feature**
-
-Description of the new capability.
-
-### Breaking Changes
-
-**Short title of breaking change**
-
-Description of what changed and how to migrate.
-
-### Full Changelog
-
-https://github.com/OWNER/PROJECT/compare/vPREVIOUS...vNEW
-```
+Start from [`docs/release/notes/TEMPLATE.md`](release/notes/TEMPLATE.md). The GitHub
+Release page is also the downloads page, so notes must explain the packages before the
+changelog.
 
 Guidelines:
 
-- Use `## What's Changed` as the top-level heading.
+- Start with the product intro and links to the repo, README, install instructions, and
+  web-font instructions.
+
+- Keep the **Which package?** section so users can choose Text vs. Extended without
+  reading the whole README.
+
+- Describe archive contents and point users at `SHA256SUMS`.
+
+- Use `## What's Changed` for release-specific changes.
 
 - Group changes under `### Bug Fixes`, `### New Features`, `### Breaking Changes`, etc.
   as appropriate.

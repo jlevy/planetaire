@@ -19,6 +19,14 @@ def test_subset_keeps_only_requested_ranges(base_font: TTFont):
     assert 0x61 not in cmap  # lowercase dropped
 
 
+def test_subset_drops_web_metadata_overhead(base_font: TTFont):
+    """Web subsets drop glyph names and non-English name records."""
+    subset_font(base_font, [(0x41, 0x5A)])
+
+    assert base_font["post"].formatType == 3.0
+    assert {name.langID for name in base_font["name"].names} <= {0x0409}
+
+
 def test_save_web_font_woff2(base_font: TTFont, tmp_path: Path):
     subset_font(base_font, [(0x41, 0x5A)])
     out = tmp_path / "out.woff2"

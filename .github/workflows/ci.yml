@@ -89,7 +89,8 @@ jobs:
       - name: Build fonts (Extended + Text)
         run: |
           uv run planetaire build planetaire-mono
-          uv run planetaire build text
+          uv run planetaire build text --formats ttf
+          uv run planetaire build text --split --italics
 
       - name: Validate fonts
         run: |

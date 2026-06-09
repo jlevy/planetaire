@@ -14,6 +14,8 @@ from pathlib import Path
 import typer
 from rich.console import Console
 
+from planetaire.config import TEXT_SLIM_WEB_SUBSETS
+
 
 class OutputFormat(StrEnum):
     """Output format for inspection commands."""
@@ -332,15 +334,50 @@ def build_planetaire_mono(
     err_console.print(f"[green]Built {len(outputs)} font(s)[/green]")
 
 
+def _parse_csv(value: str) -> tuple[str, ...]:
+    return tuple(part.strip() for part in value.split(",") if part.strip())
+
+
 @build_app.command("text")
 def build_text_cmd(
     source_dir: Path = typer.Option(Path("fonts/source"), help="Directory containing source fonts"),
     output_dir: Path = typer.Option(Path("fonts/output"), help="Directory for output fonts"),
+    variant: str | None = typer.Option(None, help="Build one named variant, e.g. Regular"),
+    split: bool = typer.Option(
+        False,
+        "--split",
+        help="Emit Google Fonts-style unicode-range WOFF2 subsets for the slim web profile",
+    ),
+    subsets: str = typer.Option(
+        ",".join(TEXT_SLIM_WEB_SUBSETS),
+        help="Comma-separated split subset names from config (used with --split)",
+    ),
+    italics: bool = typer.Option(
+        False,
+        "--italics",
+        help="With --split, also emit the optional Regular/Bold italic companion CSS/files",
+    ),
+    formats: str | None = typer.Option(
+        None,
+        "--formats",
+        help="Comma-separated output formats. Defaults to woff2,ttf or woff2 with --split.",
+    ),
 ) -> None:
     """Build the lightweight Planetaire Mono Text family (WOFF2/WOFF/TTF + CSS)."""
     from planetaire.recipes.planetaire_mono import build_text
 
-    outputs = build_text(source_dir, output_dir)
+    resolved_formats = (
+        _parse_csv(formats) if formats else (("woff2",) if split else ("woff2", "ttf"))
+    )
+    outputs = build_text(
+        source_dir,
+        output_dir,
+        variant=variant,
+        formats=resolved_formats,
+        split=split,
+        subsets=_parse_csv(subsets),
+        include_italics=italics,
+    )
     for p in outputs:
         err_console.print(f"  {p}")
     err_console.print(f"[green]Built {len(outputs)} file(s)[/green]")

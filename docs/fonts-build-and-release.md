@@ -39,11 +39,25 @@ vendored copies.)
 | Family | Command | Output |
 | --- | --- | --- |
 | **Planetaire Mono Extended** (full) | `planetaire build planetaire-mono` | `PlanetaireMonoExtended-*.ttf` (all Nerd Font icons) |
-| **Planetaire Mono Text** (web/regular) | `planetaire build text` | `PlanetaireMonoText-*.{ttf,woff2,woff}` and `planetaire-mono-text.css` |
+| **Planetaire Mono Text** (local text TTFs) | `planetaire build text --formats ttf` | `PlanetaireMonoText-*.ttf` |
+| **Planetaire Mono Text** (slim web) | `planetaire build text --split --italics` | `PlanetaireMonoText-{Regular,Bold}{,Italic}-{latin,latin-ext,greek,cyrillic,cyrillic-ext}.woff2`, `planetaire-mono-text.css`, and `planetaire-mono-text-italics.css` |
 
 Text is the full build subset to standard-Unicode text glyphs (letters, punctuation,
 box-drawing, block elements, geometric shapes), dropping the Private-Use Nerd Font icons
-and Powerline, and shipped unhinted for the web (~55 KB WOFF2/weight).
+and Powerline. The release archive keeps that full Text coverage in `ttf/`, but the
+`web/` folder uses a Google Fonts-style split: Regular/Bold upright as the base CSS,
+Latin, Latin Extended, Greek, Cyrillic, and Cyrillic Extended WOFF2 files, plus an
+optional Regular/Bold italic companion CSS. Browsers fetch only the unicode ranges and
+styles a page actually uses, so adding Greek/Cyrillic support does not increase the font
+payload for Latin-only pages. The generated CSS also includes a local metric-matched
+fallback face and a
+`--planetaire-mono-text-font-stack` custom property for stable line height during
+`font-display: swap`.
+
+Additional named split subsets can be requested with `--subsets`, using the subset names
+defined in `src/planetaire/config.py`. `greek-ext` is defined for parity with the Google
+Fonts model, but the current Text font has no encoded Greek Extended (`U+1F00-1FFF`)
+coverage, so the build warns and skips that file.
 
 ## Build
 
@@ -51,7 +65,8 @@ and Powerline, and shipped unhinted for the web (~55 KB WOFF2/weight).
 make fonts        # download(verify) -> build Extended -> build Text -> validate
 # or individually:
 uv run planetaire build planetaire-mono
-uv run planetaire build text
+uv run planetaire build text --formats ttf
+uv run planetaire build text --split --italics
 uv run planetaire validate fonts/output/PlanetaireMonoExtended-*.ttf
 uv run planetaire validate fonts/output/PlanetaireMonoText-*.ttf
 ```
@@ -120,17 +135,29 @@ Doing it by hand leaves the committed PDF and CDN link pointing at a stale versi
 ### 1. Write the release notes
 
 Add a notes file at `docs/release/notes/<tag>.md` (for example
-`docs/release/notes/v0.1.3.md`). `release-fonts.yml` reads it verbatim as the GitHub
-Release body; if no file exists for the tag it falls back to GitHub’s auto-generated
-notes. Match the previous releases: a short product intro, a **Which package?** section,
-then **## What’s Changed** and a **Full Changelog** compare link (see the
-[Release Notes Format](publishing.md#release-notes-format) in publishing.md, and the
-existing files under `docs/release/notes/` for examples).
+`docs/release/notes/v0.1.4.md`). Copy
+[`docs/release/notes/TEMPLATE.md`](release/notes/TEMPLATE.md), fill in the
+release-specific changes, and replace the compare link with the previous and new tags.
+`release-fonts.yml` reads this file verbatim as the GitHub Release body and now fails if
+the file is missing; do not rely on GitHub’s auto-generated notes for font releases.
+
+The release page is the downloads page, so every notes file should keep the context from
+the template:
+
+- product intro and links to the [repo](https://github.com/jlevy/planetaire),
+  [README](https://github.com/jlevy/planetaire#readme),
+  [download/install instructions](https://github.com/jlevy/planetaire#download), and
+  [web-font usage](https://github.com/jlevy/planetaire#use-on-the-web)
+- **Which package?** guidance for Extended vs. Text
+- archive contents (`ttf/`, `web/`, `README.txt`, `LICENSE`, `licenses/`)
+- checksum guidance for `SHA256SUMS`
+- **## What’s Changed** sections and a **Full Changelog** compare link
 
 Commit the notes file to `main` **before** running the release script, so the tagged
 commit contains the notes the workflow reads. The release files (`README.md` and the
 specimen PDF) must have no other uncommitted changes, so the review diff shows only what
-the release introduces.
+the release introduces. `make release` and `make release-finalize` both refuse to run if
+the curated notes file is missing or has uncommitted changes.
 
 ### 2. Prepare the release and review it
 
@@ -203,6 +230,27 @@ event, because the Release is created with the workflow’s `GITHUB_TOKEN` and e
 raised by that token do not trigger further workflows.
 To rebuild and re-upload assets (or refresh the notes) for an existing tag, run
 `release-fonts.yml` manually from the Actions tab and pass the tag.
+
+### 5. Verify the GitHub Release downloads page
+
+After `release-fonts.yml` passes, open
+`https://github.com/jlevy/planetaire/releases/tag/vX.Y.Z` and verify the page exactly as
+a new user will see it:
+
+- Title is `Planetaire Mono vX.Y.Z`.
+- Body uses the curated `docs/release/notes/vX.Y.Z.md` text, including repo/README,
+  install, web-font, package-choice, archive-content, checksum, and changelog links.
+- Assets are present: `PlanetaireMono-Extended.tar.xz`, `PlanetaireMono-Extended.zip`,
+  `PlanetaireMono-Text.tar.xz`, `PlanetaireMono-Text.zip`, and `SHA256SUMS`.
+- `gh release view vX.Y.Z` and the web page both show the expected notes.
+- `https://github.com/jlevy/planetaire/releases/latest` resolves to the new tag.
+
+For a quick CLI check:
+
+```shell
+gh release view vX.Y.Z --repo jlevy/planetaire
+gh release download vX.Y.Z --repo jlevy/planetaire --pattern SHA256SUMS --dir /tmp/planetaire-release-check
+```
 
 `.github/workflows/publish.yml` (PyPI) is **manual-only** for now: the tag does **not**
 publish to PyPI. Pilot releases ship as GitHub Release assets only; run `publish.yml`

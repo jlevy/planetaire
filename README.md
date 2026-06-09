@@ -190,9 +190,9 @@ Code is under [Terminal Configuration](#terminal-configuration).
 
 ## Two Packages: Text and Extended
 
-Both packages share the same letterforms and the same 10 variants, and both ship in two
-formats: **TTF** (in `ttf/`) for local install and **WOFF2** (in `web/`, with a ready
-`@font-face` stylesheet) for the web.
+Both packages share the same letterforms. The archives include **TTF** files (in `ttf/`)
+for local install plus **WOFF2** files (in `web/`, with ready `@font-face` stylesheets)
+for the web.
 They differ only in glyph coverage:
 
 - **Planetaire Mono Extended** is the full font: everything in Text **plus** the 10,000+
@@ -200,6 +200,9 @@ They differ only in glyph coverage:
   of Text. **Recommended for local and terminal use**, where TTF is the standard option.
 - **Planetaire Mono Text** is a lightweight subset (no icons), so it is far smaller.
   **Recommended for the web**, where the WOFF2 stylesheet is the standard option.
+  Its default web CSS is a slim Regular/Bold, upright-only unicode-range split for
+  Latin, Greek, and Cyrillic; `planetaire-mono-text-italics.css` adds the optional
+  Regular/Bold italics.
 
 Either package works for either purpose; the recommendations are just the common,
 size-conscious defaults.
@@ -213,11 +216,12 @@ Get the latest from
 
 | Package | Best for | Includes | Download |
 | --- | --- | --- | --- |
-| **Planetaire Mono Text** *(standard)* | Websites, documents, reading | Letters, punctuation, Greek/Cyrillic, box-drawing. No icons. TTF + WOFF2 (~65 KB/weight WOFF2). | [`.tar.xz`](https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Text.tar.xz) **~1 MB** · [`.zip`](https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Text.zip) ~1.3 MB |
+| **Planetaire Mono Text** *(standard)* | Websites, documents, reading | TTF: full text coverage, all 10 variants. Web: slim Regular/Bold Latin, Greek, and Cyrillic split, with optional italic CSS. | [`.tar.xz`](https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Text.tar.xz) **~1 MB** · [`.zip`](https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Text.zip) ~1.3 MB |
 | **Planetaire Mono Extended** *(full)* | Terminals, coding, icon-rich CLIs | Everything in Text plus all 10,000+ Nerd Font icons and Powerline. TTF + WOFF2. | [`.tar.xz`](https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Extended.tar.xz) **~19 MB** · [`.zip`](https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Extended.zip) ~24 MB |
 
-Both packages ship the same 10 variants, each archive laid out as `ttf/` (for local
-install) and `web/` (WOFF2 plus an `@font-face` stylesheet).
+Both archives are laid out as `ttf/` (for local install) and `web/` (WOFF2 plus
+`@font-face` stylesheets). Text TTFs ship all 10 variants; Text web fonts default to the
+smaller Regular/Bold split profile, with separate WOFF2 files for each script range.
 
 To install, unzip the archive and add the TTFs:
 
@@ -331,22 +335,36 @@ font_size        14.0
 
 ## Web
 
-Both packages include WOFF2 web fonts and a ready stylesheet in `web/`. The **Text**
+Both packages include WOFF2 web fonts and ready stylesheets in `web/`. The **Text**
 package is recommended for the web (much smaller, no icons); use **Extended** only if
 you need the Nerd Font icons in the browser.
 From the Text archive’s `web/`:
 
 ```html
+<link rel="preload" as="font" type="font/woff2" href="PlanetaireMonoText-Regular-latin.woff2" crossorigin>
+<!-- Optional: preload the bold Latin slice if bold text appears above the fold. -->
+<link rel="preload" as="font" type="font/woff2" href="PlanetaireMonoText-Bold-latin.woff2" crossorigin>
 <link rel="stylesheet" href="planetaire-mono-text.css">
+<!-- Optional: regular/bold italics. -->
+<link rel="stylesheet" href="planetaire-mono-text-italics.css">
 <style>
-  body { font-family: "Planetaire Mono Text", ui-monospace, monospace; }
+  body { font-family: var(--planetaire-mono-text-font-stack); }
   /* rectangle zero instead of the dotted circle: */
   .code { font-feature-settings: "ss01" 1; }
 </style>
 ```
 
-Each weight and style is declared (400/500/600/700/800, upright and italic) with
-`font-display: swap`.
+The default Text web stylesheet declares Regular (400) and Bold (700), upright, split
+into Google Fonts-style `latin`, `latin-ext`, `greek`, `cyrillic`, and `cyrillic-ext`
+unicode ranges. Browsers fetch the Latin file for ordinary English text and fetch the
+other script files only when the page uses those codepoints. Add the italic stylesheet
+only when the app renders italic text. The generated CSS also defines
+`--planetaire-mono-text-font-stack`, which includes a metric-matched local fallback face
+so line height stays stable while `font-display: swap` loads the WOFF2.
+
+For production, serve the WOFF2 files from a versioned path or fingerprinted filename
+with `Cache-Control: public, max-age=31536000, immutable`. Keep the CSS cache shorter if
+the font URLs inside it are not versioned.
 
 ## Build from Source
 
