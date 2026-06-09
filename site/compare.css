@@ -20,11 +20,17 @@
   --proof-shadow:
     0 1px 2px rgba(27, 31, 36, 0.055),
     0 3px 14px rgba(27, 31, 36, 0.085);
+  --compare-selected-bg: #57606a;
+  --compare-selected-fg: #fff;
+  --compare-checkbox-accent: #57606a;
   --ui-font: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --editor-font: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
 }
 
 html[data-theme="dark"] {
+  --compare-selected-bg: #8b949e;
+  --compare-selected-fg: #0d1117;
+  --compare-checkbox-accent: #8b949e;
   --proof-border: rgba(240, 246, 252, 0.16);
   --proof-shadow:
     0 0 0 1px rgba(240, 246, 252, 0.035),
@@ -232,7 +238,7 @@ body {
   width: 0.9rem;
   height: 0.9rem;
   margin: 0;
-  accent-color: var(--ink);
+  accent-color: var(--compare-checkbox-accent);
 }
 
 .compare-top-theme {
@@ -257,6 +263,11 @@ body {
 
 .compare-top-theme .ts-opt + .ts-opt {
   border-left: 1px solid var(--rule);
+}
+
+.compare-top-theme .ts-opt[aria-pressed="true"] {
+  color: var(--compare-selected-fg);
+  background: var(--compare-selected-bg);
 }
 
 .compare-view-tabs {
@@ -491,7 +502,7 @@ html[data-theme="dark"] .font-select-wrap select {
   width: 1rem;
   height: 1rem;
   margin: 0.18rem 0 0;
-  accent-color: var(--ink);
+  accent-color: var(--compare-checkbox-accent);
 }
 
 .font-name {
