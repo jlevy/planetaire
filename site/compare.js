@@ -116,11 +116,13 @@ const els = {
   sample: document.getElementById("sample-select"),
   size: document.getElementById("font-size"),
   fontStyle: document.getElementById("font-style"),
+  lineHeight: document.getElementById("line-height"),
   weight: document.getElementById("font-weight"),
 };
 
 const SIZE_MIN = 2;
 const SIZE_MAX = 256;
+const LINE_HEIGHT_DEFAULT = 1.5;
 let viewMode = "cards";
 
 function escapeHtml(value) {
@@ -197,6 +199,30 @@ function renderTerminal(text) {
 function selectedFontIds() {
   return Array.from(els.checks.querySelectorAll("input[type='checkbox']:checked"))
     .map((input) => input.value);
+}
+
+function sameIdSet(left, right) {
+  if (left.length !== right.length) return false;
+  const selected = new Set(left);
+  return right.every((id) => selected.has(id));
+}
+
+function popularFontIds() {
+  return fonts.filter((font) => font.default).map((font) => font.id);
+}
+
+function allFontIds() {
+  return fonts.map((font) => font.id);
+}
+
+function syncFontActionState() {
+  const selected = selectedFontIds();
+  document.querySelectorAll("[data-font-action]").forEach((button) => {
+    let pressed = false;
+    if (button.dataset.fontAction === "popular") pressed = sameIdSet(selected, popularFontIds());
+    if (button.dataset.fontAction === "all") pressed = sameIdSet(selected, allFontIds());
+    button.setAttribute("aria-pressed", String(pressed));
+  });
 }
 
 function formatNpmDownloads(downloads) {
@@ -493,9 +519,11 @@ function renderFontPicker() {
   els.fontSelect.value = fonts.find((font) => font.default)?.id || fonts[0]?.id || "";
   els.checks.addEventListener("change", () => {
     syncMoreFontsExpansion();
+    syncFontActionState();
     renderProofs();
   });
   els.fontSelect.addEventListener("change", renderProofs);
+  syncFontActionState();
 }
 
 function renderSampleOptions() {
@@ -508,10 +536,20 @@ function formatSizeValue(value) {
   return Number.isInteger(value) ? String(value) : String(value).replace(/\.?0+$/, "");
 }
 
+function formatDecimalValue(value) {
+  return String(value).replace(/\.?0+$/, "");
+}
+
 function coerceSize(value) {
   const parsed = Number.parseFloat(value);
   if (!Number.isFinite(parsed)) return null;
   return Math.min(Math.max(parsed, SIZE_MIN), SIZE_MAX);
+}
+
+function coerceLineHeight(value) {
+  const parsed = Number.parseFloat(value);
+  if (!Number.isFinite(parsed) || parsed <= 0) return null;
+  return parsed;
 }
 
 function applySize(value, { syncInput = false } = {}) {
@@ -521,6 +559,15 @@ function applySize(value, { syncInput = false } = {}) {
   document.documentElement.style.setProperty("--proof-size", `${formatted}px`);
   if (syncInput) els.size.value = formatted;
   return size;
+}
+
+function applyLineHeight(value, { syncInput = false } = {}) {
+  const lineHeight = coerceLineHeight(value);
+  if (lineHeight === null) return null;
+  const formatted = formatDecimalValue(lineHeight);
+  document.documentElement.style.setProperty("--proof-line-height", formatted);
+  if (syncInput) els.lineHeight.value = formatted;
+  return lineHeight;
 }
 
 function applyWeight(value) {
@@ -539,6 +586,7 @@ function setChecked(ids, options = {}) {
   if (options.expandPopular) setFontGroupExpanded("popular", true);
   if (options.collapseMore) setFontGroupExpanded("more", false);
   else setMoreFontsExpanded(moreFontsHaveSelection());
+  syncFontActionState();
   renderProofs();
 }
 
@@ -602,6 +650,7 @@ els.editor.value = currentSample().text;
 applySize(els.size.value);
 applyFontStyle(els.fontStyle.value);
 applyWeight(els.weight.value);
+applyLineHeight(els.lineHeight.value);
 setViewMode("cards");
 
 els.sample.addEventListener("change", () => {
@@ -665,6 +714,19 @@ els.size.addEventListener("change", () => {
   queueProofDimensionSync();
 });
 
+els.lineHeight.addEventListener("input", () => {
+  if (applyLineHeight(els.lineHeight.value) !== null) queueProofDimensionSync();
+});
+
+els.lineHeight.addEventListener("change", () => {
+  if (applyLineHeight(els.lineHeight.value, { syncInput: true }) === null) {
+    els.lineHeight.value = formatDecimalValue(
+      coerceLineHeight(getComputedStyle(document.documentElement).getPropertyValue("--proof-line-height")) || LINE_HEIGHT_DEFAULT,
+    );
+  }
+  queueProofDimensionSync();
+});
+
 els.weight.addEventListener("change", () => {
   applyWeight(els.weight.value);
   queueProofDimensionSync();
@@ -681,13 +743,13 @@ window.addEventListener("resize", queueProofDimensionSync);
 document.querySelectorAll("[data-font-action]").forEach((button) => {
   button.addEventListener("click", () => {
     if (button.dataset.fontAction === "all") {
-      setChecked(fonts.map((font) => font.id), { expandPopular: true });
+      setChecked(allFontIds(), { expandPopular: true });
     }
     if (button.dataset.fontAction === "clear") {
       setChecked([], { expandPopular: true });
     }
     if (button.dataset.fontAction === "popular") {
-      setChecked(fonts.filter((font) => font.default).map((font) => font.id), {
+      setChecked(popularFontIds(), {
         collapseMore: true,
         expandPopular: true,
       });
