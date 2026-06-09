@@ -115,11 +115,11 @@
   ]
   #v(2.3em)
   #text(size: 9.5pt, fill: black)[
-    #b[Planetaire Mono] assembled and maintained by #b[Joshua Levy]\
-    #b[B612 Mono] letterforms by #b[Intactile Design] for #b[Airbus]\
-    #b[Hack] base punctuation, symbols, and metrics by #b[Chris Simpkins]\
-    #b[Nerd Fonts] 10,000+ icons by #b[Ryan McIntyre]\
-    Dotted zero inspired by the B612 fork by #b[Carlos Eduardo de Paula]
+    #link("https://github.com/jlevy/planetaire")[#b[Planetaire Mono]] assembled and maintained by #link("https://github.com/jlevy")[#b[Joshua Levy]]\
+    #link("https://github.com/polarsys/b612")[#b[B612 Mono]] letterforms by #link("https://intactile.com/")[#b[Intactile Design]] for #b[Airbus]\
+    #link("https://sourcefoundry.org/hack/")[#b[Hack]] base punctuation, symbols, and metrics by #b[Chris Simpkins]\
+    #link("https://www.nerdfonts.com/")[#b[Nerd Fonts]] 10,000+ icons by #b[Ryan McIntyre]\
+    Dotted zero inspired by the B612 fork by #link("https://github.com/carlosedp/b612")[#b[Carlos Eduardo de Paula]]
   ]
 ]
 
@@ -680,32 +680,34 @@
 
 #section[Planetaire Provenance]
 
-#text(size: 11pt, weight: 700)[Source Fonts]
+#text(size: 11pt, weight: 700)[Credits]
 #v(0.2cm)
 
 #table(
   columns: (auto, 1fr),
   stroke: 0.5pt + rgb("#ccc"),
   inset: 8pt,
-  [*B612 Mono*], [
-    Designed by Intactile Design for Airbus. Optimized for legibility in
-    cockpit displays. Planetaire Mono takes its letters (A\u{2013}Z, a\u{2013}z),
-    digits 0\u{2013}9, and extended Latin/Greek/Cyrillic glyphs from B612.
-    The zero glyph receives a center dot in post-processing for O/0
-    disambiguation, with circle (default) and rectangle (ss01) variants.
+  [#link("https://github.com/jlevy/planetaire")[*Planetaire Mono*]], [
+    Assembled and maintained by #link("https://github.com/jlevy")[Joshua Levy].
   ],
-  [*Hack*], [
-    Chris Simpkins’ typeface designed for source code. Provides the
+  [#link("https://github.com/polarsys/b612")[*B612 Mono*]], [
+    Letterforms by #link("https://intactile.com/")[Intactile Design] for Airbus.
+    Planetaire Mono takes its letters, digits, and extended Latin, Greek, and
+    Cyrillic glyphs from B612; the zero receives a center dot in post-processing
+    for O/0 disambiguation, with circle (default) and rectangle (`ss01`) variants.
+  ],
+  [#link("https://sourcefoundry.org/hack/")[*Hack*]], [
+    Chris Simpkins’ typeface designed for source code. It provides Planetaire Mono’s
     base font structure: punctuation, symbols, metrics, and Nerd Font integration.
   ],
-  [*Nerd Fonts*], [
-    Ryan McIntyre’s icon patching project. 10,000+ developer icons
-    including Powerline, Font Awesome, Devicons, Material Design,
-    and more, all included via the Hack Nerd Font base.
+  [#link("https://www.nerdfonts.com/")[*Nerd Fonts*]], [
+    Ryan McIntyre’s icon patching project. Planetaire Mono Extended includes 10,000+
+    developer icons, including Powerline, Font Awesome, Devicons, Material Design,
+    and more, via the Hack Nerd Font base.
   ],
-  [*carlosedp*], [
+  [#link("https://github.com/carlosedp/b612")[*carlosedp*]], [
     Carlos Eduardo de Paula’s B612 Nerd Font fork, which inspired the
-    dotted zero. Not a build dependency.
+    dotted zero. It is not a build dependency.
   ],
 )
 

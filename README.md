@@ -157,37 +157,6 @@ B612’s letterforms keep commonly confused characters distinct: `Il1|`, `O0o`, 
 `m`, `5S`, `8B`, `2Z`. Coverage spans Latin Extended A/B, Greek and Coptic, Cyrillic,
 and Latin Extended Additional: over 12,000 glyphs in the Extended package.
 
-## Weights
-
-### Additional Weights
-
-Each package ships 10 variants across 5 weights.
-
-Planetaire Mono adds an **ExtraBold (800)** weight for terminal bold: the jump from
-Regular (400) to Bold (700) is often too subtle at terminal sizes, and ExtraBold gives
-bold text (prompts, headings, highlighted output) the contrast to stand out.
-
-| Variant | Weight | Recommended Use |
-| --- | --- | --- |
-| Regular | 400 | Normal terminal text |
-| Italic | 400 | Emphasized text |
-| Medium | 500 | UI labels, intermediate weight |
-| Medium Italic | 500 | UI labels italic |
-| SemiBold | 600 | UI emphasis, intermediate weight |
-| SemiBold Italic | 600 | UI emphasis italic |
-| Bold | 700 | Standard bold |
-| Bold Italic | 700 | Standard bold italic |
-| **ExtraBold** | **800** | **Terminal bold text** |
-| **ExtraBold Italic** | **800** | **Terminal bold italic** |
-
-### ExtraBold for Terminals
-
-For best results, map your terminal’s **bold** to **ExtraBold (800)** rather than Bold
-(700): the heavier stroke gives bold output (prompts, headings, highlighted text) clear
-contrast at terminal sizes, which is how the font is designed to be used.
-Per-terminal setup for Terminal.app, Ghostty, Alacritty, WezTerm, iTerm2, Kitty, and VS
-Code is under [Terminal Configuration](#terminal-configuration).
-
 ## Two Packages: Text and Extended
 
 Both packages share the same letterforms and the same 10 variants, and both ship in two
@@ -229,6 +198,37 @@ Then point your terminal at **Planetaire Mono Extended** (see
 [Terminal Configuration](#terminal-configuration)), or load the WOFF2 web fonts (see
 [Web](#web)).
 
+## Weights
+
+### Additional Weights
+
+Each package ships 10 variants across 5 weights.
+
+Planetaire Mono adds an **ExtraBold (800)** weight for terminal bold: the jump from
+Regular (400) to Bold (700) is often too subtle at terminal sizes, and ExtraBold gives
+bold text (prompts, headings, highlighted output) the contrast to stand out.
+
+| Variant | Weight | Recommended Use |
+| --- | --- | --- |
+| Regular | 400 | Normal terminal text |
+| Italic | 400 | Emphasized text |
+| Medium | 500 | UI labels, intermediate weight |
+| Medium Italic | 500 | UI labels italic |
+| SemiBold | 600 | UI emphasis, intermediate weight |
+| SemiBold Italic | 600 | UI emphasis italic |
+| Bold | 700 | Standard bold |
+| Bold Italic | 700 | Standard bold italic |
+| **ExtraBold** | **800** | **Terminal bold text** |
+| **ExtraBold Italic** | **800** | **Terminal bold italic** |
+
+### ExtraBold for Terminals
+
+For best results, map your terminal’s **bold** to **ExtraBold (800)** rather than Bold
+(700): the heavier stroke gives bold output (prompts, headings, highlighted text) clear
+contrast at terminal sizes, which is how the font is designed to be used.
+Per-terminal setup for Terminal.app, Ghostty, Alacritty, WezTerm, iTerm2, Kitty, and VS
+Code is under [Terminal Configuration](#terminal-configuration).
+
 ## Terminal Configuration
 
 After installing the font, point your terminal at **Planetaire Mono Extended**. For best
@@ -236,14 +236,17 @@ results, map **bold** text to **ExtraBold (800)** rather than Bold (700): the he
 stroke gives bold output (prompts, headings, highlighted text) clear contrast at
 terminal sizes (12–16px), which is how the font is designed to be used.
 
-**macOS Terminal.app.** Open **Terminal → Settings… → Profiles**, pick your profile,
-open the **Text** tab, and in the **Font** section click **Change** to select Planetaire
-Mono Extended at 14 pt.
+### macOS Terminal.app
+
+Open **Terminal → Settings… → Profiles**, pick your profile, open the **Text** tab, and
+in the **Font** section click **Change** to select Planetaire Mono Extended at 14 pt.
 Check **Use bold fonts** so bold output renders in bold.
 Terminal.app uses the family’s Bold (700) and has no per-weight bold mapping, so it
 can’t route bold to ExtraBold; use Ghostty (below) if you want ExtraBold bold.
 
-**Ghostty** — in `~/.config/ghostty/config`:
+### Ghostty
+
+In `~/.config/ghostty/config`:
 
 ```
 font-family = "Planetaire Mono Extended"
@@ -254,7 +257,9 @@ font-style-bold-italic = "ExtraBold Italic"
 
 Run `ghostty +list-fonts` if a style name does not resolve.
 
-**Alacritty** — in `~/.config/alacritty/alacritty.toml`:
+### Alacritty
+
+In `~/.config/alacritty/alacritty.toml`:
 
 ```toml
 [font]
@@ -277,7 +282,9 @@ family = "Planetaire Mono Extended"
 style = "ExtraBold Italic"
 ```
 
-**WezTerm** — in `~/.wezterm.lua`:
+### WezTerm
+
+In `~/.wezterm.lua`:
 
 ```lua
 local wezterm = require 'wezterm'
@@ -302,13 +309,16 @@ config.font_rules = {
 return config
 ```
 
-**iTerm2.** Open **Preferences → Profiles → Text**, set **Font** to Planetaire Mono
-Extended at 14 pt, and check **Draw bold text in bold font** so bold renders in the
-family’s bold member.
-iTerm2 has no separate bold-font field, so it can’t target the ExtraBold face
+### iTerm2
+
+Open **Preferences → Profiles → Text**, set **Font** to Planetaire Mono Extended at 14
+pt, and check **Draw bold text in bold font** so bold renders in the family’s bold
+member. iTerm2 has no separate bold-font field, so it can’t target the ExtraBold face
 specifically; use Ghostty, Kitty, or the VS Code terminal if you want ExtraBold bold.
 
-**Kitty** — in `~/.config/kitty/kitty.conf`:
+### Kitty
+
+In `~/.config/kitty/kitty.conf`:
 
 ```
 font_family      family="Planetaire Mono Extended"
@@ -318,7 +328,9 @@ bold_italic_font family="Planetaire Mono Extended" style="ExtraBold Italic"
 font_size        14.0
 ```
 
-**VS Code terminal** — in `settings.json`:
+### VS Code terminal
+
+In `settings.json`:
 
 ```json
 {
@@ -374,15 +386,22 @@ and these images is in [build-assets.runbook.md](docs/build-assets.runbook.md).
 
 ## Credits
 
-- [**B612**](https://github.com/polarsys/b612): Intactile Design for Airbus.
-  The letterforms.
-- [**Hack**](https://sourcefoundry.org/hack/): Chris Simpkins.
-  The base providing punctuation, symbols, and metrics.
-- [**Nerd Fonts**](https://www.nerdfonts.com/): Ryan McIntyre.
-  10,000+ developer icons.
+- [**Planetaire Mono**](https://github.com/jlevy/planetaire): assembled and maintained
+  by [Joshua Levy](https://github.com/jlevy).
+- [**B612 Mono**](https://github.com/polarsys/b612): letterforms by
+  [Intactile Design](https://intactile.com/) for Airbus.
+  Planetaire Mono takes its letters, digits, and extended Latin, Greek, and Cyrillic
+  glyphs from B612; the zero receives a center dot in post-processing for O/0
+  disambiguation, with circle (default) and rectangle (`ss01`) variants.
+- [**Hack**](https://sourcefoundry.org/hack/): Chris Simpkins’ typeface designed for
+  source code. It provides Planetaire Mono’s base font structure: punctuation, symbols,
+  metrics, and Nerd Font integration.
+- [**Nerd Fonts**](https://www.nerdfonts.com/): Ryan McIntyre’s icon patching project.
+  Planetaire Mono Extended includes 10,000+ developer icons, including Powerline, Font
+  Awesome, Devicons, Material Design, and more, via the Hack Nerd Font base.
 - [**carlosedp**](https://github.com/carlosedp/b612): Carlos Eduardo de Paula’s B612
   Nerd Font fork, which inspired the dotted zero.
-  Not a build dependency.
+  It is not a build dependency.
 
 ## License
 

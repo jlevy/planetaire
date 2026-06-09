@@ -76,12 +76,12 @@ site's HTML copy is manual.
 The site is deliberately **not** a pixel copy of the PDF:
 
 - **Text subset, not Extended.** The site loads `Planetaire Mono Text` (web-recommended,
-  ~65 KB/weight, no icons). So the **Nerd Font Icons** specimen page is a note + links, and
+  ~65 KB/weight, no icons). So the site does **not** render the Nerd Font icon grid, and
   the terminal mockup **omits the icon column**. To show icons on the web, vendor the
   `PlanetaireMono-Extended` web fonts and scope them to those sections.
 - **Live type, not screenshots.** The site does *not* reproduce the README's PNG specimen
   images (`docs/images/*-dark.png` / `*-light.png`) — those samples are live text in the
-  site's Type Specimen section. The README's `## Specimens` gallery has no site counterpart.
+  site's Samples tab. The README's `## Specimens` gallery has no site counterpart.
 - **One theme toggle, not dark/light pairs.** Unlike the PDF's fixed dark+light specimen
   pairs, the site's code/terminal panels follow the page theme: a single `.panel` whose
   syntax colors switch via the `--syn-*` vars (light ↔ dark).
