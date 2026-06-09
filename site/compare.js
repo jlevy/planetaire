@@ -1,6 +1,7 @@
 const fontData = window.PlanetaireFontData || { fonts: [] };
 const fonts = fontData.fonts;
 const installedFontFaceIds = new Set();
+let backgroundFontLoadStarted = false;
 
 function cssString(value) {
   return String(value).replace(/\\/g, "\\\\").replace(/"/g, '\\"');
@@ -70,6 +71,46 @@ function queueRenderedFontSync(fontList) {
   ))).then(() => {
     if (run === fontLoadSyncRun) queueProofDimensionSync();
   });
+}
+
+function scheduleIdleTask(callback) {
+  if ("requestIdleCallback" in window) {
+    window.requestIdleCallback(callback, { timeout: 2500 });
+    return;
+  }
+  window.setTimeout(callback, 900);
+}
+
+function scheduleBackgroundFontLoading() {
+  if (backgroundFontLoadStarted) return;
+  backgroundFontLoadStarted = true;
+
+  const popularIds = new Set(popularFontIds());
+  const remainingFonts = fonts.filter((font) => !popularIds.has(font.id));
+  let nextIndex = 0;
+
+  const loadNextFont = () => {
+    const font = remainingFonts[nextIndex];
+    nextIndex += 1;
+    if (!font) return;
+
+    installFontFacesFor([font]);
+    if (!document.fonts) {
+      scheduleIdleTask(loadNextFont);
+      return;
+    }
+
+    document.fonts.load(`${currentProofFontSpec()} "${cssString(font.family)}"`)
+      .catch(() => [])
+      .then(() => scheduleIdleTask(loadNextFont));
+  };
+
+  const startLoading = () => scheduleIdleTask(loadNextFont);
+  if (document.readyState === "complete") {
+    startLoading();
+  } else {
+    window.addEventListener("load", startLoading, { once: true });
+  }
 }
 
 function readTextSource(id) {
@@ -697,6 +738,7 @@ applyFontStyle(els.fontStyle.value);
 applyWeight(els.weight.value);
 applyLineHeight(els.lineHeight.value);
 setViewMode("cards");
+scheduleBackgroundFontLoading();
 
 els.sample.addEventListener("change", () => {
   els.editor.value = currentSample().text;
