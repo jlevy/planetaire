@@ -702,7 +702,7 @@ html[data-theme="dark"] .proof-grid.labels-overlay .proof-foot {
 
 @media (max-width: 620px) {
   .compare-wrap {
-    padding-top: 28px;
+    padding-top: 4px;
   }
 
   .compare-inline-theme { margin-left: 0; }

@@ -167,7 +167,7 @@ body {
 .wrap {
   max-width: var(--max);
   margin: 0 auto;
-  padding: 28px 0 96px;
+  padding: 4px 0 96px;
   transition: opacity var(--nav-transition-duration) ease-out;
 }
 
@@ -268,14 +268,19 @@ em, i { font-style: italic; }
   border-radius: 0;
   transition: var(--ui-transition);
 }
-.site-nav-tab, .tab-opt {
+.site-nav-tab {
+  padding: 0.2rem 0 0.45rem;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+}
+.tab-opt {
   padding: 0.55rem 0 0.45rem;
   border-bottom: 2px solid transparent;
   margin-bottom: -1px;
 }
 .site-nav-external {
   flex: 0 0 auto;
-  padding: 0.55rem 0 0.45rem;
+  padding: 0.2rem 0 0.45rem;
 }
 .site-nav-tab:hover, .site-nav-external:hover, .tab-opt:hover {
   color: var(--ink);
