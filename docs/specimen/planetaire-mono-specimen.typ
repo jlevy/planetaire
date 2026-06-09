@@ -693,8 +693,7 @@
   [#link("https://github.com/polarsys/b612")[*B612 Mono*]], [
     Letterforms by #link("https://intactile.com/")[Intactile Design] for Airbus.
     Planetaire Mono takes its letters, digits, and extended Latin, Greek, and
-    Cyrillic glyphs from B612; the zero receives a center dot in post-processing
-    for O/0 disambiguation, with circle (default) and rectangle (`ss01`) variants.
+    Cyrillic glyphs from B612.
   ],
   [#link("https://sourcefoundry.org/hack/")[*Hack*]], [
     Chris Simpkins’ typeface designed for source code. It provides Planetaire Mono’s

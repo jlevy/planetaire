@@ -391,8 +391,7 @@ and these images is in [build-assets.runbook.md](docs/build-assets.runbook.md).
 - [**B612 Mono**](https://github.com/polarsys/b612): letterforms by
   [Intactile Design](https://intactile.com/) for Airbus.
   Planetaire Mono takes its letters, digits, and extended Latin, Greek, and Cyrillic
-  glyphs from B612; the zero receives a center dot in post-processing for O/0
-  disambiguation, with circle (default) and rectangle (`ss01`) variants.
+  glyphs from B612.
 - [**Hack**](https://sourcefoundry.org/hack/): Chris Simpkins’ typeface designed for
   source code. It provides Planetaire Mono’s base font structure: punctuation, symbols,
   metrics, and Nerd Font integration.
