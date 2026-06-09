@@ -134,6 +134,11 @@ All button and nav text is **CAPS** (via `text-transform`, authored mixed-case).
   invert(1)`) to keep it visible.
 - **Tables / spec grid / code panels / glyph rows:** styled once in `style.css`; reuse the
   classes rather than adding inline styles.
+- **Narrow tables:** tables may self-scroll horizontally below the small-screen breakpoint
+  so multi-column release/config data remains reachable while page-level overflow stays
+  clipped for the hero planet.
+- **Keyboard focus:** links and buttons use a visible `--ink` focus outline. Segmented
+  theme buttons draw the outline inside the control so it is not clipped by the group.
 
 ## Checklist before adding anything
 

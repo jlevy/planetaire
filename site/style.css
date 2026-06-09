@@ -158,6 +158,10 @@ p { margin: 0 0 var(--space-para); }
 a { color: var(--ink); text-decoration: underline; text-underline-offset: 2px; border-radius: var(--radius); }
 /* Consistent hover everywhere: ink text + a mode-appropriate gray background. */
 a:hover { color: var(--ink); background: var(--hover-bg); }
+a:focus-visible, button:focus-visible {
+  outline: 1.5px solid var(--ink);
+  outline-offset: 3px;
+}
 
 strong, b { font-weight: var(--fw-bold); }
 em, i { font-style: italic; }
@@ -235,6 +239,15 @@ li { margin: 0.3rem 0; }
 table { border-collapse: collapse; width: 100%; margin: 1.2rem 0; font-size: var(--fs-body); }
 th, td { border: 1px solid var(--rule); padding: 8px 10px; text-align: left; vertical-align: top; overflow-wrap: break-word; }
 th { font-weight: var(--fw-bold); background: var(--surface); }
+@media (max-width: 620px) {
+  table {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  th, td { min-width: 8rem; }
+}
 
 /* spec sheet: two-column label/value grid */
 .specgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem 2rem; margin: 1.2rem 0; }
@@ -290,16 +303,16 @@ pre.code { background: var(--surface); border: 1px solid var(--rule); color: var
 /* Thin, subtle scrollbars on scrollable code/QA blocks. A translucent gray
    thumb on a transparent track reads correctly on both light surfaces and the
    always-dark code panels — no bright OS scrollbar in dark mode. */
-pre, .cellrow {
+pre, .cellrow, table {
   scrollbar-width: thin;                                /* Firefox */
   scrollbar-color: rgba(128, 128, 128, 0.45) transparent;
 }
-pre::-webkit-scrollbar, .cellrow::-webkit-scrollbar { height: 7px; width: 7px; }
-pre::-webkit-scrollbar-track, .cellrow::-webkit-scrollbar-track { background: transparent; }
-pre::-webkit-scrollbar-thumb, .cellrow::-webkit-scrollbar-thumb {
+pre::-webkit-scrollbar, .cellrow::-webkit-scrollbar, table::-webkit-scrollbar { height: 7px; width: 7px; }
+pre::-webkit-scrollbar-track, .cellrow::-webkit-scrollbar-track, table::-webkit-scrollbar-track { background: transparent; }
+pre::-webkit-scrollbar-thumb, .cellrow::-webkit-scrollbar-thumb, table::-webkit-scrollbar-thumb {
   background: rgba(128, 128, 128, 0.45); border-radius: 7px;
 }
-pre:hover::-webkit-scrollbar-thumb, .cellrow:hover::-webkit-scrollbar-thumb {
+pre:hover::-webkit-scrollbar-thumb, .cellrow:hover::-webkit-scrollbar-thumb, table:hover::-webkit-scrollbar-thumb {
   background: rgba(128, 128, 128, 0.7);
 }
 
@@ -375,6 +388,8 @@ footer { margin-top: 4rem; padding-top: 1.5rem; border-top: 1px solid var(--rule
 }
 .theme-switch .ts-opt + .ts-opt { border-left: 1.5px solid var(--ink); }
 .theme-switch .ts-opt[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+.theme-switch .ts-opt:focus-visible { outline-color: var(--bg); outline-offset: -4px; }
+.theme-switch .ts-opt:not([aria-pressed="true"]):focus-visible { outline-color: var(--ink); }
 /* Inactive side hovers to the current mode's dim hover color (symmetric — both
    sides match the page theme, like every other hover). */
 .theme-switch .ts-opt:hover:not([aria-pressed="true"]) { background: var(--hover-bg); color: var(--ink); }
