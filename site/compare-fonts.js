@@ -5,6 +5,7 @@
    @font-face sources, brand cross-references, and popularity snapshot together
    here instead of spreading them across CSS and rendering code. */
 (function () {
+  const PLANETAIRE_CDN_FONTS = "https://cdn.jsdelivr.net/gh/jlevy/planetaire@9186ed18abf34042baded61a6582f0e1aed1b64e/site/fonts";
   const FONTSOURCE_CDN = "https://cdn.jsdelivr.net/fontsource/fonts";
   const NPM_WINDOW = {
     start: "2026-05-04",
@@ -79,8 +80,8 @@
     }),
   };
 
-  function localPlanetaireFile(styleName) {
-    return `fonts/PlanetaireMonoText-${styleName}.woff2`;
+  function planetaireFontFile(styleName) {
+    return `${PLANETAIRE_CDN_FONTS}/PlanetaireMonoText-${styleName}.woff2`;
   }
 
   function face({ style = "normal", weight, sources, family }) {
@@ -114,7 +115,7 @@
     return face({
       style,
       weight,
-      sources: [source(localPlanetaireFile(styleName))],
+      sources: [source(planetaireFontFile(styleName))],
     });
   }
 
@@ -123,8 +124,8 @@
       id: "planetaire",
       name: "Planetaire Mono",
       family: "Planetaire Mono Compare",
-      source: "local WOFF2",
-      sourceKind: "local",
+      source: "pinned jsDelivr",
+      sourceKind: "cdn",
       sourceUrl: "https://github.com/jlevy/planetaire",
       description: "B612 letters, Hack punctuation, dotted zero",
       default: true,

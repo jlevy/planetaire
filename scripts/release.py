@@ -15,23 +15,27 @@ into two steps so there is always a review gate before anything is committed:
     0. Require committed curated notes at docs/release/notes/vX.Y.Z.md.
     1. Build the fonts locally (so Typst can render the specimen with the real glyphs;
        the version baked into these throwaway local binaries does not matter).
-    2. Rebuild the committed specimen PDF with `--version X.Y.Z` stamped explicitly.
-    3. Re-pin every README jsDelivr CDN link to `planetaire@vX.Y.Z` (a plain
-       search/replace from the previous ref — no template vars — which also busts the
-       CDN cache, since `@vX.Y.Z` is a URL jsDelivr has never served).
-    4. Leave those changes in the working tree and print the diff. STOP for review.
+    2. Refresh the committed static-site web fonts in site/fonts/.
+    3. Rebuild the committed specimen PDF with `--version X.Y.Z` stamped explicitly.
+    4. Re-pin every release-controlled jsDelivr CDN link in README.md and site/ to
+       `planetaire@vX.Y.Z` (a plain search/replace from the previous ref — no template
+       vars — which also busts the CDN cache, since `@vX.Y.Z` is a URL jsDelivr has
+       never served).
+    5. Leave those changes in the working tree and print the diff. STOP for review.
 
   finalize X.Y.Z
-    5. Commit the PDF + README as `release: vX.Y.Z` and tag that commit `vX.Y.Z`.
+    6. Commit the site fonts + PDF + release-controlled CDN pins as `release: vX.Y.Z`
+       and tag that commit `vX.Y.Z`.
 
-After finalize the specimen PDF served by `cdn.jsdelivr.net/gh/jlevy/planetaire@vX.Y.Z/`
-is byte-for-byte the PDF that stamps `Version X.Y.Z`, and the fonts CI builds from the
-same tag also report X.Y.Z. Everything agrees by construction, not by timing.
+After finalize the specimen PDF and static-site web fonts served by
+`cdn.jsdelivr.net/gh/jlevy/planetaire@vX.Y.Z/` are byte-for-byte the committed files in
+the tag, and the fonts CI builds from the same tag also reports X.Y.Z. Everything agrees
+by construction, not by timing.
 
 Neither step pushes; finalize prints the push commands. See docs/fonts-build-and-release.md.
 
 Usage:
-    uv run python scripts/release.py prepare 0.1.4              # build + re-pin, then review
+    uv run python scripts/release.py prepare 0.1.4              # build + refresh + re-pin
     uv run python scripts/release.py prepare 0.1.4 --no-build   # reuse fonts/output
     uv run python scripts/release.py finalize 0.1.4            # commit + tag the reviewed changes
 """
@@ -40,6 +44,7 @@ from __future__ import annotations
 
 import argparse
 import re
+import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -48,8 +53,25 @@ from typing import NoReturn
 REPO_ROOT = Path(__file__).resolve().parent.parent
 README = REPO_ROOT / "README.md"
 SPECIMEN_PDF = REPO_ROOT / "docs/specimen/planetaire-mono-specimen.pdf"
+FONT_OUTPUT = REPO_ROOT / "fonts/output"
+SITE_FONTS = REPO_ROOT / "site/fonts"
+# Files with production jsDelivr refs that must move together at release time. Keep
+# examples/placeholders out of these files or avoid writing them as full jsDelivr URLs.
+CDN_PINNED_PATHS = [
+    "README.md",
+    "site/index.html",
+    "site/compare.html",
+    "site/compare-fonts.js",
+    "site/fonts",
+]
 # Paths the release commit is allowed to touch, relative to the repo root.
-RELEASE_PATHS = ["README.md", "docs/specimen/planetaire-mono-specimen.pdf"]
+RELEASE_PATHS = [
+    "README.md",
+    "docs/specimen/planetaire-mono-specimen.pdf",
+    "site/index.html",
+    "site/compare.html",
+    "site/compare-fonts.js",
+]
 
 # Matches the ref segment of any jsDelivr CDN link into this repo, e.g. `planetaire@main`
 # or `planetaire@v0.1.3`. The second group is whatever ref the link is currently pinned to
@@ -115,23 +137,65 @@ def require_release_notes(tag: str) -> Path:
     return notes
 
 
+def cdn_refs_by_path() -> dict[str, list[str]]:
+    """Return current jsDelivr refs in release-controlled files."""
+    refs: dict[str, list[str]] = {}
+    for rel in CDN_PINNED_PATHS:
+        path = REPO_ROOT / rel
+        matches = CDN_LINK_RE.findall(path.read_text())
+        if matches:
+            refs[rel] = sorted({ref for _, ref in matches})
+    return refs
+
+
 def rewrite_cdn_links(tag: str) -> int:
-    """Re-pin every jsDelivr CDN link in the README to `planetaire@<tag>`. Returns count."""
-    text = README.read_text()
-    matches = CDN_LINK_RE.findall(text)
-    if not matches:
+    """Re-pin release-controlled jsDelivr CDN links to `planetaire@<tag>`. Returns count."""
+    total = 0
+    before = cdn_refs_by_path()
+    if not before:
         fail(
             "could not find any jsDelivr CDN link "
-            "(cdn.jsdelivr.net/gh/jlevy/planetaire@...) in README.md"
+            f"(cdn.jsdelivr.net/gh/jlevy/planetaire@...) in {', '.join(CDN_PINNED_PATHS)}"
         )
-    refs = sorted({ref for _, ref in matches})
-    if refs == [tag]:
-        print(f"  README CDN links already pinned to {tag}")
-        return len(matches)
-    froms = ", ".join(f"@{ref}" for ref in refs)
-    print(f"  re-pinning {len(matches)} README CDN link(s): {froms} -> @{tag}")
-    README.write_text(CDN_LINK_RE.sub(rf"\g<1>{tag}", text))
-    return len(matches)
+
+    for rel in CDN_PINNED_PATHS:
+        path = REPO_ROOT / rel
+        text = path.read_text()
+        matches = CDN_LINK_RE.findall(text)
+        if not matches:
+            continue
+        total += len(matches)
+        refs = sorted({ref for _, ref in matches})
+        if refs == [tag]:
+            print(f"  {rel}: {len(matches)} CDN link(s) already pinned to {tag}")
+            continue
+        froms = ", ".join(f"@{ref}" for ref in refs)
+        print(f"  {rel}: re-pinning {len(matches)} CDN link(s): {froms} -> @{tag}")
+        path.write_text(CDN_LINK_RE.sub(rf"\g<1>{tag}", text))
+    return total
+
+
+def sync_site_web_fonts() -> int:
+    """Copy freshly built Text web fonts into site/fonts/ and remove stale outputs."""
+    sources = [
+        *sorted(FONT_OUTPUT.glob("PlanetaireMonoText-*.woff2")),
+        *sorted(FONT_OUTPUT.glob("planetaire-mono-text*.css")),
+    ]
+    if not sources:
+        fail("no Text web font files found in fonts/output; run the font build first")
+    if not any(path.suffix == ".woff2" for path in sources):
+        fail("no PlanetaireMonoText WOFF2 files found in fonts/output")
+    if not any(path.name == "planetaire-mono-text.css" for path in sources):
+        fail("fonts/output/planetaire-mono-text.css is missing")
+
+    SITE_FONTS.mkdir(parents=True, exist_ok=True)
+    for pattern in ("PlanetaireMonoText-*.woff2", "planetaire-mono-text*.css"):
+        for stale in SITE_FONTS.glob(pattern):
+            stale.unlink()
+    for source_path in sources:
+        shutil.copy2(source_path, SITE_FONTS / source_path.name)
+    print(f"  site/fonts/: refreshed {len(sources)} Text web font file(s)")
+    return len(sources)
 
 
 def cmd_prepare(args: argparse.Namespace) -> None:
@@ -155,18 +219,23 @@ def cmd_prepare(args: argparse.Namespace) -> None:
         run(["uv", "run", "planetaire", "build", "download"])
         run(["uv", "run", "planetaire", "build", "planetaire-mono"])
         run(["uv", "run", "planetaire", "build", "text"])
+
+    print("\nRefresh site web fonts:")
+    sync_site_web_fonts()
+
+    print("\nBuild specimen:")
     run(["uv", "run", "planetaire", "build", "specimen", "--version", version])
 
-    print("\nRe-pin README:")
+    print("\nRe-pin CDN links:")
     rewrite_cdn_links(tag)
 
     if not out(["git", "status", "--porcelain", "--", *RELEASE_PATHS]):
-        fail("nothing changed — the PDF and README already match this version")
+        fail("nothing changed — the site fonts, PDF, and CDN pins already match this version")
 
     print(f"\nPrepared {tag}. Review the changes below, then finalize.\n")
     run(["git", "--no-pager", "diff", "--stat", "--", *RELEASE_PATHS])
     print()
-    run(["git", "--no-pager", "diff", "--", "README.md"])
+    run(["git", "--no-pager", "diff", "--", *CDN_PINNED_PATHS])
     print(
         f"\nWhen the diff looks right:\n"
         f"  make release-finalize VERSION={version}\n"
@@ -184,12 +253,15 @@ def cmd_finalize(args: argparse.Namespace) -> None:
     require_release_notes(tag)
     if not out(["git", "status", "--porcelain", "--", *RELEASE_PATHS]):
         fail(f"no prepared release changes found — run `make release VERSION={version}` first")
-    # Guard against a stray version: the PDF must stamp this tag and the README must point
-    # at it, so a finalize for the wrong version cannot slip through.
-    if f"planetaire@{tag}/" not in README.read_text():
+    # Guard against a stray version: the PDF must stamp this tag and all production CDN
+    # links must point at it, so a finalize for the wrong version cannot slip through.
+    current_refs = sorted({ref for refs in cdn_refs_by_path().values() for ref in refs})
+    if current_refs != [tag]:
         fail(
-            f"README is not pinned to {tag}. Re-run `make release VERSION={version}` so the "
-            "prepared changes match the version you are finalizing."
+            f"release-controlled CDN links are not all pinned to {tag} "
+            f"(found: {', '.join('@' + ref for ref in current_refs) or 'none'}). "
+            f"Re-run `make release VERSION={version}` so the prepared changes match the "
+            "version you are finalizing."
         )
 
     print("\nCommit and tag:")
@@ -210,7 +282,7 @@ def main() -> None:
     )
     sub = parser.add_subparsers(dest="step", required=True)
 
-    p = sub.add_parser("prepare", help="Build + re-pin the README, then stop for review")
+    p = sub.add_parser("prepare", help="Build + refresh site fonts + re-pin CDN links")
     p.add_argument("version", help="Release version, e.g. 0.1.4 (no leading v)")
     p.add_argument("--no-build", action="store_true", help="Reuse fonts/output instead of rebuilding")
     p.set_defaults(func=cmd_prepare)

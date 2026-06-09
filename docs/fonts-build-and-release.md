@@ -49,8 +49,8 @@ and Powerline. The release archive keeps that full Text coverage in `ttf/`, but 
 Latin, Latin Extended, Greek, Cyrillic, and Cyrillic Extended WOFF2 files, plus an
 optional Regular/Bold italic companion CSS. Browsers fetch only the unicode ranges and
 styles a page actually uses, so adding Greek/Cyrillic support does not increase the font
-payload for Latin-only pages. The generated CSS also includes a local metric-matched
-fallback face and a
+payload for Latin-only pages.
+The generated CSS also includes a local metric-matched fallback face and a
 `--planetaire-mono-text-font-stack` custom property for stable line height during
 `font-display: swap`.
 
@@ -111,13 +111,15 @@ The version tag (`vX.Y.Z`) is the single source of truth for the version:
 `planetaire.version.get_version()` threads the same value into the font name tables,
 `head.fontRevision`, and the specimen.
 
-Two artifacts must agree with the tag *and* live inside the tagged commit:
+The release-controlled CDN artifacts must agree with the tag *and* live inside the
+tagged commit:
 
 - **The specimen PDF** (`docs/specimen/planetaire-mono-specimen.pdf`) stamps
   `Version X.Y.Z` on its cover and is served over the jsDelivr CDN.
-- **The README CDN link** is pinned to the tag —
-  `cdn.jsdelivr.net/gh/jlevy/planetaire@vX.Y.Z/...` — so it is immutable, served
-  instantly, and always resolves to the PDF that stamps that same version.
+- **The README and static-site CDN links** are pinned to the tag —
+  `cdn.jsdelivr.net/gh/jlevy/planetaire@vX.Y.Z/...` — so the specimen PDF, site font
+  CSS, and site WOFF2 files are immutable, served instantly, and always resolve to the
+  files committed in that same tag.
   (Versioned jsDelivr refs are cached for a year; an `@main` link would lag up to ~12h
   and could disagree with the PDF’s stamped version.)
 
@@ -125,12 +127,12 @@ This is a chicken-and-egg: the version comes *from* the tag, but the PDF content
 README link must be *in* the tagged commit.
 `scripts/release.py` resolves it by stamping the version explicitly, so **always cut
 releases with `make release`** rather than tagging by hand.
-Doing it by hand leaves the committed PDF and CDN link pointing at a stale version.
+Doing it by hand leaves the committed PDF and CDN links pointing at stale versions.
 
 > **Download links are deliberately not pinned.** The `releases/latest/download/...`
-> URLs in the README and the generated site resolve `latest` server-side, and the
-> release archive names are unversioned, so those URLs stay stable across releases and
-> never need updating — only the CDN specimen link is version-pinned.
+> URLs in the README and site resolve `latest` server-side, and the release archive
+> names are unversioned, so those URLs stay stable across releases and never need
+> updating — only the jsDelivr `/gh/` CDN links are version-pinned.
 
 ### 1. Write the release notes
 
@@ -148,16 +150,18 @@ the template:
   [README](https://github.com/jlevy/planetaire#readme),
   [download/install instructions](https://github.com/jlevy/planetaire#download), and
   [web-font usage](https://github.com/jlevy/planetaire#use-on-the-web)
-- **Which package?** guidance for Extended vs. Text
+- **Which package?** guidance for Extended vs.
+  Text
 - archive contents (`ttf/`, `web/`, `README.txt`, `LICENSE`, `licenses/`)
 - checksum guidance for `SHA256SUMS`
 - **## What’s Changed** sections and a **Full Changelog** compare link
 
 Commit the notes file to `main` **before** running the release script, so the tagged
-commit contains the notes the workflow reads. The release files (`README.md` and the
-specimen PDF) must have no other uncommitted changes, so the review diff shows only what
-the release introduces. `make release` and `make release-finalize` both refuse to run if
-the curated notes file is missing or has uncommitted changes.
+commit contains the notes the workflow reads.
+The release files (`README.md` and the specimen PDF) must have no other uncommitted
+changes, so the review diff shows only what the release introduces.
+`make release` and `make release-finalize` both refuse to run if the curated notes file
+is missing or has uncommitted changes.
 
 ### 2. Prepare the release and review it
 
@@ -165,17 +169,19 @@ the curated notes file is missing or has uncommitted changes.
 make release VERSION=0.1.4        # or: uv run python scripts/release.py prepare 0.1.4
 ```
 
-This builds the fonts, rebuilds the specimen PDF stamped `Version 0.1.4`, and re-pins
-every README jsDelivr CDN link to `planetaire@v0.1.4` (a plain search/replace from the
-previous ref — no template variables — which also busts the CDN cache, since `@v0.1.4`
-is a URL jsDelivr has never served).
+This builds the fonts, refreshes the committed static-site web fonts in `site/fonts/`,
+rebuilds the specimen PDF stamped `Version 0.1.4`, and re-pins every release-controlled
+jsDelivr CDN link in `README.md` and `site/` to `planetaire@v0.1.4` (a plain
+search/replace from the previous ref — no template variables — which also busts the CDN
+cache, since `@v0.1.4` is a URL jsDelivr has never served).
 It then **stops and prints the diff** — nothing is committed yet.
 It refuses to run off `main`, when the tag already exists, or when the release files
 have unrelated uncommitted changes.
 Use `--no-build` to reuse an existing `fonts/output`.
 
-Review the printed diff: confirm both README CDN links now point at `@v0.1.4` and the
-specimen PDF was rebuilt.
+Review the printed diff: confirm the README and site CDN links now point at `@v0.1.4`,
+the static site is still using a pinned exact ref, the site web fonts were refreshed,
+and the specimen PDF was rebuilt.
 To discard and start over, run the `git checkout` the script prints.
 
 ### 3. Finalize the release
@@ -184,10 +190,10 @@ To discard and start over, run the `git checkout` the script prints.
 make release-finalize VERSION=0.1.4   # or: uv run python scripts/release.py finalize 0.1.4
 ```
 
-This commits the PDF + README as `release: v0.1.4` and creates the annotated tag
-`v0.1.4` on that commit.
-It re-checks that you are on `main`, the tag is free, and the README is actually pinned
-to `v0.1.4`, then commits only those two files.
+This commits the site web fonts + PDF + release-controlled CDN pin updates as
+`release: v0.1.4` and creates the annotated tag `v0.1.4` on that commit.
+It re-checks that you are on `main`, the tag is free, and all release-controlled CDN
+links are actually pinned to `v0.1.4`, then commits only those release files.
 It does **not** push — so nothing publishes as a side effect.
 
 ### 4. Push the commit and tag
