@@ -30,8 +30,9 @@
    ../docs/website.runbook.md before editing content here.
    ========================================================================= */
 
-/* Font faces are declared in fonts/planetaire-mono-text.css, linked first in
-   index.html. The whole page is set in Planetaire Mono Text — live type. */
+/* Font faces are declared in site/fonts/planetaire-mono-text.css and loaded through
+   the pinned CDN link in index.html. The whole page is set in Planetaire Mono Text —
+   live type. */
 
 :root {
   /* two text colors */
