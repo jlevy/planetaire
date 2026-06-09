@@ -15,6 +15,9 @@ from strif import atomic_output_file
 
 from planetaire.unicode_ranges import codepoints_in_ranges
 
+WEB_NAME_IDS: list[int] = [0, 1, 2, 3, 4, 5, 6, 13, 14, 16, 17]
+WINDOWS_ENGLISH = 0x0409
+
 
 def subset_font(
     font: TTFont, ranges: list[tuple[int, int]], *, drop_hinting: bool = False
@@ -32,13 +35,13 @@ def subset_font(
     """
     options = Options()
     options.layout_features = ["*"]  # keep features (e.g. ss01/zero) for kept glyphs
-    options.name_IDs = ["*"]  # preserve the full name table
-    options.name_legacy = True
-    options.name_languages = ["*"]
+    options.name_IDs = WEB_NAME_IDS
+    options.name_legacy = False
+    options.name_languages = [WINDOWS_ENGLISH]
     options.notdef_outline = True
     options.recalc_bounds = True
     options.recalc_timestamp = False
-    options.glyph_names = True
+    options.glyph_names = False
     options.hinting = not drop_hinting
     options.drop_tables = []
 

@@ -39,11 +39,15 @@ vendored copies.)
 | Family | Command | Output |
 | --- | --- | --- |
 | **Planetaire Mono Extended** (full) | `planetaire build planetaire-mono` | `PlanetaireMonoExtended-*.ttf` (all Nerd Font icons) |
-| **Planetaire Mono Text** (web/regular) | `planetaire build text` | `PlanetaireMonoText-*.{ttf,woff2,woff}` and `planetaire-mono-text.css` |
+| **Planetaire Mono Text** (local text TTFs) | `planetaire build text --formats ttf` | `PlanetaireMonoText-*.ttf` |
+| **Planetaire Mono Text** (slim web) | `planetaire build text --split --italics` | `PlanetaireMonoText-{Regular,Bold}{,Italic}-{latin,latin-ext}.woff2`, `planetaire-mono-text.css`, and `planetaire-mono-text-italics.css` |
 
 Text is the full build subset to standard-Unicode text glyphs (letters, punctuation,
 box-drawing, block elements, geometric shapes), dropping the Private-Use Nerd Font icons
-and Powerline, and shipped unhinted for the web (~55 KB WOFF2/weight).
+and Powerline. The release archive keeps that full Text coverage in `ttf/`, but the
+`web/` folder uses a Google Fonts-style split: Regular/Bold upright as the base CSS,
+Latin and Latin Extended WOFF2 files, and an optional Regular/Bold italic companion CSS.
+Browsers fetch only the unicode ranges and styles a page actually uses.
 
 ## Build
 
@@ -51,7 +55,8 @@ and Powerline, and shipped unhinted for the web (~55 KB WOFF2/weight).
 make fonts        # download(verify) -> build Extended -> build Text -> validate
 # or individually:
 uv run planetaire build planetaire-mono
-uv run planetaire build text
+uv run planetaire build text --formats ttf
+uv run planetaire build text --split --italics
 uv run planetaire validate fonts/output/PlanetaireMonoExtended-*.ttf
 uv run planetaire validate fonts/output/PlanetaireMonoText-*.ttf
 ```

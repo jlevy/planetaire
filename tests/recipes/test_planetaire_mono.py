@@ -87,6 +87,73 @@ def test_build_text_regular(source_dir: Path):
         assert "font-weight: 400" in css
 
 
+def test_build_text_split_regular(source_dir: Path):
+    """Split Text build emits Google Fonts-style Latin range WOFF2s + CSS."""
+    with tempfile.TemporaryDirectory() as tmpdir:
+        output_dir = Path(tmpdir)
+        outputs = build_text(
+            source_dir,
+            output_dir,
+            variant="Regular",
+            split=True,
+            formats=("woff2",),
+        )
+
+        names = {p.name for p in outputs}
+        assert "PlanetaireMonoText-Regular-latin.woff2" in names
+        assert "PlanetaireMonoText-Regular-latin-ext.woff2" in names
+        assert "PlanetaireMonoText-Regular.ttf" not in names
+        assert "planetaire-mono-text.css" in names
+        assert "planetaire-mono-text-italics.css" not in names
+
+        latin = TTFont(output_dir / "PlanetaireMonoText-Regular-latin.woff2")
+        latin_cmap = latin.getBestCmap()
+        assert latin_cmap is not None
+        assert 0x0041 in latin_cmap  # Basic Latin
+        assert 0x00E9 in latin_cmap  # Latin-1
+        assert 0x0100 not in latin_cmap  # Latin Extended lives in the companion file
+        assert 0x2500 not in latin_cmap  # Box drawing is not a Google Fonts Latin subset
+
+        latin_ext = TTFont(output_dir / "PlanetaireMonoText-Regular-latin-ext.woff2")
+        latin_ext_cmap = latin_ext.getBestCmap()
+        assert latin_ext_cmap is not None
+        assert 0x0100 in latin_ext_cmap
+        assert 0x0041 not in latin_ext_cmap
+
+        css = (output_dir / "planetaire-mono-text.css").read_text()
+        assert css.count("\n@font-face") == 2
+        assert "font-style: normal" in css
+        assert "font-weight: 400" in css
+        assert "PlanetaireMonoText-Regular-latin.woff2" in css
+        assert "unicode-range: U+0000-00FF,U+0131" in css
+        assert "unicode-range: U+0100-024F,U+0259" in css
+
+
+def test_build_text_split_italic_companion(source_dir: Path):
+    """Split italic variants are emitted as an optional companion stylesheet."""
+    with tempfile.TemporaryDirectory() as tmpdir:
+        output_dir = Path(tmpdir)
+        outputs = build_text(
+            source_dir,
+            output_dir,
+            variant="Italic",
+            split=True,
+            formats=("woff2",),
+        )
+
+        names = {p.name for p in outputs}
+        assert "PlanetaireMonoText-Italic-latin.woff2" in names
+        assert "PlanetaireMonoText-Italic-latin-ext.woff2" in names
+        assert "planetaire-mono-text.css" not in names
+        assert "planetaire-mono-text-italics.css" in names
+
+        css = (output_dir / "planetaire-mono-text-italics.css").read_text()
+        assert css.count("\n@font-face") == 2
+        assert "font-style: italic" in css
+        assert "font-weight: 400" in css
+        assert "unicode-range: U+0000-00FF,U+0131" in css
+
+
 def test_no_dangling_composite_components(source_dir: Path):
     """Every composite glyph must reference components that exist in the font.
 

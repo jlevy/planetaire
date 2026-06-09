@@ -742,8 +742,9 @@
     superset of Text. Recommended for local and terminal use, where TTF is the standard
     option.
   - *Planetaire Mono Text* is a lightweight subset (no icons), so it is far smaller,
-    about 65 KB per weight in WOFF2. Recommended for the web, where the WOFF2 stylesheet
-    is the standard option.
+    and its web CSS now uses Regular/Bold Latin-range WOFF2 slices with optional
+    Regular/Bold italics. Recommended for the web, where the WOFF2 stylesheet is the
+    standard option.
 
   Either package works for either purpose; the recommendations are just the common,
   size-conscious defaults.

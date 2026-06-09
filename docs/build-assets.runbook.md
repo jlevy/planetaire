@@ -54,7 +54,8 @@ vhs --version
 uv sync --all-extras
 uv run planetaire build download          # verify vendored sources against SHA256SUMS
 uv run planetaire build planetaire-mono   # Extended: 8 TTFs -> fonts/output/
-uv run planetaire build text              # Text: TTF + WOFF2 + WOFF + @font-face CSS
+uv run planetaire build text --formats ttf
+uv run planetaire build text --split --italics
 uv run planetaire validate fonts/output/PlanetaireMonoExtended-*.ttf
 uv run planetaire validate fonts/output/PlanetaireMonoText-*.ttf
 ```
@@ -137,7 +138,7 @@ Edit the session in `docs/specimen/terminal-demo.tape` (it sources `.venv` so th
 
 Pushing a version tag (`vX.Y.Z`) triggers `.github/workflows/release-fonts.yml`, which
 rebuilds both families, creates the GitHub Release for the tag, and uploads
-`PlanetaireMono-Extended.*`, `PlanetaireMono-Text.*` (with WOFF2/WOFF/CSS), and
+`PlanetaireMono-Extended.*`, `PlanetaireMono-Text.*` (with slim WOFF2/CSS), and
 `SHA256SUMS`. The same tag triggers `.github/workflows/publish.yml` for the PyPI tooling
 package. See [`fonts-build-and-release.md`](fonts-build-and-release.md).
 

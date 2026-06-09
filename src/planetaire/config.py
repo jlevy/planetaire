@@ -11,11 +11,63 @@ from __future__ import annotations
 
 from typing import TypedDict
 
+from planetaire.unicode_ranges import parse_unicode_ranges
+
 # Font family names.
 # The full build is "Planetaire Mono Extended" (all Nerd Font icons); the lightweight
 # web/text subset is a distinct family so the two can be installed side by side.
 FAMILY_NAME: str = "Planetaire Mono Extended"
 TEXT_FAMILY_NAME: str = "Planetaire Mono Text"
+
+
+class TextSubsetDef(TypedDict):
+    """Named web subset definition."""
+
+    name: str
+    unicode_range: str
+    ranges: list[tuple[int, int]]
+
+
+def _text_subset(name: str, unicode_range: str) -> TextSubsetDef:
+    return {
+        "name": name,
+        "unicode_range": unicode_range,
+        "ranges": parse_unicode_ranges(unicode_range),
+    }
+
+
+# Canonical Google Fonts unicode-range groups for split web delivery.
+# Box drawing and terminal symbols are useful in the full Text build, but they are not
+# Google Fonts script subsets; keep them out of the split model unless a custom subset
+# is deliberately added later.
+TEXT_SUBSET_GROUPS: dict[str, TextSubsetDef] = {
+    "latin": _text_subset(
+        "latin",
+        "U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,"
+        "U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD",
+    ),
+    "latin-ext": _text_subset(
+        "latin-ext",
+        "U+0100-024F,U+0259,U+1E00-1EFF,U+2020,U+20A0-20AB,U+20AD-20CF,"
+        "U+2113,U+2C60-2C7F,U+A720-A7FF",
+    ),
+    "greek": _text_subset("greek", "U+0370-03FF"),
+    "greek-ext": _text_subset("greek-ext", "U+1F00-1FFF"),
+    "cyrillic": _text_subset(
+        "cyrillic",
+        "U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116",
+    ),
+    "cyrillic-ext": _text_subset(
+        "cyrillic-ext",
+        "U+0460-052F,U+1C80-1C8A,U+20B4,U+2DE0-2DFF,U+A640-A69F,U+FE2E-FE2F",
+    ),
+}
+
+# First slim web package: same CSS family as Text, Regular/Bold only, upright only,
+# split into Latin and Latin Extended WOFF2 files.
+TEXT_SLIM_WEB_SUBSETS: tuple[str, ...] = ("latin", "latin-ext")
+TEXT_SLIM_WEB_VARIANTS: tuple[str, ...] = ("Regular", "Bold")
+TEXT_SLIM_WEB_ITALIC_VARIANTS: tuple[str, ...] = ("Italic", "BoldItalic")
 
 # Unicode ranges retained in the lightweight "Text" family.
 # These are the standard-Unicode text blocks (letters, punctuation, box-drawing,

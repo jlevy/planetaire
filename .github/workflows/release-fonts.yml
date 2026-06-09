@@ -51,7 +51,8 @@ jobs:
         run: |
           uv run planetaire build download
           uv run planetaire build planetaire-mono
-          uv run planetaire build text
+          uv run planetaire build text --formats ttf
+          uv run planetaire build text --split --italics
 
       - name: Validate fonts
         run: |
@@ -62,7 +63,8 @@ jobs:
         run: |
           out=fonts/output
           # Stage each family into ttf/ and web/ subfolders with a README, then archive.
-          # Both families ship TTF (local) plus WOFF2/WOFF + CSS (web); Extended adds the
+          # Both families ship TTF for local use plus WOFF2/CSS for the web; Text web
+          # output is split to the slim Regular/Bold Latin profile. Extended adds the
           # full Nerd Font icon set, so it is a superset of Text. Archive names stay
           # unversioned so the releases/latest/download/... URLs remain stable.
           mkdir -p dist/Extended/ttf dist/Extended/web dist/Extended/licenses \
@@ -75,7 +77,7 @@ jobs:
           cp fonts/source/licenses/* dist/Extended/licenses/
           cp "$out"/PlanetaireMonoText-*.ttf dist/Text/ttf/
           cp "$out"/PlanetaireMonoText-*.woff2 \
-             "$out"/planetaire-mono-text.css dist/Text/web/
+             "$out"/planetaire-mono-text*.css dist/Text/web/
           cp docs/release/readme-text.txt dist/Text/README.txt
           cp LICENSE dist/Text/LICENSE
           cp fonts/source/licenses/* dist/Text/licenses/

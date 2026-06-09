@@ -12,6 +12,8 @@ from __future__ import annotations
 
 import logging
 import shutil
+from copy import deepcopy
+from dataclasses import dataclass
 from pathlib import Path
 
 from fontTools.ttLib import TTFont
@@ -21,8 +23,13 @@ from planetaire.config import (
     PLANETAIRE_GSUB_FEATURES,
     PLANETAIRE_LETTER_RANGES,
     TEXT_FAMILY_NAME,
+    TEXT_SLIM_WEB_ITALIC_VARIANTS,
+    TEXT_SLIM_WEB_SUBSETS,
+    TEXT_SLIM_WEB_VARIANTS,
+    TEXT_SUBSET_GROUPS,
     TEXT_SUBSET_RANGES,
     VARIANTS,
+    TextSubsetDef,
     VariantDef,
 )
 from planetaire.ops.fix import fix_font
@@ -35,6 +42,17 @@ from planetaire.ops.zero import add_dotted_zero
 from planetaire.version import get_version, to_font_version
 
 log = logging.getLogger(__name__)
+
+
+@dataclass(frozen=True)
+class FontFaceEntry:
+    """One generated @font-face block."""
+
+    stem: str
+    weight: int
+    is_italic: bool
+    unicode_range: str | None = None
+
 
 # Mapping from ExtraBold variants to their Bold source for emboldening.
 _EXTRABOLD_FROM_BOLD: dict[str, str] = {
@@ -221,7 +239,7 @@ def build_planetaire_mono(
     _ensure_generated_weights(source_dir)
 
     outputs: list[Path] = []
-    css_entries: list[tuple[str, int, bool]] = []  # (stem, weight, is_italic)
+    css_entries: list[FontFaceEntry] = []
 
     for v, hack_path, b612_path in _resolve_variant_sources(source_dir, variant):
         name = v["name"]
@@ -253,7 +271,7 @@ def build_planetaire_mono(
             log.info("Wrote %s", out_path)
             outputs.append(out_path)
 
-        css_entries.append((stem, v["weight"], "Italic" in name))
+        css_entries.append(FontFaceEntry(stem, v["weight"], "Italic" in name))
 
     if css_entries and ("woff2" in formats or "woff" in formats):
         css_path = output_dir / "planetaire-mono-extended.css"
@@ -270,13 +288,18 @@ def build_text(
     variant: str | None = None,
     *,
     formats: tuple[str, ...] = ("woff2", "ttf"),
+    split: bool = False,
+    subsets: tuple[str, ...] = TEXT_SLIM_WEB_SUBSETS,
+    include_italics: bool = False,
 ) -> list[Path]:
     """
     Build the lightweight Planetaire Mono Text family.
 
-    Same letterforms as the full build, subset to standard-Unicode text glyphs
-    (dropping the Nerd Font icons and Powerline) and emitted as WOFF2/WOFF/TTF plus
-    a generated ``@font-face`` stylesheet for the web.
+    Same letterforms as the full build. By default, output is subset to the full
+    standard-Unicode Text coverage and emitted as WOFF2/WOFF/TTF plus a generated
+    ``@font-face`` stylesheet. With ``split=True``, emit Google Fonts-style WOFF2
+    subsets for the slim web profile: Regular/Bold upright, Latin + Latin Extended;
+    optionally add the matching italic companion.
 
     Returns the list of written paths (fonts and the CSS file).
     """
@@ -288,9 +311,22 @@ def build_text(
     _ensure_generated_weights(source_dir)
 
     outputs: list[Path] = []
-    css_entries: list[tuple[str, int, bool]] = []  # (stem, weight, is_italic)
+    css_entries: list[FontFaceEntry] = []
+    italic_css_entries: list[FontFaceEntry] = []
+    split_subset_defs = _resolve_text_subset_defs(subsets) if split else []
+    split_formats = tuple(fmt for fmt in formats if fmt in {"woff2", "woff"})
+    if split and not split_formats:
+        split_formats = ("woff2",)
+    variant_names: set[str] | None = None
+    if split and variant is None:
+        variant_names = set(TEXT_SLIM_WEB_VARIANTS)
+        if include_italics:
+            variant_names.update(TEXT_SLIM_WEB_ITALIC_VARIANTS)
 
     for v, hack_path, b612_path in _resolve_variant_sources(source_dir, variant):
+        if variant_names is not None and v["name"] not in variant_names:
+            continue
+
         name = v["name"]
         log.info("Building %s %s", TEXT_FAMILY_NAME, name)
 
@@ -302,13 +338,37 @@ def build_text(
             weight=v["weight"],
             version=font_version,
         )
-        subset_font(font, TEXT_SUBSET_RANGES, drop_hinting=True)
 
         issues = validate_font(font, expected_weight=v["weight"])
         for issue in issues:
             log.warning("Validation %s: %s", issue.severity, issue.message)
 
         stem = f"{TEXT_FAMILY_NAME.replace(' ', '')}-{name}"
+        is_italic = "Italic" in name
+
+        if split:
+            for subset_def in split_subset_defs:
+                subset_font_obj = deepcopy(font)
+                subset_font(subset_font_obj, subset_def["ranges"], drop_hinting=True)
+                for fmt in split_formats:
+                    out_stem = f"{stem}-{subset_def['name']}"
+                    out_path = output_dir / f"{out_stem}.{fmt}"
+                    save_web_font(subset_font_obj, out_path, flavor=fmt)
+                    log.info("Wrote %s", out_path)
+                    outputs.append(out_path)
+                entry = FontFaceEntry(
+                    f"{stem}-{subset_def['name']}",
+                    v["weight"],
+                    is_italic,
+                    subset_def["unicode_range"],
+                )
+                if is_italic:
+                    italic_css_entries.append(entry)
+                else:
+                    css_entries.append(entry)
+            continue
+
+        subset_font(font, TEXT_SUBSET_RANGES, drop_hinting=True)
         for fmt in formats:
             flavor = None if fmt == "ttf" else fmt
             out_path = output_dir / f"{stem}.{fmt}"
@@ -316,40 +376,64 @@ def build_text(
             log.info("Wrote %s", out_path)
             outputs.append(out_path)
 
-        css_entries.append((stem, v["weight"], "Italic" in name))
+        css_entries.append(FontFaceEntry(stem, v["weight"], is_italic))
 
-    if css_entries and ("woff2" in formats or "woff" in formats):
+    if css_entries and ("woff2" in formats or "woff" in formats or split):
         css_path = output_dir / "planetaire-mono-text.css"
-        _write_font_face_css(css_path, css_entries, formats, family=TEXT_FAMILY_NAME)
+        _write_font_face_css(
+            css_path,
+            css_entries,
+            split_formats if split else formats,
+            family=TEXT_FAMILY_NAME,
+        )
+        log.info("Wrote %s", css_path)
+        outputs.append(css_path)
+    if italic_css_entries and split:
+        css_path = output_dir / "planetaire-mono-text-italics.css"
+        _write_font_face_css(css_path, italic_css_entries, split_formats, family=TEXT_FAMILY_NAME)
         log.info("Wrote %s", css_path)
         outputs.append(css_path)
 
     return outputs
 
 
+def _resolve_text_subset_defs(subsets: tuple[str, ...]) -> list[TextSubsetDef]:
+    """Resolve requested split subset names from config."""
+    resolved: list[TextSubsetDef] = []
+    for subset in subsets:
+        try:
+            resolved.append(TEXT_SUBSET_GROUPS[subset])
+        except KeyError as e:
+            known = ", ".join(TEXT_SUBSET_GROUPS)
+            raise ValueError(f"Unknown text subset {subset!r}; expected one of: {known}") from e
+    return resolved
+
+
 def _write_font_face_css(
     path: Path,
-    entries: list[tuple[str, int, bool]],
+    entries: list[FontFaceEntry],
     formats: tuple[str, ...],
     *,
     family: str,
 ) -> None:
     """Write a generated @font-face stylesheet for `family`'s web fonts."""
     blocks: list[str] = []
-    for stem, weight, is_italic in entries:
+    for entry in entries:
         srcs: list[str] = []
         if "woff2" in formats:
-            srcs.append(f"url('{stem}.woff2') format('woff2')")
+            srcs.append(f"url('{entry.stem}.woff2') format('woff2')")
         if "woff" in formats:
-            srcs.append(f"url('{stem}.woff') format('woff')")
+            srcs.append(f"url('{entry.stem}.woff') format('woff')")
         src = ",\n       ".join(srcs)
-        style = "italic" if is_italic else "normal"
+        style = "italic" if entry.is_italic else "normal"
+        unicode_range = f"  unicode-range: {entry.unicode_range};\n" if entry.unicode_range else ""
         blocks.append(
             f"@font-face {{\n"
             f"  font-family: '{family}';\n"
             f"  font-style: {style};\n"
-            f"  font-weight: {weight};\n"
+            f"  font-weight: {entry.weight};\n"
             f"  font-display: swap;\n"
+            f"{unicode_range}"
             f"  src: {src};\n"
             f"}}"
         )
