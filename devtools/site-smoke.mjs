@@ -4,6 +4,7 @@ import { JSDOM, VirtualConsole } from "jsdom";
 
 const root = path.resolve(import.meta.dirname, "..");
 const site = path.join(root, "site");
+const OPTIONAL_EXTERNAL_STYLESHEETS = ["https://cdn.jsdelivr.net/gh/jlevy/planetaire@"];
 
 const pages = [
   {
@@ -89,7 +90,12 @@ async function smokePage(page) {
   const errors = [];
   const virtualConsole = new VirtualConsole();
   virtualConsole.on("error", (message) => errors.push(`console.error: ${message}`));
-  virtualConsole.on("jsdomError", (error) => errors.push(`jsdom: ${error.message}`));
+  virtualConsole.on("jsdomError", (error) => {
+    if (isOptionalExternalStylesheetError(error.message)) {
+      return;
+    }
+    errors.push(`jsdom: ${error.message}`);
+  });
 
   const fileUrl = pathToFileURL(path.join(site, page.file)).href;
   const dom = await JSDOM.fromURL(fileUrl, {
@@ -128,6 +134,12 @@ async function smokePage(page) {
     throw new Error(`${page.file}\n${errors.map((error) => `  - ${error}`).join("\n")}`);
   }
   console.log(`ok ${page.file}`);
+}
+
+function isOptionalExternalStylesheetError(message) {
+  return OPTIONAL_EXTERNAL_STYLESHEETS.some((prefix) =>
+    message.startsWith(`Could not load link: "${prefix}`),
+  );
 }
 
 const failures = [];

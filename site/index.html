@@ -9,20 +9,17 @@
 <!-- FONT LOADING ----------------------------------------------------------
      The page renders in the actual font (live type, not screenshots).
 
-     Default: the bundled Text web fonts in fonts/ (self-contained, works when
-     you open this file locally). These were extracted from the
-     PlanetaireMono-Text release archive and committed under site/fonts/.
+     Production uses a pinned jsDelivr ref into the committed site/fonts/ files,
+     so font CSS and WOFF2 assets get immutable CDN caching. Keep this ref exact
+     (release tag or commit SHA), never @main/@latest. scripts/release.py updates
+     it during releases to bust the CDN cache.
 
-     Production / jsDelivr alternative (works once site/ is committed and a tag
-     exists — jsDelivr serves committed repo files at a tag, not release
-     tarballs, which is why the fonts are vendored here):
-         https://cdn.jsdelivr.net/gh/jlevy/planetaire@TAG/site/fonts/planetaire-mono-text.css
-     Swap the href below to that URL to serve fonts from the CDN.
-
-     Note: this is the Text subset (web-recommended). It has NO Nerd Font
-     icons — those ship only in the Extended package. See ../docs/website.runbook.md.
+     The same Text web fonts remain vendored under site/fonts/ for source review
+     and emergency/local fallback. This is the Text subset (web-recommended); it
+     has NO Nerd Font icons. See ../docs/website.runbook.md.
 ------------------------------------------------------------------------- -->
-<link rel="stylesheet" href="fonts/planetaire-mono-text.css">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jlevy/planetaire@9186ed18abf34042baded61a6582f0e1aed1b64e/site/fonts/planetaire-mono-text.css">
 <link rel="stylesheet" href="style.css?v=20260609-hero-intro-1">
 
 <!-- Set the theme before first paint (no flash): cookie, then localStorage,
