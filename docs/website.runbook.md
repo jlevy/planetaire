@@ -53,7 +53,7 @@ downstream copy and expect it to flow back.
 | **Tables & config** (weights, download, terminal-config snippets) | `README.md` | owns | partial (spec page) | mirrored as `<table>` / `<pre class="code">` |
 | **Typeface spec values** (UPM, metrics, glyph counts, advance width) | the **built fonts** → recorded in `planetaire-mono-specimen.typ` | mentioned in prose | owns (the spec page) | mirrored in the `.specgrid` block |
 | **Type demos & palettes** (text samples, Turing/RFC passages, weight ladder, size waterfall, legibility pairs, dotted zero, orbit-code, terminal mockup, QA grids, dark/light palettes) | `docs/specimen/content.typ` | rendered as PNGs via `card.typ` → `docs/images/*.png` | rendered by `planetaire-mono-specimen.typ` | re-implemented in HTML/CSS |
-| **Section order** | `README.md` | owns | own order (print flow) | follows the README order |
+| **Section grouping** | `site/index.html` | flat README order | own order (print flow) | grouped into About / Samples / Installation tabs |
 
 `content.typ` is shared by the PDF specimen **and** the README's PNG card images
 (`card.typ` → `make images`), so a demo change there flows to both automatically; only the
@@ -68,7 +68,7 @@ site's HTML copy is manual.
 | **A type demo** (e.g. the weight-ladder string, the orbit-code tokens, legibility pairs, the QA character rows) in `content.typ` | run `make images` (refreshes the README PNGs) **and** re-mirror the demo in `site/index.html`. The QA character rows live in the `<script>` at the bottom of `index.html` (the `rows` object). |
 | **A palette** (`pal-dark` / `pal-light`) in `content.typ` | the `--l-*` / `--d-*` CSS vars at the top of `site/style.css` (a 1:1 copy of the hex values) |
 | **Spec values** (metrics, glyph counts) because the font was rebuilt | the spec page in `planetaire-mono-specimen.typ` **and** the `.specgrid` block in `site/index.html` (hand-copied numbers — re-check them all) |
-| **Section order** in `README.md` | reorder the `<h2>` sections in `site/index.html` to match |
+| **Section order** in `README.md` | keep matching prose/table/demo content in `site/index.html`; preserve the site's About / Samples / Installation tab grouping unless the site IA is intentionally revised |
 | **The fonts** (new release) | re-vendor `site/fonts/` (see §3) and re-check the spec numbers |
 
 ### Intentional divergences (do NOT "fix" these)

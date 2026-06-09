@@ -68,6 +68,14 @@
   </div>
 </header>
 
+<nav class="tabs" aria-label="Site sections" role="tablist">
+  <button type="button" class="tab-opt" id="tab-about" role="tab" aria-controls="about" aria-selected="true" data-tab-set="about">About</button>
+  <button type="button" class="tab-opt" id="tab-samples" role="tab" aria-controls="samples" aria-selected="false" data-tab-set="samples">Samples</button>
+  <button type="button" class="tab-opt" id="tab-installation" role="tab" aria-controls="installation" aria-selected="false" data-tab-set="installation">Installation</button>
+</nav>
+
+<main class="tab-content">
+<section class="tab-panel" id="about" role="tabpanel" aria-labelledby="tab-about" data-tab-panel="about">
 <p>Planetaire Mono is a beautiful, highly legible monospace font for terminals,
 editors, and agentic work.</p>
 
@@ -156,10 +164,44 @@ have imagined. I hope Planetaire Mono’s aesthetics lighten the hours you spend
 agents, editors, and terminals.</p>
 
 <!-- ====================================================================== -->
+<!-- CREDITS                                                                -->
+<!-- ====================================================================== -->
+<h2 id="credits">Credits</h2>
+<ul>
+  <li><a href="https://github.com/polarsys/b612"><strong>B612</strong></a>: Intactile Design for Airbus. The letterforms.</li>
+  <li><a href="https://sourcefoundry.org/hack/"><strong>Hack</strong></a>: Chris Simpkins. The base providing punctuation, symbols, and metrics.</li>
+  <li><a href="https://www.nerdfonts.com/"><strong>Nerd Fonts</strong></a>: Ryan McIntyre. 10,000+ developer icons.</li>
+  <li><a href="https://github.com/carlosedp/b612"><strong>carlosedp</strong></a>: Carlos Eduardo de Paula’s B612 Nerd Font fork, which inspired the dotted zero. Not a build dependency.</li>
+</ul>
+
+<!-- ====================================================================== -->
+<!-- LICENSE                                                                -->
+<!-- ====================================================================== -->
+<h2 id="license">License</h2>
+<p>Planetaire Mono is released under the
+<a href="https://openfontlicense.org/">SIL Open Font License 1.1</a> (OFL-1.1), the standard
+license for open fonts. In practical terms:</p>
+<ul>
+  <li><strong>Use it for anything, free.</strong> Set text in Planetaire Mono in documents, books, websites, apps, videos, and commercial products, with no fee and no permission needed.</li>
+  <li><strong>No credit required for use.</strong> Setting text in the font does not obligate you to attribute Planetaire Mono or B612 anywhere. Credit is welcome but optional.</li>
+  <li><strong>Bundle and redistribute freely, but keep the license with the files.</strong> If you ship the font files themselves, include the bundled license and copyright notices. You may not sell the font files on their own.</li>
+  <li><strong>Don’t reuse the B612 name for modified versions.</strong> OFL lets an author reserve font names, and “B612” is reserved, so a derivative cannot be distributed under that name.</li>
+</ul>
+<p>This is a summary, not legal advice; the
+<a href="https://openfontlicense.org/">full OFL text</a> is binding. The upstream sources
+carry their own licenses: <strong>B612</strong> under OFL-1.1 and EPL-2.0;
+<strong>Hack</strong> under MIT and the Bitstream Vera License; <strong>Nerd Fonts</strong>
+glyph fonts under OFL-1.1 with the patcher tooling under MIT. Full license texts ship in the
+<code>licenses/</code> folder of each release archive. The build tooling in this repo is
+<a href="https://github.com/jlevy/planetaire/blob/main/LICENSE">MIT</a>.</p>
+</section>
+
+<!-- ====================================================================== -->
 <!-- ====================================================================== -->
 <!-- TYPE SPECIMEN  (mirrors planetaire-mono-specimen.typ, page by page)    -->
 <!-- ====================================================================== -->
 <!-- ====================================================================== -->
+<section class="tab-panel" id="samples" role="tabpanel" aria-labelledby="tab-samples" data-tab-panel="samples" hidden>
 <h2 id="specimen">Type Specimen</h2>
 <p class="muted">The full PDF specimen, rendered live in the browser in Planetaire Mono Text.
 For the print version (and the icon pages, which need the Extended font), see the
@@ -486,10 +528,12 @@ gives bold text (prompts, headings, highlighted output) the contrast to stand ou
 headings, highlighted text) clear contrast at terminal sizes, which is how the font is
 designed to be used. Per-terminal setup is under
 <a href="#terminal">Terminal Configuration</a>.</p>
+</section>
 
 <!-- ====================================================================== -->
 <!-- PACKAGES                                                               -->
 <!-- ====================================================================== -->
+<section class="tab-panel" id="installation" role="tabpanel" aria-labelledby="tab-installation" data-tab-panel="installation" hidden>
 <h2 id="packages">Two Packages: Text and Extended</h2>
 <p>Both packages share the same letterforms and the same 10 variants, and both ship in two
 formats: <strong>TTF</strong> (in <code>ttf/</code>) for local install and
@@ -656,38 +700,8 @@ make fonts        # download (verify) -> build Extended + Text -> validate</pre>
 <p>The pipeline merges B612 glyphs into the Hack Nerd Font base (normalizing UPM 2048 to
 2000), adds the dotted zero, sets family and version metadata, applies fixes, and validates
 coverage and style linking.</p>
-
-<!-- ====================================================================== -->
-<!-- CREDITS                                                                -->
-<!-- ====================================================================== -->
-<h2 id="credits">Credits</h2>
-<ul>
-  <li><a href="https://github.com/polarsys/b612"><strong>B612</strong></a>: Intactile Design for Airbus. The letterforms.</li>
-  <li><a href="https://sourcefoundry.org/hack/"><strong>Hack</strong></a>: Chris Simpkins. The base providing punctuation, symbols, and metrics.</li>
-  <li><a href="https://www.nerdfonts.com/"><strong>Nerd Fonts</strong></a>: Ryan McIntyre. 10,000+ developer icons.</li>
-  <li><a href="https://github.com/carlosedp/b612"><strong>carlosedp</strong></a>: Carlos Eduardo de Paula’s B612 Nerd Font fork, which inspired the dotted zero. Not a build dependency.</li>
-</ul>
-
-<!-- ====================================================================== -->
-<!-- LICENSE                                                                -->
-<!-- ====================================================================== -->
-<h2 id="license">License</h2>
-<p>Planetaire Mono is released under the
-<a href="https://openfontlicense.org/">SIL Open Font License 1.1</a> (OFL-1.1), the standard
-license for open fonts. In practical terms:</p>
-<ul>
-  <li><strong>Use it for anything, free.</strong> Set text in Planetaire Mono in documents, books, websites, apps, videos, and commercial products, with no fee and no permission needed.</li>
-  <li><strong>No credit required for use.</strong> Setting text in the font does not obligate you to attribute Planetaire Mono or B612 anywhere. Credit is welcome but optional.</li>
-  <li><strong>Bundle and redistribute freely, but keep the license with the files.</strong> If you ship the font files themselves, include the bundled license and copyright notices. You may not sell the font files on their own.</li>
-  <li><strong>Don’t reuse the B612 name for modified versions.</strong> OFL lets an author reserve font names, and “B612” is reserved, so a derivative cannot be distributed under that name.</li>
-</ul>
-<p>This is a summary, not legal advice; the
-<a href="https://openfontlicense.org/">full OFL text</a> is binding. The upstream sources
-carry their own licenses: <strong>B612</strong> under OFL-1.1 and EPL-2.0;
-<strong>Hack</strong> under MIT and the Bitstream Vera License; <strong>Nerd Fonts</strong>
-glyph fonts under OFL-1.1 with the patcher tooling under MIT. Full license texts ship in the
-<code>licenses/</code> folder of each release archive. The build tooling in this repo is
-<a href="https://github.com/jlevy/planetaire/blob/main/LICENSE">MIT</a>.</p>
+</section>
+</main>
 
 <footer>
   Planetaire Mono · <a href="https://github.com/jlevy/planetaire">github.com/jlevy/planetaire</a>
@@ -712,6 +726,77 @@ glyph fonts under OFL-1.1 with the patcher tooling under MIT. Full license texts
   const current = document.documentElement.getAttribute('data-theme') || 'light';
   opts.forEach(o => o.setAttribute('aria-pressed', String(o.dataset.themeSet === current)));
   opts.forEach(o => o.addEventListener('click', () => apply(o.dataset.themeSet)));
+})();
+
+// Main tabs: About / Samples / Installation. Hash links activate the panel
+// containing their target so existing anchors keep working.
+(function () {
+  const tabs = Array.from(document.querySelectorAll('.tab-opt'));
+  const panels = Array.from(document.querySelectorAll('.tab-panel'));
+  if (!tabs.length || !panels.length) return;
+
+  const panelForHash = (hash) => {
+    if (!hash || hash === '#') return null;
+    const id = decodeURIComponent(hash.slice(1));
+    const direct = panels.find(panel => panel.id === id);
+    if (direct) return direct.id;
+    const target = document.getElementById(id);
+    const panel = target && target.closest('.tab-panel');
+    return panel ? panel.id : null;
+  };
+
+  const activate = (name, options = {}) => {
+    const panelName = panels.some(panel => panel.id === name) ? name : 'about';
+    tabs.forEach(tab => {
+      const selected = tab.dataset.tabSet === panelName;
+      tab.setAttribute('aria-selected', String(selected));
+      tab.tabIndex = selected ? 0 : -1;
+    });
+    panels.forEach(panel => {
+      panel.hidden = panel.id !== panelName;
+    });
+    if (options.push) {
+      history.pushState(null, '', '#' + panelName);
+    }
+  };
+
+  const activateForHash = (hash, options = {}) => {
+    const panelName = panelForHash(hash) || 'about';
+    activate(panelName, options);
+    if (options.scroll && hash && hash !== '#' + panelName) {
+      requestAnimationFrame(() => {
+        const target = document.getElementById(decodeURIComponent(hash.slice(1)));
+        if (target) target.scrollIntoView();
+      });
+    }
+  };
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => activate(tab.dataset.tabSet, { push: true }));
+    tab.addEventListener('keydown', event => {
+      if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+      event.preventDefault();
+      const current = tabs.indexOf(tab);
+      const dir = event.key === 'ArrowRight' ? 1 : -1;
+      const next = tabs[(current + dir + tabs.length) % tabs.length];
+      next.focus();
+      activate(next.dataset.tabSet, { push: true });
+    });
+  });
+
+  document.addEventListener('click', event => {
+    const link = event.target.closest('a[href^="#"]');
+    if (!link) return;
+    const hash = link.getAttribute('href');
+    const panelName = panelForHash(hash);
+    if (!panelName) return;
+    event.preventDefault();
+    history.pushState(null, '', hash);
+    activateForHash(hash, { scroll: true });
+  });
+
+  window.addEventListener('popstate', () => activateForHash(location.hash, { scroll: true }));
+  activateForHash(location.hash);
 })();
 
 // QA cell rows: wrap each character in a box drawn at the font's advance width,

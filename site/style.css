@@ -214,11 +214,13 @@ em, i { font-style: italic; }
 }
 .hero .tagline { color: var(--ink); font-weight: var(--fw-medium); font-size: 1.3rem; line-height: 1.5; margin: 3rem 0 0; }
 
-/* ---- Buttons (two, identical) ------------------------------------------- */
+/* ---- Buttons and tabs ---------------------------------------------------- */
 
 .cta { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin: 3.8rem 0 0; }
-.btn {
+.btn, .tab-opt {
   display: inline-block;
+  font-family: inherit;
+  font-size: var(--fs-body);
   font-weight: var(--fw-bold);
   text-transform: uppercase;
   letter-spacing: 0.04em;
@@ -228,8 +230,25 @@ em, i { font-style: italic; }
   border-radius: var(--radius);
   color: var(--ink);
   background: var(--bg);
+  cursor: pointer;
 }
 .btn:hover { background: var(--hover-bg); color: var(--ink); }
+.tab-opt:hover { background: var(--hover-bg); color: var(--ink); }
+.tab-opt[aria-selected="true"] { background: var(--ink); color: var(--bg); }
+.tab-opt[aria-selected="true"]:focus-visible { outline-color: var(--bg); outline-offset: -4px; }
+
+/* ---- Main tabs ----------------------------------------------------------- */
+
+.tabs {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: -2rem 0 4.25rem;
+}
+.tab-opt { min-width: 9rem; }
+.tab-panel[hidden] { display: none; }
+.tab-panel > h2:first-child { margin-top: 0; }
 
 /* ---- Lists & tables ------------------------------------------------------ */
 

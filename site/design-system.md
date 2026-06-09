@@ -123,6 +123,9 @@ All button text is **CAPS** (via `text-transform`, authored mixed-case).
   other muted gray, so the fill alone shows the position (no label). Flips `data-theme` on
   `<html>`, persists to a **1-year cookie** (`plt-theme`, with a `localStorage` fallback) so
   the choice sticks on revisit, and defaults to the OS preference on first visit.
+- **Main tabs:** a centered About / Samples / Installation tab row below the hero. The tab
+  buttons reuse the hero button treatment (caps, `--ink` border, active fill) and switch
+  between the three content panels without changing the content text.
 - **Theme transition:** light↔dark eases gently — a single global transition on themeable
   properties (`background-color`, `border-color`, `color`, `fill`, `filter`), `0.45s`,
   disabled under `prefers-reduced-motion`.
