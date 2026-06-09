@@ -100,19 +100,19 @@ body {
   line-height: 1.4;
   color: var(--ink);
   background: var(--bg);
-  border: 1.5px solid var(--ink);
+  border: 1px solid var(--rule);
   border-radius: var(--radius);
   transition: var(--ui-transition);
 }
 
 .control select {
-  min-height: 2.55rem;
-  padding: 0.45rem 0.6rem;
+  min-height: 2.35rem;
+  padding: 0.34rem 0.55rem;
 }
 
 .control input[type="number"] {
-  min-height: 2.55rem;
-  padding: 0.45rem 0.55rem;
+  min-height: 2.35rem;
+  padding: 0.34rem 0.5rem;
 }
 
 .control textarea {
@@ -240,16 +240,20 @@ body {
 }
 
 .compare-top-theme .ts-group {
-  border: 1.5px solid var(--ink);
+  border: 1px solid var(--rule);
 }
 
 .compare-top-theme .ts-opt {
   min-width: 0;
-  padding: 0.35rem 0.65rem;
+  padding: 0.24rem 0.52rem;
   font-family: var(--ui-font);
   font-size: 0.72rem;
   font-weight: 700;
   line-height: 1.62;
+}
+
+.compare-top-theme .ts-opt + .ts-opt {
+  border-left: 1px solid var(--rule);
 }
 
 .compare-view-tabs {
@@ -289,14 +293,14 @@ body {
 .font-select-wrap select {
   flex: 0 1 21rem;
   width: min(100%, 21rem);
-  min-height: 2.55rem;
-  padding: 0.45rem 0.6rem;
+  min-height: 2.35rem;
+  padding: 0.34rem 0.55rem;
   font-family: var(--ui-font);
   font-size: 0.9rem;
   line-height: 1.4;
   color: var(--ink);
   background: var(--bg);
-  border: 1.5px solid var(--ink);
+  border: 1px solid var(--rule);
   border-radius: var(--radius);
   transition: var(--ui-transition);
 }
@@ -362,9 +366,9 @@ html[data-theme="dark"] .font-select-wrap select {
   letter-spacing: 0.04em;
   color: var(--ink);
   background: var(--bg);
-  border: 1.5px solid var(--ink);
+  border: 1px solid var(--rule);
   border-radius: var(--radius);
-  padding: 0.35rem 0.65rem;
+  padding: 0.24rem 0.52rem;
   cursor: pointer;
   transition: var(--ui-transition);
 }
