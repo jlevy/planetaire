@@ -119,10 +119,10 @@ body {
 
 .control textarea {
   display: block;
-  height: 6.25rem;
-  min-height: 6.25rem;
-  height: calc(4lh + 1.4rem + 2px);
-  min-height: calc(4lh + 1.4rem + 2px);
+  height: 5.55rem;
+  min-height: 5.55rem;
+  height: calc(3lh + 1.85rem + 2px);
+  min-height: calc(3lh + 1.85rem + 2px);
   resize: vertical;
   font-family: var(--editor-font);
   font-size: 0.84rem;
