@@ -41,13 +41,13 @@ Two structural tints (not "colors" — they carry no text):
 
 ## Type scale
 
-Four sizes for everything that is chrome (prose, headings, tables, nav, labels):
+Four sizes for everything that is chrome (prose, headings, tables, labels):
 
 | Token | Size | Used for |
 | --- | --- | --- |
 | `--fs-display` | `3.25rem` | Hero wordmark only |
 | `--fs-h2` | `1.625rem` | Major section headings |
-| `--fs-body` | `1rem` | Body text, h3 sub-headers, tables, nav, buttons |
+| `--fs-body` | `1rem` | Body text, h3 sub-headers, tables, buttons |
 | `--fs-small` | `0.9rem` | Labels, captions, footer |
 
 The rem scale is **anchored**: `html { font-size: 16px }` and `body { font-size:
@@ -105,7 +105,6 @@ vs small, exactly the two-color / two-size split.
 
 - Page: max width `720px`, centered, `80px` top padding (airy, like the cover).
 - One paragraph gap, `--space-para` (`1.1rem`), is shared by `<p>` and `h3`.
-- **Top nav** comes first, full-width and centered at body size, with a divider rule below.
 - **Hero** mirrors the specimen cover's generous vertical rhythm: large planet graphic
   (max `700px`), ample space below it, and ~`2.2rem` around the lineage / tagline / switch.
   When in doubt, give the title more room, not less.
@@ -113,11 +112,8 @@ vs small, exactly the two-color / two-size split.
 
 ## Components
 
-All button and nav text is **CAPS** (via `text-transform`, authored mixed-case).
+All button text is **CAPS** (via `text-transform`, authored mixed-case).
 
-- **Top nav:** the section menu, at the very top of the page, centered, body-size CAPS,
-  **no underlines**, with a divider rule below. Ends with the two external links
-  *Specimen PDF →* and *GitHub →*.
 - **Buttons:** three in the hero — *Download Fonts* (latest GitHub release), *Specimen PDF →*
   (opens the PDF in a new tab), and *GitHub →* (the repo). Identical style: `--ink` border,
   transparent fill, invert on hover. No primary/secondary distinction.

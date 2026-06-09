@@ -14,7 +14,7 @@
    TYPE — four sizes for all prose/chrome:
      --fs-display  hero wordmark
      --fs-h2       major section heading — larger, underline rule, Title Case
-     --fs-body     body · h3 sub-header (BOLD CAPS) · tables · nav
+     --fs-body     body · h3 sub-header (BOLD CAPS) · tables
      --fs-small    labels, captions
      Specimen demos (waterfall, weight ladder, glyph showcases) set their own
      sizes inline — that is the content being demonstrated, not chrome.
@@ -102,7 +102,7 @@ html[data-theme="dark"] .hero .planet { filter: invert(1); }
 
 * { box-sizing: border-box; }
 /* Anchor the rem scale to 16px so 1rem always equals the body size — otherwise
-   rem-based chrome (h3, nav, the toggle) shrinks vs body if the browser root
+   rem-based chrome (h3 and the toggle) shrinks vs body if the browser root
    font-size isn't 16px. */
 html { font-size: 16px; -webkit-text-size-adjust: 100%; overflow-x: hidden; }
 body { overflow-x: hidden; }   /* guard against side-scroll; also clips the planet's off-screen bleed box */
@@ -260,34 +260,6 @@ th { font-weight: var(--fw-bold); background: var(--surface); }
 .specrow .k { color: var(--gray); }
 .specrow .v { color: var(--ink); text-align: right; }
 @media (max-width: 620px) { .specgrid { grid-template-columns: 1fr; } }
-
-/* ---- Navigation ---------------------------------------------------------- */
-
-/* Top navigation: small CAPS, no underlines, with a divider rule. Two groups
-   (section links + external links) on one line; the external group wraps below
-   the section group on narrow screens. Each group stays intact (nowrap). */
-nav.toc {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: baseline;
-  column-gap: 0.8rem;
-  row-gap: 0.3rem;
-  font-size: 0.8rem;        /* nav-specific: smaller than --fs-small */
-  text-transform: uppercase;
-  letter-spacing: 0.01em;
-  margin: 0 0 2.5rem;
-}
-nav.toc .toc-group { display: flex; flex-wrap: nowrap; column-gap: 0.7rem; }
-/* On very narrow screens let a group wrap internally so it can't overflow. */
-@media (max-width: 480px) { nav.toc .toc-group { flex-wrap: wrap; justify-content: center; row-gap: 0.3rem; } }
-nav.toc a { color: var(--gray); text-decoration: none; white-space: nowrap; }
-nav.toc a:hover { background: none; }   /* the highlight goes on the text only */
-nav.toc .txt { border-radius: var(--radius); padding: 0.1em 0.3em; }
-nav.toc a:hover .txt { color: var(--ink); background: var(--hover-bg); }
-/* Arrow is hidden until hover and sits outside the text's highlight. */
-nav.toc .arr { color: var(--ink); opacity: 0; transition: opacity 0.15s ease; }
-nav.toc a:hover .arr { opacity: 1; }
 
 /* ---- Code, inline & block ------------------------------------------------ */
 
