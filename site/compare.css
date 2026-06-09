@@ -462,7 +462,8 @@ html[data-theme="dark"] .font-select-wrap select {
   transition: color 360ms ease;
 }
 
-.font-option:hover .font-note {
+.font-option:has(input:checked) .font-name,
+.font-option:has(input:checked) .font-note {
   color: var(--ink);
 }
 
@@ -474,11 +475,12 @@ html[data-theme="dark"] .font-select-wrap select {
 
 .font-name {
   display: block;
-  color: var(--ink);
+  color: var(--gray);
   font-family: var(--ui-font);
   font-size: 0.88rem;
   font-weight: 700;
   line-height: 1.35;
+  transition: var(--ui-transition);
 }
 
 .font-note {
@@ -488,6 +490,7 @@ html[data-theme="dark"] .font-select-wrap select {
   font-size: 0.74rem;
   line-height: 1.3;
   margin-top: 0.02rem;
+  transition: var(--ui-transition);
 }
 
 .proof-grid {
