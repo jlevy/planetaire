@@ -5,14 +5,14 @@ title: Regenerate ExtraBold/ExtraBoldItalic from vendored Bold for a reproducibl
 kind: task
 status: open
 priority: 1
-version: 3
+version: 4
 labels: []
 dependencies:
   - type: blocks
     target: is-01ktnk4xc3dg0mac0vtkp339n8
 parent_id: is-01ktnez5fmvrc4ps4v4khqxy88
 created_at: 2026-06-09T05:52:11.873Z
-updated_at: 2026-06-09T07:05:54.682Z
+updated_at: 2026-06-09T07:59:17.870Z
 ---
 The committed B612Mono-ExtraBold{,Italic}.ttf are NOT outputs of our pipeline. Metadata (2026-06-09): version "1.010; ttfautohint (v1.8.4)", uniqueID "Version 1.010;;B612MonoLigaNerdFont-Bold;2024;FL830" — an old hand-built artifact descending from a "B612 Mono Liga Nerd Font" Bold, a DIFFERENT lineage than the clean Airbus B612 Bold the repo vendors. By contrast Medium/SemiBold carry uniqueID "Airbus: B612 Mono Regular: Version1.008", i.e. genuine embolden_font output from Regular.
 
@@ -24,4 +24,4 @@ Also fix fonts/source/README.md provenance drift: it omits SemiBold (generated f
 
 ## Notes
 
-User reconfirmed 2026-06-09 that 800 should be regenerated if possible as part of a broader consistency pass. Keep the specific ExtraBold lineage fix here, but implementation should feed into plt-5pr6 so all generated masters are regenerated/audited from today’s pipeline, not only the known-bad B612 ExtraBold pair.
+2026-06-09 temp evidence from /private/tmp/planetaire-regen-compare.2Flm4g/regen-source: B612Mono-ExtraBold.ttf and B612Mono-ExtraBoldItalic.ttf were regenerated from the vendored Bold/BoldItalic after removing the old artifacts from the temp source copy. Regular ExtraBold changed from committed sha 8b7aafec3b70..., 2,025,528 bytes, foreign FontLab/old artifact lineage to regenerated sha 53a474fe9f4b..., 97,776 bytes, unique ID Airbus: B612 Mono Bold: Version1.008, OS/2 weight 800. Italic changed from committed sha c2f8f93d20c8..., 2,031,968 bytes to regenerated sha 413ac7d585fa..., 104,428 bytes. Not yet committed to fonts/source; accept/regenerate source masters after QA decision in plt-5pr6 and plt-xg0o.
