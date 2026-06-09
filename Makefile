@@ -6,7 +6,7 @@
 
 .PHONY: default install lint test upgrade build clean
 .PHONY: download build-fonts build-text validate-fonts fonts specimen
-.PHONY: images demo html-specimen site regression-generate regression-verify
+.PHONY: images demo regression-generate regression-verify
 .PHONY: dev-tools qa release release-finalize
 
 default: install lint test
@@ -68,12 +68,6 @@ specimen: build-fonts
 # Requires the `vhs` binary and the Planetaire Mono font installed system-wide.
 demo: build-fonts
 	vhs docs/specimen/terminal-demo.tape
-
-html-specimen: build-text
-	uv run planetaire build html-specimen
-
-site: build-text html-specimen
-	uv run planetaire build site
 
 regression-generate: build-fonts
 	uv run planetaire regression generate

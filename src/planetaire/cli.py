@@ -421,34 +421,6 @@ def build_images_cmd(
     err_console.print(f"[green]Rendered {count} README images to {out_dir}[/green]")
 
 
-@build_app.command("html-specimen")
-def build_html_specimen_cmd(
-    output: Path = typer.Option(Path("fonts/output/specimen.html"), help="Output HTML path"),
-    css_href: str = typer.Option(
-        "planetaire-mono-text.css", help="Relative href to the @font-face stylesheet"
-    ),
-) -> None:
-    """Generate a static HTML specimen that loads the Text web fonts."""
-    from planetaire.recipes.html_specimen import generate_html_specimen
-
-    path = generate_html_specimen(output, css_href=css_href)
-    err_console.print(f"[green]HTML specimen written to {path}[/green]")
-
-
-@build_app.command("site")
-def build_site_cmd(
-    output_dir: Path = typer.Option(Path("site"), help="Directory for the generated site"),
-    fonts_dir: Path = typer.Option(
-        Path("fonts/output"), help="Directory with built fonts, CSS, and specimen"
-    ),
-) -> None:
-    """Assemble a static site (landing page + specimen + web fonts). No deploy."""
-    from planetaire.recipes.site import generate_site
-
-    index = generate_site(output_dir, fonts_dir)
-    err_console.print(f"[green]Site written to {index.parent} (open {index})[/green]")
-
-
 @build_app.command("specimen")
 def build_specimen_cmd(
     source: Path = typer.Option(

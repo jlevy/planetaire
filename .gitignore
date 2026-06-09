@@ -151,9 +151,6 @@ venv.bak/
 # Rope project settings
 .ropeproject
 
-# mkdocs documentation
-/site
-
 # mypy
 .mypy_cache/
 .dmypy.json
@@ -177,6 +174,3 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
-
-# Generated static site (run 'make site')
-/site/

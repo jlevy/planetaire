@@ -85,6 +85,13 @@ extensions:
 
 See [publishing.md](publishing.md) for instructions on publishing to PyPI.
 
+## Website
+
+The site in [`../site/`](../site/) is the project's web landing page + live type specimen,
+deployed to GitHub Pages. It is committed, hand-maintained source (there is no generator).
+See [website.runbook.md](website.runbook.md) for the structure, the **three-way content
+sync** (README / PDF specimen / site), how to refresh vendored assets, and deployment.
+
 ## Documentation
 
 - [uv docs](https://docs.astral.sh/uv/)
