@@ -8,7 +8,7 @@
 
 <link rel="stylesheet" href="fonts/planetaire-mono-text.css">
 <link rel="stylesheet" href="style.css?v=20260609-control-scale-1">
-<link rel="stylesheet" href="compare.css?v=20260609-left-view-tabs-1">
+<link rel="stylesheet" href="compare.css?v=20260609-soft-selected-card-size-1">
 
 <script>
 (function () {
@@ -77,14 +77,17 @@
     <h1>Monospace Font Comparisons</h1>
   </header>
 
-  <div class="theme-switch compare-top-theme" role="group" aria-label="Theme">
-    <span class="ts-group">
-      <button type="button" class="ts-opt" data-theme-set="light">Light</button>
-      <button type="button" class="ts-opt" data-theme-set="dark">Dark</button>
-    </span>
-  </div>
-
   <section class="compare-controls" aria-label="Comparison controls">
+    <div class="control control-theme">
+      <span class="control-label">Theme</span>
+      <div class="theme-switch compare-top-theme" role="group" aria-label="Theme">
+        <span class="ts-group">
+          <button type="button" class="ts-opt" data-theme-set="light">Light</button>
+          <button type="button" class="ts-opt" data-theme-set="dark">Dark</button>
+        </span>
+      </div>
+    </div>
+
     <div class="control">
       <label for="sample-select">Text Sample</label>
       <select id="sample-select"></select>
@@ -112,6 +115,11 @@
         <option value="700">700</option>
         <option value="800">800</option>
       </select>
+    </div>
+
+    <div class="control control-line-height">
+      <label for="line-height">Line Height</label>
+      <input id="line-height" class="line-height-input" type="number" min="0.1" step="any" value="1.5" inputmode="decimal">
     </div>
 
     <div class="control control-text">
@@ -505,6 +513,6 @@ Messages
    unused.
 </script>
 <script src="compare-fonts.js?v=20260609-font-groups-1"></script>
-<script src="compare.js?v=20260609-font-group-chevrons-1"></script>
+<script src="compare.js?v=20260609-font-action-state-1"></script>
 </body>
 </html>

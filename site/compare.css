@@ -5,11 +5,16 @@
   --proof-size: 14px;
   --proof-style: normal;
   --proof-weight: 400;
+  --proof-line-height: 1.5;
   --proof-max-width: 32rem;
   --proof-max-height: clamp(14rem, 38vh, 24rem);
   --proof-card-width: var(--proof-max-width);
   --proof-sample-height: auto;
   --font-option-width: 15rem;
+  --proof-label-bg: rgba(246, 248, 250, 0.94);
+  --proof-label-color: #57606a;
+  --soft-selected-bg: #e8eaed;
+  --soft-selected-border: #8c959f;
   --font-panel-transition:
     opacity 440ms cubic-bezier(0.22, 1, 0.36, 1),
     transform 440ms cubic-bezier(0.22, 1, 0.36, 1),
@@ -25,6 +30,10 @@
 }
 
 html[data-theme="dark"] {
+  --proof-label-bg: rgba(48, 54, 61, 0.90);
+  --proof-label-color: #c9d1d9;
+  --soft-selected-bg: #262c36;
+  --soft-selected-border: #8b949e;
   --proof-border: rgba(240, 246, 252, 0.16);
   --proof-shadow:
     0 0 0 1px rgba(240, 246, 252, 0.035),
@@ -61,11 +70,11 @@ body {
 
 .compare-controls {
   display: grid;
-  grid-template-columns: minmax(11rem, 14rem) max-content max-content max-content;
+  grid-template-columns: max-content minmax(11rem, 14rem) repeat(4, max-content);
   gap: 1rem;
   align-items: start;
   padding: 0.15rem 0 0;
-  margin: 0 0 1.6rem;
+  margin: 0 0 1.35rem;
 }
 
 .control {
@@ -160,12 +169,18 @@ body {
 
 .control-size,
 .control-style,
-.control-weight {
+.control-weight,
+.control-line-height,
+.control-theme {
   width: max-content;
 }
 
 .control input.size-input[type="number"] {
   width: 7.5rem;
+}
+
+.control input.line-height-input[type="number"] {
+  width: 7rem;
 }
 
 .control-weight select {
@@ -227,6 +242,17 @@ body {
   white-space: nowrap;
 }
 
+.inline-select-control > span:first-child {
+  display: inline-block;
+  color: var(--gray);
+  font-family: var(--ui-font);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
 .check-control input {
   width: 0.9rem;
   height: 0.9rem;
@@ -234,9 +260,9 @@ body {
 }
 
 .compare-top-theme {
-  display: flex;
+  display: inline-flex;
   justify-content: flex-start;
-  margin: 0 0 0.95rem;
+  margin: 0;
   font-family: var(--ui-font);
 }
 
@@ -375,6 +401,17 @@ html[data-theme="dark"] .font-select-wrap select {
 
 .mini-btn:hover {
   background: var(--hover-bg);
+}
+
+.mini-btn[aria-pressed="true"] {
+  color: var(--ink);
+  background: var(--soft-selected-bg);
+  border-color: var(--soft-selected-border);
+  box-shadow: inset 0 0 0 1px var(--soft-selected-border);
+}
+
+.mini-btn[aria-pressed="true"]:hover {
+  background: var(--soft-selected-bg);
 }
 
 .font-checks {
@@ -572,7 +609,7 @@ html[data-theme="dark"] .font-select-wrap select {
   font-size: var(--proof-size);
   font-style: var(--proof-style);
   font-weight: var(--proof-weight);
-  line-height: 1.45;
+  line-height: var(--proof-line-height);
   color: var(--ink);
   background: var(--bg);
   border: 0;
@@ -691,33 +728,34 @@ html[data-theme="dark"] .font-select-wrap select {
   display: block;
   padding: 0.48rem 0.7rem 0.55rem;
   border-top: 1px solid var(--rule);
-  color: var(--gray);
-  background: var(--bg);
+  color: var(--proof-label-color);
+  background: var(--proof-label-bg);
   transition: var(--ui-transition);
 }
 
 .proof-grid.labels-overlay .proof-foot {
   position: absolute;
   top: 0.7rem;
-  right: 0.7rem;
+  left: 50%;
+  right: auto;
   z-index: 2;
   width: min(var(--font-option-width), calc(100% - 1.4rem));
   max-width: calc(100% - 1.4rem);
   padding: 0.4rem 0.52rem 0.45rem;
   border: 1px solid var(--rule);
-  background: rgba(246, 248, 250, 0.94);
+  background: var(--proof-label-bg);
   box-shadow: 0 1px 8px rgba(27, 31, 36, 0.08);
-  color: #57606a;
+  color: var(--proof-label-color);
+  text-align: center;
   opacity: 0;
   pointer-events: none;
-  transform: translate(0.28rem, -0.28rem);
-  transition: var(--font-panel-transition);
-  will-change: opacity, transform;
+  transform: translateX(-50%);
+  transition: opacity 160ms ease;
+  will-change: opacity;
 }
 
 html[data-theme="dark"] .proof-grid.labels-overlay .proof-foot {
   border-color: rgba(240, 246, 252, 0.16);
-  background: rgba(48, 54, 61, 0.90);
   box-shadow:
     0 0 0 1px rgba(240, 246, 252, 0.035),
     0 0 14px rgba(240, 246, 252, 0.12),
@@ -733,7 +771,6 @@ html[data-theme="dark"] .proof-grid.labels-overlay .proof-foot {
 .proof-grid.labels-overlay .proof:focus .proof-foot,
 .proof-grid.labels-overlay .proof:focus-within .proof-foot {
   opacity: 1;
-  transform: translate(0, 0);
 }
 
 .proof-foot .proof-title {
