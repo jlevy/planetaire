@@ -3,14 +3,16 @@ type: is
 id: is-01ktnf0f8kbs9dpjx69j22s6wc
 title: "unicode-range split web build (Google Fonts model): latin + latin-ext, 3 weights"
 kind: task
-status: in_progress
+status: closed
 priority: 1
-version: 2
+version: 3
 labels: []
 dependencies: []
 parent_id: is-01ktnez5fmvrc4ps4v4khqxy88
 created_at: 2026-06-09T05:52:11.539Z
-updated_at: 2026-06-09T06:13:44.484Z
+updated_at: 2026-06-09T06:51:37.247Z
+closed_at: 2026-06-09T06:51:37.246Z
+close_reason: Implemented split Planetaire Mono Text web build using Google Fonts-style latin/latin-ext unicode ranges. Final profile is Regular/Bold upright as base plus optional Regular/Bold italics per user decision; CSS keeps the Planetaire Mono Text family name.
 ---
 Implement a --split path on the Text build that emits one WOFF2 per script subset and a multi-block @font-face stylesheet with canonical Google Fonts unicode-range descriptors, so browsers fetch only the ranges a page renders. Latin page: ~12 KB/weight instead of ~53 KB.
 
