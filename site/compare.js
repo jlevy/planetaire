@@ -1,5 +1,6 @@
 const fontData = window.PlanetaireFontData || { fonts: [] };
 const fonts = fontData.fonts;
+const installedFontFaceIds = new Set();
 
 function cssString(value) {
   return String(value).replace(/\\/g, "\\\\").replace(/"/g, '\\"');
@@ -21,16 +22,55 @@ function renderFontFace(font, face) {
 }`;
 }
 
-function installFontFaces() {
-  const style = document.createElement("style");
-  style.id = "compare-font-faces";
-  style.textContent = fonts
-    .flatMap((font) => (font.faces || []).map((fontFace) => renderFontFace(font, fontFace)))
-    .join("\n");
-  document.head.appendChild(style);
+function fontFaceId(font, face) {
+  return [
+    font.id,
+    face.family || font.family,
+    face.style || "normal",
+    face.weight || 400,
+  ].join("|");
 }
 
-installFontFaces();
+function installFontFacesFor(fontList) {
+  const rules = [];
+  for (const font of fontList) {
+    for (const face of font.faces || []) {
+      const id = fontFaceId(font, face);
+      if (installedFontFaceIds.has(id)) continue;
+      installedFontFaceIds.add(id);
+      rules.push(renderFontFace(font, face));
+    }
+  }
+  if (!rules.length) return;
+
+  let style = document.getElementById("compare-font-faces");
+  if (!style) {
+    style = document.createElement("style");
+    style.id = "compare-font-faces";
+    document.head.appendChild(style);
+  }
+  style.appendChild(document.createTextNode(`${style.textContent ? "\n" : ""}${rules.join("\n")}`));
+}
+
+function currentProofFontSpec() {
+  const styles = getComputedStyle(document.documentElement);
+  const fontStyle = styles.getPropertyValue("--proof-style").trim() || "normal";
+  const fontWeight = styles.getPropertyValue("--proof-weight").trim() || "400";
+  const fontSize = styles.getPropertyValue("--proof-size").trim() || "16px";
+  return `${fontStyle} ${fontWeight} ${fontSize}`;
+}
+
+let fontLoadSyncRun = 0;
+function queueRenderedFontSync(fontList) {
+  if (!document.fonts || !fontList.length) return;
+  const run = ++fontLoadSyncRun;
+  const fontSpec = currentProofFontSpec();
+  Promise.all(fontList.map((font) => (
+    document.fonts.load(`${fontSpec} "${cssString(font.family)}"`).catch(() => [])
+  ))).then(() => {
+    if (run === fontLoadSyncRun) queueProofDimensionSync();
+  });
+}
 
 function readTextSource(id) {
   const source = document.getElementById(id);
@@ -376,6 +416,8 @@ function renderFullProof(sample, sampleHtml) {
     return;
   }
 
+  installFontFacesFor([font]);
+
   const section = document.createElement("section");
   section.className = "proof proof-full";
   section.dataset.family = font.family;
@@ -389,6 +431,7 @@ function renderFullProof(sample, sampleHtml) {
 
   section.appendChild(pre);
   els.grid.appendChild(section);
+  queueRenderedFontSync([font]);
 }
 
 function renderProofs() {
@@ -403,6 +446,7 @@ function renderProofs() {
 
   const ids = new Set(selectedFontIds());
   const selectedFonts = fonts.filter((font) => ids.has(font.id));
+  installFontFacesFor(selectedFonts);
 
   els.grid.classList.remove("is-full-page");
   els.grid.classList.toggle("labels-overlay", !Boolean(els.showLabels?.checked));
@@ -437,6 +481,7 @@ function renderProofs() {
   }
 
   queueProofDimensionSync();
+  queueRenderedFontSync(selectedFonts);
 }
 
 function renderFontPicker() {
