@@ -12,6 +12,7 @@ This script resolves it by making the version an explicit input, and splits the 
 into two steps so there is always a review gate before anything is committed:
 
   prepare X.Y.Z
+    0. Require committed curated notes at docs/release/notes/vX.Y.Z.md.
     1. Build the fonts locally (so Typst can render the specimen with the real glyphs;
        the version baked into these throwaway local binaries does not matter).
     2. Rebuild the committed specimen PDF with `--version X.Y.Z` stamped explicitly.
@@ -96,6 +97,24 @@ def require_main_and_tagfree(tag: str) -> None:
         fail(f"tag {tag} already exists; pick the next version or delete the tag")
 
 
+def require_release_notes(tag: str) -> Path:
+    """Require curated, committed release notes for the GitHub downloads page."""
+    notes = REPO_ROOT / f"docs/release/notes/{tag}.md"
+    rel = str(notes.relative_to(REPO_ROOT))
+    if not notes.exists():
+        fail(
+            f"missing release notes at {rel}. Copy docs/release/notes/TEMPLATE.md, fill "
+            "in the release-specific changes and compare link, then commit the notes "
+            "before preparing the release."
+        )
+    if out(["git", "status", "--porcelain", "--", rel]):
+        fail(
+            f"{rel} has uncommitted changes. Commit the curated release notes before "
+            "preparing the release so the tag contains exactly what GitHub publishes."
+        )
+    return notes
+
+
 def rewrite_cdn_links(tag: str) -> int:
     """Re-pin every jsDelivr CDN link in the README to `planetaire@<tag>`. Returns count."""
     text = README.read_text()
@@ -121,16 +140,11 @@ def cmd_prepare(args: argparse.Namespace) -> None:
 
     print("Preflight:")
     require_main_and_tagfree(tag)
+    require_release_notes(tag)
     if out(["git", "status", "--porcelain", "--", *RELEASE_PATHS]):
         fail(
             "the release files have uncommitted changes already. Commit or discard them so "
             "the review diff shows only what this release introduces."
-        )
-    notes = REPO_ROOT / f"docs/release/notes/{tag}.md"
-    if not notes.exists():
-        print(
-            f"  warning: no release notes at {notes.relative_to(REPO_ROOT)} — the workflow "
-            "will fall back to auto-generated notes (you can add one before finalizing)."
         )
 
     print("\nBuild assets:")
@@ -167,6 +181,7 @@ def cmd_finalize(args: argparse.Namespace) -> None:
 
     print("Preflight:")
     require_main_and_tagfree(tag)
+    require_release_notes(tag)
     if not out(["git", "status", "--porcelain", "--", *RELEASE_PATHS]):
         fail(f"no prepared release changes found — run `make release VERSION={version}` first")
     # Guard against a stray version: the PDF must stamp this tag and the README must point

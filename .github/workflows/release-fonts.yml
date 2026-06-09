@@ -104,27 +104,24 @@ jobs:
             PlanetaireMono-Text.zip
             SHA256SUMS
           )
-          # Prefer curated, version-controlled release notes for this tag; fall
-          # back to GitHub's auto-generated notes when no notes file is present.
+          # Require curated, version-controlled release notes for this tag so the
+          # GitHub downloads page always explains the packages and links back to
+          # the repo/install docs.
           notes_file="docs/release/notes/${TAG}.md"
-          if [ -f "$notes_file" ]; then
-            echo "Using curated release notes from $notes_file."
-            notes_args=(--notes-file "$notes_file")
-          else
-            echo "No notes file at $notes_file; using auto-generated notes."
-            notes_args=(--generate-notes)
+          if [ ! -f "$notes_file" ]; then
+            echo "::error::Missing curated release notes at $notes_file. Copy docs/release/notes/TEMPLATE.md, fill it in, commit it, and rerun this workflow."
+            exit 1
           fi
+          echo "Using curated release notes from $notes_file."
           if gh release view "$TAG" >/dev/null 2>&1; then
             echo "Release $TAG already exists; updating notes and uploading assets (clobber)."
-            if [ -f "$notes_file" ]; then
-              gh release edit "$TAG" --notes-file "$notes_file"
-            fi
+            gh release edit "$TAG" --notes-file "$notes_file"
             gh release upload "$TAG" --clobber "${assets[@]}"
           else
             echo "Creating release $TAG."
             gh release create "$TAG" \
               --title "Planetaire Mono $TAG" \
-              "${notes_args[@]}" \
+              --notes-file "$notes_file" \
               --verify-tag \
               "${assets[@]}"
           fi

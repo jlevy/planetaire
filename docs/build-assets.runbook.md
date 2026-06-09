@@ -139,8 +139,11 @@ Edit the session in `docs/specimen/terminal-demo.tape` (it sources `.venv` so th
 Pushing a version tag (`vX.Y.Z`) triggers `.github/workflows/release-fonts.yml`, which
 rebuilds both families, creates the GitHub Release for the tag, and uploads
 `PlanetaireMono-Extended.*`, `PlanetaireMono-Text.*` (with slim WOFF2/CSS), and
-`SHA256SUMS`. The same tag triggers `.github/workflows/publish.yml` for the PyPI tooling
-package. See [`fonts-build-and-release.md`](fonts-build-and-release.md).
+`SHA256SUMS`. The release workflow requires curated notes at
+`docs/release/notes/vX.Y.Z.md`, using the template in `docs/release/notes/TEMPLATE.md`,
+so the GitHub downloads page has package context, repo links, install links, and a clear
+changelog. PyPI tooling publication is manual-only for now. See
+[`fonts-build-and-release.md`](fonts-build-and-release.md).
 
 ## Appendix: why the source fonts are vendored
 
