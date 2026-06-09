@@ -1,0 +1,754 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Planetaire Mono — a beautiful, highly legible monospace font</title>
+<meta name="description" content="Planetaire Mono is a beautiful, highly legible monospace font for terminals, editors, and agentic work. A lightly adapted fork of B612 Mono with Hack infrastructure and Nerd Font icons.">
+
+<!-- FONT LOADING ----------------------------------------------------------
+     The page renders in the actual font (live type, not screenshots).
+
+     Default: the bundled Text web fonts in fonts/ (self-contained, works when
+     you open this file locally). These were extracted from the
+     PlanetaireMono-Text release archive and committed under site/fonts/.
+
+     Production / jsDelivr alternative (works once site/ is committed and a tag
+     exists — jsDelivr serves committed repo files at a tag, not release
+     tarballs, which is why the fonts are vendored here):
+         https://cdn.jsdelivr.net/gh/jlevy/planetaire@TAG/site/fonts/planetaire-mono-text.css
+     Swap the href below to that URL to serve fonts from the CDN.
+
+     Note: this is the Text subset (web-recommended). It has NO Nerd Font
+     icons — those ship only in the Extended package. Icon-bearing demos below
+     link out rather than render tofu. See ../docs/website.runbook.md.
+------------------------------------------------------------------------- -->
+<link rel="stylesheet" href="fonts/planetaire-mono-text.css">
+<link rel="stylesheet" href="style.css">
+
+<!-- Set the theme before first paint (no flash): cookie, then localStorage,
+     then OS preference. The cookie makes the choice stick on revisit. -->
+<script>
+(function () {
+  var m = document.cookie.match(/(?:^|;\s*)plt-theme=(light|dark)/);
+  var theme = m && m[1];
+  if (!theme) { try { theme = localStorage.getItem('plt-theme'); } catch (e) {} }
+  if (theme !== 'light' && theme !== 'dark') {
+    theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  }
+  document.documentElement.setAttribute('data-theme', theme);
+})();
+</script>
+</head>
+<body>
+<div class="wrap">
+
+<!-- Top navigation: two groups on one line; the external group wraps below the
+     section group on narrow screens. -->
+<nav class="toc">
+  <span class="toc-group">
+    <a href="#specimen"><span class="txt">Specimens</span><span class="arr"> ↓</span></a>
+    <a href="#packages"><span class="txt">Packages</span><span class="arr"> ↓</span></a>
+    <a href="#credits"><span class="txt">Credits</span><span class="arr"> ↓</span></a>
+  </span>
+  <span class="toc-group toc-links">
+    <a href="https://github.com/jlevy/planetaire/releases/latest" target="_blank" rel="noopener"><span class="txt">Download</span><span class="arr"> →</span></a>
+    <a href="https://cdn.jsdelivr.net/gh/jlevy/planetaire@v0.1.4/docs/specimen/planetaire-mono-specimen.pdf" target="_blank" rel="noopener"><span class="txt">Specimen PDF</span><span class="arr"> →</span></a>
+    <a href="https://github.com/jlevy/planetaire" target="_blank" rel="noopener"><span class="txt">GitHub</span><span class="arr"> →</span></a>
+  </span>
+</nav>
+
+<!-- ====================================================================== -->
+<!-- HERO  (mirrors README header + specimen cover header-card)            -->
+<!-- ====================================================================== -->
+<header class="hero">
+  <div class="planet-frame">
+    <img class="planet" src="assets/little-planet.svg" alt="Little-planet line drawing with a fan of stars">
+  </div>
+  <h1 class="title">Planetaire Mono</h1>
+  <div class="lineage">B612 LETTERFORMS<br>HACK INFRASTRUCTURE<br>NERD FONT ICONS</div>
+  <div class="tagline">A beautiful, highly legible monospace font<br>for terminals, editors, and agentic work</div>
+  <div class="cta">
+    <a class="btn" href="https://github.com/jlevy/planetaire/releases/latest" target="_blank" rel="noopener">Download →</a>
+    <a class="btn" href="https://cdn.jsdelivr.net/gh/jlevy/planetaire@v0.1.4/docs/specimen/planetaire-mono-specimen.pdf" target="_blank" rel="noopener">Specimen PDF →</a>
+    <a class="btn" href="https://github.com/jlevy/planetaire" target="_blank" rel="noopener">GitHub →</a>
+  </div>
+
+  <!-- Primary way to evaluate the font: see it on both backgrounds. -->
+  <div class="theme-switch" role="group" aria-label="Theme">
+    <span class="ts-group">
+      <button type="button" class="ts-opt" data-theme-set="light">Light</button>
+      <button type="button" class="ts-opt" data-theme-set="dark">Dark</button>
+    </span>
+  </div>
+</header>
+
+<p>Planetaire Mono is a beautiful, highly legible monospace font for terminals,
+editors, and agentic work.</p>
+
+<p>It is a lightly adapted fork of <a href="https://github.com/polarsys/b612">B612 Mono</a>
+with added weights, symbols from <a href="https://github.com/source-foundry/Hack">Hack</a>,
+and extensive icons from <a href="https://github.com/ryanoasis/nerd-fonts">Nerd Fonts</a>.
+It is <a href="#license">licensed freely</a> for personal, commercial, and open source use.</p>
+
+<!-- ====================================================================== -->
+<!-- ABOUT  (README has no "Why" wrapper; these are top-level sections)     -->
+<!-- ====================================================================== -->
+<h2 id="about-b612">About B612</h2>
+<p>B612 began not as a typeface but as an aviation research program. In 2010 Airbus,
+<a href="https://www.enac.fr/en">ENAC</a> (the French civil aviation university), and the
+Université de Toulouse III set out to define and validate an “aeronautical font” for
+cockpit screens: text a pilot can read correctly while fatigued, at oblique angles, or
+under vibration, glare, or near-darkness.</p>
+
+<p>The shapes were derived experimentally before they were drawn. Jean-Luc Vinot (ENAC)
+and Sylvie Athènes (Toulouse III) built confusion matrices of when and how characters get
+misread (“<a href="https://dl.acm.org/doi/10.1145/2207676.2208387">Legible, are you
+sure?</a>” at CHI 2012). In their controlled study, the prototype that became B612 drew
+slightly more correct reads than Verdana and clearly outperformed the legacy avionics
+font. Airbus then commissioned the Montpellier interface studio
+<a href="https://intactile.com/">Intactile Design</a> (Nicolas Chauveau, Thomas Paillot,
+and Jonathan Favre-Lamarine) to draw the full family of eight variants.</p>
+
+<p>B612 is named for the asteroid home of the
+<a href="https://en.wikipedia.org/wiki/The_Little_Prince">Little Prince</a> by Antoine de
+Saint-Exupéry, who was
+<a href="https://en.wikipedia.org/wiki/Wind,_Sand_and_Stars">himself an aviator</a>.</p>
+
+<p>B612’s unusual character is a humanist answer to an instrument-panel problem. Where
+earlier cockpit fonts went monolinear and rigid, B612 keeps stroke contrast, opens
+counters, and lengthens ascenders and descenders. Each word’s silhouette resolves quickly.
+At stroke junctions it carries small notches (light traps) that keep joins from filling in
+on bright, low-contrast displays. The result has quietly human character quirks that are
+grounded in measured legibility gains rather than style. In 2017, B612 was released as open
+source through the Eclipse <a href="https://github.com/polarsys/b612">Polarsys</a> project.</p>
+
+<h2 id="about-planetaire">About Planetaire Mono</h2>
+<p>By historical accident, B612 alone is not a usable document or application font. The
+versions in circulation, including the one
+<a href="https://fonts.google.com/specimen/B612+Mono">on Google Fonts</a>, have oddities
+and uneven symbols that make them awkward for use in modern applications and terminals.
+Planetaire Mono arises from this need. It merges B612’s letters and digits into Hack Nerd
+Font’s base:</p>
+
+<ul>
+  <li><strong>B612 letterforms</strong> for letters, digits, and extended Latin, Greek, and Cyrillic.</li>
+  <li><strong>Hack punctuation and symbols</strong> for <code>{}[]()&lt;&gt;</code> and the rest.</li>
+  <li><strong>Ten variants across five weights</strong> (400/500/600/700/800), including added <strong>SemiBold (600)</strong> and <strong>ExtraBold (800)</strong> weights, the latter especially useful as boldface in the terminal.</li>
+  <li><strong>Over 10,000 Nerd Font icons</strong> (Powerline, Font Awesome, Devicons) in the Extended package, part of 12,000+ total glyphs.</li>
+  <li><strong>A dotted zero:</strong> B612’s zero with a center dot for clear <code>0</code> vs <code>O</code>, in circle (default) and rectangle (<code>ss01</code>) variants.</li>
+</ul>
+
+<p>Hack has its own lineage: Bitstream Vera Mono (2003) became DejaVu Mono, which Chris
+Simpkins reworked in 2015 into a face tuned for source code at small sizes. Its signature
+is functional punctuation: brackets, braces, parentheses, and operators are drawn at a
+heavier weight and given extra spacing next to letters, so they stay distinct in dense
+code. B612’s own punctuation lacks that weight, which is why Planetaire borrows these
+heavier symbols from Hack.</p>
+
+<p>Planetaire Mono carries a new name for clarity and to comply with the B612
+<a href="#license">license</a>.</p>
+
+<h2 id="personal-note">A Personal Note</h2>
+<p>Like architecture, typography is a functional art form. A design may initially appear
+attractive, but you can’t know its true qualities until you live close to it. Or work
+within it.</p>
+
+<p>A couple of years ago, I was building a terminal and surveyed monospace fonts to find
+the best ones. B612 wasn’t my obvious first choice, but after trying many of the classic
+modern options available as Nerd Fonts, I came to realize it still just <em>felt</em>
+better over time. But I was disappointed with the technical flaws that made it hard to use
+as a full replacement for a modern, high-quality workhorse typeface such as Hack or
+JetBrains Mono. I made an adapted hybrid of B612 that I was quite happy with, but it wasn’t
+in a clean enough form to publish.</p>
+
+<p>Now, Claude Code and Opus 4.8 have made it a pleasure to consolidate this work as
+Planetaire Mono. I’ve used dozens of terminal fonts over the years, and it is now what I
+use every day.</p>
+
+<p>Thanks to agentic coding, monospace fonts are now in greater use than anyone could ever
+have imagined. I hope Planetaire Mono’s aesthetics lighten the hours you spend with your
+agents, editors, and terminals.</p>
+
+<!-- ====================================================================== -->
+<!-- ====================================================================== -->
+<!-- TYPE SPECIMEN  (mirrors planetaire-mono-specimen.typ, page by page)    -->
+<!-- ====================================================================== -->
+<!-- ====================================================================== -->
+<h2 id="specimen">Type Specimen</h2>
+<p class="muted">The full PDF specimen, rendered live in the browser in Planetaire Mono Text.
+For the print version (and the icon pages, which need the Extended font), see the
+<a href="https://cdn.jsdelivr.net/gh/jlevy/planetaire@v0.1.4/docs/specimen/planetaire-mono-specimen.pdf">PDF</a>.</p>
+
+<!-- ---- Specification --------------------------------------------------- -->
+<h3>Typeface Specification</h3>
+<div class="specgrid">
+  <div>
+    <div class="specgroup"><h4>Design</h4>
+      <div class="specrow"><span class="k">Classification</span><span class="v">Monospace (fixed)</span></div>
+      <div class="specrow"><span class="k">Letterforms</span><span class="v">B612 Mono (humanist)</span></div>
+      <div class="specrow"><span class="k">Packages</span><span class="v">Extended, Text</span></div>
+      <div class="specrow"><span class="k">Styles</span><span class="v">10 (5 weights × 2)</span></div>
+      <div class="specrow"><span class="k">Units per em</span><span class="v">2000</span></div>
+      <div class="specrow"><span class="k">Advance width</span><span class="v">1204 (0.602 em)</span></div>
+      <div class="specrow"><span class="k">Italic angle</span><span class="v">0°, true italics</span></div>
+    </div>
+    <div class="specgroup"><h4>Weights</h4>
+      <div class="specrow"><span class="k">Regular</span><span class="v">400</span></div>
+      <div class="specrow"><span class="k">Medium</span><span class="v">500</span></div>
+      <div class="specrow"><span class="k">SemiBold</span><span class="v">600</span></div>
+      <div class="specrow"><span class="k">Bold</span><span class="v">700</span></div>
+      <div class="specrow"><span class="k">ExtraBold</span><span class="v">800</span></div>
+    </div>
+  </div>
+  <div>
+    <div class="specgroup"><h4>Vertical Metrics (per 2000 em)</h4>
+      <div class="specrow"><span class="k">Cap height</span><span class="v">1458</span></div>
+      <div class="specrow"><span class="k">x-height</span><span class="v">1094</span></div>
+      <div class="specrow"><span class="k">Ascender</span><span class="v">1856</span></div>
+      <div class="specrow"><span class="k">Descender</span><span class="v">-472</span></div>
+      <div class="specrow"><span class="k">Line gap</span><span class="v">0</span></div>
+    </div>
+    <div class="specgroup"><h4>Glyph Coverage</h4>
+      <div class="specrow"><span class="k">Extended</span><span class="v">12,138 glyphs</span></div>
+      <div class="specrow"><span class="k">Text</span><span class="v">1,317 glyphs</span></div>
+    </div>
+    <div class="specgroup"><h4>Formats</h4>
+      <div class="specrow"><span class="k">Local install</span><span class="v">TTF</span></div>
+      <div class="specrow"><span class="k">Web</span><span class="v">WOFF2 + @font-face CSS</span></div>
+    </div>
+    <div class="specgroup"><h4>OpenType</h4>
+      <div class="specrow"><span class="k">default</span><span class="v">circle-dot zero</span></div>
+      <div class="specrow"><span class="k">ss01 / zero</span><span class="v">rectangle-dot zero</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ---- Text Sample ----------------------------------------------------- -->
+<h3>Text Sample</h3>
+<p class="muted">Planetaire Mono at various sizes, showing B612’s distinctive letterforms
+optimized for readability at small sizes and on low-resolution displays.</p>
+<p style="font-size:1.25rem">The quick brown fox jumps over the lazy dog. Pack my box with
+five dozen liquor jugs. How vexingly quick daft zebras jump!</p>
+<p>In the great void between stars, instruments must be read without
+error. Every glyph must be unambiguous: the digit 0 distinct from the letter O, the numeral
+1 clearly not a lowercase l or uppercase I. B612 was born from this requirement. Originally
+designed for cockpit displays at Airbus, where a misread character could mean the difference
+between FL350 and FL850. Planetaire Mono inherits that precision and pairs it with the full
+symbol coverage a programmer needs: braces, brackets, pipes, arrows, and 12,000 icons ready
+for a modern terminal.</p>
+<div class="label">French · German · Spanish · Turkish</div>
+<p>Les naïfs ægithales hâtifs pondent au zéphyr joyeux. Falsches Üben von Xylophonmusik
+quält jeden größeren Zwerg. El veloz murciélago hindú comía feliz cardillo y kiwi. Pijamalı
+hasta yağız şoföre çabucak güvendi.</p>
+<div class="label">Greek</div>
+<p>Ξεσκεπάζω τὴν ψυχοφθόρα βδελυγμία.</p>
+<div class="label">Cyrillic</div>
+<p>Съешь же ещё этих мягких французских булок, да выпей чаю. Широкая электрификация южных
+губерний даст мощный толчок подъёму сельского хозяйства.</p>
+
+<!-- ---- Iconic Texts ---------------------------------------------------- -->
+<h3>Iconic Texts</h3>
+<div class="label">Alan Turing · “Computing Machinery and Intelligence” (1950)</div>
+<p>I propose to consider the question, “Can machines think?” This should begin with
+definitions of the meaning of the terms “machine” and “think.” The definitions might be
+framed so as to reflect so far as possible the normal use of the words, but this attitude is
+dangerous. If the meaning of the words “machine” and “think” are to be found by examining
+how they are commonly used it is difficult to escape the conclusion that the meaning and the
+answer to the question, “Can machines think?” is to be sought in a statistical survey such
+as a Gallup poll. But this is absurd.</p>
+
+<div class="label">RFC 1 · Steve Crocker, UCLA · 7 April 1969</div>
+<pre class="code">Network Working Group                                   <strong>Steve Crocker</strong>
+Request for Comments: 1                                          UCLA
+                                                         7 April 1969
+
+
+                         Title:   <strong>Host Software</strong>
+                        Author:   Steve Crocker
+                          Installation:   UCLA
+                          Date:   7 April 1969
+             Network Working Group Request for Comment:   1
+
+
+Introduction
+
+   The software for the ARPA Network exists partly in the IMPs and
+   partly in the respective HOSTs.  BB&amp;N has specified the software of
+   the IMPs and it is the responsibility of the HOST groups to agree on
+   HOST software.</pre>
+
+<!-- ---- Code Specimen --------------------------------------------------- -->
+<h3>Code Specimen</h3>
+<p class="muted">A syntax-highlighted Python sample, in the page's current theme.</p>
+
+<pre class="panel"><span class="kw">import</span> math
+
+<span class="kw">def</span> analyze_trajectory(altitude: <span class="ty">float</span>, velocity: <span class="ty">float</span>) -&gt; <span class="ty">dict</span>:
+    <span class="st">"""Calculate orbital parameters."""</span>
+
+    G = <span class="nu">6.674e-11</span>  <span class="cm"># gravitational constant</span>
+    M = <span class="nu">5.972e24</span>
+
+    <span class="kw">if</span> altitude &gt; <span class="nu">400_000</span>:
+        orbit_type = <span class="st">"LEO"</span>
+    <span class="kw">elif</span> altitude &gt; <span class="nu">35_786_000</span>:
+        orbit_type = <span class="st">"GEO"</span>
+
+    period = <span class="nu">2</span> * math.pi * math.sqrt(altitude**<span class="nu">3</span> / (G * M))
+
+    <span class="kw">return</span> {<span class="st">"type"</span>: orbit_type, <span class="st">"period"</span>: period, <span class="st">"v"</span>: velocity}</pre>
+
+<!-- ---- Terminal -------------------------------------------------------- -->
+<h3>Terminal</h3>
+<!-- Note for later: the icon column from the PDF (Nerd Font glyphs) is omitted
+     here because this page loads the Text subset, which has no PUA icons. To
+     render icons in this panel, load the Extended web font scoped to it. -->
+<p class="muted">A mock terminal session.</p>
+
+<pre class="panel"><span class="b">planetaire</span><strong> $ </strong>eza -l --icons=always .
+<span class="gray">drwxr-xr-x@</span>    <span class="g">-</span> <span class="y">levy</span> <span class="b">15 Feb 23:07</span> <strong>devtools</strong>
+<span class="gray">drwxr-xr-x@</span>    <span class="g">-</span> <span class="y">levy</span> <span class="b">15 Feb 23:07</span> <strong>docs</strong>
+<span class="gray">drwxr-xr-x@</span>    <span class="g">-</span> <span class="y">levy</span> <span class="b">15 Feb 23:07</span> <strong>fonts</strong>
+<span class="gray">.rw-r--r--@</span> <span class="g">7.6k</span> <span class="y">levy</span> <span class="b">16 Feb 09:14</span> LICENSE
+<span class="gray">.rw-r--r--@</span> <span class="g">1.3k</span> <span class="y">levy</span> <span class="b">16 Feb 09:14</span> Makefile
+<span class="gray">.rw-r--r--@</span> <span class="g">6.4k</span> <span class="y">levy</span> <span class="b">15 Feb 23:07</span> README.md
+
+<span class="b">planetaire</span><strong> $ </strong>python -c "print('Hello from Planetaire Mono!')"
+Hello from Planetaire Mono!
+
+<span class="b">planetaire</span><strong> $ </strong>git log --oneline -3
+<span class="y">5bd69c5</span> Switch B612 source to original polarsys/b612
+<span class="y">a1c8e3f</span> Add font comparison and regression detection
+<span class="y">e927d01</span> Refactor merge pipeline for original B612</pre>
+
+<!-- ---- Character Set --------------------------------------------------- -->
+<h3>Character Set</h3>
+<div class="label">Basic Latin uppercase: from B612</div>
+<div class="glyphrow">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z</div>
+<div class="label">Basic Latin lowercase: from B612</div>
+<div class="glyphrow">a b c d e f g h i j k l m n o p q r s t u v w x y z</div>
+<div class="label">Digits: 0–9 from B612 (zero modified with center dot)</div>
+<div class="glyphrow">0 1 2 3 4 5 6 7 8 9</div>
+<div class="label">Punctuation and symbols: from Hack</div>
+<div class="glyphrow sm">! " # $ % &amp; ' ( ) * + , - . / : ; &lt; = &gt; ? @ [ \ ] ^ _ ` { | } ~</div>
+<div class="label">Extended Latin: from B612</div>
+<div class="glyphrow sm">À Á Â Ã Ä Å Æ Ç È É Ê Ë Ì Í Î Ï Ð Ñ Ò Ó Ô Õ Ö Ø Ù Ú Û Ü Ý Þ ß</div>
+<div class="glyphrow sm">à á â ã ä å æ ç è é ê ë ì í î ï ð ñ ò ó ô õ ö ø ù ú û ü ý þ ÿ</div>
+<div class="label">Greek: from B612</div>
+<div class="glyphrow sm">Α Β Γ Δ Ε Ζ Η Θ Ι Κ Λ Μ Ν Ξ Ο Π Ρ Σ Τ Υ Φ Χ Ψ Ω</div>
+<div class="glyphrow sm">α β γ δ ε ζ η θ ι κ λ μ ν ξ ο π ρ σ τ υ φ χ ψ ω</div>
+<div class="label">Cyrillic: from B612</div>
+<div class="glyphrow sm">А Б В Г Д Е Ж З И Й К Л М Н О П Р С Т У Ф Х Ц Ч Ш Щ Ъ Ы Ь Э Ю Я</div>
+<div class="glyphrow sm">а б в г д е ж з и й к л м н о п р с т у ф х ц ч ш щ ъ ы ь э ю я</div>
+
+<!-- ---- Weight Comparison ----------------------------------------------- -->
+<h3>Weight Comparison</h3>
+<div class="ladder">
+  <div class="row"><div class="label">Regular (400)</div><div class="sample" style="font-weight:400">The quick brown fox jumps over the lazy dog</div><div class="digits" style="font-weight:400">0123456789 AaBbCcDd {[(&gt;)]} !@#$%</div></div>
+  <div class="row"><div class="label">Italic (400)</div><div class="sample" style="font-weight:400;font-style:italic">The quick brown fox jumps over the lazy dog</div><div class="digits" style="font-weight:400;font-style:italic">0123456789 AaBbCcDd {[(&gt;)]} !@#$%</div></div>
+  <div class="row"><div class="label">Medium (500)</div><div class="sample" style="font-weight:500">The quick brown fox jumps over the lazy dog</div><div class="digits" style="font-weight:500">0123456789 AaBbCcDd {[(&gt;)]} !@#$%</div></div>
+  <div class="row"><div class="label">Medium Italic (500)</div><div class="sample" style="font-weight:500;font-style:italic">The quick brown fox jumps over the lazy dog</div><div class="digits" style="font-weight:500;font-style:italic">0123456789 AaBbCcDd {[(&gt;)]} !@#$%</div></div>
+  <div class="row"><div class="label">SemiBold (600)</div><div class="sample" style="font-weight:600">The quick brown fox jumps over the lazy dog</div><div class="digits" style="font-weight:600">0123456789 AaBbCcDd {[(&gt;)]} !@#$%</div></div>
+  <div class="row"><div class="label">SemiBold Italic (600)</div><div class="sample" style="font-weight:600;font-style:italic">The quick brown fox jumps over the lazy dog</div><div class="digits" style="font-weight:600;font-style:italic">0123456789 AaBbCcDd {[(&gt;)]} !@#$%</div></div>
+  <div class="row"><div class="label">Bold (700)</div><div class="sample" style="font-weight:700">The quick brown fox jumps over the lazy dog</div><div class="digits" style="font-weight:700">0123456789 AaBbCcDd {[(&gt;)]} !@#$%</div></div>
+  <div class="row"><div class="label">Bold Italic (700)</div><div class="sample" style="font-weight:700;font-style:italic">The quick brown fox jumps over the lazy dog</div><div class="digits" style="font-weight:700;font-style:italic">0123456789 AaBbCcDd {[(&gt;)]} !@#$%</div></div>
+  <div class="row"><div class="label">ExtraBold (800)</div><div class="sample" style="font-weight:800">The quick brown fox jumps over the lazy dog</div><div class="digits" style="font-weight:800">0123456789 AaBbCcDd {[(&gt;)]} !@#$%</div></div>
+  <div class="row"><div class="label">ExtraBold Italic (800)</div><div class="sample" style="font-weight:800;font-style:italic">The quick brown fox jumps over the lazy dog</div><div class="digits" style="font-weight:800;font-style:italic">0123456789 AaBbCcDd {[(&gt;)]} !@#$%</div></div>
+</div>
+
+<!-- ---- Size Waterfall -------------------------------------------------- -->
+<h3>Size Waterfall</h3>
+<p class="muted">Planetaire Mono from caption to display size, holding its proportions throughout.</p>
+<div class="waterfall">
+  <div class="row"><span class="sz">8</span><span class="name" style="font-size:8px">Planetaire Mono</span></div>
+  <div class="row"><span class="sz">9</span><span class="name" style="font-size:9px">Planetaire Mono</span></div>
+  <div class="row"><span class="sz">10</span><span class="name" style="font-size:10px">Planetaire Mono</span></div>
+  <div class="row"><span class="sz">11</span><span class="name" style="font-size:11px">Planetaire Mono</span></div>
+  <div class="row"><span class="sz">12</span><span class="name" style="font-size:12px">Planetaire Mono</span></div>
+  <div class="row"><span class="sz">14</span><span class="name" style="font-size:14px">Planetaire Mono</span></div>
+  <div class="row"><span class="sz">16</span><span class="name" style="font-size:16px">Planetaire Mono</span></div>
+  <div class="row"><span class="sz">20</span><span class="name" style="font-size:20px">Planetaire Mono</span></div>
+  <div class="row"><span class="sz">24</span><span class="name" style="font-size:24px">Planetaire Mono</span></div>
+  <div class="row"><span class="sz">30</span><span class="name" style="font-size:30px">Planetaire Mono</span></div>
+  <div class="row"><span class="sz">36</span><span class="name" style="font-size:36px">Planetaire Mono</span></div>
+  <div class="row"><span class="sz">44</span><span class="name" style="font-size:44px">Planetaire Mono</span></div>
+</div>
+<div class="label" style="margin-top:1.2rem">Legibility at display size</div>
+<div style="font-size:38px">Il1| O0o 0123</div>
+
+<!-- ---- Legibility ------------------------------------------------------ -->
+<h3>Legibility</h3>
+<div class="label">Character disambiguation</div>
+<div class="disambig"><div class="glyphs">I l 1 |</div><div class="desc">uppercase I · lowercase l · digit 1 · pipe</div></div>
+<div class="disambig"><div class="glyphs">O 0 o</div><div class="desc">uppercase O · digit 0 · lowercase o</div></div>
+<div class="disambig"><div class="glyphs">r n m</div><div class="desc">r · n · m — clearly distinct in B612</div></div>
+<div class="disambig"><div class="glyphs">5 S 8 B</div><div class="desc">digit 5 vs S · digit 8 vs B</div></div>
+<div class="disambig"><div class="glyphs">2 Z 6 G</div><div class="desc">digit 2 vs Z · digit 6 vs G</div></div>
+<div class="disambig"><div class="glyphs">; :</div><div class="desc">semicolon vs colon — distinct dot size and spacing</div></div>
+<div class="disambig"><div class="glyphs">( ) { } [ ]</div><div class="desc">parens vs braces vs brackets</div></div>
+<div class="disambig"><div class="glyphs">- – —</div><div class="desc">hyphen-minus vs en dash vs em dash</div></div>
+
+<div class="label" style="margin-top:1.5rem">Zero dot variants (OpenType)</div>
+<div class="cols2">
+  <div>
+    <div class="h">Default (circle dot)</div>
+    <div style="margin:0.4rem 0"><span class="bigzero">0</span> &nbsp; <span class="medzero">0 O o</span></div>
+    <div style="font-size:1rem">FL350 FL850 10.0.0.1</div>
+  </div>
+  <div>
+    <div class="h">ss01 / zero (rectangle dot)</div>
+    <div class="ss01" style="margin:0.4rem 0"><span class="bigzero">0</span> &nbsp; <span class="medzero">0 O o</span></div>
+    <div class="ss01" style="font-size:1rem">FL350 FL850 10.0.0.1</div>
+  </div>
+</div>
+
+<div class="label" style="margin-top:1.5rem">Bracket and delimiter pairs</div>
+<div class="glyphrow">( ) { } [ ] &lt; &gt; « » ‹ ›</div>
+<div class="label">Mathematical and programming operators</div>
+<div class="glyphrow">+ - * / = ≠ ≤ ≥ ± × ÷ → ← ↑ ↓</div>
+
+<!-- ---- Symbols --------------------------------------------------------- -->
+<h3>Symbols and Special Characters</h3>
+<div class="label">Standard punctuation</div>
+<div class="glyphrow sm">. , ; : ! ? - – — ( ) [ ] { } / \ @ # $ % ^ &amp; * _ + = ~ `</div>
+<div class="label">Quotes and apostrophes</div>
+<div class="glyphrow sm">" ' ` “ ” ‘ ’ « » ‹ ›</div>
+<div class="label">Typographic and special characters</div>
+<div class="glyphrow sm">§ ¶ © ® ™ ° · … † ‡ ¤ ¢ £ ¥ € ¬ ¦</div>
+<div class="label">Box drawing and block elements</div>
+<div class="glyphrow sm">─ │ ┌ ┐ └ ┘ ├ ┤ ┬ ┴ ┼ ═ ║ ╔ ╗ ╚ ╝ █ ▌ ▐ ░ ▒ ▓</div>
+
+<!-- ---- Nerd Font Icons (Extended only) --------------------------------- -->
+<h3>Nerd Font Icons</h3>
+<p class="muted">The PDF specimen shows a grid of 10,000+ Nerd Font icons (UI, file types,
+development, weather, Powerline). Those glyphs live in the Private Use Area and ship
+<strong>only in the Extended package</strong>, which this lightweight Text web page does not
+load. To see them rendered, view the
+<a href="https://cdn.jsdelivr.net/gh/jlevy/planetaire@v0.1.4/docs/specimen/planetaire-mono-specimen.pdf">specimen
+PDF</a> or install <a href="https://github.com/jlevy/planetaire/releases/latest">Planetaire
+Mono Extended</a>.</p>
+
+<!-- ---- Spacing Review (QA grid) ---------------------------------------- -->
+<h3>Spacing Review</h3>
+<p class="muted">A visual proof of the monospace invariant: each glyph sits in a box drawn at
+its own advance width (red rules mark the true cell edges). Because the font is monospace,
+every cell is the same width and all ink sits between its rules.</p>
+<div class="label">Standard coding characters: true cell widths</div>
+<div class="cellrow" id="qa-upper"></div>
+<div class="cellrow" id="qa-lower"></div>
+<div class="cellrow" id="qa-digits"></div>
+<div class="cellrow" id="qa-punct"></div>
+
+<!-- ---- Provenance ------------------------------------------------------ -->
+<h3>Provenance and License</h3>
+<table>
+  <tbody>
+    <tr><td><strong>B612 Mono</strong></td><td>Designed by Intactile Design for Airbus. Optimized for legibility in cockpit displays. Planetaire takes its letters, digits, and extended Latin/Greek/Cyrillic. The zero receives a center dot for O/0 disambiguation (circle default, rectangle ss01).</td></tr>
+    <tr><td><strong>Hack</strong></td><td>Chris Simpkins’ typeface for source code. Provides the base structure: punctuation, symbols, metrics, and Nerd Font integration.</td></tr>
+    <tr><td><strong>Nerd Fonts</strong></td><td>Ryan McIntyre’s icon patching project. 10,000+ developer icons via the Hack Nerd Font base.</td></tr>
+  </tbody>
+</table>
+<p>Planetaire Mono is released under the <strong>SIL Open Font License 1.1 (OFL-1.1)</strong>.
+Constituent fonts: <strong>B612 Mono</strong> (OFL-1.1 + EPL-2.0); <strong>Hack</strong>
+(MIT + Bitstream Vera License); <strong>Nerd Fonts</strong> (glyph fonts OFL-1.1, patcher
+MIT).</p>
+
+<!-- ====================================================================== -->
+<!-- HIGH LEGIBILITY                                                        -->
+<!-- ====================================================================== -->
+<h2 id="high-legibility">High Legibility</h2>
+<p>B612’s letterforms keep commonly confused characters distinct: <code>Il1|</code>,
+<code>O0o</code>, <code>rn</code> vs <code>m</code>, <code>5S</code>, <code>8B</code>,
+<code>2Z</code>. Coverage spans Latin Extended A/B, Greek and Coptic, Cyrillic, and Latin
+Extended Additional: over 12,000 glyphs in the Extended package.</p>
+
+<div class="disambig"><div class="glyphs">I l 1 |</div><div class="desc">uppercase I · lowercase l · digit 1 · pipe</div></div>
+<div class="disambig"><div class="glyphs">O 0 o</div><div class="desc">uppercase O · digit 0 · lowercase o</div></div>
+<div class="disambig"><div class="glyphs">r n m</div><div class="desc">r · n · m, clearly distinct in B612</div></div>
+<div class="disambig"><div class="glyphs">5 S 8 B</div><div class="desc">digit 5 vs S · digit 8 vs B</div></div>
+<div class="disambig"><div class="glyphs">2 Z 6 G</div><div class="desc">digit 2 vs Z · digit 6 vs G</div></div>
+
+<!-- ====================================================================== -->
+<!-- WEIGHTS                                                                -->
+<!-- ====================================================================== -->
+<h2 id="weights">Weights</h2>
+<h3>Additional Weights</h3>
+<p>Each package ships 10 variants across 5 weights.</p>
+<p>Planetaire Mono adds an <strong>ExtraBold (800)</strong> weight for terminal bold: the
+jump from Regular (400) to Bold (700) is often too subtle at terminal sizes, and ExtraBold
+gives bold text (prompts, headings, highlighted output) the contrast to stand out.</p>
+
+<table>
+  <thead><tr><th>Variant</th><th>Weight</th><th>Recommended Use</th></tr></thead>
+  <tbody>
+    <tr><td>Regular</td><td>400</td><td>Normal terminal text</td></tr>
+    <tr><td><i>Italic</i></td><td>400</td><td>Emphasized text</td></tr>
+    <tr><td style="font-weight:500">Medium</td><td>500</td><td>UI labels, intermediate weight</td></tr>
+    <tr><td style="font-weight:500;font-style:italic">Medium Italic</td><td>500</td><td>UI labels italic</td></tr>
+    <tr><td style="font-weight:600">SemiBold</td><td>600</td><td>UI emphasis, intermediate weight</td></tr>
+    <tr><td style="font-weight:600;font-style:italic">SemiBold Italic</td><td>600</td><td>UI emphasis italic</td></tr>
+    <tr><td style="font-weight:700">Bold</td><td>700</td><td>Standard bold</td></tr>
+    <tr><td style="font-weight:700;font-style:italic">Bold Italic</td><td>700</td><td>Standard bold italic</td></tr>
+    <tr><td style="font-weight:800"><strong>ExtraBold</strong></td><td><strong>800</strong></td><td><strong>Terminal bold text</strong></td></tr>
+    <tr><td style="font-weight:800;font-style:italic"><strong>ExtraBold Italic</strong></td><td><strong>800</strong></td><td><strong>Terminal bold italic</strong></td></tr>
+  </tbody>
+</table>
+
+<h3>ExtraBold for Terminals</h3>
+<p>For best results, map your terminal’s <strong>bold</strong> to <strong>ExtraBold
+(800)</strong> rather than Bold (700): the heavier stroke gives bold output (prompts,
+headings, highlighted text) clear contrast at terminal sizes, which is how the font is
+designed to be used. Per-terminal setup is under
+<a href="#terminal">Terminal Configuration</a>.</p>
+
+<!-- ====================================================================== -->
+<!-- PACKAGES                                                               -->
+<!-- ====================================================================== -->
+<h2 id="packages">Two Packages: Text and Extended</h2>
+<p>Both packages share the same letterforms and the same 10 variants, and both ship in two
+formats: <strong>TTF</strong> (in <code>ttf/</code>) for local install and
+<strong>WOFF2</strong> (in <code>web/</code>, with a ready <code>@font-face</code>
+stylesheet) for the web. They differ only in glyph coverage:</p>
+<ul>
+  <li><strong>Planetaire Mono Extended</strong> is the full font: everything in Text
+    <strong>plus</strong> the 10,000+ Nerd Font icons and Powerline glyphs that terminals
+    and CLIs draw, so it is a superset of Text. <strong>Recommended for local and terminal
+    use</strong>, where TTF is the standard option.</li>
+  <li><strong>Planetaire Mono Text</strong> is a lightweight subset (no icons), so it is far
+    smaller. <strong>Recommended for the web</strong>, where the WOFF2 stylesheet is the
+    standard option. <em>(This page is set in Planetaire Mono Text.)</em></li>
+</ul>
+<p>Either package works for either purpose; the recommendations are just the common,
+size-conscious defaults.</p>
+
+<!-- ====================================================================== -->
+<!-- DOWNLOAD                                                               -->
+<!-- ====================================================================== -->
+<h2 id="download">Download</h2>
+<p>Planetaire Mono is available in two packages, built from the same letterforms. Get the
+latest from <a href="https://github.com/jlevy/planetaire/releases/latest"><strong>GitHub
+Releases</strong></a>:</p>
+
+<table>
+  <thead><tr><th>Package</th><th>Best for</th><th>Includes</th><th>Download</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><strong>Planetaire Mono Text</strong> <span class="muted">(standard)</span></td>
+      <td>Websites, documents, reading</td>
+      <td>Letters, punctuation, Greek/Cyrillic, box-drawing. No icons. TTF + WOFF2 (~65 KB/weight WOFF2).</td>
+      <td><a href="https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Text.tar.xz"><code>.tar.xz</code></a> <strong>~1 MB</strong> ·
+          <a href="https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Text.zip"><code>.zip</code></a> ~1.3 MB</td>
+    </tr>
+    <tr>
+      <td><strong>Planetaire Mono Extended</strong> <span class="muted">(full)</span></td>
+      <td>Terminals, coding, icon-rich CLIs</td>
+      <td>Everything in Text plus all 10,000+ Nerd Font icons and Powerline. TTF + WOFF2.</td>
+      <td><a href="https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Extended.tar.xz"><code>.tar.xz</code></a> <strong>~19 MB</strong> ·
+          <a href="https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Extended.zip"><code>.zip</code></a> ~24 MB</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Both packages ship the same 10 variants, each archive laid out as <code>ttf/</code> (for
+local install) and <code>web/</code> (WOFF2 plus an <code>@font-face</code> stylesheet). To
+install, unzip the archive and add the TTFs:</p>
+<ul>
+  <li><strong>macOS / Windows:</strong> double-click the <code>ttf/*.ttf</code> files and click <strong>Install</strong>.</li>
+  <li><strong>Linux:</strong> copy them into <code>~/.local/share/fonts/</code> and run <code>fc-cache -fv</code>.</li>
+</ul>
+
+<!-- ====================================================================== -->
+<!-- TERMINAL CONFIGURATION                                                 -->
+<!-- ====================================================================== -->
+<h2 id="terminal">Terminal Configuration</h2>
+<p>After installing the font, point your terminal at <strong>Planetaire Mono
+Extended</strong>. For best results, map <strong>bold</strong> text to <strong>ExtraBold
+(800)</strong> rather than Bold (700): the heavier stroke gives bold output clear contrast
+at terminal sizes (12–16px), which is how the font is designed to be used.</p>
+
+<p><strong>macOS Terminal.app.</strong> Open <strong>Terminal → Settings… →
+Profiles</strong>, pick your profile, open the <strong>Text</strong> tab, and in the
+<strong>Font</strong> section click <strong>Change</strong> to select Planetaire Mono
+Extended at 14 pt. Check <strong>Use bold fonts</strong> so bold output renders in bold.
+Terminal.app uses the family’s Bold (700) and has no per-weight bold mapping.</p>
+
+<p><strong>Ghostty</strong> — in <code>~/.config/ghostty/config</code>:</p>
+<pre class="code">font-family = "Planetaire Mono Extended"
+font-size = 14
+font-style-bold = "ExtraBold"
+font-style-bold-italic = "ExtraBold Italic"</pre>
+<p>Run <code>ghostty +list-fonts</code> if a style name does not resolve.</p>
+
+<p><strong>Alacritty</strong> — in <code>~/.config/alacritty/alacritty.toml</code>:</p>
+<pre class="code">[font]
+size = 14.0
+
+[font.normal]
+family = "Planetaire Mono Extended"
+style = "Regular"
+
+[font.bold]
+family = "Planetaire Mono Extended"
+style = "ExtraBold"
+
+[font.italic]
+family = "Planetaire Mono Extended"
+style = "Italic"
+
+[font.bold_italic]
+family = "Planetaire Mono Extended"
+style = "ExtraBold Italic"</pre>
+
+<p><strong>WezTerm</strong> — in <code>~/.wezterm.lua</code>:</p>
+<pre class="code">local wezterm = require 'wezterm'
+local config = wezterm.config_builder()
+
+config.font = wezterm.font('Planetaire Mono Extended')
+config.font_size = 14.0
+
+-- Map bold to ExtraBold for maximum contrast
+config.font_rules = {
+  {
+    intensity = 'Bold',
+    font = wezterm.font('Planetaire Mono Extended', { weight = 'ExtraBold' }),
+  },
+  {
+    intensity = 'Bold',
+    italic = true,
+    font = wezterm.font('Planetaire Mono Extended', { weight = 'ExtraBold', style = 'Italic' }),
+  },
+}
+
+return config</pre>
+
+<p><strong>iTerm2.</strong> Open <strong>Preferences → Profiles → Text</strong>, set
+<strong>Font</strong> to Planetaire Mono Extended at 14 pt, and check <strong>Draw bold text
+in bold font</strong>.</p>
+
+<p><strong>Kitty</strong> — in <code>~/.config/kitty/kitty.conf</code>:</p>
+<pre class="code">font_family      family="Planetaire Mono Extended"
+bold_font        family="Planetaire Mono Extended" style="ExtraBold"
+italic_font      family="Planetaire Mono Extended" style="Italic"
+bold_italic_font family="Planetaire Mono Extended" style="ExtraBold Italic"
+font_size        14.0</pre>
+
+<p><strong>VS Code terminal</strong> — in <code>settings.json</code>:</p>
+<pre class="code">{
+  "terminal.integrated.fontFamily": "Planetaire Mono Extended",
+  "terminal.integrated.fontSize": 14,
+  "terminal.integrated.fontWeight": "normal",
+  "terminal.integrated.fontWeightBold": "800"
+}</pre>
+
+<!-- ====================================================================== -->
+<!-- WEB                                                                    -->
+<!-- ====================================================================== -->
+<h2 id="web">Web</h2>
+<p>Both packages include WOFF2 web fonts and a ready stylesheet in <code>web/</code>. The
+<strong>Text</strong> package is recommended for the web (much smaller, no icons); use
+<strong>Extended</strong> only if you need the Nerd Font icons in the browser. From the Text
+archive’s <code>web/</code>:</p>
+<pre class="code">&lt;link rel="stylesheet" href="planetaire-mono-text.css"&gt;
+&lt;style&gt;
+  body { font-family: "Planetaire Mono Text", ui-monospace, monospace; }
+  /* rectangle zero instead of the dotted circle: */
+  .code { font-feature-settings: "ss01" 1; }
+&lt;/style&gt;</pre>
+<p>Each weight and style is declared (400/500/600/700/800, upright and italic) with
+<code>font-display: swap</code>.</p>
+
+<!-- ====================================================================== -->
+<!-- BUILD                                                                  -->
+<!-- ====================================================================== -->
+<h2 id="build">Build from Source</h2>
+<p>This repo is the <strong>build tooling</strong>, not the font itself — you only need it
+to build from source. The fonts are distributed via
+<a href="https://github.com/jlevy/planetaire/releases">GitHub Releases</a>.</p>
+<p>Requires Python 3.12+ and <a href="https://docs.astral.sh/uv/">uv</a>.</p>
+<pre class="code">uv sync --all-extras
+make fonts        # download (verify) -> build Extended + Text -> validate</pre>
+<p>The pipeline merges B612 glyphs into the Hack Nerd Font base (normalizing UPM 2048 to
+2000), adds the dotted zero, sets family and version metadata, applies fixes, and validates
+coverage and style linking.</p>
+
+<!-- ====================================================================== -->
+<!-- CREDITS                                                                -->
+<!-- ====================================================================== -->
+<h2 id="credits">Credits</h2>
+<ul>
+  <li><a href="https://github.com/polarsys/b612"><strong>B612</strong></a>: Intactile Design for Airbus. The letterforms.</li>
+  <li><a href="https://sourcefoundry.org/hack/"><strong>Hack</strong></a>: Chris Simpkins. The base providing punctuation, symbols, and metrics.</li>
+  <li><a href="https://www.nerdfonts.com/"><strong>Nerd Fonts</strong></a>: Ryan McIntyre. 10,000+ developer icons.</li>
+  <li><a href="https://github.com/carlosedp/b612"><strong>carlosedp</strong></a>: Carlos Eduardo de Paula’s B612 Nerd Font fork, which inspired the dotted zero. Not a build dependency.</li>
+</ul>
+
+<!-- ====================================================================== -->
+<!-- LICENSE                                                                -->
+<!-- ====================================================================== -->
+<h2 id="license">License</h2>
+<p>Planetaire Mono is released under the
+<a href="https://openfontlicense.org/">SIL Open Font License 1.1</a> (OFL-1.1), the standard
+license for open fonts. In practical terms:</p>
+<ul>
+  <li><strong>Use it for anything, free.</strong> Set text in Planetaire Mono in documents, books, websites, apps, videos, and commercial products, with no fee and no permission needed.</li>
+  <li><strong>No credit required for use.</strong> Setting text in the font does not obligate you to attribute Planetaire Mono or B612 anywhere. Credit is welcome but optional.</li>
+  <li><strong>Bundle and redistribute freely, but keep the license with the files.</strong> If you ship the font files themselves, include the bundled license and copyright notices. You may not sell the font files on their own.</li>
+  <li><strong>Don’t reuse the B612 name for modified versions.</strong> OFL lets an author reserve font names, and “B612” is reserved, so a derivative cannot be distributed under that name.</li>
+</ul>
+<p>This is a summary, not legal advice; the
+<a href="https://openfontlicense.org/">full OFL text</a> is binding. The upstream sources
+carry their own licenses: <strong>B612</strong> under OFL-1.1 and EPL-2.0;
+<strong>Hack</strong> under MIT and the Bitstream Vera License; <strong>Nerd Fonts</strong>
+glyph fonts under OFL-1.1 with the patcher tooling under MIT. Full license texts ship in the
+<code>licenses/</code> folder of each release archive. The build tooling in this repo is
+<a href="https://github.com/jlevy/planetaire/blob/main/LICENSE">MIT</a>.</p>
+
+<footer>
+  Planetaire Mono · <a href="https://github.com/jlevy/planetaire">github.com/jlevy/planetaire</a>
+</footer>
+
+</div>
+
+<script>
+// Theme switch: Light/Dark segmented control. Sets data-theme, persists the
+// choice, and reflects the active option.
+(function () {
+  const opts = document.querySelectorAll('.ts-opt');
+  if (!opts.length) return;
+  const apply = (theme) => {
+    document.documentElement.setAttribute('data-theme', theme);
+    // Persist ~1 year so the choice sticks on revisit (cookie primary,
+    // localStorage as a fallback for environments where cookies don't stick).
+    try { document.cookie = 'plt-theme=' + theme + '; path=/; max-age=31536000; SameSite=Lax'; } catch (e) {}
+    try { localStorage.setItem('plt-theme', theme); } catch (e) {}
+    opts.forEach(o => o.setAttribute('aria-pressed', String(o.dataset.themeSet === theme)));
+  };
+  const current = document.documentElement.getAttribute('data-theme') || 'light';
+  opts.forEach(o => o.setAttribute('aria-pressed', String(o.dataset.themeSet === current)));
+  opts.forEach(o => o.addEventListener('click', () => apply(o.dataset.themeSet)));
+})();
+
+// QA cell rows: wrap each character in a box drawn at the font's advance width,
+// with red cell-edge rules — the HTML equivalent of the specimen's coding-width-grid.
+(function () {
+  const rows = {
+    'qa-upper':  'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+    'qa-lower':  'abcdefghijklmnopqrstuvwxyz',
+    'qa-digits': '0123456789',
+    'qa-punct':  '!"#$%&\'()*+,-./:;<=>?@',
+  };
+  for (const [id, chars] of Object.entries(rows)) {
+    const el = document.getElementById(id);
+    if (!el) continue;
+    for (const ch of chars) {
+      const span = document.createElement('span');
+      span.className = 'cell';
+      span.textContent = ch;
+      el.appendChild(span);
+    }
+  }
+})();
+</script>
+</body>
+</html>

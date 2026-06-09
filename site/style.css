@@ -1,0 +1,380 @@
+/* ============================================================================
+   Planetaire Mono — static homepage + specimen (experimental).
+
+   DESIGN SYSTEM — the canonical spec is design-system.md. Summary:
+
+   COLOR — two text colors, nothing else:
+     • black  (--ink)   all main text, headings, samples, bold
+     • gray   (--gray)  labels, captions, secondary text
+     Plus one structural hairline (--rule) and one surface tint (--surface).
+     Links are black + underline (no link color). Code/terminal panels are the
+     ONE exception: they carry a syntax palette (--syn-*) that follows the page
+     theme (light ↔ dark), because showing the font on colored code IS content.
+
+   TYPE — four sizes for all prose/chrome:
+     --fs-display  hero wordmark
+     --fs-h2       major section heading — larger, underline rule, Title Case
+     --fs-body     body · h3 sub-header (BOLD CAPS) · tables · nav
+     --fs-small    labels, captions
+     Specimen demos (waterfall, weight ladder, glyph showcases) set their own
+     sizes inline — that is the content being demonstrated, not chrome.
+
+   HEADINGS — two levels, mirroring the PDF specimen:
+     • h2 major section  → --fs-h2, bold, Title Case, underline rule  (= section())
+     • h3 sub-header     → --fs-body, BOLD CAPS                       (= about-heading())
+
+   WEIGHT — three: 400 body · 500 wordmark/tagline · 700 bold & headings.
+     (The weight-ladder demo uses all ten faces; that is content.)
+
+   This file is DOWNSTREAM of the README and the specimen. See
+   ../docs/website.runbook.md before editing content here.
+   ========================================================================= */
+
+/* Font faces are declared in fonts/planetaire-mono-text.css, linked first in
+   index.html. The whole page is set in Planetaire Mono Text — live type. */
+
+:root {
+  /* two text colors */
+  --ink: #000;
+  --gray: #6e7781;
+  /* structural */
+  --rule: #d7dbdf;
+  --surface: #f6f8fa;
+  --bg: #fff;
+  --hover-bg: #e8eaed;  /* mode-appropriate gray behind hovered links/buttons */
+  --radius: 1px;        /* corner radius, used everywhere */
+
+  /* type scale */
+  --fs-display: 3.25rem;
+  --fs-h2: 1.625rem;
+  --fs-body: 1rem;
+  --fs-small: 0.9rem;
+
+  /* Reading line-heights — exactly two (matches the PDF specimen):
+     --lh standard prose/text samples (~1.5), --lh-tight terminal/code. */
+  --lh: 1.5;
+  --lh-tight: 1.4;
+
+  /* inter-paragraph gap ≈ one line, so paragraphs read with a blank line
+     between them, like the specimen */
+  --space-para: 1.6rem;
+
+  /* weights */
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-bold: 700;
+
+  --max: 720px;
+
+  /* code/terminal demo palettes (the one exception to two-color) ---------- */
+  /* pal-light (content.typ) */
+  --l-red: #a8342a; --l-green: #1a7f37; --l-yellow: #7d5e00; --l-blue: #0550ae;
+  --l-magenta: #8250df; --l-cyan: #0e6b7a; --l-comment: #6e7781; --l-muted: #57606a;
+  /* pal-dark (content.typ) */
+  --d-bg: #000; --d-fg: #fff; --d-red: #eb8f83; --d-green: #6dc481; --d-yellow: #caa94e;
+  --d-blue: #96aced; --d-magenta: #dc8dd6; --d-cyan: #55bdcd; --d-comment: #6e7681;
+  --d-brightblack: #bababa;
+
+  /* theme-following syntax palette (defaults = light); flipped in dark mode so
+     the code/terminal panels match whatever theme the page is in */
+  --syn-comment: var(--l-comment); --syn-kw: var(--l-magenta); --syn-type: var(--l-cyan);
+  --syn-string: var(--l-green); --syn-num: var(--l-cyan); --syn-yellow: var(--l-yellow);
+  --syn-blue: var(--l-blue); --syn-green: var(--l-green); --syn-dim: var(--l-muted);
+}
+
+/* dark mode: flip the two text colors + structural tints. Demo panels keep
+   their own palettes (they show the font on both backgrounds by design). */
+html[data-theme="dark"] {
+  --ink: #e6edf3;
+  --gray: #8b949e;
+  --rule: #30363d;
+  --surface: #161b22;
+  --bg: #0d1117;
+  --hover-bg: #262c36;
+  /* code/terminal syntax switches to the dark palette */
+  --syn-comment: var(--d-comment); --syn-kw: var(--d-magenta); --syn-type: var(--d-cyan);
+  --syn-string: var(--d-green); --syn-num: var(--d-cyan); --syn-yellow: var(--d-yellow);
+  --syn-blue: var(--d-blue); --syn-green: var(--d-green); --syn-dim: var(--d-brightblack);
+}
+/* The planet/stars SVG is pure black line art on a transparent ground, so it
+   vanishes on the dark page. Invert it (black → white) for dark mode. */
+html[data-theme="dark"] .hero .planet { filter: invert(1); }
+
+* { box-sizing: border-box; }
+/* Anchor the rem scale to 16px so 1rem always equals the body size — otherwise
+   rem-based chrome (h3, nav, the toggle) shrinks vs body if the browser root
+   font-size isn't 16px. */
+html { font-size: 16px; -webkit-text-size-adjust: 100%; overflow-x: hidden; }
+body { overflow-x: hidden; }   /* guard against side-scroll; also clips the planet's off-screen bleed box */
+
+/* Gentle, general transition so light/dark mode eases rather than snaps.
+   Only themeable properties; placed once, globally. */
+*, *::before, *::after {
+  transition: background-color 0.45s ease, border-color 0.45s ease,
+              color 0.45s ease, fill 0.45s ease, filter 0.45s ease, opacity 0.45s ease;
+}
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none; } }
+
+body {
+  font-family: "Planetaire Mono Text", ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: var(--fs-body);   /* same token as h3 etc., so they always match */
+  line-height: var(--lh);
+  font-weight: var(--fw-regular);
+  color: var(--ink);
+  background: var(--bg);
+  margin: 0;
+  padding: 0 20px;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.wrap { max-width: var(--max); margin: 0 auto; padding: 80px 0 96px; }
+
+/* ---- Type ---------------------------------------------------------------- */
+
+/* Major section: larger, with an underline rule and generous space above
+   (mirrors the specimen's section() heading). Title Case. */
+h2 {
+  font-size: var(--fs-h2);
+  font-weight: var(--fw-medium);
+  line-height: 1.3;
+  /* gap below the underline ≈ the inter-paragraph gap, so the rule breathes */
+  margin: 4.25rem 0 var(--space-para);
+  padding-bottom: 0.35rem;
+  border-bottom: 1px solid var(--rule);
+}
+/* Sub-header: same size as body text, black, BOLD CAPS (mirrors about-heading()).
+   Clear space above to read as a section break, snug to the text it introduces
+   below — the traditional manuscript subheading. */
+h3 {
+  font-size: var(--fs-body);   /* exactly body size — like the specimen's 10pt about-heading */
+  font-weight: var(--fw-bold);
+  text-transform: uppercase;   /* no letter-spacing: the specimen heading has none */
+  line-height: 1.4;
+  margin: 2.3rem 0 0.7rem;     /* ~one blank line above, snug below — specimen rhythm */
+}
+p { margin: 0 0 var(--space-para); }
+
+a { color: var(--ink); text-decoration: underline; text-underline-offset: 2px; border-radius: var(--radius); }
+/* Consistent hover everywhere: ink text + a mode-appropriate gray background. */
+a:hover { color: var(--ink); background: var(--hover-bg); }
+
+strong, b { font-weight: var(--fw-bold); }
+em, i { font-style: italic; }
+
+.gray, .muted { color: var(--gray); }
+
+/* one small-gray-caps label style for every section sublabel */
+.label {
+  color: var(--gray);
+  font-size: var(--fs-small);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin: 1.4rem 0 0.5rem;
+}
+
+/* ---- Hero ---------------------------------------------------------------- */
+
+/* Title cluster — a self-contained brand block echoing the PDF specimen
+   cover: large wordmark, black bold lineage, large tagline, all bigger than
+   body, with generous vertical rhythm. Its sizes are bespoke to this cluster
+   (like the cover), not part of the four-size chrome scale. */
+.hero { text-align: center; margin: 3rem 0 6.5rem; }
+/* The planet frame bleeds wider than the 720px column on large screens (up to
+   ~940px, ~30% wider, centered). On narrow screens the image keeps a minimum
+   width so the planet stays legible, and the frame crops the star-filled sides
+   rather than scaling the whole thing down. */
+.hero .planet-frame {
+  overflow: hidden;
+  width: min(940px, calc(100vw - 48px));
+  margin: 0 0 3.8rem 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+}
+.hero .planet {
+  display: block;
+  flex: 0 0 auto;
+  width: max(620px, 100%);   /* fill the frame, but never below 620px (then crop) */
+  height: auto;
+}
+/* Scales down on very narrow screens so the wordmark never overflows. */
+.hero .title { font-size: clamp(2rem, 11vw, var(--fs-display)); font-weight: var(--fw-medium); margin: 0; line-height: 1.05; }
+.hero .lineage {
+  color: var(--ink);
+  font-weight: var(--fw-bold);
+  font-size: 1.3rem;
+  letter-spacing: 0.05em;
+  line-height: 1.6;
+  margin: 3rem 0;
+}
+.hero .tagline { color: var(--ink); font-weight: var(--fw-medium); font-size: 1.3rem; line-height: 1.5; margin: 3rem 0 0; }
+
+/* ---- Buttons (two, identical) ------------------------------------------- */
+
+.cta { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin: 3.8rem 0 0; }
+.btn {
+  display: inline-block;
+  font-weight: var(--fw-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  padding: 0.55rem 1.2rem;
+  border: 1.5px solid var(--ink);
+  border-radius: var(--radius);
+  color: var(--ink);
+  background: var(--bg);
+}
+.btn:hover { background: var(--hover-bg); color: var(--ink); }
+
+/* ---- Lists & tables ------------------------------------------------------ */
+
+ul { padding-left: 1.4rem; }
+li { margin: 0.3rem 0; }
+
+table { border-collapse: collapse; width: 100%; margin: 1.2rem 0; font-size: var(--fs-body); }
+th, td { border: 1px solid var(--rule); padding: 8px 10px; text-align: left; vertical-align: top; overflow-wrap: break-word; }
+th { font-weight: var(--fw-bold); background: var(--surface); }
+
+/* spec sheet: two-column label/value grid */
+.specgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem 2rem; margin: 1.2rem 0; }
+.specgroup + .specgroup { margin-top: 1.2rem; }
+.specgroup h4 {
+  color: var(--gray); font-size: var(--fs-small); letter-spacing: 0.04em; text-transform: uppercase;
+  font-weight: var(--fw-bold); margin: 0 0 0.65rem; padding-bottom: 0.3rem; border-bottom: 1px solid var(--rule);
+}
+.specrow { display: flex; justify-content: space-between; gap: 1rem; padding: 0.12rem 0; }
+.specrow .k { color: var(--gray); }
+.specrow .v { color: var(--ink); text-align: right; }
+@media (max-width: 620px) { .specgrid { grid-template-columns: 1fr; } }
+
+/* ---- Navigation ---------------------------------------------------------- */
+
+/* Top navigation: small CAPS, no underlines, with a divider rule. Two groups
+   (section links + external links) on one line; the external group wraps below
+   the section group on narrow screens. Each group stays intact (nowrap). */
+nav.toc {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: baseline;
+  column-gap: 0.8rem;
+  row-gap: 0.3rem;
+  font-size: 0.8rem;        /* nav-specific: smaller than --fs-small */
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  margin: 0 0 2.5rem;
+}
+nav.toc .toc-group { display: flex; flex-wrap: nowrap; column-gap: 0.7rem; }
+/* On very narrow screens let a group wrap internally so it can't overflow. */
+@media (max-width: 480px) { nav.toc .toc-group { flex-wrap: wrap; justify-content: center; row-gap: 0.3rem; } }
+nav.toc a { color: var(--gray); text-decoration: none; white-space: nowrap; }
+nav.toc a:hover { background: none; }   /* the highlight goes on the text only */
+nav.toc .txt { border-radius: var(--radius); padding: 0.1em 0.3em; }
+nav.toc a:hover .txt { color: var(--ink); background: var(--hover-bg); }
+/* Arrow is hidden until hover and sits outside the text's highlight. */
+nav.toc .arr { color: var(--ink); opacity: 0; transition: opacity 0.15s ease; }
+nav.toc a:hover .arr { opacity: 1; }
+
+/* ---- Code, inline & block ------------------------------------------------ */
+
+code { font-family: inherit; }
+:not(pre) > code {
+  background: var(--surface); border: 1px solid var(--rule);
+  border-radius: var(--radius); padding: 0.05em 0.35em; font-size: 0.9em;
+  overflow-wrap: anywhere;
+}
+pre { margin: 1.1rem 0; padding: 1rem 0.8rem; border-radius: var(--radius); overflow-x: auto; font-size: var(--fs-body); line-height: var(--lh-tight); }
+pre.code { background: var(--surface); border: 1px solid var(--rule); color: var(--ink); }
+
+/* Thin, subtle scrollbars on scrollable code/QA blocks. A translucent gray
+   thumb on a transparent track reads correctly on both light surfaces and the
+   always-dark code panels — no bright OS scrollbar in dark mode. */
+pre, .cellrow {
+  scrollbar-width: thin;                                /* Firefox */
+  scrollbar-color: rgba(128, 128, 128, 0.45) transparent;
+}
+pre::-webkit-scrollbar, .cellrow::-webkit-scrollbar { height: 7px; width: 7px; }
+pre::-webkit-scrollbar-track, .cellrow::-webkit-scrollbar-track { background: transparent; }
+pre::-webkit-scrollbar-thumb, .cellrow::-webkit-scrollbar-thumb {
+  background: rgba(128, 128, 128, 0.45); border-radius: 7px;
+}
+pre:hover::-webkit-scrollbar-thumb, .cellrow:hover::-webkit-scrollbar-thumb {
+  background: rgba(128, 128, 128, 0.7);
+}
+
+/* Code/terminal panel — follows the page theme. Background and text track the
+   theme; the syntax colors switch via the --syn-* vars (light ↔ dark). */
+.panel { background: var(--surface); color: var(--ink); border: 1px solid var(--rule); padding: 1rem 1.2rem; }
+.panel .cm { color: var(--syn-comment); }
+.panel .kw { color: var(--syn-kw); font-weight: var(--fw-bold); }
+.panel .ty { color: var(--syn-type); }
+.panel .st { color: var(--syn-string); }
+.panel .nu { color: var(--syn-num); }
+.panel .y { color: var(--syn-yellow); }
+.panel .b { color: var(--syn-blue); font-weight: var(--fw-bold); }
+.panel .g { color: var(--syn-green); font-weight: var(--fw-bold); }
+.panel .gray { color: var(--syn-dim); }
+
+/* ---- Specimen demos (sizes here ARE the content) ------------------------- */
+
+/* size waterfall — explicit px per row is the whole point */
+.waterfall .row { display: grid; grid-template-columns: 2.5rem 1fr; gap: 0.8rem; align-items: baseline; margin: 0.15rem 0; }
+.waterfall .sz { color: var(--gray); font-size: 0.7rem; text-align: right; }
+.waterfall .name { line-height: 1.05; white-space: nowrap; }
+
+/* weight ladder — one sample size, ten weights */
+.ladder .row { margin: 0.6rem 0 0.9rem; }
+.ladder .sample, .ladder .digits { font-size: var(--fs-body); line-height: var(--lh); }
+
+/* legibility disambiguation */
+.disambig { display: grid; grid-template-columns: 7rem 1fr; gap: 1rem; align-items: center; margin: 0.4rem 0; }
+.disambig .glyphs { font-size: var(--fs-glyph); letter-spacing: 0.1em; }
+.disambig .desc { color: var(--gray); font-size: var(--fs-small); }
+
+/* dotted-zero, two columns */
+.cols2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 1rem 0; }
+.cols2 .h { font-weight: var(--fw-bold); color: var(--gray); font-size: var(--fs-small); }
+.bigzero { font-size: var(--fs-glyph-lg); }
+.medzero { font-size: var(--fs-glyph); }
+.ss01 { font-feature-settings: "ss01" 1; }
+@media (max-width: 620px) { .cols2 { grid-template-columns: 1fr; } }
+
+/* large glyph rows (character set, brackets, operators) */
+.glyphrow { font-size: var(--fs-glyph); letter-spacing: 0.18em; line-height: 1.7; word-break: break-word; }
+.glyphrow.sm { font-size: var(--fs-glyph-sm); }
+
+/* two showcase glyph sizes, used only by the demos above */
+:root { --fs-glyph: 1.5rem; --fs-glyph-sm: 1.15rem; --fs-glyph-lg: 2.25rem; }
+
+/* monospace-grid QA proof: advance-width cells with red edge rules */
+.cellrow { white-space: nowrap; overflow-x: auto; margin: 0.3rem 0; padding-bottom: 2px; }
+/* Each glyph sits in its own advance-width box with red edge rules, separated
+   by a small gap (like the specimen's h(5pt) join) so the rules never double up. */
+.cell { display: inline-block; font-size: var(--fs-glyph); border-left: 1px solid #d83933; border-right: 1px solid #d83933; padding: 1px 0; margin-right: 6px; }
+
+/* ---- Misc ---------------------------------------------------------------- */
+
+footer { margin-top: 4rem; padding-top: 1.5rem; border-top: 1px solid var(--rule); color: var(--gray); font-size: var(--fs-small); text-align: center; }
+
+/* ---- Theme switch (centered, below the CTAs) ----------------------------- */
+/* A prominent Light/Dark control — seeing the font on both backgrounds is a
+   primary way to evaluate it, so it lives in the hero, not tucked in a corner. */
+
+/* Light/Dark control: two equal-width segments. The CURRENT theme is the
+   emphasized (filled) segment; the other is muted, so the fill alone shows the
+   toggle position. */
+.theme-switch { display: inline-flex; justify-content: center; margin: 2.8rem 0 0; }
+.theme-switch .ts-group { display: inline-flex; border: 1.5px solid var(--ink); border-radius: var(--radius); overflow: hidden; }
+.theme-switch .ts-opt {
+  font-family: inherit; font-weight: var(--fw-bold); font-size: var(--fs-body);
+  line-height: 1.6;   /* <button> won't inherit it; match .btn so heights are equal */
+  text-transform: uppercase; letter-spacing: 0.04em;
+  min-width: 6rem; text-align: center; padding: 0.55rem 1.2rem; cursor: pointer;
+  background: var(--bg); color: var(--gray); border: none;
+}
+.theme-switch .ts-opt + .ts-opt { border-left: 1.5px solid var(--ink); }
+.theme-switch .ts-opt[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+/* Inactive side hovers to the current mode's dim hover color (symmetric — both
+   sides match the page theme, like every other hover). */
+.theme-switch .ts-opt:hover:not([aria-pressed="true"]) { background: var(--hover-bg); color: var(--ink); }
