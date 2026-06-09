@@ -10,7 +10,13 @@ on:
     branches: [main]
     paths:
       - "site/**"
+      - ".htmlvalidate.json"
       - ".github/workflows/pages.yml"
+      - ".npmrc"
+      - "biome.json"
+      - "devtools/site-*.mjs"
+      - "package.json"
+      - "package-lock.json"
   workflow_dispatch: # Allow manual deploys from the Actions tab.
 
 # Least privilege needed to deploy Pages via OIDC.
@@ -33,6 +39,18 @@ jobs:
     steps:
       - name: Checkout (official GitHub action)
         uses: actions/checkout@v6
+
+      - name: Set up Node.js for static site checks
+        uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+          cache: npm
+
+      - name: Install static site tooling
+        run: npm ci
+
+      - name: Validate static site
+        run: npm run site:lint
 
       - name: Configure Pages
         uses: actions/configure-pages@v5

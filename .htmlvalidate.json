@@ -1,0 +1,4 @@
+{
+  "$schema": "./node_modules/html-validate/schema/html-validate.json",
+  "extends": ["html-validate:recommended"]
+}

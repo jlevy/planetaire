@@ -17,9 +17,7 @@
     border-color 360ms ease,
     color 360ms ease;
   --proof-border: rgba(27, 31, 36, 0.08);
-  --proof-shadow:
-    0 1px 2px rgba(27, 31, 36, 0.055),
-    0 3px 14px rgba(27, 31, 36, 0.085);
+  --proof-shadow: 0 1px 2px rgba(27, 31, 36, 0.055), 0 3px 14px rgba(27, 31, 36, 0.085);
   --ui-font: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --editor-font: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
 }
@@ -27,8 +25,7 @@
 html[data-theme="dark"] {
   --proof-border: rgba(240, 246, 252, 0.16);
   --proof-shadow:
-    0 0 0 1px rgba(240, 246, 252, 0.035),
-    0 0 14px rgba(240, 246, 252, 0.11),
+    0 0 0 1px rgba(240, 246, 252, 0.035), 0 0 14px rgba(240, 246, 252, 0.11),
     0 5px 18px rgba(0, 0, 0, 0.28);
 }
 
@@ -122,8 +119,6 @@ body {
   display: block;
   height: 5.55rem;
   min-height: 5.55rem;
-  height: calc(3lh + 1.85rem + 2px);
-  min-height: calc(3lh + 1.85rem + 2px);
   resize: vertical;
   font-family: var(--editor-font);
   font-size: 0.84rem;
@@ -134,6 +129,13 @@ body {
   border: 1px solid var(--rule);
   scrollbar-width: thin;
   scrollbar-color: rgba(128, 128, 128, 0.45) transparent;
+}
+
+@supports (height: 3lh) {
+  .control textarea {
+    height: calc(3lh + 1.85rem + 2px);
+    min-height: calc(3lh + 1.85rem + 2px);
+  }
 }
 
 .control-text {
@@ -336,7 +338,10 @@ html[data-theme="dark"] .font-select-wrap select {
   opacity: 0;
   pointer-events: none;
   transform: translateX(-0.2rem);
-  transition: opacity 180ms ease, transform 180ms ease, color 360ms ease;
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease,
+    color 360ms ease;
   white-space: nowrap;
 }
 
@@ -423,7 +428,9 @@ html[data-theme="dark"] .font-select-wrap select {
   border-bottom: 1.5px solid currentColor;
   transform: rotate(-45deg);
   transform-origin: 50% 50%;
-  transition: transform 180ms ease, border-color 360ms ease;
+  transition:
+    transform 180ms ease,
+    border-color 360ms ease;
 }
 
 .font-group-toggle[aria-expanded="true"]::before {
@@ -510,7 +517,10 @@ html[data-theme="dark"] .font-select-wrap select {
 
 .proof-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--proof-card-width)), var(--proof-card-width)));
+  grid-template-columns: repeat(
+      auto-fit,
+      minmax(min(100%, var(--proof-card-width)), var(--proof-card-width))
+    );
   gap: 1rem;
   align-items: start;
   justify-content: start;
@@ -717,11 +727,11 @@ html[data-theme="dark"] .font-select-wrap select {
 
 html[data-theme="dark"] .proof-grid.labels-overlay .proof-foot {
   border-color: rgba(240, 246, 252, 0.16);
-  background: rgba(48, 54, 61, 0.90);
+  background: rgba(48, 54, 61, 0.9);
   box-shadow:
     0 0 0 1px rgba(240, 246, 252, 0.035),
     0 0 14px rgba(240, 246, 252, 0.12),
-    0 5px 18px rgba(0, 0, 0, 0.30);
+    0 5px 18px rgba(0, 0, 0, 0.3);
   color: #c9d1d9;
 }
 

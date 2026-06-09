@@ -1,5 +1,32 @@
 const fontData = window.PlanetaireFontData || { fonts: [] };
+/** @type {PlanetaireFont[]} */
 const fonts = fontData.fonts;
+
+/**
+ * @template {HTMLElement} T
+ * @param {string} id
+ * @returns {T}
+ */
+function requireElementById(id) {
+  const element = document.getElementById(id);
+  if (!element) {
+    throw new Error(`Missing required element: #${id}`);
+  }
+  return /** @type {T} */ (element);
+}
+
+/**
+ * @template {HTMLElement} T
+ * @param {string} selector
+ * @returns {T}
+ */
+function requireElement(selector) {
+  const element = document.querySelector(selector);
+  if (!element) {
+    throw new Error(`Missing required element: ${selector}`);
+  }
+  return /** @type {T} */ (element);
+}
 
 function cssString(value) {
   return String(value).replace(/\\/g, "\\\\").replace(/"/g, '\\"');
@@ -102,21 +129,24 @@ rn m  rnm  minimum  modern  memory
 };
 
 const els = {
-  cardModeControls: document.getElementById("card-mode-controls"),
-  cardSize: document.getElementById("card-size"),
-  checks: document.getElementById("font-checks"),
-  editor: document.getElementById("sample-text"),
-  fontPickerHeading: document.getElementById("font-picker-heading"),
-  fontSelect: document.getElementById("font-select"),
-  fontSelectWrap: document.getElementById("font-select-wrap"),
-  grid: document.getElementById("proof-grid"),
-  showLabels: document.getElementById("show-labels"),
-  modeTabs: Array.from(document.querySelectorAll("[data-view-mode]")),
-  pickerActions: document.querySelector(".picker-actions"),
-  sample: document.getElementById("sample-select"),
-  size: document.getElementById("font-size"),
-  fontStyle: document.getElementById("font-style"),
-  weight: document.getElementById("font-weight"),
+  cardModeControls: requireElementById("card-mode-controls"),
+  cardSize: /** @type {HTMLSelectElement} */ (requireElementById("card-size")),
+  checks: requireElementById("font-checks"),
+  editor: /** @type {HTMLTextAreaElement} */ (requireElementById("sample-text")),
+  fontPickerHeading: requireElementById("font-picker-heading"),
+  fontSelect: /** @type {HTMLSelectElement} */ (requireElementById("font-select")),
+  fontSelectWrap: requireElementById("font-select-wrap"),
+  grid: requireElementById("proof-grid"),
+  showLabels: /** @type {HTMLInputElement} */ (requireElementById("show-labels")),
+  modeTabs: Array.from(
+    document.querySelectorAll("[data-view-mode]"),
+    (tab) => /** @type {HTMLElement} */ (tab),
+  ),
+  pickerActions: requireElement(".picker-actions"),
+  sample: /** @type {HTMLSelectElement} */ (requireElementById("sample-select")),
+  size: /** @type {HTMLInputElement} */ (requireElementById("font-size")),
+  fontStyle: /** @type {HTMLSelectElement} */ (requireElementById("font-style")),
+  weight: /** @type {HTMLSelectElement} */ (requireElementById("font-weight")),
 };
 
 const SIZE_MIN = 2;
@@ -124,11 +154,15 @@ const SIZE_MAX = 256;
 let viewMode = "cards";
 
 function escapeHtml(value) {
-  return value.replace(/[&<>]/g, (ch) => ({
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-  })[ch]);
+  return value.replace(
+    /[&<>]/g,
+    (ch) =>
+      ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+      })[ch],
+  );
 }
 
 function highlightWithPatterns(text, patterns) {
@@ -148,7 +182,9 @@ function highlightWithPatterns(text, patterns) {
   const chosen = [];
   let lastEnd = -1;
   for (const match of matches) {
-    if (match.start < lastEnd) continue;
+    if (match.start < lastEnd) {
+      continue;
+    }
     chosen.push(match);
     lastEnd = match.end;
   }
@@ -168,8 +204,15 @@ function renderCode(text) {
   return highlightWithPatterns(text, [
     { regex: /#[^\n]*/g, className: "tok-comment" },
     { regex: /"""[\s\S]*?"""|"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'/g, className: "tok-string" },
-    { regex: /\b(import|from|as|def|return|if|elif|else|for|while|in|class|try|except|with|lambda)\b/g, className: "tok-keyword" },
-    { regex: /\b(float|dict|tuple|list|set|int|str|bool|None|True|False)\b/g, className: "tok-type" },
+    {
+      regex:
+        /\b(import|from|as|def|return|if|elif|else|for|while|in|class|try|except|with|lambda)\b/g,
+      className: "tok-keyword",
+    },
+    {
+      regex: /\b(float|dict|tuple|list|set|int|str|bool|None|True|False)\b/g,
+      className: "tok-type",
+    },
     { regex: /\b(?:0x[0-9a-fA-F]+|\d[\d_]*(?:\.\d+)?(?:e[+-]?\d+)?)\b/g, className: "tok-number" },
   ]);
 }
@@ -195,14 +238,21 @@ function renderTerminal(text) {
 }
 
 function selectedFontIds() {
-  return Array.from(els.checks.querySelectorAll("input[type='checkbox']:checked"))
-    .map((input) => input.value);
+  return Array.from(els.checks.querySelectorAll("input[type='checkbox']:checked")).map(
+    (input) => /** @type {HTMLInputElement} */ (input).value,
+  );
 }
 
 function formatNpmDownloads(downloads) {
-  if (!Number.isFinite(downloads)) return "";
-  if (downloads >= 1000000) return `${(downloads / 1000000).toFixed(1)}M npm/mo`;
-  if (downloads >= 1000) return `${Math.round(downloads / 1000)}k npm/mo`;
+  if (!Number.isFinite(downloads)) {
+    return "";
+  }
+  if (downloads >= 1000000) {
+    return `${(downloads / 1000000).toFixed(1)}M npm/mo`;
+  }
+  if (downloads >= 1000) {
+    return `${Math.round(downloads / 1000)}k npm/mo`;
+  }
   return `${downloads} npm/mo`;
 }
 
@@ -220,8 +270,12 @@ function formatAvailability(value) {
 function fontLicenseLabel(font) {
   const availability = formatAvailability(font.availability || font.license?.availability);
   const license = font.license?.shortName || font.license?.spdx || font.license?.name || "";
-  if (!availability && !license) return "";
-  if (availability && license) return `${availability} ${license}`;
+  if (!availability && !license) {
+    return "";
+  }
+  if (availability && license) {
+    return `${availability} ${license}`;
+  }
   return availability || license;
 }
 
@@ -229,8 +283,12 @@ function fontInfo(font) {
   const details = [font.source];
   const downloads = formatNpmDownloads(font.npmDownloadsLastMonth);
   const license = fontLicenseLabel(font);
-  if (downloads) details.push(downloads);
-  if (license) details.push(license);
+  if (downloads) {
+    details.push(downloads);
+  }
+  if (license) {
+    details.push(license);
+  }
   return `${font.description} (${details.join("; ")})`;
 }
 
@@ -239,8 +297,12 @@ function currentSample() {
 }
 
 function renderSample(text, mode) {
-  if (mode === "code") return renderCode(text);
-  if (mode === "terminal") return renderTerminal(text);
+  if (mode === "code") {
+    return renderCode(text);
+  }
+  if (mode === "terminal") {
+    return renderTerminal(text);
+  }
   return escapeHtml(text);
 }
 
@@ -261,8 +323,11 @@ function cssVarPx(name, dimension = "width") {
   return resolveCssLength(value, dimension);
 }
 
+/**
+ * @param {HTMLElement} sampleEl
+ */
 function measureSampleContent(sampleEl) {
-  const clone = sampleEl.cloneNode(true);
+  const clone = /** @type {HTMLElement} */ (sampleEl.cloneNode(true));
   clone.style.position = "absolute";
   clone.style.left = "-10000px";
   clone.style.top = "0";
@@ -284,15 +349,26 @@ function measureSampleContent(sampleEl) {
 function maxCardWidthForMode(gridWidth) {
   const mode = els.cardSize?.value || "large";
   const gap = Number.parseFloat(getComputedStyle(els.grid).columnGap) || 0;
-  if (mode === "small") return Math.max(0, (gridWidth - gap * 3) / 4);
-  if (mode === "medium") return Math.max(0, (gridWidth - gap) / 2);
+  if (mode === "small") {
+    return Math.max(0, (gridWidth - gap * 3) / 4);
+  }
+  if (mode === "medium") {
+    return Math.max(0, (gridWidth - gap) / 2);
+  }
   return gridWidth;
 }
 
 function syncProofDimensions() {
-  if (viewMode !== "cards") return;
-  const samplesEls = Array.from(els.grid.querySelectorAll(".proof-sample"));
-  if (!samplesEls.length) return;
+  if (viewMode !== "cards") {
+    return;
+  }
+  const samplesEls = Array.from(
+    els.grid.querySelectorAll(".proof-sample"),
+    (sampleEl) => /** @type {HTMLElement} */ (sampleEl),
+  );
+  if (!samplesEls.length) {
+    return;
+  }
 
   els.grid.style.removeProperty("--proof-card-width");
   els.grid.style.removeProperty("--proof-sample-height");
@@ -312,7 +388,9 @@ function syncProofDimensions() {
 
   const mode = els.cardSize?.value || "large";
   const useFullLargeWidth = mode === "large" && naturalWidth > maxWidth * 0.5;
-  const sharedWidth = Math.ceil(useFullLargeWidth ? maxWidth : Math.min(Math.max(naturalWidth, minWidth), maxWidth));
+  const sharedWidth = Math.ceil(
+    useFullLargeWidth ? maxWidth : Math.min(Math.max(naturalWidth, minWidth), maxWidth),
+  );
   const sharedHeight = Math.ceil(Math.min(naturalHeight, maxHeight));
   els.grid.style.setProperty("--proof-card-width", `${sharedWidth}px`);
   els.grid.style.setProperty("--proof-sample-height", `${sharedHeight}px`);
@@ -325,7 +403,9 @@ function queueProofDimensionSync() {
     els.grid.style.removeProperty("--proof-sample-height");
     return;
   }
-  if (proofSyncFrame) cancelAnimationFrame(proofSyncFrame);
+  if (proofSyncFrame) {
+    cancelAnimationFrame(proofSyncFrame);
+  }
   proofSyncFrame = requestAnimationFrame(() => {
     proofSyncFrame = 0;
     syncProofDimensions();
@@ -379,7 +459,7 @@ function renderProofs() {
   const selectedFonts = fonts.filter((font) => ids.has(font.id));
 
   els.grid.classList.remove("is-full-page");
-  els.grid.classList.toggle("labels-overlay", !Boolean(els.showLabels?.checked));
+  els.grid.classList.toggle("labels-overlay", !els.showLabels?.checked);
   els.grid.classList.toggle("is-empty", !selectedFonts.length);
   els.grid.innerHTML = "";
   if (!selectedFonts.length) {
@@ -418,7 +498,9 @@ function renderFontPicker() {
   els.fontSelect.innerHTML = "";
 
   const preventMultiClickTextSelection = (event) => {
-    if (event.detail > 1) event.preventDefault();
+    if (event.detail > 1) {
+      event.preventDefault();
+    }
   };
 
   const makeFontOption = (font) => {
@@ -438,14 +520,20 @@ function renderFontPicker() {
     const collapsible = Boolean(options.collapsible);
     const section = document.createElement("section");
     section.className = "font-group";
-    if (options.kind) section.classList.add(`font-group-${options.kind}`);
-    if (collapsible) section.classList.add("is-collapsible");
-    if (options.expanded) section.classList.add("is-expanded");
+    if (options.kind) {
+      section.classList.add(`font-group-${options.kind}`);
+    }
+    if (collapsible) {
+      section.classList.add("is-collapsible");
+    }
+    if (options.expanded) {
+      section.classList.add("is-expanded");
+    }
 
     const heading = collapsible ? document.createElement("button") : document.createElement("h3");
     heading.className = collapsible ? "font-group-toggle" : "font-group-title";
     heading.textContent = title;
-    if (collapsible) {
+    if (heading instanceof HTMLButtonElement) {
       heading.type = "button";
       heading.setAttribute("aria-expanded", String(Boolean(options.expanded)));
     }
@@ -459,7 +547,9 @@ function renderFontPicker() {
         setFontGroupExpanded(options.kind, !section.classList.contains("is-expanded"));
       });
     }
-    for (const font of groupFonts) grid.appendChild(makeFontOption(font));
+    for (const font of groupFonts) {
+      grid.appendChild(makeFontOption(font));
+    }
 
     section.append(heading, grid);
     return section;
@@ -468,18 +558,22 @@ function renderFontPicker() {
   const popularFonts = fonts.filter((font) => font.default);
   const moreFonts = fonts.filter((font) => !font.default);
 
-  els.checks.appendChild(makeFontGroup("Popular Fonts", popularFonts, {
-    collapsible: true,
-    expanded: true,
-    kind: "popular",
-  }));
+  els.checks.appendChild(
+    makeFontGroup("Popular Fonts", popularFonts, {
+      collapsible: true,
+      expanded: true,
+      kind: "popular",
+    }),
+  );
 
   if (moreFonts.length) {
-    els.checks.appendChild(makeFontGroup("More Fonts", moreFonts, {
-      collapsible: true,
-      expanded: false,
-      kind: "more",
-    }));
+    els.checks.appendChild(
+      makeFontGroup("More Fonts", moreFonts, {
+        collapsible: true,
+        expanded: false,
+        kind: "more",
+      }),
+    );
     syncMoreFontsExpansion();
   }
 
@@ -499,9 +593,9 @@ function renderFontPicker() {
 }
 
 function renderSampleOptions() {
-  els.sample.innerHTML = Object.entries(samples).map(([id, sample]) => (
-    `<option value="${id}">${escapeHtml(sample.label)}</option>`
-  )).join("");
+  els.sample.innerHTML = Object.entries(samples)
+    .map(([id, sample]) => `<option value="${id}">${escapeHtml(sample.label)}</option>`)
+    .join("");
 }
 
 function formatSizeValue(value) {
@@ -510,16 +604,22 @@ function formatSizeValue(value) {
 
 function coerceSize(value) {
   const parsed = Number.parseFloat(value);
-  if (!Number.isFinite(parsed)) return null;
+  if (!Number.isFinite(parsed)) {
+    return null;
+  }
   return Math.min(Math.max(parsed, SIZE_MIN), SIZE_MAX);
 }
 
 function applySize(value, { syncInput = false } = {}) {
   const size = coerceSize(value);
-  if (size === null) return null;
+  if (size === null) {
+    return null;
+  }
   const formatted = formatSizeValue(size);
   document.documentElement.style.setProperty("--proof-size", `${formatted}px`);
-  if (syncInput) els.size.value = formatted;
+  if (syncInput) {
+    els.size.value = formatted;
+  }
   return size;
 }
 
@@ -534,11 +634,17 @@ function applyFontStyle(value) {
 function setChecked(ids, options = {}) {
   const selected = new Set(ids);
   els.checks.querySelectorAll("input[type='checkbox']").forEach((input) => {
-    input.checked = selected.has(input.value);
+    const checkbox = /** @type {HTMLInputElement} */ (input);
+    checkbox.checked = selected.has(checkbox.value);
   });
-  if (options.expandPopular) setFontGroupExpanded("popular", true);
-  if (options.collapseMore) setFontGroupExpanded("more", false);
-  else setMoreFontsExpanded(moreFontsHaveSelection());
+  if (options.expandPopular) {
+    setFontGroupExpanded("popular", true);
+  }
+  if (options.collapseMore) {
+    setFontGroupExpanded("more", false);
+  } else {
+    setMoreFontsExpanded(moreFontsHaveSelection());
+  }
   renderProofs();
 }
 
@@ -548,10 +654,14 @@ function moreFontsHaveSelection() {
 
 function setFontGroupExpanded(kind, expanded) {
   const section = els.checks.querySelector(`.font-group-${kind}`);
-  if (!section) return;
+  if (!section) {
+    return;
+  }
   section.classList.toggle("is-expanded", expanded);
   const button = section.querySelector(".font-group-toggle");
-  if (button) button.setAttribute("aria-expanded", String(expanded));
+  if (button) {
+    button.setAttribute("aria-expanded", String(expanded));
+  }
 }
 
 function setMoreFontsExpanded(expanded) {
@@ -559,12 +669,19 @@ function setMoreFontsExpanded(expanded) {
 }
 
 function syncMoreFontsExpansion() {
-  if (moreFontsHaveSelection()) setMoreFontsExpanded(true);
+  if (moreFontsHaveSelection()) {
+    setMoreFontsExpanded(true);
+  }
 }
 
+/**
+ * @param {HTMLSelectElement} select
+ */
 function moveSelectOption(select, delta) {
   const count = select.options.length;
-  if (!count) return;
+  if (!count) {
+    return;
+  }
   select.selectedIndex = (select.selectedIndex + delta + count) % count;
 }
 
@@ -590,7 +707,9 @@ function setViewMode(mode) {
 
   if (fullMode) {
     const checked = selectedFontIds()[0];
-    if (checked) els.fontSelect.value = checked;
+    if (checked) {
+      els.fontSelect.value = checked;
+    }
   }
 
   renderProofs();
@@ -612,7 +731,9 @@ els.sample.addEventListener("change", () => {
 els.modeTabs.forEach((tab) => {
   tab.addEventListener("click", () => setViewMode(tab.dataset.viewMode));
   tab.addEventListener("keydown", (event) => {
-    if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+    if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") {
+      return;
+    }
     event.preventDefault();
     const current = els.modeTabs.indexOf(tab);
     const dir = event.key === "ArrowRight" ? 1 : -1;
@@ -633,34 +754,45 @@ els.fontSelect.addEventListener("keydown", (event) => {
     ArrowLeft: -1,
   };
   const step = keySteps[event.key];
-  if (!step) return;
+  if (!step) {
+    return;
+  }
   event.preventDefault();
   moveSelectOption(els.fontSelect, step);
   renderProofs();
 });
 
 els.size.addEventListener("keydown", (event) => {
-  if (event.key !== "ArrowUp" && event.key !== "ArrowDown") return;
+  if (event.key !== "ArrowUp" && event.key !== "ArrowDown") {
+    return;
+  }
   event.preventDefault();
-  const fallback = coerceSize(getComputedStyle(document.documentElement).getPropertyValue("--proof-size")) || 16;
+  const fallback =
+    coerceSize(getComputedStyle(document.documentElement).getPropertyValue("--proof-size")) || 16;
   const current = coerceSize(els.size.value) || fallback;
   const step = Number.parseFloat(els.size.step) || 1;
   const next = current + (event.key === "ArrowUp" ? step : -step);
-  if (applySize(next, { syncInput: true }) !== null) queueProofDimensionSync();
+  if (applySize(next, { syncInput: true }) !== null) {
+    queueProofDimensionSync();
+  }
 });
 
 els.size.addEventListener("input", () => {
   const parsed = Number.parseFloat(els.size.value);
   const size = applySize(els.size.value);
   if (size !== null) {
-    if (parsed > SIZE_MAX) els.size.value = formatSizeValue(size);
+    if (parsed > SIZE_MAX) {
+      els.size.value = formatSizeValue(size);
+    }
     queueProofDimensionSync();
   }
 });
 
 els.size.addEventListener("change", () => {
   if (applySize(els.size.value, { syncInput: true }) === null) {
-    els.size.value = formatSizeValue(coerceSize(getComputedStyle(document.documentElement).getPropertyValue("--proof-size")) || 16);
+    els.size.value = formatSizeValue(
+      coerceSize(getComputedStyle(document.documentElement).getPropertyValue("--proof-size")) || 16,
+    );
   }
   queueProofDimensionSync();
 });
@@ -679,18 +811,25 @@ els.showLabels.addEventListener("change", renderProofs);
 window.addEventListener("resize", queueProofDimensionSync);
 
 document.querySelectorAll("[data-font-action]").forEach((button) => {
-  button.addEventListener("click", () => {
-    if (button.dataset.fontAction === "all") {
-      setChecked(fonts.map((font) => font.id), { expandPopular: true });
+  const actionButton = /** @type {HTMLElement} */ (button);
+  actionButton.addEventListener("click", () => {
+    if (actionButton.dataset.fontAction === "all") {
+      setChecked(
+        fonts.map((font) => font.id),
+        { expandPopular: true },
+      );
     }
-    if (button.dataset.fontAction === "clear") {
+    if (actionButton.dataset.fontAction === "clear") {
       setChecked([], { expandPopular: true });
     }
-    if (button.dataset.fontAction === "popular") {
-      setChecked(fonts.filter((font) => font.default).map((font) => font.id), {
-        collapseMore: true,
-        expandPopular: true,
-      });
+    if (actionButton.dataset.fontAction === "popular") {
+      setChecked(
+        fonts.filter((font) => font.default).map((font) => font.id),
+        {
+          collapseMore: true,
+          expandPopular: true,
+        },
+      );
     }
   });
 });
