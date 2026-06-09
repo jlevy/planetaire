@@ -565,6 +565,9 @@ html[data-theme="dark"] .font-select-wrap select {
   white-space: pre;
   overflow: auto;
   tab-size: 4;
+  cursor: text;
+  -webkit-user-select: text;
+  user-select: text;
   scrollbar-width: none;
   -ms-overflow-style: none;
   transition: var(--ui-transition);

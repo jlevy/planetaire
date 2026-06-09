@@ -617,6 +617,7 @@ els.fontSelect.addEventListener("keydown", (event) => {
   const keySteps = {
     ArrowDown: 1,
     ArrowRight: 1,
+    Enter: 1,
     ArrowUp: -1,
     ArrowLeft: -1,
   };
