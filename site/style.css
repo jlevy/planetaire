@@ -297,7 +297,7 @@ em, i { font-style: italic; }
   align-items: flex-end;
   gap: 1.7rem;
   width: min(var(--nav-max), calc(100vw - 40px));
-  margin: 0 0 4.25rem 50%;
+  margin: 0 0 5.25rem 50%;
   transform: translateX(-50%);
   border-bottom: 1px solid var(--rule);
   font-family: var(--ui-font);
