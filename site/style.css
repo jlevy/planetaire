@@ -23,7 +23,7 @@
      • h2 major section  → --fs-h2, bold, Title Case, underline rule  (= section())
      • h3 sub-header     → --fs-body, BOLD CAPS                       (= about-heading())
 
-   WEIGHT — three: 400 body · 500 wordmark/tagline · 700 bold & headings.
+   WEIGHT — three: 400 body · 500 wordmark · 700 bold & headings.
      (The weight-ladder demo uses all ten faces; that is content.)
 
    This file is DOWNSTREAM of the README and the specimen. See
@@ -180,9 +180,9 @@ em, i { font-style: italic; }
 /* ---- Hero ---------------------------------------------------------------- */
 
 /* Title cluster — a self-contained brand block echoing the PDF specimen
-   cover: large wordmark, black bold lineage, large tagline, all bigger than
-   body, with generous vertical rhythm. Its sizes are bespoke to this cluster
-   (like the cover), not part of the four-size chrome scale. */
+   cover: large wordmark and black bold lineage, both bigger than body, with
+   generous vertical rhythm. Its sizes are bespoke to this cluster (like the
+   cover), not part of the four-size chrome scale. */
 .hero { text-align: center; margin: 3rem 0 6.5rem; }
 /* The planet frame bleeds wider than the 720px column on large screens (up to
    ~940px, ~30% wider, centered). On narrow screens the image keeps a minimum
@@ -212,7 +212,6 @@ em, i { font-style: italic; }
   line-height: 1.6;
   margin: 3rem 0;
 }
-.hero .tagline { color: var(--ink); font-weight: var(--fw-medium); font-size: 1.3rem; line-height: 1.5; margin: 3rem 0 0; }
 
 /* ---- Buttons ------------------------------------------------------------- */
 

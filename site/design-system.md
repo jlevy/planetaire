@@ -57,9 +57,8 @@ Inter-paragraph spacing (`--space-para`) is `1.6rem` = one line height, so parag
 separated by a full blank line, like the specimen.
 
 The **hero/title cluster** is a self-contained brand block echoing the PDF cover, so its
-lineage and tagline use a bespoke larger size (`1.3rem`, black — lineage bold, tagline
-medium) rather than a chrome token. Like the demos, the cover cluster is exempt from the
-four-size scale.
+lineage uses a bespoke larger size (`1.3rem`, black bold) rather than a chrome token. Like
+the demos, the cover cluster is exempt from the four-size scale.
 
 Base font-size is `16px`. **Reading line-height is one of exactly two** (matching the PDF
 specimen): `--lh` (`1.5`) for prose and text samples, `--lh-tight` (`1.4`) for terminal/code
@@ -78,7 +77,7 @@ Three weights for chrome:
 | Token | Value | Used for |
 | --- | --- | --- |
 | `--fw-regular` | `400` | Body text |
-| `--fw-medium` | `500` | Hero wordmark + tagline, **h2 major-section headings** |
+| `--fw-medium` | `500` | Hero wordmark, **h2 major-section headings** |
 | `--fw-bold` | `700` | Bold, h3 sub-headers, labels, buttons |
 
 The weight-ladder demo uses all ten faces (400/500/600/700/800 × upright/italic) — that
@@ -106,7 +105,7 @@ vs small, exactly the two-color / two-size split.
 - Page: max width `720px`, centered, `80px` top padding (airy, like the cover).
 - One paragraph gap, `--space-para` (`1.1rem`), is shared by `<p>` and `h3`.
 - **Hero** mirrors the specimen cover's generous vertical rhythm: large planet graphic
-  (max `700px`), ample space below it, and ~`2.2rem` around the lineage / tagline / switch.
+  (max `700px`), ample space below it, and generous spacing around the lineage / switch.
   When in doubt, give the title more room, not less.
 - Section headings (`h2`): `4.25rem` above, `1.3rem` below.
 
