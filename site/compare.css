@@ -1,184 +1,5 @@
 /* Planetaire Mono font comparison tool. */
 
-/* Live comparison fonts. These are intentionally CDN-backed so the comparison
-   page can render the same major programming-font shortlist without vendoring
-   every external face into this repository. Keep them as @font-face rules
-   instead of render-blocking stylesheet links so page chrome paints quickly. */
-@font-face {
-  font-family: "Planetaire Mono Compare";
-  font-style: normal;
-  font-display: swap;
-  font-weight: 400;
-  src:
-    url("fonts/PlanetaireMonoText-Regular.woff2") format("woff2"),
-    url("https://cdn.jsdelivr.net/gh/jlevy/planetaire@v0.1.4/site/fonts/PlanetaireMonoText-Regular.woff2") format("woff2");
-}
-@font-face {
-  font-family: "Planetaire Mono Compare";
-  font-style: italic;
-  font-display: swap;
-  font-weight: 400;
-  src:
-    url("fonts/PlanetaireMonoText-Italic.woff2") format("woff2"),
-    url("https://cdn.jsdelivr.net/gh/jlevy/planetaire@v0.1.4/site/fonts/PlanetaireMonoText-Italic.woff2") format("woff2");
-}
-@font-face {
-  font-family: "Planetaire Mono Compare";
-  font-style: normal;
-  font-display: swap;
-  font-weight: 500;
-  src:
-    url("fonts/PlanetaireMonoText-Medium.woff2") format("woff2"),
-    url("https://cdn.jsdelivr.net/gh/jlevy/planetaire@v0.1.4/site/fonts/PlanetaireMonoText-Medium.woff2") format("woff2");
-}
-@font-face {
-  font-family: "Planetaire Mono Compare";
-  font-style: italic;
-  font-display: swap;
-  font-weight: 500;
-  src:
-    url("fonts/PlanetaireMonoText-MediumItalic.woff2") format("woff2"),
-    url("https://cdn.jsdelivr.net/gh/jlevy/planetaire@v0.1.4/site/fonts/PlanetaireMonoText-MediumItalic.woff2") format("woff2");
-}
-@font-face {
-  font-family: "Planetaire Mono Compare";
-  font-style: normal;
-  font-display: swap;
-  font-weight: 600;
-  src:
-    url("fonts/PlanetaireMonoText-SemiBold.woff2") format("woff2"),
-    url("https://cdn.jsdelivr.net/gh/jlevy/planetaire@v0.1.4/site/fonts/PlanetaireMonoText-SemiBold.woff2") format("woff2");
-}
-@font-face {
-  font-family: "Planetaire Mono Compare";
-  font-style: italic;
-  font-display: swap;
-  font-weight: 600;
-  src:
-    url("fonts/PlanetaireMonoText-SemiBoldItalic.woff2") format("woff2"),
-    url("https://cdn.jsdelivr.net/gh/jlevy/planetaire@v0.1.4/site/fonts/PlanetaireMonoText-SemiBoldItalic.woff2") format("woff2");
-}
-@font-face {
-  font-family: "Planetaire Mono Compare";
-  font-style: normal;
-  font-display: swap;
-  font-weight: 700;
-  src:
-    url("fonts/PlanetaireMonoText-Bold.woff2") format("woff2"),
-    url("https://cdn.jsdelivr.net/gh/jlevy/planetaire@v0.1.4/site/fonts/PlanetaireMonoText-Bold.woff2") format("woff2");
-}
-@font-face {
-  font-family: "Planetaire Mono Compare";
-  font-style: italic;
-  font-display: swap;
-  font-weight: 700;
-  src:
-    url("fonts/PlanetaireMonoText-BoldItalic.woff2") format("woff2"),
-    url("https://cdn.jsdelivr.net/gh/jlevy/planetaire@v0.1.4/site/fonts/PlanetaireMonoText-BoldItalic.woff2") format("woff2");
-}
-@font-face {
-  font-family: "Planetaire Mono Compare";
-  font-style: normal;
-  font-display: swap;
-  font-weight: 800;
-  src:
-    url("fonts/PlanetaireMonoText-ExtraBold.woff2") format("woff2"),
-    url("https://cdn.jsdelivr.net/gh/jlevy/planetaire@v0.1.4/site/fonts/PlanetaireMonoText-ExtraBold.woff2") format("woff2");
-}
-@font-face {
-  font-family: "Planetaire Mono Compare";
-  font-style: italic;
-  font-display: swap;
-  font-weight: 800;
-  src:
-    url("fonts/PlanetaireMonoText-ExtraBoldItalic.woff2") format("woff2"),
-    url("https://cdn.jsdelivr.net/gh/jlevy/planetaire@v0.1.4/site/fonts/PlanetaireMonoText-ExtraBoldItalic.woff2") format("woff2");
-}
-@font-face {
-  font-family: "Hack Compare";
-  font-style: normal;
-  font-display: swap;
-  font-weight: 400;
-  src: url("https://cdn.jsdelivr.net/npm/hack-font@3/build/web/fonts/hack-regular-subset.woff2") format("woff2");
-}
-@font-face {
-  font-family: "Hack Compare";
-  font-style: normal;
-  font-display: swap;
-  font-weight: 700;
-  src: url("https://cdn.jsdelivr.net/npm/hack-font@3/build/web/fonts/hack-bold-subset.woff2") format("woff2");
-}
-@font-face {
-  font-family: "JetBrains Mono Compare";
-  font-style: normal;
-  font-display: swap;
-  font-weight: 100 800;
-  src: url("https://cdn.jsdelivr.net/fontsource/fonts/jetbrains-mono:vf@latest/latin-wght-normal.woff2") format("woff2-variations");
-}
-@font-face {
-  font-family: "Fira Code Compare";
-  font-style: normal;
-  font-display: swap;
-  font-weight: 300 700;
-  src: url("https://cdn.jsdelivr.net/fontsource/fonts/fira-code:vf@latest/latin-wght-normal.woff2") format("woff2-variations");
-}
-@font-face {
-  font-family: "Cascadia Code Compare";
-  font-style: normal;
-  font-display: swap;
-  font-weight: 200 700;
-  src: url("https://cdn.jsdelivr.net/fontsource/fonts/cascadia-code:vf@latest/latin-wght-normal.woff2") format("woff2-variations");
-}
-@font-face {
-  font-family: "Source Code Pro Compare";
-  font-style: normal;
-  font-display: swap;
-  font-weight: 200 900;
-  src: url("https://cdn.jsdelivr.net/fontsource/fonts/source-code-pro:vf@latest/latin-wght-normal.woff2") format("woff2-variations");
-}
-@font-face {
-  font-family: "IBM Plex Mono Compare";
-  font-style: normal;
-  font-display: swap;
-  font-weight: 400;
-  src: url("https://cdn.jsdelivr.net/fontsource/fonts/ibm-plex-mono@latest/latin-400-normal.woff2") format("woff2");
-}
-@font-face {
-  font-family: "Iosevka Compare";
-  font-style: normal;
-  font-display: swap;
-  font-weight: 400;
-  src: url("https://cdn.jsdelivr.net/fontsource/fonts/iosevka@latest/latin-400-normal.woff2") format("woff2");
-}
-@font-face {
-  font-family: "Monaspace Neon Compare";
-  font-style: normal;
-  font-display: swap;
-  font-weight: 400;
-  src: url("https://cdn.jsdelivr.net/fontsource/fonts/monaspace-neon@latest/latin-400-normal.woff2") format("woff2");
-}
-@font-face {
-  font-family: "Geist Mono Compare";
-  font-style: normal;
-  font-display: swap;
-  font-weight: 100 900;
-  src: url("https://cdn.jsdelivr.net/fontsource/fonts/geist-mono:vf@latest/latin-wght-normal.woff2") format("woff2-variations");
-}
-@font-face {
-  font-family: "Inconsolata Compare";
-  font-style: normal;
-  font-display: swap;
-  font-weight: 200 900;
-  src: url("https://cdn.jsdelivr.net/fontsource/fonts/inconsolata:vf@latest/latin-wght-normal.woff2") format("woff2-variations");
-}
-@font-face {
-  font-family: "PT Mono Compare";
-  font-style: normal;
-  font-display: swap;
-  font-weight: 400;
-  src: url("https://cdn.jsdelivr.net/fontsource/fonts/pt-mono@latest/latin-400-normal.woff2") format("woff2");
-}
-
 :root {
   --compare-max: 1180px;
   --proof-size: 14px;
@@ -202,8 +23,10 @@
 }
 
 html[data-theme="dark"] {
-  --proof-border: rgba(240, 246, 252, 0.08);
-  --proof-shadow: 0 1px 10px rgba(0, 0, 0, 0.24);
+  --proof-border: rgba(240, 246, 252, 0.14);
+  --proof-shadow:
+    0 0 0 1px rgba(240, 246, 252, 0.025),
+    0 1px 10px rgba(240, 246, 252, 0.055);
 }
 
 body {
@@ -221,7 +44,7 @@ body {
 }
 
 .compare-page-header {
-  margin: 0 0 1.5rem;
+  margin: 0 0 0.85rem;
   font-family: var(--ui-font);
 }
 
@@ -358,6 +181,30 @@ body {
   width: 7.5rem;
 }
 
+.card-mode-controls {
+  display: flex;
+  flex: 0 1 auto;
+  flex-wrap: wrap;
+  gap: 0.75rem 0.9rem;
+  align-items: center;
+}
+
+.card-mode-controls[hidden],
+.font-select-wrap[hidden],
+.font-checks[hidden],
+.picker-actions[hidden] {
+  display: none;
+}
+
+.card-mode-controls.is-disabled {
+  opacity: 0.42;
+}
+
+.card-mode-controls.is-disabled,
+.card-mode-controls.is-disabled * {
+  cursor: not-allowed;
+}
+
 .check-control {
   display: inline-flex;
   gap: 0.42rem;
@@ -382,22 +229,28 @@ body {
   accent-color: var(--ink);
 }
 
-.compare-inline-theme {
-  flex: 0 0 auto;
-  margin: 0 0 0 auto;
+.compare-top-theme {
+  display: flex;
+  justify-content: flex-start;
+  margin: 0 0 0.95rem;
+  font-family: var(--ui-font);
 }
 
-.compare-inline-theme .ts-group {
+.compare-top-theme .ts-group {
   border: 1.5px solid var(--ink);
 }
 
-.compare-inline-theme .ts-opt {
+.compare-top-theme .ts-opt {
   min-width: 0;
   padding: 0.35rem 0.65rem;
   font-family: var(--ui-font);
   font-size: 0.72rem;
   font-weight: 700;
   line-height: 1.62;
+}
+
+.compare-view-tabs {
+  margin: 0 0 1rem;
 }
 
 .font-picker {
@@ -426,6 +279,80 @@ body {
   gap: 0.5rem;
 }
 
+.font-select-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  align-items: center;
+}
+
+.font-select-wrap select {
+  flex: 0 1 21rem;
+  width: min(100%, 21rem);
+  min-height: 2.55rem;
+  padding: 0.45rem 0.6rem;
+  font-family: var(--ui-font);
+  font-size: 0.9rem;
+  line-height: 1.4;
+  color: var(--ink);
+  background: var(--bg);
+  border: 1.5px solid var(--ink);
+  border-radius: var(--radius);
+  transition: var(--ui-transition);
+}
+
+.control select,
+.font-select-wrap select {
+  appearance: none;
+  border: 1px solid var(--rule);
+  padding-right: 2.1rem;
+  background-color: var(--bg);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1.5 1.5 6 6l4.5-4.5' fill='none' stroke='%23000' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-position: right 0.68rem center;
+  background-repeat: no-repeat;
+  background-size: 0.72rem 0.48rem;
+}
+
+html[data-theme="dark"] .control select,
+html[data-theme="dark"] .font-select-wrap select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1.5 1.5 6 6l4.5-4.5' fill='none' stroke='%23e6edf3' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+
+.font-select-tip {
+  display: inline-flex;
+  gap: 0.38rem;
+  align-items: center;
+  color: var(--gray);
+  font-family: var(--ui-font);
+  font-size: var(--fs-small);
+  font-weight: 400;
+  line-height: 1.4;
+  text-transform: none;
+  letter-spacing: 0;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-0.2rem);
+  transition: opacity 180ms ease, transform 180ms ease, color 360ms ease;
+  white-space: nowrap;
+}
+
+.font-select-wrap:focus-within .font-select-tip {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.font-select-tip kbd {
+  min-width: 1.4rem;
+  padding: 0.12rem 0.28rem;
+  color: var(--ink);
+  font: inherit;
+  line-height: 1.2;
+  text-align: center;
+  background: var(--bg);
+  border: 1px solid var(--rule);
+  border-radius: calc(var(--radius) * 0.6);
+}
+
 .mini-btn {
   font-family: var(--ui-font);
   font-size: 0.72rem;
@@ -447,9 +374,91 @@ body {
 }
 
 .font-checks {
+  display: block;
+}
+
+.font-group + .font-group {
+  margin-top: 1rem;
+}
+
+.font-group-title {
+  margin: 0 0 0.55rem;
+  color: var(--gray);
+  font-family: var(--ui-font);
+  font-size: var(--fs-small);
+  font-weight: 400;
+  line-height: 1.4;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.font-group-toggle {
+  display: inline-flex;
+  gap: 0.45rem;
+  align-items: center;
+  margin: 0 0 0.55rem;
+  padding: 0;
+  color: var(--gray);
+  font-family: var(--ui-font);
+  font-size: var(--fs-small);
+  font-weight: 400;
+  line-height: 1.4;
+  text-align: left;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  transition: var(--ui-transition);
+}
+
+.font-group-toggle::after {
+  content: "";
+  width: 0.42rem;
+  height: 0.42rem;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: rotate(45deg) translateY(-0.08rem);
+  transform-origin: 58% 58%;
+  transition: transform 180ms ease, border-color 360ms ease;
+}
+
+.font-group-toggle[aria-expanded="true"]::after {
+  transform: rotate(225deg) translateY(-0.08rem);
+}
+
+.font-group-toggle:hover,
+.font-group-toggle:focus {
+  color: var(--ink);
+}
+
+.font-group-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(var(--font-option-width), 1fr));
   gap: 0.55rem;
+}
+
+.font-group-more .font-group-grid {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-0.2rem);
+  transition:
+    max-height 360ms ease,
+    opacity 180ms ease,
+    transform 180ms ease,
+    visibility 0s linear 360ms;
+}
+
+.font-group-more.is-expanded .font-group-grid {
+  max-height: 90rem;
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  transition:
+    max-height 360ms ease,
+    opacity 180ms ease,
+    transform 180ms ease,
+    visibility 0s;
 }
 
 .font-option {
@@ -509,6 +518,10 @@ body {
   align-items: center;
   justify-content: center;
   justify-items: center;
+}
+
+.proof-grid.is-full-page {
+  display: block;
 }
 
 .proof {
@@ -571,6 +584,47 @@ body {
 .proof-sample::-webkit-scrollbar {
   height: 0;
   width: 0;
+}
+
+.proof-grid.is-full-page .proof {
+  width: 100%;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  background: transparent;
+  overflow: visible;
+}
+
+.proof-grid.is-full-page .proof:focus {
+  outline: 0;
+}
+
+.proof-grid.is-full-page .proof-sample {
+  height: auto;
+  max-height: none;
+  padding: 0;
+  overflow-x: auto;
+  overflow-y: visible;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(128, 128, 128, 0.45) transparent;
+}
+
+.proof-grid.is-full-page .proof-sample::-webkit-scrollbar {
+  height: 7px;
+  width: 7px;
+}
+
+.proof-grid.is-full-page .proof-sample::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.proof-grid.is-full-page .proof-sample::-webkit-scrollbar-thumb {
+  background: rgba(128, 128, 128, 0.35);
+  border-radius: 999px;
+}
+
+.proof-grid.is-full-page .proof-sample:hover::-webkit-scrollbar-thumb {
+  background: rgba(128, 128, 128, 0.55);
 }
 
 .proof-sample.is-code,
@@ -646,24 +700,29 @@ body {
 
 .proof-grid.labels-overlay .proof-foot {
   position: absolute;
-  left: 0.7rem;
-  bottom: 0.7rem;
+  top: 0.7rem;
+  right: 0.7rem;
   z-index: 2;
   width: min(var(--font-option-width), calc(100% - 1.4rem));
   max-width: calc(100% - 1.4rem);
   padding: 0.4rem 0.52rem 0.45rem;
   border: 1px solid var(--rule);
   background: rgba(246, 248, 250, 0.94);
+  box-shadow: 0 1px 8px rgba(27, 31, 36, 0.08);
   color: #57606a;
   opacity: 0;
   pointer-events: none;
-  transform: translateY(0.28rem);
+  transform: translate(0.28rem, -0.28rem);
   transition: var(--font-panel-transition);
   will-change: opacity, transform;
 }
 
 html[data-theme="dark"] .proof-grid.labels-overlay .proof-foot {
+  border-color: rgba(240, 246, 252, 0.14);
   background: rgba(48, 54, 61, 0.90);
+  box-shadow:
+    0 0 0 1px rgba(240, 246, 252, 0.025),
+    0 1px 10px rgba(240, 246, 252, 0.07);
   color: #c9d1d9;
 }
 
@@ -675,14 +734,19 @@ html[data-theme="dark"] .proof-grid.labels-overlay .proof-foot {
 .proof-grid.labels-overlay .proof:focus .proof-foot,
 .proof-grid.labels-overlay .proof:focus-within .proof-foot {
   opacity: 1;
-  transform: translateY(0);
+  transform: translate(0, 0);
 }
 
-.proof-foot .proof-title,
-.proof-foot .proof-meta {
+.proof-foot .proof-title {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.proof-foot .proof-meta {
+  overflow: visible;
+  text-overflow: clip;
+  white-space: normal;
 }
 
 .empty-state {
@@ -702,10 +766,12 @@ html[data-theme="dark"] .proof-grid.labels-overlay .proof-foot {
 
 @media (max-width: 620px) {
   .compare-wrap {
-    padding-top: 4px;
+    padding-top: 8px;
   }
 
-  .compare-inline-theme { margin-left: 0; }
+  .font-select-tip {
+    white-space: normal;
+  }
 
   .proof-foot .proof-title,
   .proof-foot .proof-meta {
@@ -715,6 +781,8 @@ html[data-theme="dark"] .proof-grid.labels-overlay .proof-foot {
 
 @media (prefers-reduced-motion: reduce) {
   .font-option,
+  .font-group-toggle::after,
+  .font-group-more .font-group-grid,
   .proof-grid.labels-overlay .proof-foot {
     transition: none;
   }

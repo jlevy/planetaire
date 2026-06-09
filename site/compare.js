@@ -1,148 +1,55 @@
-const fontDescriptions = {
-  planetaire: "B612 letters, Hack punctuation, dotted zero",
-  hack: "Source-code workhorse, Nerd Font base",
-  "fira-code": "Programming ligatures, Fira lineage",
-  "ibm-plex": "IBM Plex family",
-  jetbrains: "Developer-focused IDE face",
-  geist: "Vercel developer UI face",
-  "source-code-pro": "Adobe source family, neutral coding face",
-  "pt-mono": "Upright, serif-like monospace flavor",
-  inconsolata: "Humanist coding classic",
-  cascadia: "Windows Terminal and Visual Studio lineage",
-  iosevka: "Narrow, highly configurable coding face",
-  monaspace: "GitHub Next texture-healing family",
-};
+const fontData = window.PlanetaireFontData || { fonts: [] };
+const fonts = fontData.fonts;
 
-const fonts = [
-  {
-    id: "planetaire",
-    name: "Planetaire Mono",
-    family: "Planetaire Mono Compare",
-    source: "local WOFF2",
-    description: fontDescriptions.planetaire,
-    default: true,
-  },
-  {
-    id: "hack",
-    name: "Hack",
-    family: "Hack Compare",
-    source: "jsDelivr",
-    description: fontDescriptions.hack,
-    default: true,
-  },
-  {
-    id: "fira-code",
-    name: "Fira Code",
-    family: "Fira Code Compare",
-    source: "Fontsource",
-    description: fontDescriptions["fira-code"],
-    default: true,
-  },
-  {
-    id: "ibm-plex",
-    name: "IBM Plex Mono",
-    family: "IBM Plex Mono Compare",
-    source: "Fontsource",
-    description: fontDescriptions["ibm-plex"],
-    default: true,
-  },
-  {
-    id: "jetbrains",
-    name: "JetBrains Mono",
-    family: "JetBrains Mono Compare",
-    source: "Fontsource",
-    description: fontDescriptions.jetbrains,
-    default: true,
-  },
-  {
-    id: "geist",
-    name: "Geist Mono",
-    family: "Geist Mono Compare",
-    source: "Fontsource",
-    description: fontDescriptions.geist,
-  },
-  {
-    id: "source-code-pro",
-    name: "Source Code Pro",
-    family: "Source Code Pro Compare",
-    source: "Fontsource",
-    description: fontDescriptions["source-code-pro"],
-  },
-  {
-    id: "pt-mono",
-    name: "PT Mono",
-    family: "PT Mono Compare",
-    source: "Fontsource",
-    description: fontDescriptions["pt-mono"],
-  },
-  {
-    id: "inconsolata",
-    name: "Inconsolata",
-    family: "Inconsolata Compare",
-    source: "Fontsource",
-    description: fontDescriptions.inconsolata,
-  },
-  {
-    id: "cascadia",
-    name: "Cascadia Code",
-    family: "Cascadia Code Compare",
-    source: "Fontsource",
-    description: fontDescriptions.cascadia,
-  },
-  {
-    id: "iosevka",
-    name: "Iosevka",
-    family: "Iosevka Compare",
-    source: "Fontsource",
-    description: fontDescriptions.iosevka,
-  },
-  {
-    id: "monaspace",
-    name: "Monaspace Neon",
-    family: "Monaspace Neon Compare",
-    source: "Fontsource",
-    description: fontDescriptions.monaspace,
-  },
-];
+function cssString(value) {
+  return String(value).replace(/\\/g, "\\\\").replace(/"/g, '\\"');
+}
+
+function renderFontFace(font, face) {
+  const family = face.family || font.family;
+  const src = face.sources
+    .map((item) => `url("${cssString(item.url)}") format("${cssString(item.format || "woff2")}")`)
+    .join(",\n    ");
+
+  return `@font-face {
+  font-family: "${cssString(family)}";
+  font-style: ${face.style || "normal"};
+  font-display: swap;
+  font-weight: ${face.weight || 400};
+  src:
+    ${src};
+}`;
+}
+
+function installFontFaces() {
+  const style = document.createElement("style");
+  style.id = "compare-font-faces";
+  style.textContent = fonts
+    .flatMap((font) => (font.faces || []).map((fontFace) => renderFontFace(font, fontFace)))
+    .join("\n");
+  document.head.appendChild(style);
+}
+
+installFontFaces();
+
+function readTextSource(id) {
+  const source = document.getElementById(id);
+  return source ? source.textContent.replace(/^\n/, "").replace(/\n$/, "") : "";
+}
+
+const microgptSource = readTextSource("microgpt-source");
+const turingFullSource = readTextSource("turing-full-source");
 
 const samples = {
   prose: {
-    label: "Prose",
+    label: "Alan Turing: Computing Machinery",
     mode: "plain",
-    text: [
-      "ALAN TURING \u00B7 \u201CCOMPUTING MACHINERY AND INTELLIGENCE\u201D (1950)",
-      "",
-      "I propose to consider the question, \u201CCan machines think?\u201D This should",
-      "begin with definitions of the meaning of the terms \u201Cmachine\u201D and",
-      "\u201Cthink.\u201D The definitions might be framed so as to reflect so far as",
-      "possible the normal use of the words, but this attitude is dangerous.",
-      "If the meaning of the words \u201Cmachine\u201D and \u201Cthink\u201D are to be found",
-      "by examining how they are commonly used it is difficult to escape the",
-      "conclusion that the meaning and the answer to the question, \u201CCan",
-      "machines think?\u201D is to be sought in a statistical survey such as a",
-      "Gallup poll. But this is absurd.",
-    ].join("\n"),
+    text: turingFullSource,
   },
   code: {
-    label: "Python Source",
+    label: "microGPT Source",
     mode: "code",
-    text: `import math
-
-def analyze_trajectory(altitude: float, velocity: float) -> dict:
-    """Calculate orbital parameters."""
-
-    G = 6.674e-11  # gravitational constant
-    M = 5.972e24
-
-    if altitude > 400_000:
-        orbit_type = "LEO"
-    elif altitude > 35_786_000:
-        orbit_type = "GEO"
-    else:
-        orbit_type = "SUBORBITAL"
-
-    period = 2 * math.pi * math.sqrt(altitude**3 / (G * M))
-    return {"type": orbit_type, "period": period, "v": velocity}`,
+    text: microgptSource,
   },
   terminal: {
     label: "Terminal",
@@ -189,11 +96,17 @@ rn m  rnm  minimum  modern  memory
 };
 
 const els = {
+  cardModeControls: document.getElementById("card-mode-controls"),
   cardSize: document.getElementById("card-size"),
   checks: document.getElementById("font-checks"),
   editor: document.getElementById("sample-text"),
+  fontPickerHeading: document.getElementById("font-picker-heading"),
+  fontSelect: document.getElementById("font-select"),
+  fontSelectWrap: document.getElementById("font-select-wrap"),
   grid: document.getElementById("proof-grid"),
-  hideLabels: document.getElementById("hide-labels"),
+  showLabels: document.getElementById("show-labels"),
+  modeTabs: Array.from(document.querySelectorAll("[data-view-mode]")),
+  pickerActions: document.querySelector(".picker-actions"),
   sample: document.getElementById("sample-select"),
   size: document.getElementById("font-size"),
   fontStyle: document.getElementById("font-style"),
@@ -202,6 +115,7 @@ const els = {
 
 const SIZE_MIN = 2;
 const SIZE_MAX = 256;
+let viewMode = "cards";
 
 function escapeHtml(value) {
   return value.replace(/[&<>]/g, (ch) => ({
@@ -279,8 +193,39 @@ function selectedFontIds() {
     .map((input) => input.value);
 }
 
+function formatNpmDownloads(downloads) {
+  if (!Number.isFinite(downloads)) return "";
+  if (downloads >= 1000000) return `${(downloads / 1000000).toFixed(1)}M npm/mo`;
+  if (downloads >= 1000) return `${Math.round(downloads / 1000)}k npm/mo`;
+  return `${downloads} npm/mo`;
+}
+
+function formatAvailability(value) {
+  const labels = {
+    free: "free",
+    "free-private": "free private",
+    paid: "paid",
+    restricted: "restricted",
+    private: "private",
+  };
+  return labels[value] || value || "";
+}
+
+function fontLicenseLabel(font) {
+  const availability = formatAvailability(font.availability || font.license?.availability);
+  const license = font.license?.shortName || font.license?.spdx || font.license?.name || "";
+  if (!availability && !license) return "";
+  if (availability && license) return `${availability} ${license}`;
+  return availability || license;
+}
+
 function fontInfo(font) {
-  return `${font.description} (${font.source})`;
+  const details = [font.source];
+  const downloads = formatNpmDownloads(font.npmDownloadsLastMonth);
+  const license = fontLicenseLabel(font);
+  if (downloads) details.push(downloads);
+  if (license) details.push(license);
+  return `${font.description} (${details.join("; ")})`;
 }
 
 function currentSample() {
@@ -319,8 +264,8 @@ function measureSampleContent(sampleEl) {
   clone.style.pointerEvents = "none";
   clone.style.width = "max-content";
   clone.style.height = "auto";
-  clone.style.maxHeight = "none";
-  clone.style.overflow = "visible";
+  clone.style.maxHeight = "var(--proof-max-height)";
+  clone.style.overflow = "hidden";
   document.body.appendChild(clone);
   const rect = clone.getBoundingClientRect();
   clone.remove();
@@ -339,6 +284,7 @@ function maxCardWidthForMode(gridWidth) {
 }
 
 function syncProofDimensions() {
+  if (viewMode !== "cards") return;
   const samplesEls = Array.from(els.grid.querySelectorAll(".proof-sample"));
   if (!samplesEls.length) return;
 
@@ -368,6 +314,11 @@ function syncProofDimensions() {
 
 let proofSyncFrame = 0;
 function queueProofDimensionSync() {
+  if (viewMode !== "cards") {
+    els.grid.style.removeProperty("--proof-card-width");
+    els.grid.style.removeProperty("--proof-sample-height");
+    return;
+  }
   if (proofSyncFrame) cancelAnimationFrame(proofSyncFrame);
   proofSyncFrame = requestAnimationFrame(() => {
     proofSyncFrame = 0;
@@ -375,14 +326,54 @@ function queueProofDimensionSync() {
   });
 }
 
+function currentFullFont() {
+  return fonts.find((font) => font.id === els.fontSelect.value) || fonts[0];
+}
+
+function renderFullProof(sample, sampleHtml) {
+  const font = currentFullFont();
+  els.grid.classList.remove("labels-overlay", "is-empty");
+  els.grid.classList.add("is-full-page");
+  els.grid.innerHTML = "";
+
+  if (!font) {
+    const empty = document.createElement("div");
+    empty.className = "empty-state";
+    empty.textContent = "Choose a font to render the full-page proof.";
+    els.grid.appendChild(empty);
+    return;
+  }
+
+  const section = document.createElement("section");
+  section.className = "proof proof-full";
+  section.dataset.family = font.family;
+  section.setAttribute("aria-label", `${font.name} full-page proof`);
+
+  const pre = document.createElement("pre");
+  pre.className = `proof-sample is-${sample.mode}`;
+  pre.style.setProperty("--proof-font", `"${font.family}"`);
+  pre.tabIndex = 0;
+  pre.innerHTML = sampleHtml;
+
+  section.appendChild(pre);
+  els.grid.appendChild(section);
+}
+
 function renderProofs() {
-  const ids = new Set(selectedFontIds());
-  const selectedFonts = fonts.filter((font) => ids.has(font.id));
   const sample = currentSample();
   const text = els.editor.value;
   const sampleHtml = renderSample(text, sample.mode);
 
-  els.grid.classList.toggle("labels-overlay", Boolean(els.hideLabels?.checked));
+  if (viewMode === "full") {
+    renderFullProof(sample, sampleHtml);
+    return;
+  }
+
+  const ids = new Set(selectedFontIds());
+  const selectedFonts = fonts.filter((font) => ids.has(font.id));
+
+  els.grid.classList.remove("is-full-page");
+  els.grid.classList.toggle("labels-overlay", !Boolean(els.showLabels?.checked));
   els.grid.classList.toggle("is-empty", !selectedFonts.length);
   els.grid.innerHTML = "";
   if (!selectedFonts.length) {
@@ -418,7 +409,9 @@ function renderProofs() {
 
 function renderFontPicker() {
   els.checks.innerHTML = "";
-  for (const font of fonts) {
+  els.fontSelect.innerHTML = "";
+
+  const makeFontOption = (font) => {
     const label = document.createElement("label");
     label.className = "font-option";
     label.innerHTML = `
@@ -427,10 +420,67 @@ function renderFontPicker() {
         <span class="font-name">${escapeHtml(font.name)}</span>
         <span class="font-note">${escapeHtml(fontInfo(font))}</span>
       </span>`;
-    els.checks.appendChild(label);
+    return label;
+  };
+
+  const makeFontGroup = (title, groupFonts) => {
+    const section = document.createElement("section");
+    section.className = "font-group";
+
+    const heading = document.createElement("h3");
+    heading.className = "font-group-title";
+    heading.textContent = title;
+
+    const grid = document.createElement("div");
+    grid.className = "font-group-grid";
+    for (const font of groupFonts) grid.appendChild(makeFontOption(font));
+
+    section.append(heading, grid);
+    return section;
+  };
+
+  const popularFonts = fonts.filter((font) => font.default);
+  const moreFonts = fonts.filter((font) => !font.default);
+
+  els.checks.appendChild(makeFontGroup("Popular Fonts", popularFonts));
+
+  if (moreFonts.length) {
+    const moreSection = makeFontGroup("More Fonts", moreFonts);
+    moreSection.classList.add("font-group-more");
+
+    const heading = moreSection.querySelector(".font-group-title");
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "font-group-toggle";
+    button.setAttribute("aria-expanded", "false");
+    button.textContent = "More Fonts";
+    heading.replaceWith(button);
+
+    const grid = moreSection.querySelector(".font-group-grid");
+    grid.id = "more-fonts-grid";
+    button.setAttribute("aria-controls", grid.id);
+
+    button.addEventListener("click", () => {
+      setMoreFontsExpanded(!moreSection.classList.contains("is-expanded"));
+    });
+
+    els.checks.appendChild(moreSection);
+    syncMoreFontsExpansion();
   }
 
-  els.checks.addEventListener("change", renderProofs);
+  for (const font of fonts) {
+    const option = document.createElement("option");
+    option.value = font.id;
+    option.textContent = font.name;
+    els.fontSelect.appendChild(option);
+  }
+
+  els.fontSelect.value = fonts.find((font) => font.default)?.id || fonts[0]?.id || "";
+  els.checks.addEventListener("change", () => {
+    syncMoreFontsExpansion();
+    renderProofs();
+  });
+  els.fontSelect.addEventListener("change", renderProofs);
 }
 
 function renderSampleOptions() {
@@ -471,6 +521,56 @@ function setChecked(ids) {
   els.checks.querySelectorAll("input[type='checkbox']").forEach((input) => {
     input.checked = selected.has(input.value);
   });
+  setMoreFontsExpanded(moreFontsHaveSelection());
+  renderProofs();
+}
+
+function moreFontsHaveSelection() {
+  return Boolean(els.checks.querySelector(".font-group-more input[type='checkbox']:checked"));
+}
+
+function setMoreFontsExpanded(expanded) {
+  const section = els.checks.querySelector(".font-group-more");
+  if (!section) return;
+  section.classList.toggle("is-expanded", expanded);
+  const button = section.querySelector(".font-group-toggle");
+  if (button) button.setAttribute("aria-expanded", String(expanded));
+}
+
+function syncMoreFontsExpansion() {
+  if (moreFontsHaveSelection()) setMoreFontsExpanded(true);
+}
+
+function moveSelectOption(select, delta) {
+  const count = select.options.length;
+  if (!count) return;
+  select.selectedIndex = (select.selectedIndex + delta + count) % count;
+}
+
+function setViewMode(mode) {
+  viewMode = mode === "full" ? "full" : "cards";
+
+  els.modeTabs.forEach((tab) => {
+    const selected = tab.dataset.viewMode === viewMode;
+    tab.setAttribute("aria-selected", String(selected));
+    tab.tabIndex = selected ? 0 : -1;
+  });
+
+  const fullMode = viewMode === "full";
+  els.fontPickerHeading.textContent = fullMode ? "Font" : "Fonts";
+  els.pickerActions.hidden = fullMode;
+  els.checks.hidden = fullMode;
+  els.fontSelectWrap.hidden = !fullMode;
+  els.cardModeControls.classList.toggle("is-disabled", fullMode);
+  els.cardModeControls.setAttribute("aria-disabled", String(fullMode));
+  els.cardSize.disabled = fullMode;
+  els.showLabels.disabled = fullMode;
+
+  if (fullMode) {
+    const checked = selectedFontIds()[0];
+    if (checked) els.fontSelect.value = checked;
+  }
+
   renderProofs();
 }
 
@@ -480,15 +580,42 @@ els.editor.value = currentSample().text;
 applySize(els.size.value);
 applyFontStyle(els.fontStyle.value);
 applyWeight(els.weight.value);
-renderProofs();
+setViewMode("cards");
 
 els.sample.addEventListener("change", () => {
   els.editor.value = currentSample().text;
   renderProofs();
 });
 
+els.modeTabs.forEach((tab) => {
+  tab.addEventListener("click", () => setViewMode(tab.dataset.viewMode));
+  tab.addEventListener("keydown", (event) => {
+    if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+    event.preventDefault();
+    const current = els.modeTabs.indexOf(tab);
+    const dir = event.key === "ArrowRight" ? 1 : -1;
+    const next = els.modeTabs[(current + dir + els.modeTabs.length) % els.modeTabs.length];
+    next.focus();
+    setViewMode(next.dataset.viewMode);
+  });
+});
+
 els.editor.addEventListener("input", renderProofs);
 els.cardSize.addEventListener("change", queueProofDimensionSync);
+els.fontSelect.addEventListener("keydown", (event) => {
+  const keySteps = {
+    ArrowDown: 1,
+    ArrowRight: 1,
+    ArrowUp: -1,
+    ArrowLeft: -1,
+  };
+  const step = keySteps[event.key];
+  if (!step) return;
+  event.preventDefault();
+  moveSelectOption(els.fontSelect, step);
+  renderProofs();
+});
+
 els.size.addEventListener("keydown", (event) => {
   if (event.key !== "ArrowUp" && event.key !== "ArrowDown") return;
   event.preventDefault();
@@ -525,14 +652,14 @@ els.fontStyle.addEventListener("change", () => {
   queueProofDimensionSync();
 });
 
-els.hideLabels.addEventListener("change", renderProofs);
+els.showLabels.addEventListener("change", renderProofs);
 window.addEventListener("resize", queueProofDimensionSync);
 
 document.querySelectorAll("[data-font-action]").forEach((button) => {
   button.addEventListener("click", () => {
     if (button.dataset.fontAction === "all") setChecked(fonts.map((font) => font.id));
     if (button.dataset.fontAction === "clear") setChecked([]);
-    if (button.dataset.fontAction === "default") setChecked(fonts.filter((font) => font.default).map((font) => font.id));
+    if (button.dataset.fontAction === "popular") setChecked(fonts.filter((font) => font.default).map((font) => font.id));
   });
 });
 
