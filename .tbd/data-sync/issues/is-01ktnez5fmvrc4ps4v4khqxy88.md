@@ -5,7 +5,7 @@ title: Web-font delivery (Google Fonts model) + synthetic-weight reproducibility
 kind: epic
 status: open
 priority: 1
-version: 14
+version: 15
 labels: []
 dependencies: []
 child_order_hints:
@@ -21,7 +21,7 @@ child_order_hints:
   - is-01ktnk5acrfx5jxtqfm0ext2fe
   - is-01ktnmvbex5633f08qppcxhw3k
 created_at: 2026-06-09T05:51:28.754Z
-updated_at: 2026-06-09T07:59:57.972Z
+updated_at: 2026-06-09T18:18:18.703Z
 ---
 Make Planetaire Mono Text a first-class web font and close a weight-pipeline provenance gap found during the web-font review.
 
@@ -33,4 +33,4 @@ Reuses existing beads from epic plt-qt70: plt-ddjw (SemiBold ultra-dense logo gl
 
 ## Notes
 
-2026-06-09 map after PR #19 and first regen comparison: web split delivery is implemented as Regular/Bold upright base plus optional Regular/Bold italics under the same Planetaire Mono Text family. Remaining/active work is organized as: (1) plt-tis5 for metric-matched fallback CSS/CDN guidance; (2) plt-5qf1 closed, FontForge/provenance captured; (3) plt-hhpi closed, Hack Medium now uses the bounded dense-glyph path so clean temp regeneration completes; (4) plt-2sb5 for committing the clean B612 ExtraBold/ExtraBoldItalic lineage; (5) plt-ddjw for true full-fidelity dense Nerd Font logo glyph emboldening if we do not accept the cap exception; (6) plt-5pr6 in progress for copying/regenerating every generated source master, SHA256SUMS, and provenance docs; (7) plt-xg0o for specimen/golden/metadata/size QA, with first temp artifacts in /private/tmp/planetaire-regen-compare.2Flm4g; (8) plt-c8zu as optional outline cleanup after baseline regeneration is understood; (9) plt-89qo and plt-8cyc as later variable/OTF packaging work.
+2026-06-09 map after PR #19 and first regen comparison: web split delivery is implemented as Regular/Bold upright base plus optional Regular/Bold italics under the same Planetaire Mono Text family. The default Text web profile now ships nonempty latin, latin-ext, greek, cyrillic, and cyrillic-ext WOFF2 slices; latin-only pages still fetch only latin slices because all files are gated by unicode-range. greek-ext remains defined but excluded until the font has encoded U+1F00-1FFF coverage. Remaining/open follow-up work is organized as: (1) plt-2sb5 closed for clean B612 ExtraBold/ExtraBoldItalic lineage; (2) plt-ddjw remains open for true full-fidelity dense Nerd Font logo glyph emboldening if we do not accept the cap exception; (3) plt-c8zu remains optional outline cleanup after baseline regeneration is understood; (4) plt-89qo and plt-8cyc remain later variable/OTF packaging work. Delivery guidance, size reconciliation, source-master regeneration, visual comparison, and release-note process updates have landed in PR #19.
