@@ -96,8 +96,8 @@ body {
 .control textarea,
 .control input[type="number"] {
   font-family: var(--ui-font);
-  font-size: 0.9rem;
-  line-height: 1.4;
+  font-size: var(--control-font-size);
+  line-height: var(--control-line-height);
   color: var(--ink);
   background: var(--bg);
   border: 1px solid var(--rule);
@@ -106,13 +106,13 @@ body {
 }
 
 .control select {
-  min-height: 2.35rem;
-  padding: 0.34rem 0.55rem;
+  min-height: var(--control-min-height);
+  padding: var(--control-padding-block) var(--control-padding-inline);
 }
 
 .control input[type="number"] {
-  min-height: 2.35rem;
-  padding: 0.34rem 0.5rem;
+  min-height: var(--control-min-height);
+  padding: var(--control-padding-block) var(--control-padding-inline);
 }
 
 .control textarea {
@@ -279,11 +279,11 @@ body {
 .font-select-wrap select {
   flex: 0 1 21rem;
   width: min(100%, 21rem);
-  min-height: 2.35rem;
-  padding: 0.34rem 0.55rem;
+  min-height: var(--control-min-height);
+  padding: var(--control-padding-block) var(--control-padding-inline);
   font-family: var(--ui-font);
-  font-size: 0.9rem;
-  line-height: 1.4;
+  font-size: var(--control-font-size);
+  line-height: var(--control-line-height);
   color: var(--ink);
   background: var(--bg);
   border: 1px solid var(--rule);
@@ -295,12 +295,12 @@ body {
 .font-select-wrap select {
   appearance: none;
   border: 1px solid var(--rule);
-  padding-right: 2.1rem;
+  padding-right: var(--control-select-padding-right);
   background-color: var(--bg);
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1.5 1.5 6 6l4.5-4.5' fill='none' stroke='%23000' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-  background-position: right 0.68rem center;
+  background-position: right var(--control-select-icon-offset) center;
   background-repeat: no-repeat;
-  background-size: 0.72rem 0.48rem;
+  background-size: var(--control-select-icon-width) var(--control-select-icon-height);
 }
 
 html[data-theme="dark"] .control select,

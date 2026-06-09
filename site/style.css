@@ -51,6 +51,17 @@
   --fs-body: 1rem;
   --fs-small: 0.9rem;
 
+  /* compact, readable form controls */
+  --control-font-size: 0.9rem;
+  --control-line-height: 1.35;
+  --control-min-height: 2.1rem;
+  --control-padding-block: 0.24rem;
+  --control-padding-inline: 0.45rem;
+  --control-select-padding-right: 1.72rem;
+  --control-select-icon-offset: 0.56rem;
+  --control-select-icon-width: 0.68rem;
+  --control-select-icon-height: 0.45rem;
+
   /* Reading line-heights — exactly two (matches the PDF specimen):
      --lh standard prose/text samples (~1.5), --lh-tight terminal/code. */
   --lh: 1.5;
