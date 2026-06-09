@@ -12,7 +12,7 @@ from __future__ import annotations
 import shutil
 from pathlib import Path
 
-from planetaire.config import TEXT_FAMILY_NAME
+from planetaire.config import TEXT_FAMILY_NAME, font_stack_css_var
 
 # (source filename in fonts_dir, kind) for optional presentation assets.
 _HERO_CANDIDATES = ("terminal-dark.png", "hero.png")
@@ -83,11 +83,7 @@ def _render_index(
     if italics_css_name:
         css_links.append(f'<link rel="stylesheet" href="{italics_css_name}">')
     css_link = "\n".join(css_links)
-    font_stack = (
-        f"var(--{family.lower().replace(' ', '-')}-font-stack)"
-        if css_name
-        else "ui-monospace, monospace"
-    )
+    font_stack = f"var(--{font_stack_css_var(family)})" if css_name else "ui-monospace, monospace"
 
     hero_html = f'<img class="hero" src="{hero}" alt="Planetaire Mono sample">' if hero else ""
     demo_html = ""

@@ -20,6 +20,11 @@ FAMILY_NAME: str = "Planetaire Mono Extended"
 TEXT_FAMILY_NAME: str = "Planetaire Mono Text"
 
 
+def font_stack_css_var(family: str) -> str:
+    """Return the CSS custom property name for a generated font stack."""
+    return family.lower().replace(" ", "-") + "-font-stack"
+
+
 class TextSubsetDef(TypedDict):
     """Named web subset definition."""
 

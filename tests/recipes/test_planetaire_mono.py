@@ -2,12 +2,14 @@
 
 from __future__ import annotations
 
+import logging
 import tempfile
 from pathlib import Path
 
 import pytest
 from fontTools.ttLib import TTFont
 
+from planetaire.config import TEXT_SUBSET_GROUPS
 from planetaire.ops.info import inspect_font
 from planetaire.recipes.planetaire_mono import build_planetaire_mono, build_text
 
@@ -19,6 +21,20 @@ def source_dir() -> Path:
     if not (FONTS_SOURCE / "b612").exists() or not (FONTS_SOURCE / "hack").exists():
         pytest.skip("Source fonts not available")
     return FONTS_SOURCE
+
+
+def _css_pct(value: float) -> str:
+    text = f"{value:.1f}".rstrip("0").rstrip(".")
+    return f"{text}%"
+
+
+def _font_metric_pct(font: TTFont, metric: str) -> str:
+    hhea = font["hhea"]
+    units_per_em = font["head"].unitsPerEm
+    value = getattr(hhea, metric)
+    if metric == "descent":
+        value = abs(value)
+    return _css_pct((value / units_per_em) * 100)
 
 
 def test_build_produces_regular(source_dir: Path):
@@ -124,6 +140,10 @@ def test_build_text_split_regular(source_dir: Path):
         assert css.count("font-family: 'Planetaire Mono Text';") == 2
         assert "font-family: 'Planetaire Mono Text Fallback';" in css
         assert "--planetaire-mono-text-font-stack" in css
+        assert "size-adjust: 100%;" in css
+        assert f"ascent-override: {_font_metric_pct(latin, 'ascent')};" in css
+        assert f"descent-override: {_font_metric_pct(latin, 'descent')};" in css
+        assert f"line-gap-override: {_font_metric_pct(latin, 'lineGap')};" in css
         assert "font-style: normal" in css
         assert "font-weight: 400" in css
         assert "PlanetaireMonoText-Regular-latin.woff2" in css
@@ -151,11 +171,90 @@ def test_build_text_split_italic_companion(source_dir: Path):
 
         css = (output_dir / "planetaire-mono-text-italics.css").read_text()
         assert css.count("font-family: 'Planetaire Mono Text';") == 2
-        assert "font-family: 'Planetaire Mono Text Fallback';" in css
-        assert "--planetaire-mono-text-font-stack" in css
+        assert "font-family: 'Planetaire Mono Text Fallback';" not in css
+        assert "--planetaire-mono-text-font-stack" not in css
         assert "font-style: italic" in css
         assert "font-weight: 400" in css
         assert "unicode-range: U+0000-00FF,U+0131" in css
+
+
+def test_build_text_split_italics_companion_does_not_duplicate_fallback(source_dir: Path):
+    """Base split CSS owns the fallback stack; italic CSS stays purely additive."""
+    with tempfile.TemporaryDirectory() as tmpdir:
+        output_dir = Path(tmpdir)
+        build_text(
+            source_dir,
+            output_dir,
+            split=True,
+            subsets=("latin",),
+            formats=("woff2",),
+            include_italics=True,
+        )
+
+        base_css = (output_dir / "planetaire-mono-text.css").read_text()
+        italic_css = (output_dir / "planetaire-mono-text-italics.css").read_text()
+        combined_css = base_css + italic_css
+
+        assert "font-family: 'Planetaire Mono Text Fallback';" in base_css
+        assert "font-family: 'Planetaire Mono Text Fallback';" not in italic_css
+        assert combined_css.count("font-family: 'Planetaire Mono Text Fallback';") == 1
+        assert "--planetaire-mono-text-font-stack" in base_css
+        assert "--planetaire-mono-text-font-stack" not in italic_css
+
+
+def test_build_text_split_warns_when_non_web_formats_are_ignored(
+    source_dir: Path, caplog: pytest.LogCaptureFixture
+):
+    """Split web builds warn before defaulting a non-web-only request to WOFF2."""
+    with tempfile.TemporaryDirectory() as tmpdir:
+        output_dir = Path(tmpdir)
+        with caplog.at_level(logging.WARNING):
+            outputs = build_text(
+                source_dir,
+                output_dir,
+                variant="Regular",
+                split=True,
+                subsets=("latin",),
+                formats=("ttf",),
+            )
+
+        names = {p.name for p in outputs}
+        assert "PlanetaireMonoText-Regular-latin.woff2" in names
+        assert "PlanetaireMonoText-Regular-latin.ttf" not in names
+        assert "Split Text web build ignores non-web format(s): ttf" in caplog.text
+
+
+def test_build_text_split_skips_empty_subset(
+    source_dir: Path,
+    caplog: pytest.LogCaptureFixture,
+    monkeypatch: pytest.MonkeyPatch,
+):
+    """Requested subset names that match no encoded glyphs warn and produce no file."""
+    monkeypatch.setitem(
+        TEXT_SUBSET_GROUPS,
+        "empty",
+        {
+            "name": "empty",
+            "unicode_range": "U+10FFFF",
+            "ranges": [(0x10FFFF, 0x10FFFF)],
+        },
+    )
+
+    with tempfile.TemporaryDirectory() as tmpdir:
+        output_dir = Path(tmpdir)
+        with caplog.at_level(logging.WARNING):
+            outputs = build_text(
+                source_dir,
+                output_dir,
+                variant="Regular",
+                split=True,
+                subsets=("empty",),
+                formats=("woff2",),
+            )
+
+        assert outputs == []
+        assert "subset empty: no codepoints match U+10FFFF" in caplog.text
+        assert not any(output_dir.iterdir())
 
 
 def test_no_dangling_composite_components(source_dir: Path):

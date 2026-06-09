@@ -31,6 +31,7 @@ from planetaire.config import (
     VARIANTS,
     TextSubsetDef,
     VariantDef,
+    font_stack_css_var,
 )
 from planetaire.ops.fix import fix_font
 from planetaire.ops.merge import merge_glyphs
@@ -52,6 +53,16 @@ class FontFaceEntry:
     weight: int
     is_italic: bool
     unicode_range: str | None = None
+
+
+@dataclass(frozen=True)
+class FontFallbackMetrics:
+    """CSS metric overrides measured from a generated font."""
+
+    size_adjust: float
+    ascent_override: float
+    descent_override: float
+    line_gap_override: float
 
 
 # Mapping from ExtraBold variants to their Bold source for emboldening.
@@ -239,6 +250,7 @@ def build_planetaire_mono(
 
     outputs: list[Path] = []
     css_entries: list[FontFaceEntry] = []
+    fallback_metrics: FontFallbackMetrics | None = None
 
     for v, hack_path, b612_path in _resolve_variant_sources(source_dir, variant):
         name = v["name"]
@@ -252,6 +264,8 @@ def build_planetaire_mono(
             weight=v["weight"],
             version=font_version,
         )
+        if fallback_metrics is None:
+            fallback_metrics = _font_fallback_metrics(fixed)
 
         # Validate
         issues = validate_font(fixed, expected_weight=v["weight"])
@@ -274,7 +288,13 @@ def build_planetaire_mono(
 
     if css_entries and ("woff2" in formats or "woff" in formats):
         css_path = output_dir / "planetaire-mono-extended.css"
-        _write_font_face_css(css_path, css_entries, formats, family=FAMILY_NAME)
+        _write_font_face_css(
+            css_path,
+            css_entries,
+            formats,
+            family=FAMILY_NAME,
+            fallback_metrics=fallback_metrics,
+        )
         log.info("Wrote %s", css_path)
         outputs.append(css_path)
 
@@ -312,8 +332,13 @@ def build_text(
     outputs: list[Path] = []
     css_entries: list[FontFaceEntry] = []
     italic_css_entries: list[FontFaceEntry] = []
+    fallback_metrics: FontFallbackMetrics | None = None
     split_subset_defs = _resolve_text_subset_defs(subsets) if split else []
     split_formats = tuple(fmt for fmt in formats if fmt in {"woff2", "woff"})
+    ignored_split_formats = tuple(fmt for fmt in formats if fmt not in {"woff2", "woff"})
+    if split and ignored_split_formats:
+        ignored = ", ".join(ignored_split_formats)
+        log.warning("Split Text web build ignores non-web format(s): %s", ignored)
     if split and not split_formats:
         split_formats = ("woff2",)
     variant_names: set[str] | None = None
@@ -344,9 +369,20 @@ def build_text(
 
         stem = f"{TEXT_FAMILY_NAME.replace(' ', '')}-{name}"
         is_italic = "Italic" in name
+        if fallback_metrics is None and (not split or not is_italic):
+            fallback_metrics = _font_fallback_metrics(font)
 
         if split:
             for subset_def in split_subset_defs:
+                if not _font_has_codepoints_in_ranges(font, subset_def["ranges"]):
+                    log.warning(
+                        "Skipping %s %s subset %s: no codepoints match %s",
+                        TEXT_FAMILY_NAME,
+                        name,
+                        subset_def["name"],
+                        subset_def["unicode_range"],
+                    )
+                    continue
                 subset_font_obj = deepcopy(font)
                 subset_font(subset_font_obj, subset_def["ranges"], drop_hinting=True)
                 for fmt in split_formats:
@@ -384,6 +420,7 @@ def build_text(
             css_entries,
             split_formats if split else formats,
             family=TEXT_FAMILY_NAME,
+            fallback_metrics=fallback_metrics,
         )
         log.info("Wrote %s", css_path)
         outputs.append(css_path)
@@ -414,11 +451,12 @@ def _write_font_face_css(
     formats: tuple[str, ...],
     *,
     family: str,
+    fallback_metrics: FontFallbackMetrics | None = None,
 ) -> None:
     """Write a generated @font-face stylesheet for `family`'s web fonts."""
     blocks: list[str] = []
     fallback_family = f"{family} Fallback"
-    stack_var = _font_stack_css_var(family)
+    stack_var = font_stack_css_var(family)
     for entry in entries:
         srcs: list[str] = []
         if "woff2" in formats:
@@ -438,28 +476,50 @@ def _write_font_face_css(
             f"  src: {src};\n"
             f"}}"
         )
-    fallback_block = (
-        f":root {{\n"
-        f"  --{stack_var}: '{family}', '{fallback_family}', ui-monospace, monospace;\n"
-        f"}}\n\n"
-        f"@font-face {{\n"
-        f"  font-family: '{fallback_family}';\n"
-        f"  src: local('Menlo'), local('Consolas'), local('Liberation Mono'),\n"
-        f"       local('DejaVu Sans Mono'), local('Courier New');\n"
-        f"  size-adjust: 100%;\n"
-        f"  ascent-override: 92.8%;\n"
-        f"  descent-override: 23.6%;\n"
-        f"  line-gap-override: 0%;\n"
-        f"}}"
-    )
-    header = (
-        f"/* {family} @font-face declarations.\n"
-        f"   Generated by `planetaire build` — do not edit by hand.\n"
-        f"   Use: font-family: var(--{stack_var}); */\n\n"
-    )
-    path.write_text(header + "\n\n".join(blocks + [fallback_block]) + "\n")
+    if fallback_metrics is not None:
+        blocks.append(
+            f":root {{\n"
+            f"  --{stack_var}: '{family}', '{fallback_family}', ui-monospace, monospace;\n"
+            f"}}\n\n"
+            f"@font-face {{\n"
+            f"  font-family: '{fallback_family}';\n"
+            f"  src: local('Menlo'), local('Consolas'), local('Liberation Mono'),\n"
+            f"       local('DejaVu Sans Mono'), local('Courier New');\n"
+            f"  size-adjust: {_css_percentage(fallback_metrics.size_adjust)};\n"
+            f"  ascent-override: {_css_percentage(fallback_metrics.ascent_override)};\n"
+            f"  descent-override: {_css_percentage(fallback_metrics.descent_override)};\n"
+            f"  line-gap-override: {_css_percentage(fallback_metrics.line_gap_override)};\n"
+            f"}}"
+        )
+    header_lines = [
+        f"/* {family} @font-face declarations.",
+        "   Generated by `planetaire build` — do not edit by hand.",
+    ]
+    if fallback_metrics is not None:
+        header_lines.append(f"   Use: font-family: var(--{stack_var});")
+    header = "\n".join(header_lines) + " */\n\n"
+    path.write_text(header + "\n\n".join(blocks) + "\n")
 
 
-def _font_stack_css_var(family: str) -> str:
-    """Return the CSS custom property name for `family`'s fallback stack."""
-    return family.lower().replace(" ", "-") + "-font-stack"
+def _font_fallback_metrics(font: TTFont) -> FontFallbackMetrics:
+    """Measure CSS fallback metric overrides from the font's horizontal metrics."""
+    units_per_em = font["head"].unitsPerEm
+    hhea = font["hhea"]
+    return FontFallbackMetrics(
+        size_adjust=100.0,
+        ascent_override=(hhea.ascent / units_per_em) * 100,
+        descent_override=(abs(hhea.descent) / units_per_em) * 100,
+        line_gap_override=(hhea.lineGap / units_per_em) * 100,
+    )
+
+
+def _css_percentage(value: float) -> str:
+    """Format a CSS percentage compactly while keeping one decimal when needed."""
+    text = f"{value:.1f}".rstrip("0").rstrip(".")
+    return f"{text}%"
+
+
+def _font_has_codepoints_in_ranges(font: TTFont, ranges: list[tuple[int, int]]) -> bool:
+    """Return true when at least one encoded glyph falls within `ranges`."""
+    cmap = font.getBestCmap() or {}
+    return any(start <= codepoint <= end for codepoint in cmap for start, end in ranges)
