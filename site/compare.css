@@ -87,9 +87,9 @@ body {
   display: block;
   color: var(--gray);
   font-family: var(--ui-font);
-  font-size: 0.72rem;
+  font-size: var(--chrome-caps-size);
   font-weight: 700;
-  letter-spacing: 0.04em;
+  letter-spacing: var(--chrome-caps-letter-spacing);
   line-height: 1.4;
   text-transform: uppercase;
   margin: 0 0 0.45rem;
@@ -246,9 +246,9 @@ body {
   display: inline-block;
   color: var(--gray);
   font-family: var(--ui-font);
-  font-size: 0.72rem;
+  font-size: var(--chrome-caps-size);
   font-weight: 700;
-  letter-spacing: 0.04em;
+  letter-spacing: var(--chrome-caps-letter-spacing);
   line-height: 1.4;
   text-transform: uppercase;
 }
@@ -385,11 +385,11 @@ html[data-theme="dark"] .font-select-wrap select {
 
 .mini-btn {
   font-family: var(--ui-font);
-  font-size: 0.72rem;
+  font-size: var(--chrome-caps-size);
   font-weight: 700;
   line-height: 1.4;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: var(--chrome-caps-letter-spacing);
   color: var(--ink);
   background: var(--bg);
   border: 1px solid var(--rule);

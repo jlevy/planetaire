@@ -50,6 +50,8 @@
   --fs-h2: 1.625rem;
   --fs-body: 1rem;
   --fs-small: 0.9rem;
+  --chrome-caps-size: 0.82rem;
+  --chrome-caps-letter-spacing: 0.04em;
 
   /* compact, readable form controls */
   --control-font-size: 0.9rem;
@@ -283,8 +285,8 @@ em, i { font-style: italic; }
 /* one small-gray-caps label style for every section sublabel */
 .label {
   color: var(--gray);
-  font-size: var(--fs-small);
-  letter-spacing: 0.04em;
+  font-size: var(--chrome-caps-size);
+  letter-spacing: var(--chrome-caps-letter-spacing);
   text-transform: uppercase;
   margin: 1.4rem 0 0.5rem;
 }
@@ -310,10 +312,10 @@ em, i { font-style: italic; }
 .site-nav-tab, .site-nav-external, .tab-opt {
   display: inline-block;
   font-family: var(--ui-font);
-  font-size: 0.72rem;
+  font-size: var(--chrome-caps-size);
   font-weight: var(--fw-bold);
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: var(--chrome-caps-letter-spacing);
   text-decoration: none;
   color: var(--gray);
   border-radius: 0;
@@ -394,10 +396,10 @@ em, i { font-style: italic; }
 .btn {
   display: inline-block;
   font-family: var(--ui-font);
-  font-size: 0.72rem;
+  font-size: var(--chrome-caps-size);
   font-weight: var(--fw-bold);
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: var(--chrome-caps-letter-spacing);
   text-decoration: none;
   line-height: 1.62;
   padding: 0.35rem 0.65rem;
@@ -474,7 +476,7 @@ th { font-weight: var(--fw-bold); background: var(--surface); }
 .specgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem 2rem; margin: 1.2rem 0; }
 .specgroup + .specgroup { margin-top: 1.2rem; }
 .specgroup h4 {
-  color: var(--gray); font-size: var(--fs-small); letter-spacing: 0.04em; text-transform: uppercase;
+  color: var(--gray); font-size: var(--chrome-caps-size); letter-spacing: var(--chrome-caps-letter-spacing); text-transform: uppercase;
   font-weight: var(--fw-bold); margin: 0 0 0.65rem; padding-bottom: 0.3rem; border-bottom: 1px solid var(--rule);
 }
 .specrow { display: flex; justify-content: space-between; gap: 1rem; padding: 0.12rem 0; }
@@ -599,9 +601,9 @@ footer a:hover {
 .theme-switch { display: inline-flex; justify-content: center; margin: 2.8rem 0 0; font-family: var(--ui-font); }
 .theme-switch .ts-group { display: inline-flex; border: 1.5px solid var(--ink); border-radius: var(--radius); overflow: hidden; }
 .theme-switch .ts-opt {
-  font-family: var(--ui-font); font-weight: var(--fw-bold); font-size: 0.72rem;
+  font-family: var(--ui-font); font-weight: var(--fw-bold); font-size: var(--chrome-caps-size);
   line-height: 1.62;   /* <button> won't inherit it; match .btn so heights are equal */
-  text-transform: uppercase; letter-spacing: 0.04em;
+  text-transform: uppercase; letter-spacing: var(--chrome-caps-letter-spacing);
   min-width: 0; text-align: center; padding: 0.35rem 0.65rem; cursor: pointer;
   background: var(--bg); color: var(--gray); border: none;
   transition: var(--ui-transition);
