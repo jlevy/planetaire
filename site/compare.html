@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Planetaire Mono Font Comparator</title>
+<title>What Is the Best Monospace Font? | Planetaire Mono</title>
 <meta name="description" content="Compare Planetaire Mono against selectable monospace fonts with editable code, terminal, prose, and confusable-character samples.">
 
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jlevy/planetaire@5ee5d56e841b4fedbeb7d99ef55d9856998a2ac3/fonts/web/planetaire-mono-text.css">
-<link rel="stylesheet" href="style.css?v=20260609-control-scale-1">
-<link rel="stylesheet" href="compare.css?v=20260609-left-view-tabs-1">
+<link rel="stylesheet" href="style.css?v=20260609-centered-nav-1">
+<link rel="stylesheet" href="compare.css?v=20260609-question-title-2">
 
 <script>
 (function () {
@@ -75,17 +75,24 @@
   </nav>
 
   <header class="compare-page-header">
-    <h1>Monospace Font Comparisons</h1>
+    <h1>What Is the Best Monospace Font?</h1>
+    <p class="compare-page-subtitle">
+      Tired from spending more time in a terminal with agents than with your friends?
+      Perhaps you need to reconsider your priorities—and pick a better monospace font!
+    </p>
   </header>
 
-  <div class="theme-switch compare-top-theme" role="group" aria-label="Theme">
-    <span class="ts-group">
-      <button type="button" class="ts-opt" data-theme-set="light">Light</button>
-      <button type="button" class="ts-opt" data-theme-set="dark">Dark</button>
-    </span>
-  </div>
-
   <section class="compare-controls" aria-label="Comparison controls">
+    <div class="control control-theme">
+      <span class="control-label">Theme</span>
+      <div class="theme-switch compare-top-theme" role="group" aria-label="Theme">
+        <span class="ts-group">
+          <button type="button" class="ts-opt" data-theme-set="light">Light</button>
+          <button type="button" class="ts-opt" data-theme-set="dark">Dark</button>
+        </span>
+      </div>
+    </div>
+
     <div class="control">
       <label for="sample-select">Text Sample</label>
       <select id="sample-select"></select>
@@ -113,6 +120,11 @@
         <option value="700">700</option>
         <option value="800">800</option>
       </select>
+    </div>
+
+    <div class="control control-line-height">
+      <label for="line-height">Line Height</label>
+      <input id="line-height" class="line-height-input" type="number" min="0.1" step="any" value="1.5" inputmode="decimal">
     </div>
 
     <div class="control control-text">
@@ -153,10 +165,10 @@
     </div>
     <div class="font-select-wrap" id="font-select-wrap" hidden>
       <select id="font-select" aria-labelledby="font-picker-heading" aria-describedby="font-select-tip"></select>
-      <span class="font-select-tip" id="font-select-tip">
-        <kbd>↑</kbd><kbd>↓</kbd>
-        <span>Use arrow keys to change font</span>
-      </span>
+    </div>
+    <div class="font-select-tip" id="font-select-tip" hidden>
+      <kbd>←</kbd><kbd>→</kbd>
+      <span>Use left and right arrow keys to change font</span>
     </div>
     <div class="font-checks" id="font-checks"></div>
   </section>
@@ -506,6 +518,6 @@ Messages
    unused.
 </script>
 <script src="compare-fonts.js?v=20260609-font-groups-1"></script>
-<script src="compare.js?v=20260609-font-group-chevrons-1"></script>
+<script src="compare.js?v=20260609-full-page-keys-1"></script>
 </body>
 </html>
