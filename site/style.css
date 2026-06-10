@@ -506,14 +506,6 @@ i {
   justify-content: center;
   margin: var(--hero-stack-gap) 0 0;
 }
-.compare-cta {
-  display: flex;
-  justify-content: center;
-  margin: var(--hero-stack-gap) 0 0;
-}
-.compare-cta + .theme-switch {
-  margin-top: 1rem;
-}
 .btn {
   display: inline-flex;
   align-items: center;
