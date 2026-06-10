@@ -15,7 +15,8 @@ into two steps so there is always a review gate before anything is committed:
     0. Require committed curated notes at docs/release/notes/vX.Y.Z.md.
     1. Build the fonts locally (so Typst can render the specimen with the real glyphs;
        the version baked into these throwaway local binaries does not matter).
-    2. Refresh the committed static-site web fonts in site/fonts/.
+    2. Refresh the committed public web fonts in fonts/web/ and the static-site copy in
+       site/fonts/.
     3. Rebuild the committed specimen PDF with `--version X.Y.Z` stamped explicitly.
     4. Re-pin every release-controlled jsDelivr CDN link in README.md and site/ to
        `planetaire@vX.Y.Z` (a plain search/replace from the previous ref — no template
@@ -24,10 +25,10 @@ into two steps so there is always a review gate before anything is committed:
     5. Leave those changes in the working tree and print the diff. STOP for review.
 
   finalize X.Y.Z
-    6. Commit the site fonts + PDF + release-controlled CDN pins as `release: vX.Y.Z`
-       and tag that commit `vX.Y.Z`.
+    6. Commit the web fonts + PDF + release-controlled CDN pins as `release: vX.Y.Z` and
+       tag that commit `vX.Y.Z`.
 
-After finalize the specimen PDF and static-site web fonts served by
+After finalize the specimen PDF and public web fonts served by
 `cdn.jsdelivr.net/gh/jlevy/planetaire@vX.Y.Z/` are byte-for-byte the committed files in
 the tag, and the fonts CI builds from the same tag also reports X.Y.Z. Everything agrees
 by construction, not by timing.
@@ -54,6 +55,7 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 README = REPO_ROOT / "README.md"
 SPECIMEN_PDF = REPO_ROOT / "docs/specimen/planetaire-mono-specimen.pdf"
 FONT_OUTPUT = REPO_ROOT / "fonts/output"
+PUBLIC_WEB_FONTS = REPO_ROOT / "fonts/web"
 SITE_FONTS = REPO_ROOT / "site/fonts"
 # Files with production jsDelivr refs that must move together at release time. Keep
 # examples/placeholders out of these files or avoid writing them as full jsDelivr URLs.
@@ -62,6 +64,7 @@ CDN_PINNED_PATHS = [
     "site/index.html",
     "site/compare.html",
     "site/compare-fonts.js",
+    "fonts/web",
     "site/fonts",
 ]
 # Paths the release commit is allowed to touch, relative to the repo root.
@@ -175,8 +178,8 @@ def rewrite_cdn_links(tag: str) -> int:
     return total
 
 
-def sync_site_web_fonts() -> int:
-    """Copy freshly built Text web fonts into site/fonts/ and remove stale outputs."""
+def sync_web_font_dir(target_dir: Path) -> int:
+    """Copy freshly built Text web fonts into target_dir and remove stale outputs."""
     sources = [
         *sorted(FONT_OUTPUT.glob("PlanetaireMonoText-*.woff2")),
         *sorted(FONT_OUTPUT.glob("planetaire-mono-text*.css")),
@@ -188,14 +191,23 @@ def sync_site_web_fonts() -> int:
     if not any(path.name == "planetaire-mono-text.css" for path in sources):
         fail("fonts/output/planetaire-mono-text.css is missing")
 
-    SITE_FONTS.mkdir(parents=True, exist_ok=True)
+    target_dir.mkdir(parents=True, exist_ok=True)
     for pattern in ("PlanetaireMonoText-*.woff2", "planetaire-mono-text*.css"):
-        for stale in SITE_FONTS.glob(pattern):
+        for stale in target_dir.glob(pattern):
             stale.unlink()
     for source_path in sources:
-        shutil.copy2(source_path, SITE_FONTS / source_path.name)
-    print(f"  site/fonts/: refreshed {len(sources)} Text web font file(s)")
+        shutil.copy2(source_path, target_dir / source_path.name)
+    rel = target_dir.relative_to(REPO_ROOT)
+    print(f"  {rel}/: refreshed {len(sources)} Text web font file(s)")
     return len(sources)
+
+
+def sync_web_fonts() -> None:
+    """Refresh both the public CDN copy and the Pages-local copy."""
+    public_count = sync_web_font_dir(PUBLIC_WEB_FONTS)
+    site_count = sync_web_font_dir(SITE_FONTS)
+    if public_count != site_count:
+        fail("fonts/web and site/fonts refreshed different file counts")
 
 
 def cmd_prepare(args: argparse.Namespace) -> None:
@@ -220,8 +232,8 @@ def cmd_prepare(args: argparse.Namespace) -> None:
         run(["uv", "run", "planetaire", "build", "planetaire-mono"])
         run(["uv", "run", "planetaire", "build", "text"])
 
-    print("\nRefresh site web fonts:")
-    sync_site_web_fonts()
+    print("\nRefresh web fonts:")
+    sync_web_fonts()
 
     print("\nBuild specimen:")
     run(["uv", "run", "planetaire", "build", "specimen", "--version", version])
@@ -230,7 +242,7 @@ def cmd_prepare(args: argparse.Namespace) -> None:
     rewrite_cdn_links(tag)
 
     if not out(["git", "status", "--porcelain", "--", *RELEASE_PATHS]):
-        fail("nothing changed — the site fonts, PDF, and CDN pins already match this version")
+        fail("nothing changed — the web fonts, PDF, and CDN pins already match this version")
 
     print(f"\nPrepared {tag}. Review the changes below, then finalize.\n")
     run(["git", "--no-pager", "diff", "--stat", "--", *RELEASE_PATHS])
@@ -282,7 +294,7 @@ def main() -> None:
     )
     sub = parser.add_subparsers(dest="step", required=True)
 
-    p = sub.add_parser("prepare", help="Build + refresh site fonts + re-pin CDN links")
+    p = sub.add_parser("prepare", help="Build + refresh web fonts + re-pin CDN links")
     p.add_argument("version", help="Release version, e.g. 0.1.4 (no leading v)")
     p.add_argument("--no-build", action="store_true", help="Reuse fonts/output instead of rebuilding")
     p.set_defaults(func=cmd_prepare)

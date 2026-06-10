@@ -30,9 +30,9 @@
    ../docs/website.runbook.md before editing content here.
    ========================================================================= */
 
-/* Font faces are declared in site/fonts/planetaire-mono-text.css and loaded through
-   the pinned CDN link in index.html. The whole page is set in Planetaire Mono Text —
-   live type. */
+/* Font faces are declared in fonts/web/planetaire-mono-text.css and loaded through the
+   pinned CDN link in index.html. The same files are copied to site/fonts/ for the
+   Pages-local /fonts/... path. The whole page is set in Planetaire Mono Text — live type. */
 
 :root {
   /* two text colors */
@@ -51,17 +51,31 @@
   --fs-h2: 1.625rem;
   --fs-body: 1rem;
   --fs-small: 0.9rem;
+  --chrome-caps-size: 0.82rem;
+  --chrome-caps-letter-spacing: 0.04em;
 
   /* compact, readable form controls */
+  --chrome-border-width: 1px;
+  --focus-ring-width: 1px;
   --control-font-size: 0.9rem;
   --control-line-height: 1.35;
-  --control-min-height: 2.1rem;
+  --control-height: 2.1rem;
+  --button-height: var(--control-height);
+  --compact-button-height: 1.75rem;
+  --control-min-height: var(--control-height);
   --control-padding-block: 0.24rem;
   --control-padding-inline: 0.45rem;
+  --button-padding-inline: 0.65rem;
+  --compact-button-padding-inline: 0.52rem;
+  --tab-padding-block-start: 0.55rem;
+  --tab-padding-block-end: 0.45rem;
+  --tab-padding-inline: 0.32rem;
+  --tab-indicator-width: 3px;
   --control-select-padding-right: 1.72rem;
   --control-select-icon-offset: 0.56rem;
   --control-select-icon-width: 0.68rem;
   --control-select-icon-height: 0.45rem;
+  --hero-stack-gap: 3rem;
 
   /* Reading line-heights — exactly two (matches the PDF specimen):
      --lh standard prose/text samples (~1.5), --lh-tight terminal/code. */
@@ -238,7 +252,7 @@ input[type="checkbox"] {
   height: 1rem;
   color: var(--ink);
   background: transparent;
-  border: 1px solid var(--gray);
+  border: var(--chrome-border-width) solid var(--gray);
   border-radius: calc(var(--radius) * 0.8);
   cursor: pointer;
   transition: var(--ui-transition);
@@ -248,8 +262,8 @@ input[type="checkbox"]::before {
   content: "";
   width: 0.5rem;
   height: 0.28rem;
-  border-left: 1.5px solid currentColor;
-  border-bottom: 1.5px solid currentColor;
+  border-left: var(--chrome-border-width) solid currentColor;
+  border-bottom: var(--chrome-border-width) solid currentColor;
   opacity: 0;
   transform: translateY(-0.08rem) rotate(-45deg) scale(0.75);
   transition: var(--ui-transition);
@@ -265,7 +279,7 @@ input[type="checkbox"]:checked::before {
 }
 
 input[type="checkbox"]:focus-visible {
-  outline: 2px solid var(--ink);
+  outline: var(--focus-ring-width) solid var(--ink);
   outline-offset: 2px;
 }
 
@@ -331,7 +345,7 @@ a:hover {
 }
 a:focus-visible,
 button:focus-visible {
-  outline: 1.5px solid var(--ink);
+  outline: var(--focus-ring-width) solid var(--ink);
   outline-offset: 3px;
 }
 
@@ -352,8 +366,8 @@ i {
 /* one small-gray-caps label style for every section sublabel */
 .label {
   color: var(--gray);
-  font-size: var(--fs-small);
-  letter-spacing: 0.04em;
+  font-size: var(--chrome-caps-size);
+  letter-spacing: var(--chrome-caps-letter-spacing);
   text-transform: uppercase;
   margin: 1.4rem 0 0.5rem;
 }
@@ -361,12 +375,12 @@ i {
 /* ---- Top nav ------------------------------------------------------------- */
 
 .site-nav {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   align-items: flex-end;
   gap: 1.7rem;
   width: min(var(--nav-max), calc(100vw - 40px));
-  margin: 0 0 4.25rem 50%;
+  margin: 0 0 2rem 50%;
   transform: translateX(-50%);
   border-bottom: 1px solid var(--rule);
   font-family: var(--ui-font);
@@ -375,16 +389,18 @@ i {
   display: flex;
   flex-wrap: wrap;
   gap: 1.7rem;
+  grid-column: 2;
+  justify-self: center;
 }
 .site-nav-tab,
 .site-nav-external,
 .tab-opt {
   display: inline-block;
   font-family: var(--ui-font);
-  font-size: 0.72rem;
+  font-size: var(--chrome-caps-size);
   font-weight: var(--fw-bold);
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: var(--chrome-caps-letter-spacing);
   text-decoration: none;
   color: var(--gray);
   border-radius: 0;
@@ -392,23 +408,24 @@ i {
 }
 .site-nav-tab,
 .site-nav-external {
-  padding: 0.2rem 0 0.45rem;
-  border-bottom: 2px solid transparent;
+  padding: var(--tab-padding-block-start) var(--tab-padding-inline) var(--tab-padding-block-end);
+  border-bottom: var(--tab-indicator-width) solid transparent;
   margin-bottom: -1px;
 }
 .tab-opt {
-  padding: 0.55rem 0 0.45rem;
-  border-bottom: 2px solid transparent;
+  padding: var(--tab-padding-block-start) var(--tab-padding-inline) var(--tab-padding-block-end);
+  border-bottom: var(--tab-indicator-width) solid transparent;
   margin-bottom: -1px;
 }
 .site-nav-external {
-  flex: 0 0 auto;
+  grid-column: 3;
+  justify-self: end;
 }
 .site-nav-tab:hover,
 .site-nav-external:hover,
 .tab-opt:hover {
   color: var(--ink);
-  background: transparent;
+  background: var(--hover-bg);
 }
 .site-nav-tab[aria-current="page"] {
   color: var(--ink);
@@ -456,18 +473,28 @@ i {
   font-size: 1.3rem;
   letter-spacing: 0.05em;
   line-height: 1.6;
-  margin: 3rem 0 1.6rem;
+  margin: var(--hero-stack-gap) 0;
 }
 .hero-intro {
-  max-width: 42rem;
+  max-width: 62ch;
   margin: 0 auto;
-  text-align: left;
+  font-size: 1.15rem;
+  line-height: 1.55;
+  text-align: center;
 }
 .hero-intro p {
   margin: 0;
 }
 .hero-intro p + p {
-  margin-top: 1rem;
+  margin-top: 1.3rem;
+}
+
+.about-intro {
+  margin: 0 0 2.4rem;
+}
+
+.about-intro + h2 {
+  margin-top: 0;
 }
 
 /* ---- Buttons ------------------------------------------------------------- */
@@ -477,19 +504,30 @@ i {
   gap: 12px;
   flex-wrap: wrap;
   justify-content: center;
-  margin: 2.6rem 0 0;
+  margin: var(--hero-stack-gap) 0 0;
+}
+.compare-cta {
+  display: flex;
+  justify-content: center;
+  margin: var(--hero-stack-gap) 0 0;
+}
+.compare-cta + .theme-switch {
+  margin-top: 1rem;
 }
 .btn {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--button-height);
   font-family: var(--ui-font);
-  font-size: 0.72rem;
+  font-size: var(--chrome-caps-size);
   font-weight: var(--fw-bold);
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: var(--chrome-caps-letter-spacing);
   text-decoration: none;
-  line-height: 1.62;
-  padding: 0.35rem 0.65rem;
-  border: 1.5px solid var(--ink);
+  line-height: var(--control-line-height);
+  padding: 0 var(--button-padding-inline);
+  border: var(--chrome-border-width) solid var(--ink);
   border-radius: var(--radius);
   color: var(--ink);
   background: var(--bg);
@@ -501,16 +539,12 @@ i {
 }
 
 @media (max-width: 620px) {
+  :root {
+    --hero-stack-gap: 2.2rem;
+  }
+
   .hero .planet-frame {
     margin-bottom: 2.2rem;
-  }
-
-  .hero .lineage {
-    margin: 1.7rem 0 0.6rem;
-  }
-
-  .cta {
-    margin-top: 0.8rem;
   }
 }
 
@@ -526,7 +560,7 @@ i {
 }
 .tab-opt {
   border: 0;
-  border-bottom: 2px solid transparent;
+  border-bottom: var(--tab-indicator-width) solid transparent;
   background: transparent;
   cursor: pointer;
 }
@@ -609,8 +643,8 @@ th {
 }
 .specgroup h4 {
   color: var(--gray);
-  font-size: var(--fs-small);
-  letter-spacing: 0.04em;
+  font-size: var(--chrome-caps-size);
+  letter-spacing: var(--chrome-caps-letter-spacing);
   text-transform: uppercase;
   font-weight: var(--fw-bold);
   margin: 0 0 0.65rem;
@@ -953,25 +987,29 @@ footer a:hover {
 .theme-switch {
   display: inline-flex;
   justify-content: center;
-  margin: 2.8rem 0 0;
+  margin: var(--hero-stack-gap) 0 0;
   font-family: var(--ui-font);
 }
 .theme-switch .ts-group {
   display: inline-flex;
-  border: 1.5px solid var(--ink);
+  min-height: var(--button-height);
+  border: var(--chrome-border-width) solid var(--ink);
   border-radius: var(--radius);
   overflow: hidden;
 }
 .theme-switch .ts-opt {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   font-family: var(--ui-font);
   font-weight: var(--fw-bold);
-  font-size: 0.72rem;
-  line-height: 1.62; /* <button> won't inherit it; match .btn so heights are equal */
+  font-size: var(--chrome-caps-size);
+  line-height: var(--control-line-height);
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: var(--chrome-caps-letter-spacing);
   min-width: 0;
   text-align: center;
-  padding: 0.35rem 0.65rem;
+  padding: 0 var(--button-padding-inline);
   cursor: pointer;
   background: var(--bg);
   color: var(--gray);
@@ -979,7 +1017,7 @@ footer a:hover {
   transition: var(--ui-transition);
 }
 .theme-switch .ts-opt + .ts-opt {
-  border-left: 1.5px solid var(--ink);
+  border-left: var(--chrome-border-width) solid var(--ink);
 }
 .theme-switch .ts-opt[aria-pressed="true"] {
   background: var(--ink);

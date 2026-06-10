@@ -1,6 +1,8 @@
 const fontData = window.PlanetaireFontData || { fonts: [] };
 /** @type {PlanetaireFont[]} */
 const fonts = fontData.fonts;
+const installedFontFaceIds = new Set();
+let backgroundFontLoadStarted = false;
 
 /**
  * @template {HTMLElement} T
@@ -48,16 +50,107 @@ function renderFontFace(font, face) {
 }`;
 }
 
-function installFontFaces() {
-  const style = document.createElement("style");
-  style.id = "compare-font-faces";
-  style.textContent = fonts
-    .flatMap((font) => (font.faces || []).map((fontFace) => renderFontFace(font, fontFace)))
-    .join("\n");
-  document.head.appendChild(style);
+function fontFaceId(font, face) {
+  return [font.id, face.family || font.family, face.style || "normal", face.weight || 400].join(
+    "|",
+  );
 }
 
-installFontFaces();
+function installFontFacesFor(fontList) {
+  const rules = [];
+  for (const font of fontList) {
+    for (const face of font.faces || []) {
+      const id = fontFaceId(font, face);
+      if (installedFontFaceIds.has(id)) {
+        continue;
+      }
+      installedFontFaceIds.add(id);
+      rules.push(renderFontFace(font, face));
+    }
+  }
+  if (!rules.length) {
+    return;
+  }
+
+  let style = document.getElementById("compare-font-faces");
+  if (!style) {
+    style = document.createElement("style");
+    style.id = "compare-font-faces";
+    document.head.appendChild(style);
+  }
+  style.appendChild(document.createTextNode(`${style.textContent ? "\n" : ""}${rules.join("\n")}`));
+}
+
+function currentProofFontSpec() {
+  const styles = getComputedStyle(document.documentElement);
+  const fontStyle = styles.getPropertyValue("--proof-style").trim() || "normal";
+  const fontWeight = styles.getPropertyValue("--proof-weight").trim() || "400";
+  const fontSize = styles.getPropertyValue("--proof-size").trim() || "16px";
+  return `${fontStyle} ${fontWeight} ${fontSize}`;
+}
+
+let fontLoadSyncRun = 0;
+function queueRenderedFontSync(fontList) {
+  if (!document.fonts || !fontList.length) {
+    return;
+  }
+  const run = ++fontLoadSyncRun;
+  const fontSpec = currentProofFontSpec();
+  Promise.all(
+    fontList.map((font) =>
+      document.fonts.load(`${fontSpec} "${cssString(font.family)}"`).catch(() => []),
+    ),
+  ).then(() => {
+    if (run === fontLoadSyncRun) {
+      queueProofDimensionSync();
+    }
+  });
+}
+
+function scheduleIdleTask(callback) {
+  if ("requestIdleCallback" in window) {
+    window.requestIdleCallback(callback, { timeout: 2500 });
+    return;
+  }
+  setTimeout(callback, 900);
+}
+
+function scheduleBackgroundFontLoading() {
+  if (backgroundFontLoadStarted) {
+    return;
+  }
+  backgroundFontLoadStarted = true;
+
+  const popularIds = new Set(popularFontIds());
+  const remainingFonts = fonts.filter((font) => !popularIds.has(font.id));
+  let nextIndex = 0;
+
+  const loadNextFont = () => {
+    const font = remainingFonts[nextIndex];
+    nextIndex += 1;
+    if (!font) {
+      return;
+    }
+
+    installFontFacesFor([font]);
+    if (!document.fonts) {
+      scheduleIdleTask(loadNextFont);
+      return;
+    }
+
+    document.fonts
+      .load(`${currentProofFontSpec()} "${cssString(font.family)}"`)
+      .catch(() => [])
+      .then(() => scheduleIdleTask(loadNextFont));
+  };
+
+  const startLoading = () => scheduleIdleTask(loadNextFont);
+  if (document.readyState === "complete") {
+    startLoading();
+  } else {
+    window.addEventListener("load", startLoading, { once: true });
+  }
+}
 
 function readTextSource(id) {
   const source = document.getElementById(id);
@@ -135,7 +228,9 @@ const els = {
   editor: /** @type {HTMLTextAreaElement} */ (requireElementById("sample-text")),
   fontPickerHeading: requireElementById("font-picker-heading"),
   fontSelect: /** @type {HTMLSelectElement} */ (requireElementById("font-select")),
+  fontSelectTip: requireElementById("font-select-tip"),
   fontSelectWrap: requireElementById("font-select-wrap"),
+  fontPicker: requireElement(".font-picker"),
   grid: requireElementById("proof-grid"),
   showLabels: /** @type {HTMLInputElement} */ (requireElementById("show-labels")),
   modeTabs: Array.from(
@@ -146,11 +241,13 @@ const els = {
   sample: /** @type {HTMLSelectElement} */ (requireElementById("sample-select")),
   size: /** @type {HTMLInputElement} */ (requireElementById("font-size")),
   fontStyle: /** @type {HTMLSelectElement} */ (requireElementById("font-style")),
+  lineHeight: /** @type {HTMLInputElement} */ (requireElementById("line-height")),
   weight: /** @type {HTMLSelectElement} */ (requireElementById("font-weight")),
 };
 
 const SIZE_MIN = 2;
 const SIZE_MAX = 256;
+const LINE_HEIGHT_DEFAULT = 1.5;
 let viewMode = "cards";
 
 function escapeHtml(value) {
@@ -241,6 +338,37 @@ function selectedFontIds() {
   return Array.from(els.checks.querySelectorAll("input[type='checkbox']:checked")).map(
     (input) => /** @type {HTMLInputElement} */ (input).value,
   );
+}
+
+function sameIdSet(left, right) {
+  if (left.length !== right.length) {
+    return false;
+  }
+  const selected = new Set(left);
+  return right.every((id) => selected.has(id));
+}
+
+function popularFontIds() {
+  return fonts.filter((font) => font.default).map((font) => font.id);
+}
+
+function allFontIds() {
+  return fonts.map((font) => font.id);
+}
+
+function syncFontActionState() {
+  const selected = selectedFontIds();
+  document.querySelectorAll("[data-font-action]").forEach((button) => {
+    const actionButton = /** @type {HTMLElement} */ (button);
+    let pressed = false;
+    if (actionButton.dataset.fontAction === "popular") {
+      pressed = sameIdSet(selected, popularFontIds());
+    }
+    if (actionButton.dataset.fontAction === "all") {
+      pressed = sameIdSet(selected, allFontIds());
+    }
+    actionButton.setAttribute("aria-pressed", String(pressed));
+  });
 }
 
 function formatNpmDownloads(downloads) {
@@ -430,19 +558,33 @@ function renderFullProof(sample, sampleHtml) {
     return;
   }
 
+  installFontFacesFor([font]);
+
   const section = document.createElement("section");
   section.className = "proof proof-full";
   section.dataset.family = font.family;
+  section.tabIndex = 0;
   section.setAttribute("aria-label", `${font.name} full-page proof`);
+  section.setAttribute("aria-describedby", "font-select-tip");
+  section.addEventListener("keydown", (event) => {
+    const step = fullProofKeyStep(event);
+    if (!step) {
+      return;
+    }
+    event.preventDefault();
+    changeFullFont(step);
+  });
 
   const pre = document.createElement("pre");
   pre.className = `proof-sample is-${sample.mode}`;
   pre.style.setProperty("--proof-font", `"${font.family}"`);
   pre.tabIndex = 0;
+  pre.setAttribute("aria-describedby", "font-select-tip");
   pre.innerHTML = sampleHtml;
 
   section.appendChild(pre);
   els.grid.appendChild(section);
+  queueRenderedFontSync([font]);
 }
 
 function renderProofs() {
@@ -457,6 +599,7 @@ function renderProofs() {
 
   const ids = new Set(selectedFontIds());
   const selectedFonts = fonts.filter((font) => ids.has(font.id));
+  installFontFacesFor(selectedFonts);
 
   els.grid.classList.remove("is-full-page");
   els.grid.classList.toggle("labels-overlay", !els.showLabels?.checked);
@@ -491,6 +634,7 @@ function renderProofs() {
   }
 
   queueProofDimensionSync();
+  queueRenderedFontSync(selectedFonts);
 }
 
 function renderFontPicker() {
@@ -587,9 +731,11 @@ function renderFontPicker() {
   els.fontSelect.value = fonts.find((font) => font.default)?.id || fonts[0]?.id || "";
   els.checks.addEventListener("change", () => {
     syncMoreFontsExpansion();
+    syncFontActionState();
     renderProofs();
   });
   els.fontSelect.addEventListener("change", renderProofs);
+  syncFontActionState();
 }
 
 function renderSampleOptions() {
@@ -602,12 +748,24 @@ function formatSizeValue(value) {
   return Number.isInteger(value) ? String(value) : String(value).replace(/\.?0+$/, "");
 }
 
+function formatDecimalValue(value) {
+  return String(value).replace(/\.?0+$/, "");
+}
+
 function coerceSize(value) {
   const parsed = Number.parseFloat(value);
   if (!Number.isFinite(parsed)) {
     return null;
   }
   return Math.min(Math.max(parsed, SIZE_MIN), SIZE_MAX);
+}
+
+function coerceLineHeight(value) {
+  const parsed = Number.parseFloat(value);
+  if (!Number.isFinite(parsed) || parsed <= 0) {
+    return null;
+  }
+  return parsed;
 }
 
 function applySize(value, { syncInput = false } = {}) {
@@ -621,6 +779,19 @@ function applySize(value, { syncInput = false } = {}) {
     els.size.value = formatted;
   }
   return size;
+}
+
+function applyLineHeight(value, { syncInput = false } = {}) {
+  const lineHeight = coerceLineHeight(value);
+  if (lineHeight === null) {
+    return null;
+  }
+  const formatted = formatDecimalValue(lineHeight);
+  document.documentElement.style.setProperty("--proof-line-height", formatted);
+  if (syncInput) {
+    els.lineHeight.value = formatted;
+  }
+  return lineHeight;
 }
 
 function applyWeight(value) {
@@ -645,6 +816,7 @@ function setChecked(ids, options = {}) {
   } else {
     setMoreFontsExpanded(moreFontsHaveSelection());
   }
+  syncFontActionState();
   renderProofs();
 }
 
@@ -685,6 +857,36 @@ function moveSelectOption(select, delta) {
   select.selectedIndex = (select.selectedIndex + delta + count) % count;
 }
 
+function changeFullFont(delta) {
+  if (viewMode !== "full") {
+    return false;
+  }
+  const proofHadFocus = document.activeElement && els.grid.contains(document.activeElement);
+  moveSelectOption(els.fontSelect, delta);
+  renderProofs();
+  if (proofHadFocus) {
+    const proof =
+      els.grid.querySelector(".proof-full .proof-sample") || els.grid.querySelector(".proof-full");
+    if (proof) {
+      /** @type {HTMLElement} */ (proof).focus({ preventScroll: true });
+    }
+  }
+  return true;
+}
+
+function fullProofKeyStep(event) {
+  if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) {
+    return 0;
+  }
+  if (event.key === "ArrowRight") {
+    return 1;
+  }
+  if (event.key === "ArrowLeft") {
+    return -1;
+  }
+  return 0;
+}
+
 function setViewMode(mode) {
   viewMode = mode === "full" ? "full" : "cards";
 
@@ -696,9 +898,11 @@ function setViewMode(mode) {
 
   const fullMode = viewMode === "full";
   els.fontPickerHeading.textContent = fullMode ? "Font" : "Fonts";
+  els.fontPicker.classList.toggle("is-full-mode", fullMode);
   els.pickerActions.hidden = fullMode;
   els.checks.hidden = fullMode;
   els.fontSelectWrap.hidden = !fullMode;
+  els.fontSelectTip.hidden = !fullMode;
   els.cardModeControls.hidden = fullMode;
   els.cardModeControls.classList.toggle("is-disabled", fullMode);
   els.cardModeControls.setAttribute("aria-disabled", String(fullMode));
@@ -721,7 +925,9 @@ els.editor.value = currentSample().text;
 applySize(els.size.value);
 applyFontStyle(els.fontStyle.value);
 applyWeight(els.weight.value);
+applyLineHeight(els.lineHeight.value);
 setViewMode("cards");
+scheduleBackgroundFontLoading();
 
 els.sample.addEventListener("change", () => {
   els.editor.value = currentSample().text;
@@ -797,6 +1003,23 @@ els.size.addEventListener("change", () => {
   queueProofDimensionSync();
 });
 
+els.lineHeight.addEventListener("input", () => {
+  if (applyLineHeight(els.lineHeight.value) !== null) {
+    queueProofDimensionSync();
+  }
+});
+
+els.lineHeight.addEventListener("change", () => {
+  if (applyLineHeight(els.lineHeight.value, { syncInput: true }) === null) {
+    els.lineHeight.value = formatDecimalValue(
+      coerceLineHeight(
+        getComputedStyle(document.documentElement).getPropertyValue("--proof-line-height"),
+      ) || LINE_HEIGHT_DEFAULT,
+    );
+  }
+  queueProofDimensionSync();
+});
+
 els.weight.addEventListener("change", () => {
   applyWeight(els.weight.value);
   queueProofDimensionSync();
@@ -814,22 +1037,16 @@ document.querySelectorAll("[data-font-action]").forEach((button) => {
   const actionButton = /** @type {HTMLElement} */ (button);
   actionButton.addEventListener("click", () => {
     if (actionButton.dataset.fontAction === "all") {
-      setChecked(
-        fonts.map((font) => font.id),
-        { expandPopular: true },
-      );
+      setChecked(allFontIds(), { expandPopular: true });
     }
     if (actionButton.dataset.fontAction === "clear") {
       setChecked([], { expandPopular: true });
     }
     if (actionButton.dataset.fontAction === "popular") {
-      setChecked(
-        fonts.filter((font) => font.default).map((font) => font.id),
-        {
-          collapseMore: true,
-          expandPopular: true,
-        },
-      );
+      setChecked(popularFontIds(), {
+        collapseMore: true,
+        expandPopular: true,
+      });
     }
   });
 });
