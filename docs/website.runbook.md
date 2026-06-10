@@ -7,7 +7,8 @@ The same content lives in **three formats**, and they must agree:
 
 1. **`README.md`** — the GitHub landing page (prose, tables, config snippets).
 2. **The PDF specimen** — `docs/specimen/*.typ` → `planetaire-mono-specimen.pdf`.
-3. **The static site** — `site/index.html` + `site/style.css`, deployed to GitHub Pages.
+3. **The static site** — `site/index.html` + `site/style.css`, published at
+   `https://ojoshe.com/planetaire/` (see §7).
 
 There is **no generator** — all three are edited by hand.
 (The old `planetaire build site` / `build html-specimen` recipes were retired; `site/`
@@ -22,7 +23,9 @@ This runbook covers **content provenance, assets, and deployment** only.
 
 ## 1. Site structure
 
-`site/` is self-contained and deployable as a GitHub Pages root — no `../` references:
+`site/` is self-contained and relative-linked — no `../` references and no host-absolute
+internal URLs — so it can be served unchanged from any host or subpath (today:
+`https://ojoshe.com/planetaire/`):
 
 ```
 site/
@@ -30,10 +33,11 @@ site/
   style.css                   # all styling; see site/design-system.md
   design-system.md            # the CSS/visual design system (co-located with style.css)
   assets/
-    little-planet.svg         # vendored from docs/images/ (see §3)
+    little-planet.svg         # vendored from docs/images/ (see §4)
+    social-card.png           # 1200×630 OpenGraph/Twitter card image (see §§3–4)
   fonts/
     planetaire-mono-text.css  # @font-face for the Text web faces
-    PlanetaireMonoText-*.woff2 # vendored from the Text release/build output (see §3)
+    PlanetaireMonoText-*.woff2 # vendored from the Text release/build output (see §4)
 ```
 
 The page renders **in the actual font** (the Text web subset), which is the whole point
@@ -44,8 +48,8 @@ jsDelivr `/gh/` URL rather than directly from GitHub Pages.
 The pin is an exact release tag or commit SHA, never `@main` or `@latest`, so font CSS
 and WOFF2 files get immutable CDN caching and a normal search-and-replace pin bump busts
 the cache immediately.
-The same files also remain in `site/fonts/`, which GitHub Pages publishes as
-`/fonts/...` from the project site root.
+The same files also remain in `site/fonts/`, published as `fonts/...` relative to the
+site root.
 
 * * *
 
@@ -78,7 +82,7 @@ the site’s HTML copy is manual.
 | **A palette** (`pal-dark` / `pal-light`) in `content.typ` | the `--l-*` / `--d-*` CSS vars at the top of `site/style.css` (a 1:1 copy of the hex values) |
 | **Spec values** (metrics, glyph counts) because the font was rebuilt | the spec page in `planetaire-mono-specimen.typ` **and** the `.specgrid` block in `site/index.html` (hand-copied numbers — re-check them all) |
 | **Section order** in `README.md` | keep matching prose/table/demo content in `site/index.html`; preserve the site’s About / Samples / Installation tab grouping unless the site IA is intentionally revised |
-| **The fonts** (new release) | run the release script so it refreshes `fonts/web/` + `site/fonts/` and bumps the pinned jsDelivr refs (see §3), then re-check the spec numbers |
+| **The fonts** (new release) | run the release script so it refreshes `fonts/web/` + `site/fonts/` and bumps the pinned jsDelivr refs (see §4), then re-check the spec numbers |
 
 ### Intentional divergences (do NOT “fix” these)
 
@@ -99,9 +103,44 @@ The site is deliberately **not** a pixel copy of the PDF:
 
 * * *
 
-## 3. Refreshing vendored assets
+## 3. Social sharing metadata
 
-Two things are vendored into `site/` from sources elsewhere in the repo / releases.
+The static pages are published at `https://ojoshe.com/planetaire/`. Keep canonical,
+OpenGraph, and Twitter card URLs absolute so unfurlers such as iMessage, Slack,
+Mastodon, Bluesky, LinkedIn, Facebook, and Twitter/X can resolve them without depending
+on browser base-URL behavior.
+
+Both pages use `summary_large_image` and the shared 1200×630 PNG at
+`site/assets/social-card.png`, published as:
+
+```
+https://ojoshe.com/planetaire/assets/social-card.png
+```
+
+Use page-specific titles and descriptions:
+
+| Page | Canonical URL | Share title |
+| --- | --- | --- |
+| `index.html` | `https://ojoshe.com/planetaire/` | `Planetaire Mono — a beautiful, highly legible monospace font` |
+| `compare.html` | `https://ojoshe.com/planetaire/compare.html` | `What is the best monospace font?` |
+
+Keep each page’s `description`, `og:description`, and `twitter:description` identical:
+
+- Homepage:
+  `Planetaire Mono is a beautiful, highly legible monospace font for terminals, editors, and agentic work: B612 letterforms, Hack infrastructure, Nerd Font icons.`
+- Compare page:
+  `Compare Planetaire Mono against selectable monospace fonts with editable code, terminal, prose, and confusable-character samples.`
+
+If the card artwork changes, keep the output at exactly **1200×630** and update
+`og:image:width`, `og:image:height`, and the image alt text if needed.
+For major visual changes, consider changing the filename as well because social scrapers
+cache image URLs aggressively.
+
+* * *
+
+## 4. Refreshing vendored assets
+
+Three things are vendored into `site/` from sources elsewhere in the repo / releases.
 
 **Planet graphic** — `site/assets/little-planet.svg` is a copy of
 `docs/images/little-planet-vector-trace-v3.svg` (the source of truth, also used by the
@@ -112,9 +151,18 @@ If that SVG changes:
 cp docs/images/little-planet-vector-trace-v3.svg site/assets/little-planet.svg
 ```
 
+**Social card** — `site/assets/social-card.png` is a 1200×630 crop of
+`docs/images/header.png` that keeps the planet, title, and lineage text while dropping
+the smaller lower tagline for better social-preview legibility.
+Regenerate it from the current header image with:
+
+```bash
+magick docs/images/header.png -crop 3117x1636+0+205 +repage -resize 1200x630 site/assets/social-card.png
+```
+
 **Web fonts** — `fonts/web/` is the committed public web distribution for jsDelivr, and
-`site/fonts/` is the GitHub Pages-local copy published as `/fonts/...`. Both are copies
-of the `PlanetaireMono-Text` web output.
+`site/fonts/` is the site-local copy published as `fonts/...` relative to the site root.
+Both are copies of the `PlanetaireMono-Text` web output.
 Production HTML loads `fonts/web/` from jsDelivr’s `/gh/` endpoint at a pinned ref, but
 jsDelivr can only serve files that are present in the tagged commit.
 It cannot unpack the GitHub Release `.tar.xz` archive.
@@ -147,7 +195,7 @@ release-controlled pins in `README.md` and `site/` to `@vX.Y.Z`.
 
 * * *
 
-## 4. Local validation
+## 5. Local validation
 
 The site is committed source, so the build step is a quality gate rather than a bundler.
 Run it before committing site changes:
@@ -176,13 +224,13 @@ make lint-check  # CI-style check mode
 ```
 
 The npm tooling is intentionally exact-pinned in `package.json` and frozen by
-`package-lock.json`. Local validation requires Node/npm; CI installs Node 24 and runs the
-same scripts developers run locally.
+`package-lock.json`. Local validation requires Node/npm; CI installs Node 24 and runs
+the same scripts developers run locally.
 
 For the release checklist and manual browser pass, see
 [`docs/site-release-validation.md`](site-release-validation.md).
 
-## 5. Local preview
+## 6. Local preview
 
 Preview through the same static server shape used by the release checklist:
 
@@ -195,14 +243,25 @@ Then open `http://127.0.0.1:8765/`. Fonts and assets use relative paths, so dire
 
 * * *
 
-## 6. Deploy (GitHub Pages)
+## 7. Deploy (ojoshe.com/planetaire)
 
-Deployment is automated by
-[`.github/workflows/pages.yml`](../.github/workflows/pages.yml): on push to `main` that
-touches `site/**`, it uploads `site/` as the Pages artifact and publishes it.
-Enable it once under **Settings → Pages → Build and deployment → Source: GitHub
-Actions**.
+The site’s canonical (and only) home is `https://ojoshe.com/planetaire/`. It is served
+by the separate ojoshe.com site, which publishes this repo’s committed `site/` directory
+as-is under `/planetaire/` and owns the domain, DNS, and HTTPS. There is no build step
+on the planetaire side — `site/` is the deployable artifact.
 
-To deploy a content change: make the edits (keeping the three formats in sync per §2),
-merge to `main`, and the workflow publishes the updated `site/`. You can also trigger it
-manually from the Actions tab (`workflow_dispatch`).
+[`.github/workflows/notify-ojoshe.yml`](../.github/workflows/notify-ojoshe.yml) keeps
+the published site current: on a push to `main` touching `site/**` (or a published
+release), it fires a `repository_dispatch` event of type `planetaire-release`, and
+ojoshe.com redeploys with the latest `site/` content.
+It needs the `OJOSHE_DISPATCH_TOKEN` repo secret (a fine-grained PAT with contents
+read/write on the ojoshe repo), since the default `GITHUB_TOKEN` cannot dispatch
+cross-repo.
+
+So to deploy a content change: make the edits (keeping the three formats in sync per §2)
+and merge to `main` — propagation is automatic from there.
+
+History: through 2026-06-10 the site self-published to GitHub Pages at
+`https://jlevy.github.io/planetaire/` via a `pages.yml` workflow.
+That deploy is retired and the old URL no longer serves; see
+[`plan-2026-06-10-migrate-hosting-to-ojoshe.md`](project/specs/active/plan-2026-06-10-migrate-hosting-to-ojoshe.md).

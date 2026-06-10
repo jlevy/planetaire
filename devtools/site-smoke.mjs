@@ -22,7 +22,7 @@ const pages = [
     file: "compare.html",
     checks(window) {
       const document = window.document;
-      assertText(document.querySelector("h1"), "What Is the Best Monospace Font?", "compare h1");
+      assertText(document.querySelector("h1"), "What is the best monospace font?", "compare h1");
       assertAtLeast(
         document.querySelectorAll("#font-checks input[type='checkbox']").length,
         6,

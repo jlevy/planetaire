@@ -1,8 +1,9 @@
 # Static site release validation
 
-Use this checklist for every meaningful `site/` release or GitHub Pages deploy. The
-automated checks should stay small and fast; the manual pass covers the judgment calls
-that static tools cannot make reliably.
+Use this checklist for every meaningful `site/` release or deploy to the live site at
+`https://ojoshe.com/planetaire/` (see `website.runbook.md` §7). The automated checks
+should stay small and fast; the manual pass covers the judgment calls that static tools
+cannot make reliably.
 
 ## Automated gate
 
@@ -39,8 +40,8 @@ uv run pytest
 If fonts, specimen data, or vendored web fonts changed, also run the relevant font build
 checks from `docs/fonts-build-and-release.md`.
 
-When adding or upgrading npm dev tools, use exact versions and confirm the selected package
-version has been published for at least 14 days before committing the lockfile.
+When adding or upgrading npm dev tools, use exact versions and confirm the selected
+package version has been published for at least 14 days before committing the lockfile.
 
 ## Manual browser pass
 
@@ -62,7 +63,8 @@ Check these items before approving a release:
   placeholder text.
 - Comparator renders default proof cards; sample, size, weight, style, card/page view,
   font selection, show-labels, popular/all/clear controls all respond.
-- Desktop width and a narrow mobile width have no horizontal overflow or text collisions.
+- Desktop width and a narrow mobile width have no horizontal overflow or text
+  collisions.
 - Keyboard tab order reaches nav, theme controls, tabs, form controls, and proofs with a
   visible focus state.
 - Release links point at the intended version: latest release, specimen PDF, jsDelivr
@@ -72,16 +74,18 @@ Check these items before approving a release:
 
 ## When to do a heavier pass
 
-The default smoke test is intentionally not a full browser automation suite. Add a
-temporary or permanent Playwright-style browser pass only when a change depends on real
-layout, canvas, font measurement, animation timing, media loading, or cross-browser
+The default smoke test is intentionally not a full browser automation suite.
+Add a temporary or permanent Playwright-style browser pass only when a change depends on
+real layout, canvas, font measurement, animation timing, media loading, or cross-browser
 behavior that `jsdom` cannot observe.
 
-For ordinary copy, CSS, static asset, and plain JavaScript changes, the automated gate plus
-the manual browser pass above is the expected release floor.
+For ordinary copy, CSS, static asset, and plain JavaScript changes, the automated gate
+plus the manual browser pass above is the expected release floor.
 
 ## Post-deploy check
 
-After merging to `main`, confirm the Pages workflow is green and spot-check the live Pages
-URL with the same two-page browser pass. If the live site differs from local preview, check
-cache-busted CSS/JS query strings and versioned CDN links first.
+After merging to `main`, confirm the `Notify ojoshe.com to rebuild` workflow run is
+green, then spot-check `https://ojoshe.com/planetaire/` with the same two-page browser
+pass once the host has redeployed.
+If the live site differs from local preview, check cache-busted CSS/JS query strings and
+versioned CDN links first.
