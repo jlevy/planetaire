@@ -21,10 +21,11 @@ and open source use.
 
 **[Download the Fonts (TTF, WOFF2) →](https://github.com/jlevy/planetaire/releases/latest)**
 
-<p align="center"> <a href="https://ojoshe.com/planetaire/"><picture>
-<source media="(prefers-color-scheme: dark)" srcset="docs/images/code-dark.png">
-<img src="docs/images/code-light.png" width="100%" alt="A syntax-highlighted analyze_trajectory() Python function set in Planetaire Mono">
-</picture></a> </p>
+<p align="center">
+<a href="https://ojoshe.com/planetaire/"><img src="docs/images/text-dark.png" width="100%" alt="Alan Turing's “Can machines think?” passage set in Planetaire Mono on a dark background"></a>
+<br>
+<a href="https://ojoshe.com/planetaire/"><img src="docs/images/text-light.png" width="100%" alt="The same Alan Turing passage on a light background"></a>
+</p>
 
 ## About B612
 
@@ -113,9 +114,9 @@ agents, editors, and terminals.
 ## Specimens
 
 <p align="center">
-<a href="https://ojoshe.com/planetaire/"><img src="docs/images/text-dark.png" width="100%" alt="A prose passage set in Planetaire Mono on a dark background, showing body-text legibility"></a>
+<a href="https://ojoshe.com/planetaire/"><img src="docs/images/code-dark.png" width="100%" alt="A syntax-highlighted analyze_trajectory() Python function in Planetaire Mono on a dark background"></a>
 <br>
-<a href="https://ojoshe.com/planetaire/"><img src="docs/images/text-light.png" width="100%" alt="The same prose passage in Planetaire Mono on a light background"></a>
+<a href="https://ojoshe.com/planetaire/"><img src="docs/images/code-light.png" width="100%" alt="The same Python function on a light background"></a>
 </p>
 
 <p align="center">
