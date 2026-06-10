@@ -780,7 +780,7 @@ html[data-theme="dark"] .font-select-wrap select {
   opacity: 0;
   pointer-events: none;
   transform: translateX(-50%);
-  transition: opacity 160ms ease;
+  transition: opacity 360ms ease;
   will-change: opacity;
 }
 
