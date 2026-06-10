@@ -137,18 +137,17 @@ All button text is **CAPS** (via `text-transform`, authored mixed-case).
   tab’s own bottom border (`--tab-indicator-width`), so it always matches the hover
   background width.
 - **Top nav:** a minimal gray caps row above the hero. Planetaire and Compare are page
-  tabs, left-aligned on a hairline rule and using the same active underline as the main
-  About / Samples / Installation tabs. The nav expands to the shared wide compare-page
-  width on large screens while the homepage content remains on its narrower reading
-  column. GitHub is an external link, separated at right with an arrow and no active-tab
-  state.
+  tabs centered on a hairline rule and using the same active underline as the main About
+  / Samples / Installation tabs. The nav expands to the shared wide compare-page width
+  on large screens while the homepage content remains on its narrower reading column.
+  GitHub is an external link, pinned at right with an arrow and no active-tab state.
 - **Compare page header:** a compact utility-page title in the sans-serif UI face, with
   optional italic gray supporting copy below it. Keep this lighter than the homepage
   hero so the controls and proofs remain the primary interface.
-- **Buttons:** two in the hero — *Download Fonts* (latest GitHub release) and *Specimen
-  PDF →* (opens the PDF in a new tab). Identical style: `--ink` border, transparent
-  fill, invert on hover. No primary/secondary distinction.
-- **Theme switch:** a centered Light/Dark control directly below the CTAs (not a corner
+- **Buttons:** hero actions use identical style: `--ink` border, transparent fill, and
+  invert on hover. No primary/secondary distinction. Keep the Compare Fonts CTA as its
+  own centered row directly above the theme switch.
+- **Theme switch:** a centered Light/Dark control below the hero CTAs (not a corner
   toggle) — seeing the font on both backgrounds is a primary way to evaluate it. Two
   **equal-width** segments; the **current** theme is the filled (emphasized) segment,
   the other muted gray, so the fill alone shows the position (no label). Flips

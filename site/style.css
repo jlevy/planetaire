@@ -307,8 +307,8 @@ em, i { font-style: italic; }
 /* ---- Top nav ------------------------------------------------------------- */
 
 .site-nav {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   align-items: flex-end;
   gap: 1.7rem;
   width: min(var(--nav-max), calc(100vw - 40px));
@@ -321,6 +321,8 @@ em, i { font-style: italic; }
   display: flex;
   flex-wrap: wrap;
   gap: 1.7rem;
+  grid-column: 2;
+  justify-self: center;
 }
 .site-nav-tab, .site-nav-external, .tab-opt {
   display: inline-block;
@@ -345,7 +347,8 @@ em, i { font-style: italic; }
   margin-bottom: -1px;
 }
 .site-nav-external {
-  flex: 0 0 auto;
+  grid-column: 3;
+  justify-self: end;
 }
 .site-nav-tab:hover, .site-nav-external:hover, .tab-opt:hover {
   color: var(--ink);
@@ -416,6 +419,8 @@ em, i { font-style: italic; }
 /* ---- Buttons ------------------------------------------------------------- */
 
 .cta { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin: var(--hero-stack-gap) 0 0; }
+.compare-cta { display: flex; justify-content: center; margin: var(--hero-stack-gap) 0 0; }
+.compare-cta + .theme-switch { margin-top: 1rem; }
 .btn {
   display: inline-flex;
   align-items: center;
