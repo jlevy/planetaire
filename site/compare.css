@@ -848,8 +848,10 @@ html[data-theme="dark"] .proof-grid.labels-overlay .proof-foot {
 @media (prefers-reduced-motion: reduce) {
   .font-option,
   .font-group-toggle::before,
-  .font-group.is-collapsible .font-group-grid,
-  .proof-grid.labels-overlay .proof-foot {
+  .font-group.is-collapsible .font-group-grid {
     transition: none;
   }
+
+  /* The overlay tooltip keeps its opacity fade: it is a static crossfade,
+     not movement, and popping in instantly is harsher than the fade. */
 }
