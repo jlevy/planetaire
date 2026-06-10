@@ -5,9 +5,10 @@
 Planetaire Mono is a beautiful, highly legible monospace font for terminals, editors,
 and agentic work.
 
-Planetaire Mono adapts [B612 Mono](https://github.com/polarsys/b612) for modern use by
-adding weights, punctuation and symbols from
-[Hack](https://github.com/source-foundry/Hack), and optional icons from
+[B612](https://github.com/polarsys/b612) is the typeface Airbus developed and validated
+in legibility studies for cockpit displays.
+Planetaire Mono adapts B612 Mono for modern use by adding weights, punctuation and
+symbols from [Hack](https://github.com/source-foundry/Hack), and optional icons from
 [Nerd Fonts](https://github.com/ryanoasis/nerd-fonts).
 The result is highly usable and [licensed freely](#license) for personal, commercial,
 and open source use.
@@ -19,6 +20,11 @@ and open source use.
 **[Read the Type Specimen (PDF) →](https://cdn.jsdelivr.net/gh/jlevy/planetaire@v0.1.5/docs/specimen/planetaire-mono-specimen.pdf)**
 
 **[Download the Fonts (TTF, WOFF2) →](https://github.com/jlevy/planetaire/releases/latest)**
+
+<p align="center"> <a href="https://ojoshe.com/planetaire/"><picture>
+<source media="(prefers-color-scheme: dark)" srcset="docs/images/code-dark.png">
+<img src="docs/images/code-light.png" width="100%" alt="A syntax-highlighted analyze_trajectory() Python function set in Planetaire Mono">
+</picture></a> </p>
 
 ## About B612
 
@@ -128,12 +134,6 @@ agents, editors, and terminals.
 <a href="https://ojoshe.com/planetaire/"><img src="docs/images/waterfall-dark.png" width="100%" alt="Planetaire Mono from 8pt to 44pt with a large legibility line, on a dark background"></a>
 <br>
 <a href="https://ojoshe.com/planetaire/"><img src="docs/images/waterfall-light.png" width="100%" alt="The same size waterfall on a light background"></a>
-</p>
-
-<p align="center">
-<a href="https://ojoshe.com/planetaire/"><img src="docs/images/code-dark.png" width="100%" alt="A syntax-highlighted analyze_trajectory() Python function in Planetaire Mono on a dark background"></a>
-<br>
-<a href="https://ojoshe.com/planetaire/"><img src="docs/images/code-light.png" width="100%" alt="The same Python function in Planetaire Mono on a light background"></a>
 </p>
 
 <p align="center">
