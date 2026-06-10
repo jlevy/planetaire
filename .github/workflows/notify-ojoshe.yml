@@ -1,0 +1,35 @@
+name: Notify ojoshe.com to rebuild
+
+# The static site in site/ is published at https://ojoshe.com/planetaire/ — its
+# canonical home — by the separate ojoshe.com site, which serves this repo's committed
+# site/ directory as-is under /planetaire/. See docs/website.runbook.md §6.
+#
+# That site's deploy workflow listens for a `repository_dispatch` event of type
+# `planetaire-release` and redeploys with the latest site/ content when it arrives.
+# This workflow fires that event whenever published site content changes here.
+#
+# Required repo secret: OJOSHE_DISPATCH_TOKEN — a fine-grained PAT scoped to the
+# ojoshe repo with "Contents: read and write". (The default GITHUB_TOKEN cannot send
+# dispatches to another repository.)
+
+on:
+  release:
+    types: [published]
+  push:
+    branches: [main]
+    paths: ["site/**"]
+
+permissions:
+  contents: read
+
+jobs:
+  dispatch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send planetaire-release dispatch
+        run: |
+          gh api repos/jlevy/ojoshe/dispatches \
+            -f event_type=planetaire-release \
+            -F 'client_payload[ref]=${{ github.ref_name }}'
+        env:
+          GH_TOKEN: ${{ secrets.OJOSHE_DISPATCH_TOKEN }}
