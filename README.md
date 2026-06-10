@@ -5,10 +5,12 @@
 Planetaire Mono is a beautiful, highly legible monospace font for terminals, editors,
 and agentic work.
 
-Planetaire Mono adapts [B612 Mono](https://github.com/polarsys/b612) for modern use by adding
-weights, punctuation and symbols from [Hack](https://github.com/source-foundry/Hack), and optional
-icons from [Nerd Fonts](https://github.com/ryanoasis/nerd-fonts).
-The result is highly usable and [licensed freely](#license) for personal, commercial, and open source use.
+Planetaire Mono adapts [B612 Mono](https://github.com/polarsys/b612) for modern use by
+adding weights, punctuation and symbols from
+[Hack](https://github.com/source-foundry/Hack), and optional icons from
+[Nerd Fonts](https://github.com/ryanoasis/nerd-fonts).
+The result is highly usable and [licensed freely](#license) for personal, commercial,
+and open source use.
 
 **[View Planetaire →](https://ojoshe.com/planetaire/)**
 
@@ -27,8 +29,8 @@ for cockpit screens: text a pilot can read correctly while fatigued, at oblique 
 or under vibration, glare, or near-darkness.
 
 The shapes were derived experimentally before they were drawn.
-Jean-Luc Vinot (ENAC) and Sylvie Athènes (Toulouse III) built confusion matrices of when
-and how characters get misread
+Jean-Luc Vinot (ENAC) and Sylvie Athènes (Toulouse III) built confusion matrices of
+which characters readers mistake for others
 (“[Legible, are you sure?](https://dl.acm.org/doi/10.1145/2207676.2208387)” at CHI
 2012). In their controlled study, the prototype that became B612 drew slightly more
 correct reads than Verdana and clearly outperformed the legacy avionics font.
@@ -47,19 +49,16 @@ counters, and lengthens ascenders and descenders.
 Each word’s silhouette resolves quickly.
 At stroke junctions it carries small notches (light traps) that keep joins from filling
 in on bright, low-contrast displays.
-The result has quietly human character quirks that are grounded in measured legibility
-gains rather than style.
 In 2017, B612 was released as open source through the Eclipse
 [Polarsys](https://github.com/polarsys/b612) project.
 
 ## About Planetaire Mono
 
-By historical accident, B612 alone is not a usable document or application font.
-The versions in circulation, including the one
-[on Google Fonts](https://fonts.google.com/specimen/B612+Mono), have oddities and uneven
-symbols that make them awkward for use in modern applications and terminals.
-Planetaire Mono arises from this need.
-It merges B612’s letters and digits into Hack Nerd Font’s base:
+B612 as it circulates today, including the version
+[on Google Fonts](https://fonts.google.com/specimen/B612+Mono), has oddities and uneven
+symbols that make it awkward in modern applications and terminals.
+Planetaire Mono fixes this by merging B612’s letters and digits into Hack Nerd Font’s
+base:
 
 - **B612 letterforms** for letters, digits, and extended Latin, Greek, and Cyrillic.
 - **Hack punctuation and symbols** for `{}[]()<>` and the rest.
@@ -76,11 +75,10 @@ Simpkins reworked in 2015 into a face tuned for source code at small sizes.
 Its signature is functional punctuation: brackets, braces, parentheses, and operators
 are drawn at a heavier weight and given extra spacing next to letters, so they stay
 distinct in dense code.
-B612’s own punctuation lacks that weight, which is why Planetaire borrows these heavier
-symbols from Hack.
+B612’s own punctuation lacks that weight.
 
-Planetaire Mono carries a new name for clarity and to comply with the B612
-[license](#license).
+The new name distinguishes the fonts and is required by the B612 [license](#license),
+which reserves the B612 name.
 
 ## A Personal Note
 
@@ -90,12 +88,13 @@ you live close to it.
 Or work within it.
 
 A couple of years ago, I was building a terminal and surveyed monospace fonts to find
-the best ones. B612 wasn’t my obvious first choice, but after trying many of the classic
-modern options available as Nerd Fonts, I came to realize it still just *felt* better
-over time. But I was disappointed with the technical flaws that made it hard to use as a
-full replacement for a modern, high-quality workhorse typeface such as Hack or JetBrains
-Mono. I made an adapted hybrid of B612 that I was quite happy with, but it wasn’t in a
-clean enough form to publish.
+the best ones.
+B612 wasn’t my obvious first choice, but after I tried many of the classic
+modern options available as Nerd Fonts, it still just *felt* better over time.
+But its technical flaws were a disappointment: it couldn’t fully replace a modern
+workhorse like Hack or JetBrains Mono.
+I made a hybrid of B612 that I was quite happy with, but it wasn’t in a clean enough
+form to publish.
 
 Now, Claude Code and Opus 4.8 have made it a pleasure to consolidate this work as
 Planetaire Mono. I’ve used dozens of terminal fonts over the years, and it is now what I
