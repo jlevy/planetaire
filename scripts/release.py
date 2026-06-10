@@ -64,8 +64,6 @@ CDN_PINNED_PATHS = [
     "site/index.html",
     "site/compare.html",
     "site/compare-fonts.js",
-    "fonts/web",
-    "site/fonts",
 ]
 # Paths the release commit is allowed to touch, relative to the repo root.
 RELEASE_PATHS = [
@@ -74,6 +72,8 @@ RELEASE_PATHS = [
     "site/index.html",
     "site/compare.html",
     "site/compare-fonts.js",
+    "fonts/web",
+    "site/fonts",
 ]
 
 # Matches the ref segment of any jsDelivr CDN link into this repo, e.g. `planetaire@main`
