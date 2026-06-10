@@ -210,6 +210,18 @@ def sync_web_fonts() -> None:
         fail("fonts/web and site/fonts refreshed different file counts")
 
 
+def format_repinned_sources() -> None:
+    """Re-run the site formatter so the re-pin leaves canonically formatted files.
+
+    `rewrite_cdn_links` is a raw search/replace, so shortening a ref (e.g. a 40-char
+    commit SHA -> `@vX.Y.Z`) can leave a line that Biome would wrap differently. Without
+    this, the release commit lands JS/CSS that the `site:check:format` CI gate rejects
+    (this exact case broke CI on the v0.1.5 release commit). `npm run site:format` is
+    idempotent on already-formatted files, so it only touches what the re-pin changed.
+    """
+    run(["npm", "run", "site:format"])
+
+
 def cmd_prepare(args: argparse.Namespace) -> None:
     version, tag = normalize(args.version)
     print(f"Preparing release {tag} for review.\n")
@@ -240,6 +252,9 @@ def cmd_prepare(args: argparse.Namespace) -> None:
 
     print("\nRe-pin CDN links:")
     rewrite_cdn_links(tag)
+
+    print("\nFormat re-pinned sources:")
+    format_repinned_sources()
 
     if not out(["git", "status", "--porcelain", "--", *RELEASE_PATHS]):
         fail("nothing changed — the web fonts, PDF, and CDN pins already match this version")
