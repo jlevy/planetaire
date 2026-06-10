@@ -31,7 +31,7 @@
 html[data-theme="dark"] {
   --proof-label-bg: rgba(48, 54, 61, 0.90);
   --proof-label-color: #c9d1d9;
-  --soft-selected-bg: #262c36;
+  --soft-selected-bg: rgba(139, 148, 158, 0.32);
   --proof-border: rgba(240, 246, 252, 0.16);
   --proof-shadow:
     0 0 0 1px rgba(240, 246, 252, 0.035),

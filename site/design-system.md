@@ -129,7 +129,8 @@ All button text is **CAPS** (via `text-transform`, authored mixed-case).
   `--chrome-border-width: 1px`. Active/selected states may change fill or text color,
   but they must not increase border width, add a second inset border, or change the
   element’s height. If a selected button needs emphasis, use a gray fill rather than a
-  thicker outline. Tab indicators are the one explicit exception and use
+  thicker outline; dark-mode selected fills should sit visibly above hover while staying
+  softer than an inverse button. Tab indicators are the one explicit exception and use
   `--tab-indicator-width`.
 - **Tabs:** tab labels use shared block and inline padding tokens so hover backgrounds
   have even top/bottom space and a small left/right cushion. The active underline is the
