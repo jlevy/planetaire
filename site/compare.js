@@ -189,7 +189,9 @@ const els = {
   editor: document.getElementById("sample-text"),
   fontPickerHeading: document.getElementById("font-picker-heading"),
   fontSelect: document.getElementById("font-select"),
+  fontSelectTip: document.getElementById("font-select-tip"),
   fontSelectWrap: document.getElementById("font-select-wrap"),
+  fontPicker: document.querySelector(".font-picker"),
   grid: document.getElementById("proof-grid"),
   showLabels: document.getElementById("show-labels"),
   modeTabs: Array.from(document.querySelectorAll("[data-view-mode]")),
@@ -462,12 +464,21 @@ function renderFullProof(sample, sampleHtml) {
   const section = document.createElement("section");
   section.className = "proof proof-full";
   section.dataset.family = font.family;
+  section.tabIndex = 0;
   section.setAttribute("aria-label", `${font.name} full-page proof`);
+  section.setAttribute("aria-describedby", "font-select-tip");
+  section.addEventListener("keydown", (event) => {
+    const step = fullProofKeyStep(event);
+    if (!step) return;
+    event.preventDefault();
+    changeFullFont(step);
+  });
 
   const pre = document.createElement("pre");
   pre.className = `proof-sample is-${sample.mode}`;
   pre.style.setProperty("--proof-font", `"${font.family}"`);
   pre.tabIndex = 0;
+  pre.setAttribute("aria-describedby", "font-select-tip");
   pre.innerHTML = sampleHtml;
 
   section.appendChild(pre);
@@ -702,6 +713,25 @@ function moveSelectOption(select, delta) {
   select.selectedIndex = (select.selectedIndex + delta + count) % count;
 }
 
+function changeFullFont(delta) {
+  if (viewMode !== "full") return false;
+  const proofHadFocus = document.activeElement && els.grid.contains(document.activeElement);
+  moveSelectOption(els.fontSelect, delta);
+  renderProofs();
+  if (proofHadFocus) {
+    const proof = els.grid.querySelector(".proof-full .proof-sample") || els.grid.querySelector(".proof-full");
+    if (proof) proof.focus({ preventScroll: true });
+  }
+  return true;
+}
+
+function fullProofKeyStep(event) {
+  if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return 0;
+  if (event.key === "ArrowRight") return 1;
+  if (event.key === "ArrowLeft") return -1;
+  return 0;
+}
+
 function setViewMode(mode) {
   viewMode = mode === "full" ? "full" : "cards";
 
@@ -713,9 +743,11 @@ function setViewMode(mode) {
 
   const fullMode = viewMode === "full";
   els.fontPickerHeading.textContent = fullMode ? "Font" : "Fonts";
+  els.fontPicker.classList.toggle("is-full-mode", fullMode);
   els.pickerActions.hidden = fullMode;
   els.checks.hidden = fullMode;
   els.fontSelectWrap.hidden = !fullMode;
+  els.fontSelectTip.hidden = !fullMode;
   els.cardModeControls.hidden = fullMode;
   els.cardModeControls.classList.toggle("is-disabled", fullMode);
   els.cardModeControls.setAttribute("aria-disabled", String(fullMode));

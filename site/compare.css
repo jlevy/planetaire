@@ -287,6 +287,10 @@ body {
   border-bottom: 0;
 }
 
+.font-picker.is-full-mode {
+  margin-bottom: 1.1rem;
+}
+
 .picker-head {
   display: flex;
   flex-wrap: wrap;
@@ -361,6 +365,7 @@ html[data-theme="dark"] .font-select-wrap select {
   display: inline-flex;
   gap: 0.38rem;
   align-items: center;
+  margin: 0.65rem 0 0;
   color: var(--gray);
   font-family: var(--ui-font);
   font-size: var(--fs-small);
@@ -368,16 +373,12 @@ html[data-theme="dark"] .font-select-wrap select {
   line-height: 1.4;
   text-transform: none;
   letter-spacing: 0;
-  opacity: 0;
-  pointer-events: none;
-  transform: translateX(-0.2rem);
-  transition: opacity 180ms ease, transform 180ms ease, color 360ms ease;
+  transition: var(--ui-transition);
   white-space: nowrap;
 }
 
-.font-select-wrap:focus-within .font-select-tip {
-  opacity: 1;
-  transform: translateX(0);
+.font-select-tip[hidden] {
+  display: none;
 }
 
 .font-select-tip kbd {

@@ -72,6 +72,7 @@
   --control-select-icon-offset: 0.56rem;
   --control-select-icon-width: 0.68rem;
   --control-select-icon-height: 0.45rem;
+  --hero-stack-gap: 3rem;
 
   /* Reading line-heights — exactly two (matches the PDF specimen):
      --lh standard prose/text samples (~1.5), --lh-tight terminal/code. */
@@ -385,7 +386,7 @@ em, i { font-style: italic; }
   font-size: 1.3rem;
   letter-spacing: 0.05em;
   line-height: 1.6;
-  margin: 3rem 0;
+  margin: var(--hero-stack-gap) 0;
 }
 .hero-intro {
   max-width: 62ch;
@@ -411,7 +412,7 @@ em, i { font-style: italic; }
 
 /* ---- Buttons ------------------------------------------------------------- */
 
-.cta { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin: 2.6rem 0 0; }
+.cta { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin: var(--hero-stack-gap) 0 0; }
 .btn {
   display: inline-flex;
   align-items: center;
@@ -434,12 +435,12 @@ em, i { font-style: italic; }
 .btn:hover { background: var(--hover-bg); color: var(--ink); }
 
 @media (max-width: 620px) {
-  .hero .planet-frame {
-    margin-bottom: 2.2rem;
+  :root {
+    --hero-stack-gap: 2.2rem;
   }
 
-  .cta {
-    margin-top: 0.8rem;
+  .hero .planet-frame {
+    margin-bottom: 2.2rem;
   }
 }
 
@@ -616,7 +617,7 @@ footer a:hover {
 /* Light/Dark control: two equal-width segments. The CURRENT theme is the
    emphasized (filled) segment; the other is muted, so the fill alone shows the
    toggle position. */
-.theme-switch { display: inline-flex; justify-content: center; margin: 2.8rem 0 0; font-family: var(--ui-font); }
+.theme-switch { display: inline-flex; justify-content: center; margin: var(--hero-stack-gap) 0 0; font-family: var(--ui-font); }
 .theme-switch .ts-group {
   display: inline-flex;
   min-height: var(--button-height);
