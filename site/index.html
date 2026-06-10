@@ -9,17 +9,17 @@
 <!-- FONT LOADING ----------------------------------------------------------
      The page renders in the actual font (live type, not screenshots).
 
-     Production uses a pinned jsDelivr ref into the committed site/fonts/ files,
+     Production uses a pinned jsDelivr ref into the committed fonts/web/ files,
      so font CSS and WOFF2 assets get immutable CDN caching. Keep this ref exact
      (release tag or commit SHA), never @main/@latest. scripts/release.py updates
      it during releases to bust the CDN cache.
 
-     The same Text web fonts remain vendored under site/fonts/ for source review
-     and emergency/local fallback. This is the Text subset (web-recommended); it
-     has NO Nerd Font icons. See ../docs/website.runbook.md.
+     The same Text web fonts remain vendored under site/fonts/ for the Pages-local
+     /fonts/... copy and emergency/local fallback. This is the Text subset
+     (web-recommended); it has NO Nerd Font icons. See ../docs/website.runbook.md.
 ------------------------------------------------------------------------- -->
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jlevy/planetaire@9186ed18abf34042baded61a6582f0e1aed1b64e/site/fonts/planetaire-mono-text.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jlevy/planetaire@5ee5d56e841b4fedbeb7d99ef55d9856998a2ac3/fonts/web/planetaire-mono-text.css">
 <link rel="stylesheet" href="style.css?v=20260609-hero-intro-1">
 
 <!-- Set the theme before first paint (no flash): cookie, then localStorage,

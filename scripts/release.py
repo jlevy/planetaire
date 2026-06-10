@@ -28,7 +28,7 @@ into two steps so there is always a review gate before anything is committed:
     6. Commit the web fonts + PDF + release-controlled CDN pins as `release: vX.Y.Z` and
        tag that commit `vX.Y.Z`.
 
-After finalize the specimen PDF and static-site web fonts served by
+After finalize the specimen PDF and public web fonts served by
 `cdn.jsdelivr.net/gh/jlevy/planetaire@vX.Y.Z/` are byte-for-byte the committed files in
 the tag, and the fonts CI builds from the same tag also reports X.Y.Z. Everything agrees
 by construction, not by timing.
