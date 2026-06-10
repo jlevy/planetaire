@@ -1,5 +1,5 @@
 <p align="center">
-<a href="https://cdn.jsdelivr.net/gh/jlevy/planetaire@v0.1.4/docs/specimen/planetaire-mono-specimen.pdf"><img src="docs/images/header.png" alt="Planetaire Mono — read the type specimen (PDF)" width="100%"></a>
+<a href="https://ojoshe.com/planetaire/"><img src="docs/images/header.png" alt="Planetaire Mono — visit the website" width="100%"></a>
 </p>
 
 Planetaire Mono is a beautiful, highly legible monospace font for terminals, editors,
@@ -9,6 +9,10 @@ It is a lightly adapted fork of [B612 Mono](https://github.com/polarsys/b612) wi
 weights, symbols from [Hack](https://github.com/source-foundry/Hack), and extensive
 icons from [Nerd Fonts](https://github.com/ryanoasis/nerd-fonts).
 It is [licensed freely](#license) for personal, commercial, and open source use.
+
+**[View Planetaire →](https://ojoshe.com/planetaire/)**
+
+**[Compare Monospace Fonts →](https://ojoshe.com/planetaire/compare.html)**
 
 **[Read the Type Specimen (PDF)](https://cdn.jsdelivr.net/gh/jlevy/planetaire@v0.1.4/docs/specimen/planetaire-mono-specimen.pdf)**
 
@@ -104,51 +108,51 @@ agents, editors, and terminals.
 ## Specimens
 
 <p align="center">
-<img src="docs/images/text-dark.png" width="100%" alt="A prose passage set in Planetaire Mono on a dark background, showing body-text legibility">
+<a href="https://ojoshe.com/planetaire/"><img src="docs/images/text-dark.png" width="100%" alt="A prose passage set in Planetaire Mono on a dark background, showing body-text legibility"></a>
 <br>
-<img src="docs/images/text-light.png" width="100%" alt="The same prose passage in Planetaire Mono on a light background">
+<a href="https://ojoshe.com/planetaire/"><img src="docs/images/text-light.png" width="100%" alt="The same prose passage in Planetaire Mono on a light background"></a>
 </p>
 
 <p align="center">
-<img src="docs/images/rfc-dark.png" width="100%" alt="RFC 1 (1969) set in Planetaire Mono, on a dark background">
+<a href="https://ojoshe.com/planetaire/"><img src="docs/images/rfc-dark.png" width="100%" alt="RFC 1 (1969) set in Planetaire Mono, on a dark background"></a>
 <br>
-<img src="docs/images/rfc-light.png" width="100%" alt="The same RFC 1 document on a light background">
+<a href="https://ojoshe.com/planetaire/"><img src="docs/images/rfc-light.png" width="100%" alt="The same RFC 1 document on a light background"></a>
 </p>
 
 <p align="center">
-<img src="docs/images/sample-dark.png" width="100%" alt="Multi-size body text plus French, German, Spanish, Turkish, Greek, and Cyrillic samples in Planetaire Mono, on a dark background">
+<a href="https://ojoshe.com/planetaire/"><img src="docs/images/sample-dark.png" width="100%" alt="Multi-size body text plus French, German, Spanish, Turkish, Greek, and Cyrillic samples in Planetaire Mono, on a dark background"></a>
 <br>
-<img src="docs/images/sample-light.png" width="100%" alt="The same multi-language text sample on a light background">
+<a href="https://ojoshe.com/planetaire/"><img src="docs/images/sample-light.png" width="100%" alt="The same multi-language text sample on a light background"></a>
 </p>
 
 <p align="center">
-<img src="docs/images/waterfall-dark.png" width="100%" alt="Planetaire Mono from 8pt to 44pt with a large legibility line, on a dark background">
+<a href="https://ojoshe.com/planetaire/"><img src="docs/images/waterfall-dark.png" width="100%" alt="Planetaire Mono from 8pt to 44pt with a large legibility line, on a dark background"></a>
 <br>
-<img src="docs/images/waterfall-light.png" width="100%" alt="The same size waterfall on a light background">
+<a href="https://ojoshe.com/planetaire/"><img src="docs/images/waterfall-light.png" width="100%" alt="The same size waterfall on a light background"></a>
 </p>
 
 <p align="center">
-<img src="docs/images/code-dark.png" width="100%" alt="A syntax-highlighted analyze_trajectory() Python function in Planetaire Mono on a dark background">
+<a href="https://ojoshe.com/planetaire/"><img src="docs/images/code-dark.png" width="100%" alt="A syntax-highlighted analyze_trajectory() Python function in Planetaire Mono on a dark background"></a>
 <br>
-<img src="docs/images/code-light.png" width="100%" alt="The same Python function in Planetaire Mono on a light background">
+<a href="https://ojoshe.com/planetaire/"><img src="docs/images/code-light.png" width="100%" alt="The same Python function in Planetaire Mono on a light background"></a>
 </p>
 
 <p align="center">
-<img src="docs/images/terminal-dark.png" width="100%" alt="A terminal session in Planetaire Mono on a dark background: a colored eza listing, a Python one-liner, and a git log">
+<a href="https://ojoshe.com/planetaire/"><img src="docs/images/terminal-dark.png" width="100%" alt="A terminal session in Planetaire Mono on a dark background: a colored eza listing, a Python one-liner, and a git log"></a>
 <br>
-<img src="docs/images/terminal-light.png" width="100%" alt="The same terminal session in Planetaire Mono on a light background">
+<a href="https://ojoshe.com/planetaire/"><img src="docs/images/terminal-light.png" width="100%" alt="The same terminal session in Planetaire Mono on a light background"></a>
 </p>
 
 <p align="center">
-<img src="docs/images/weights-dark.png" width="100%" alt="Planetaire Mono weight ladder from Regular to ExtraBold, upright and italic, on a dark background">
+<a href="https://ojoshe.com/planetaire/"><img src="docs/images/weights-dark.png" width="100%" alt="Planetaire Mono weight ladder from Regular to ExtraBold, upright and italic, on a dark background"></a>
 <br>
-<img src="docs/images/weights-light.png" width="100%" alt="The same weight ladder on a light background">
+<a href="https://ojoshe.com/planetaire/"><img src="docs/images/weights-light.png" width="100%" alt="The same weight ladder on a light background"></a>
 </p>
 
 <p align="center">
-<img src="docs/images/features-dark.png" width="100%" alt="Confusable-character pairs and the dotted-zero variants in Planetaire Mono, on a dark background">
+<a href="https://ojoshe.com/planetaire/"><img src="docs/images/features-dark.png" width="100%" alt="Confusable-character pairs and the dotted-zero variants in Planetaire Mono, on a dark background"></a>
 <br>
-<img src="docs/images/features-light.png" width="100%" alt="The same confusable-character pairs and dotted-zero variants on a light background">
+<a href="https://ojoshe.com/planetaire/"><img src="docs/images/features-light.png" width="100%" alt="The same confusable-character pairs and dotted-zero variants on a light background"></a>
 </p>
 
 ## High Legibility
@@ -159,9 +163,9 @@ and Latin Extended Additional: over 12,000 glyphs in the Extended package.
 
 ## Two Packages: Text and Extended
 
-Both packages share the same letterforms. The archives include **TTF** files (in `ttf/`)
-for local install plus **WOFF2** files (in `web/`, with ready `@font-face` stylesheets)
-for the web.
+Both packages share the same letterforms.
+The archives include **TTF** files (in `ttf/`) for local install plus **WOFF2** files
+(in `web/`, with ready `@font-face` stylesheets) for the web.
 They differ only in glyph coverage:
 
 - **Planetaire Mono Extended** is the full font: everything in Text **plus** the 10,000+
@@ -189,8 +193,9 @@ Get the latest from
 | **Planetaire Mono Extended** *(full)* | Terminals, coding, icon-rich CLIs | Everything in Text plus all 10,000+ Nerd Font icons and Powerline. TTF + WOFF2. | [`.tar.xz`](https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Extended.tar.xz) **~19 MB** · [`.zip`](https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Extended.zip) ~24 MB |
 
 Both archives are laid out as `ttf/` (for local install) and `web/` (WOFF2 plus
-`@font-face` stylesheets). Text TTFs ship all 10 variants; Text web fonts default to the
-smaller Regular/Bold split profile, with separate WOFF2 files for each script range.
+`@font-face` stylesheets).
+Text TTFs ship all 10 variants; Text web fonts default to the smaller Regular/Bold split
+profile, with separate WOFF2 files for each script range.
 
 To install, unzip the archive and add the TTFs:
 
@@ -369,10 +374,11 @@ From the Text archive’s `web/`:
 The default Text web stylesheet declares Regular (400) and Bold (700), upright, split
 into Google Fonts-style `latin`, `latin-ext`, `greek`, `cyrillic`, and `cyrillic-ext`
 unicode ranges. Browsers fetch the Latin file for ordinary English text and fetch the
-other script files only when the page uses those codepoints. Add the italic stylesheet
-only when the app renders italic text. The generated CSS also defines
-`--planetaire-mono-text-font-stack`, which includes a metric-matched local fallback face
-so line height stays stable while `font-display: swap` loads the WOFF2.
+other script files only when the page uses those codepoints.
+Add the italic stylesheet only when the app renders italic text.
+The generated CSS also defines `--planetaire-mono-text-font-stack`, which includes a
+metric-matched local fallback face so line height stays stable while
+`font-display: swap` loads the WOFF2.
 
 For production, serve the WOFF2 files from a versioned path or fingerprinted filename
 with `Cache-Control: public, max-age=31536000, immutable`. Keep the CSS cache shorter if
