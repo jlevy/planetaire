@@ -30,10 +30,11 @@ site/
   style.css                   # all styling; see site/design-system.md
   design-system.md            # the CSS/visual design system (co-located with style.css)
   assets/
-    little-planet.svg         # vendored from docs/images/ (see §3)
+    little-planet.svg         # vendored from docs/images/ (see §4)
+    social-card.png           # 1200×630 OpenGraph/Twitter card image (see §§3–4)
   fonts/
     planetaire-mono-text.css  # @font-face for the Text web faces
-    PlanetaireMonoText-*.woff2 # vendored from the Text release/build output (see §3)
+    PlanetaireMonoText-*.woff2 # vendored from the Text release/build output (see §4)
 ```
 
 The page renders **in the actual font** (the Text web subset), which is the whole point
@@ -78,7 +79,7 @@ the site’s HTML copy is manual.
 | **A palette** (`pal-dark` / `pal-light`) in `content.typ` | the `--l-*` / `--d-*` CSS vars at the top of `site/style.css` (a 1:1 copy of the hex values) |
 | **Spec values** (metrics, glyph counts) because the font was rebuilt | the spec page in `planetaire-mono-specimen.typ` **and** the `.specgrid` block in `site/index.html` (hand-copied numbers — re-check them all) |
 | **Section order** in `README.md` | keep matching prose/table/demo content in `site/index.html`; preserve the site’s About / Samples / Installation tab grouping unless the site IA is intentionally revised |
-| **The fonts** (new release) | run the release script so it refreshes `fonts/web/` + `site/fonts/` and bumps the pinned jsDelivr refs (see §3), then re-check the spec numbers |
+| **The fonts** (new release) | run the release script so it refreshes `fonts/web/` + `site/fonts/` and bumps the pinned jsDelivr refs (see §4), then re-check the spec numbers |
 
 ### Intentional divergences (do NOT “fix” these)
 
@@ -99,9 +100,44 @@ The site is deliberately **not** a pixel copy of the PDF:
 
 * * *
 
-## 3. Refreshing vendored assets
+## 3. Social sharing metadata
 
-Two things are vendored into `site/` from sources elsewhere in the repo / releases.
+The static pages are published at `https://jlevy.github.io/planetaire/`. Keep canonical,
+OpenGraph, and Twitter card URLs absolute so unfurlers such as iMessage, Slack,
+Mastodon, Bluesky, LinkedIn, Facebook, and Twitter/X can resolve them without depending
+on browser base-URL behavior.
+
+Both pages use `summary_large_image` and the shared 1200×630 PNG at
+`site/assets/social-card.png`, published as:
+
+```
+https://jlevy.github.io/planetaire/assets/social-card.png
+```
+
+Use page-specific titles and descriptions:
+
+| Page | Canonical URL | Share title |
+| --- | --- | --- |
+| `index.html` | `https://jlevy.github.io/planetaire/` | `Planetaire Mono — a beautiful, highly legible monospace font` |
+| `compare.html` | `https://jlevy.github.io/planetaire/compare.html` | `What is the best monospace font?` |
+
+Keep each page’s `description`, `og:description`, and `twitter:description` identical:
+
+- Homepage:
+  `Planetaire Mono is a beautiful, highly legible monospace font for terminals, editors, and agentic work: B612 letterforms, Hack infrastructure, Nerd Font icons.`
+- Compare page:
+  `Compare Planetaire Mono against selectable monospace fonts with editable code, terminal, prose, and confusable-character samples.`
+
+If the card artwork changes, keep the output at exactly **1200×630** and update
+`og:image:width`, `og:image:height`, and the image alt text if needed.
+For major visual changes, consider changing the filename as well because social scrapers
+cache image URLs aggressively.
+
+* * *
+
+## 4. Refreshing vendored assets
+
+Three things are vendored into `site/` from sources elsewhere in the repo / releases.
 
 **Planet graphic** — `site/assets/little-planet.svg` is a copy of
 `docs/images/little-planet-vector-trace-v3.svg` (the source of truth, also used by the
@@ -110,6 +146,15 @@ If that SVG changes:
 
 ```bash
 cp docs/images/little-planet-vector-trace-v3.svg site/assets/little-planet.svg
+```
+
+**Social card** — `site/assets/social-card.png` is a 1200×630 crop of
+`docs/images/header.png` that keeps the planet, title, and lineage text while dropping
+the smaller lower tagline for better social-preview legibility.
+Regenerate it from the current header image with:
+
+```bash
+magick docs/images/header.png -crop 3117x1636+0+205 +repage -resize 1200x630 site/assets/social-card.png
 ```
 
 **Web fonts** — `fonts/web/` is the committed public web distribution for jsDelivr, and
@@ -147,7 +192,7 @@ release-controlled pins in `README.md` and `site/` to `@vX.Y.Z`.
 
 * * *
 
-## 4. Local preview
+## 5. Local preview
 
 It’s a static page — just open it:
 
@@ -159,7 +204,7 @@ Fonts and the planet load by relative path, so `file://` works with no server.
 
 * * *
 
-## 5. Deploy (GitHub Pages)
+## 6. Deploy (GitHub Pages)
 
 Deployment is automated by
 [`.github/workflows/pages.yml`](../.github/workflows/pages.yml): on push to `main` that
