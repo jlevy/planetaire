@@ -67,6 +67,7 @@
   --control-padding-inline: 0.45rem;
   --button-padding-inline: 0.65rem;
   --compact-button-padding-inline: 0.52rem;
+  --tab-padding-inline: 0.32rem;
   --control-select-padding-right: 1.72rem;
   --control-select-icon-offset: 0.56rem;
   --control-select-icon-width: 0.68rem;
@@ -330,12 +331,12 @@ em, i { font-style: italic; }
   transition: var(--ui-transition);
 }
 .site-nav-tab, .site-nav-external {
-  padding: 0.2rem 0 0.45rem;
+  padding: 0.2rem var(--tab-padding-inline) 0.45rem;
   border-bottom: var(--chrome-border-width) solid transparent;
   margin-bottom: -1px;
 }
 .tab-opt {
-  padding: 0.55rem 0 0.45rem;
+  padding: 0.55rem var(--tab-padding-inline) 0.45rem;
   border-bottom: var(--chrome-border-width) solid transparent;
   margin-bottom: -1px;
 }
@@ -344,7 +345,7 @@ em, i { font-style: italic; }
 }
 .site-nav-tab:hover, .site-nav-external:hover, .tab-opt:hover {
   color: var(--ink);
-  background: transparent;
+  background: var(--hover-bg);
 }
 .site-nav-tab[aria-current="page"] {
   color: var(--ink);

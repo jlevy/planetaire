@@ -128,6 +128,9 @@ All button text is **CAPS** (via `text-transform`, authored mixed-case).
   underline color, but they must not increase border width, add a second inset border,
   or change the element’s height. If a selected button needs emphasis, use a gray fill
   rather than a thicker outline.
+- **Tabs:** tab labels use `--tab-padding-inline` so their hover background has a small
+  left/right cushion. The active underline is the tab’s own bottom border, so it always
+  matches the hover background width.
 - **Top nav:** a minimal gray caps row above the hero. Planetaire and Compare are page
   tabs, left-aligned on a hairline rule and using the same active underline as the main
   About / Samples / Installation tabs. The nav expands to the shared wide compare-page
