@@ -142,6 +142,9 @@ All button text is **CAPS** (via `text-transform`, authored mixed-case).
   width on large screens while the homepage content remains on its narrower reading
   column. GitHub is an external link, separated at right with an arrow and no active-tab
   state.
+- **Compare page header:** a compact utility-page title in the sans-serif UI face, with
+  optional italic gray supporting copy below it. Keep this lighter than the homepage
+  hero so the controls and proofs remain the primary interface.
 - **Buttons:** two in the hero — *Download Fonts* (latest GitHub release) and *Specimen
   PDF →* (opens the PDF in a new tab). Identical style: `--ink` border, transparent
   fill, invert on hover. No primary/secondary distinction.
