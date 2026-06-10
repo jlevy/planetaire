@@ -547,7 +547,7 @@ i {
   justify-content: center;
   flex-wrap: wrap;
   gap: 1.7rem;
-  margin: -2rem 0 4.25rem;
+  margin: -2rem 0 3rem;
   border-bottom: 1px solid var(--rule);
 }
 .tab-opt {
