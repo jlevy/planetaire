@@ -67,10 +67,16 @@ function parseLocalUrl(ref) {
   } catch {
     return { error: `invalid URL reference: ${ref}` };
   }
-  if (SKIP_SCHEMES.has(url.protocol)) {
-    return null;
+  // Only refs that carry their own scheme or host are external. A site-local
+  // ref also resolves onto the placeholder https: origin, so testing the
+  // resolved protocol alone would skip every local ref.
+  if (/^[a-z][a-z0-9+.-]*:/i.test(ref) || ref.startsWith("//")) {
+    if (SKIP_SCHEMES.has(url.protocol)) {
+      return null;
+    }
+    return { error: `unexpected URL scheme: ${ref}` };
   }
-  return url;
+  return { pathname: ref.split(/[?#]/, 1)[0], hash: url.hash };
 }
 
 function validateRef({ errors, filePath, htmlIds, ref, source }) {
@@ -94,10 +100,22 @@ function validateRef({ errors, filePath, htmlIds, ref, source }) {
     return;
   }
 
-  const target = path.resolve(path.dirname(filePath), parsed.pathname);
+  let target = path.resolve(path.dirname(filePath), decodeURIComponent(parsed.pathname));
   if (!target.startsWith(`${site}${path.sep}`) && target !== site) {
     errors.push(`${source}: reference escapes site/: ${ref}`);
     return;
+  }
+
+  // The published URL for a page is its directory ("planetaire/"), never
+  // "planetaire/index.html" — keep every internal link on the canonical form.
+  if (path.basename(target) === "index.html") {
+    errors.push(
+      `${source}: link to index.html directly is not allowed; use a trailing-slash directory reference instead: ${ref}`,
+    );
+    return;
+  }
+  if (knownDirs.has(target)) {
+    target = path.join(target, "index.html");
   }
 
   if (!knownFiles.has(target)) {
@@ -179,12 +197,16 @@ async function readSiteFiles(extension) {
 async function collectKnownFiles() {
   const { readdir } = await import("node:fs/promises");
   const files = new Set();
+  const dirs = new Set([site]);
   for (const entry of await readdir(site, { recursive: true, withFileTypes: true })) {
+    const entryPath = path.join(entry.parentPath, entry.name);
     if (entry.isFile()) {
-      files.add(path.join(entry.parentPath, entry.name));
+      files.add(entryPath);
+    } else if (entry.isDirectory()) {
+      dirs.add(entryPath);
     }
   }
-  return files;
+  return { files, dirs };
 }
 
 async function validateHtmlReferences(errors) {
@@ -257,9 +279,10 @@ function runCheck(filePath, label = rel(filePath)) {
 }
 
 let knownFiles = new Set();
+let knownDirs = new Set();
 
 async function main() {
-  knownFiles = await collectKnownFiles();
+  ({ files: knownFiles, dirs: knownDirs } = await collectKnownFiles());
   const errors = [];
   const inlineScripts = await validateHtmlReferences(errors);
   await validateCssReferences(errors);
