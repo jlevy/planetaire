@@ -67,7 +67,10 @@
   --control-padding-inline: 0.45rem;
   --button-padding-inline: 0.65rem;
   --compact-button-padding-inline: 0.52rem;
+  --tab-padding-block-start: 0.55rem;
+  --tab-padding-block-end: 0.45rem;
   --tab-padding-inline: 0.32rem;
+  --tab-indicator-width: 3px;
   --control-select-padding-right: 1.72rem;
   --control-select-icon-offset: 0.56rem;
   --control-select-icon-width: 0.68rem;
@@ -332,13 +335,13 @@ em, i { font-style: italic; }
   transition: var(--ui-transition);
 }
 .site-nav-tab, .site-nav-external {
-  padding: 0.2rem var(--tab-padding-inline) 0.45rem;
-  border-bottom: var(--chrome-border-width) solid transparent;
+  padding: var(--tab-padding-block-start) var(--tab-padding-inline) var(--tab-padding-block-end);
+  border-bottom: var(--tab-indicator-width) solid transparent;
   margin-bottom: -1px;
 }
 .tab-opt {
-  padding: 0.55rem var(--tab-padding-inline) 0.45rem;
-  border-bottom: var(--chrome-border-width) solid transparent;
+  padding: var(--tab-padding-block-start) var(--tab-padding-inline) var(--tab-padding-block-end);
+  border-bottom: var(--tab-indicator-width) solid transparent;
   margin-bottom: -1px;
 }
 .site-nav-external {
@@ -456,7 +459,7 @@ em, i { font-style: italic; }
 }
 .tab-opt {
   border: 0;
-  border-bottom: var(--chrome-border-width) solid transparent;
+  border-bottom: var(--tab-indicator-width) solid transparent;
   background: transparent;
   cursor: pointer;
 }

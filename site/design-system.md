@@ -126,13 +126,15 @@ All button text is **CAPS** (via `text-transform`, authored mixed-case).
   compare page font preset actions, use `--compact-button-height` (`1.75rem`). Heights
   are tokens, not ad hoc padding math, so buttons and widgets line up.
 - **Chrome borders:** UI chrome uses one thin border token:
-  `--chrome-border-width: 1px`. Active/selected states may change fill, text color, or
-  underline color, but they must not increase border width, add a second inset border,
-  or change the element’s height. If a selected button needs emphasis, use a gray fill
-  rather than a thicker outline.
-- **Tabs:** tab labels use `--tab-padding-inline` so their hover background has a small
-  left/right cushion. The active underline is the tab’s own bottom border, so it always
-  matches the hover background width.
+  `--chrome-border-width: 1px`. Active/selected states may change fill or text color,
+  but they must not increase border width, add a second inset border, or change the
+  element’s height. If a selected button needs emphasis, use a gray fill rather than a
+  thicker outline. Tab indicators are the one explicit exception and use
+  `--tab-indicator-width`.
+- **Tabs:** tab labels use shared block and inline padding tokens so hover backgrounds
+  have even top/bottom space and a small left/right cushion. The active underline is the
+  tab’s own bottom border (`--tab-indicator-width`), so it always matches the hover
+  background width.
 - **Top nav:** a minimal gray caps row above the hero. Planetaire and Compare are page
   tabs, left-aligned on a hairline rule and using the same active underline as the main
   About / Samples / Installation tabs. The nav expands to the shared wide compare-page
