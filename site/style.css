@@ -55,11 +55,18 @@
   --chrome-caps-letter-spacing: 0.04em;
 
   /* compact, readable form controls */
+  --chrome-border-width: 1px;
+  --focus-ring-width: 1px;
   --control-font-size: 0.9rem;
   --control-line-height: 1.35;
-  --control-min-height: 2.1rem;
+  --control-height: 2.1rem;
+  --button-height: var(--control-height);
+  --compact-button-height: 1.75rem;
+  --control-min-height: var(--control-height);
   --control-padding-block: 0.24rem;
   --control-padding-inline: 0.45rem;
+  --button-padding-inline: 0.65rem;
+  --compact-button-padding-inline: 0.52rem;
   --control-select-padding-right: 1.72rem;
   --control-select-icon-offset: 0.56rem;
   --control-select-icon-width: 0.68rem;
@@ -187,7 +194,7 @@ input[type="checkbox"] {
   height: 1rem;
   color: var(--ink);
   background: transparent;
-  border: 1px solid var(--gray);
+  border: var(--chrome-border-width) solid var(--gray);
   border-radius: calc(var(--radius) * 0.8);
   cursor: pointer;
   transition: var(--ui-transition);
@@ -197,8 +204,8 @@ input[type="checkbox"]::before {
   content: "";
   width: 0.5rem;
   height: 0.28rem;
-  border-left: 1.5px solid currentColor;
-  border-bottom: 1.5px solid currentColor;
+  border-left: var(--chrome-border-width) solid currentColor;
+  border-bottom: var(--chrome-border-width) solid currentColor;
   opacity: 0;
   transform: translateY(-0.08rem) rotate(-45deg) scale(0.75);
   transition: var(--ui-transition);
@@ -214,7 +221,7 @@ input[type="checkbox"]:checked::before {
 }
 
 input[type="checkbox"]:focus-visible {
-  outline: 2px solid var(--ink);
+  outline: var(--focus-ring-width) solid var(--ink);
   outline-offset: 2px;
 }
 
@@ -274,7 +281,7 @@ a {
 /* Consistent hover everywhere: ink text + a mode-appropriate gray background. */
 a:hover { color: var(--ink); background: var(--hover-bg); }
 a:focus-visible, button:focus-visible {
-  outline: 1.5px solid var(--ink);
+  outline: var(--focus-ring-width) solid var(--ink);
   outline-offset: 3px;
 }
 
@@ -324,12 +331,12 @@ em, i { font-style: italic; }
 }
 .site-nav-tab, .site-nav-external {
   padding: 0.2rem 0 0.45rem;
-  border-bottom: 2px solid transparent;
+  border-bottom: var(--chrome-border-width) solid transparent;
   margin-bottom: -1px;
 }
 .tab-opt {
   padding: 0.55rem 0 0.45rem;
-  border-bottom: 2px solid transparent;
+  border-bottom: var(--chrome-border-width) solid transparent;
   margin-bottom: -1px;
 }
 .site-nav-external {
@@ -397,16 +404,19 @@ em, i { font-style: italic; }
 
 .cta { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin: 2.6rem 0 0; }
 .btn {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--button-height);
   font-family: var(--ui-font);
   font-size: var(--chrome-caps-size);
   font-weight: var(--fw-bold);
   text-transform: uppercase;
   letter-spacing: var(--chrome-caps-letter-spacing);
   text-decoration: none;
-  line-height: 1.62;
-  padding: 0.35rem 0.65rem;
-  border: 1.5px solid var(--ink);
+  line-height: var(--control-line-height);
+  padding: 0 var(--button-padding-inline);
+  border: var(--chrome-border-width) solid var(--ink);
   border-radius: var(--radius);
   color: var(--ink);
   background: var(--bg);
@@ -436,7 +446,7 @@ em, i { font-style: italic; }
 }
 .tab-opt {
   border: 0;
-  border-bottom: 2px solid transparent;
+  border-bottom: var(--chrome-border-width) solid transparent;
   background: transparent;
   cursor: pointer;
 }
@@ -598,16 +608,23 @@ footer a:hover {
    emphasized (filled) segment; the other is muted, so the fill alone shows the
    toggle position. */
 .theme-switch { display: inline-flex; justify-content: center; margin: 2.8rem 0 0; font-family: var(--ui-font); }
-.theme-switch .ts-group { display: inline-flex; border: 1.5px solid var(--ink); border-radius: var(--radius); overflow: hidden; }
+.theme-switch .ts-group {
+  display: inline-flex;
+  min-height: var(--button-height);
+  border: var(--chrome-border-width) solid var(--ink);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
 .theme-switch .ts-opt {
+  display: inline-flex; align-items: center; justify-content: center;
   font-family: var(--ui-font); font-weight: var(--fw-bold); font-size: var(--chrome-caps-size);
-  line-height: 1.62;   /* <button> won't inherit it; match .btn so heights are equal */
+  line-height: var(--control-line-height);
   text-transform: uppercase; letter-spacing: var(--chrome-caps-letter-spacing);
-  min-width: 0; text-align: center; padding: 0.35rem 0.65rem; cursor: pointer;
+  min-width: 0; text-align: center; padding: 0 var(--button-padding-inline); cursor: pointer;
   background: var(--bg); color: var(--gray); border: none;
   transition: var(--ui-transition);
 }
-.theme-switch .ts-opt + .ts-opt { border-left: 1.5px solid var(--ink); }
+.theme-switch .ts-opt + .ts-opt { border-left: var(--chrome-border-width) solid var(--ink); }
 .theme-switch .ts-opt[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
 .theme-switch .ts-opt:focus-visible { outline-color: var(--bg); outline-offset: -4px; }
 .theme-switch .ts-opt:not([aria-pressed="true"]):focus-visible { outline-color: var(--ink); }
