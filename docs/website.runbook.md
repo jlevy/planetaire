@@ -8,7 +8,7 @@ The same content lives in **three formats**, and they must agree:
 1. **`README.md`** — the GitHub landing page (prose, tables, config snippets).
 2. **The PDF specimen** — `docs/specimen/*.typ` → `planetaire-mono-specimen.pdf`.
 3. **The static site** — `site/index.html` + `site/style.css`, published at
-   `https://ojoshe.com/planetaire/` (see §6).
+   `https://ojoshe.com/planetaire/` (see §7).
 
 There is **no generator** — all three are edited by hand.
 (The old `planetaire build site` / `build html-specimen` recipes were retired; `site/`
@@ -195,19 +195,55 @@ release-controlled pins in `README.md` and `site/` to `@vX.Y.Z`.
 
 * * *
 
-## 5. Local preview
+## 5. Local validation
 
-It’s a static page — just open it:
+The site is committed source, so the build step is a quality gate rather than a bundler.
+Run it before committing site changes:
 
 ```bash
-open site/index.html          # macOS; or drag into a browser
+npm ci
+make site-format    # Biome auto-format/fix for site CSS/JS
+make site-lint      # CI-style static site validation
 ```
 
-Fonts and the planet load by relative path, so `file://` works with no server.
+`make site-lint` checks:
+
+- exact-pinned Biome formatting/linting for `site/*.css`, `site/*.js`, and `biome.json`;
+- `tsc --checkJs` over the plain JavaScript in `site/`;
+- `html-validate` recommended HTML rules for committed HTML pages;
+- JavaScript syntax for external and inline site scripts with `node --check`;
+- local asset links in HTML and CSS, including query-string cache-busted paths;
+- local `#fragment` targets in committed HTML;
+- a lightweight `jsdom` runtime smoke test for the homepage and comparator.
+
+The full repository lint command includes the same gate:
+
+```bash
+make lint        # auto-fix mode
+make lint-check  # CI-style check mode
+```
+
+The npm tooling is intentionally exact-pinned in `package.json` and frozen by
+`package-lock.json`. Local validation requires Node/npm; CI installs Node 24 and runs
+the same scripts developers run locally.
+
+For the release checklist and manual browser pass, see
+[`docs/site-release-validation.md`](site-release-validation.md).
+
+## 6. Local preview
+
+Preview through the same static server shape used by the release checklist:
+
+```bash
+npm run site:serve
+```
+
+Then open `http://127.0.0.1:8765/`. Fonts and assets use relative paths, so direct
+`file://` preview also works in browsers that allow local-file navigation.
 
 * * *
 
-## 6. Deploy (ojoshe.com/planetaire)
+## 7. Deploy (ojoshe.com/planetaire)
 
 The site’s canonical (and only) home is `https://ojoshe.com/planetaire/`. It is served
 by the separate ojoshe.com site, which publishes this repo’s committed `site/` directory

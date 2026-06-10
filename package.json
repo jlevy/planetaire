@@ -1,0 +1,27 @@
+{
+  "name": "planetaire-static-site",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Static-site quality tooling for Planetaire.",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "site:format": "biome check --write --unsafe --colors=off .htmlvalidate.json biome.json package.json devtools/*.mjs site/*.css site/*.d.ts site/*.js",
+    "site:check:format": "biome ci --colors=off .htmlvalidate.json biome.json package.json devtools/*.mjs site/*.css site/*.d.ts site/*.js",
+    "site:check:types": "tsc -p site/tsconfig.json --noEmit",
+    "site:check:html": "html-validate \"site/*.html\"",
+    "site:check:integrity": "node devtools/site-validate.mjs",
+    "site:smoke": "node devtools/site-smoke.mjs",
+    "site:serve": "node devtools/site-serve.mjs",
+    "site:lint": "npm run site:check:format && npm run site:check:types && npm run site:check:html && npm run site:check:integrity && npm run site:smoke",
+    "site:fix": "npm run site:format && npm run site:lint"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.4.15",
+    "html-validate": "11.4.0",
+    "jsdom": "29.1.1",
+    "parse5": "8.0.1",
+    "typescript": "6.0.3"
+  }
+}

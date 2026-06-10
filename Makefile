@@ -4,15 +4,16 @@
 
 .DEFAULT_GOAL := default
 
-.PHONY: default install lint test upgrade build clean
+.PHONY: default install lint lint-check test upgrade build clean
 .PHONY: download build-fonts build-text validate-fonts fonts specimen
 .PHONY: images demo regression-generate regression-verify
-.PHONY: dev-tools qa release release-finalize
+.PHONY: dev-tools qa site-format site-lint site-validate site-serve release release-finalize
 
 default: install lint test
 
 install:
 	uv sync --all-extras
+	npm ci
 
 # Install native build tools (typst, fontforge; vhs optional). Idempotent.
 dev-tools:
@@ -23,6 +24,18 @@ qa: validate-fonts
 
 lint:
 	uv run python devtools/lint.py
+
+lint-check:
+	uv run python devtools/lint.py --check
+
+site-format:
+	npm run site:format
+
+site-lint site-validate:
+	npm run site:lint
+
+site-serve:
+	npm run site:serve
 
 test:
 	uv run pytest

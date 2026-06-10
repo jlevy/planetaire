@@ -5,7 +5,8 @@
    @font-face sources, brand cross-references, and popularity snapshot together
    here instead of spreading them across CSS and rendering code. */
 (function () {
-  const PLANETAIRE_CDN_FONTS = "https://cdn.jsdelivr.net/gh/jlevy/planetaire@5ee5d56e841b4fedbeb7d99ef55d9856998a2ac3/fonts/web";
+  const PLANETAIRE_CDN_FONTS =
+    "https://cdn.jsdelivr.net/gh/jlevy/planetaire@5ee5d56e841b4fedbeb7d99ef55d9856998a2ac3/fonts/web";
   const FONTSOURCE_CDN = "https://cdn.jsdelivr.net/fontsource/fonts";
   const NPM_WINDOW = {
     start: "2026-05-04",
@@ -27,7 +28,14 @@
     latestReleaseDate: "2025-04-24",
   };
 
-  function license({ availability = "free", name, spdx = null, shortName = null, url, notes = "" }) {
+  function license({
+    availability = "free",
+    name,
+    spdx = null,
+    shortName = null,
+    url,
+    notes = "",
+  }) {
     return { availability, name, spdx, shortName, url, notes };
   }
 
@@ -36,19 +44,22 @@
       name: "SIL Open Font License 1.1",
       spdx: "OFL-1.1",
       url: "https://openfontlicense.org/",
-      notes: "Free/open font license; allows web embedding, bundling, modification, and redistribution under OFL conditions.",
+      notes:
+        "Free/open font license; allows web embedding, bundling, modification, and redistribution under OFL conditions.",
     }),
     planetaire: license({
       name: "SIL Open Font License 1.1",
       spdx: "OFL-1.1",
       url: "https://github.com/jlevy/planetaire/blob/main/LICENSE",
-      notes: "Final Planetaire font files are OFL-1.1; upstream components include B612, Hack, and Nerd Fonts license obligations.",
+      notes:
+        "Final Planetaire font files are OFL-1.1; upstream components include B612, Hack, and Nerd Fonts license obligations.",
     }),
     hack: license({
       name: "MIT License plus Bitstream Vera License",
       shortName: "MIT + Bitstream Vera",
       url: "https://github.com/source-foundry/Hack/blob/master/LICENSE.md",
-      notes: "Hack includes Source Foundry MIT terms, public-domain DejaVu work, and Bitstream Vera reserved-name conditions.",
+      notes:
+        "Hack includes Source Foundry MIT terms, public-domain DejaVu work, and Bitstream Vera reserved-name conditions.",
     }),
     commercialEula: license({
       availability: "paid",
@@ -62,14 +73,16 @@
       name: "Private-use license / commercial publishing license",
       shortName: "Free private use; paid publishing",
       url: null,
-      notes: "Free for private/unpublished use; public-facing or commercial publishing requires a paid license.",
+      notes:
+        "Free for private/unpublished use; public-facing or commercial publishing requires a paid license.",
     }),
     appleRestricted: license({
       availability: "restricted",
       name: "Apple font license",
       shortName: "Restricted Apple license",
       url: "https://developer.apple.com/fonts/",
-      notes: "Apple developer font license is limited to Apple-platform UI mockups and forbids embedding/redistribution.",
+      notes:
+        "Apple developer font license is limited to Apple-platform UI mockups and forbids embedding/redistribution.",
     }),
     privateCustom: license({
       availability: "private",
@@ -84,6 +97,9 @@
     return `${PLANETAIRE_CDN_FONTS}/PlanetaireMonoText-${styleName}.woff2`;
   }
 
+  /**
+   * @param {{ family?: string, sources: PlanetaireFontSource[], style?: string, weight: number | string }} options
+   */
   function face({ style = "normal", weight, sources, family }) {
     return { family, style, weight, sources };
   }
@@ -156,18 +172,27 @@
       description: "Source-code workhorse, Nerd Font base",
       default: true,
       license: LICENSES.hack,
-      notes: "Useful baseline because Planetaire uses Hack-derived punctuation and Nerd Font material.",
+      notes:
+        "Useful baseline because Planetaire uses Hack-derived punctuation and Nerd Font material.",
       nerdFont: nerdFont({ name: "Hack", version: "3.003" }),
       faces: [
         face({
           style: "normal",
           weight: 400,
-          sources: [source("https://cdn.jsdelivr.net/npm/hack-font@3/build/web/fonts/hack-regular-subset.woff2")],
+          sources: [
+            source(
+              "https://cdn.jsdelivr.net/npm/hack-font@3/build/web/fonts/hack-regular-subset.woff2",
+            ),
+          ],
         }),
         face({
           style: "normal",
           weight: 700,
-          sources: [source("https://cdn.jsdelivr.net/npm/hack-font@3/build/web/fonts/hack-bold-subset.woff2")],
+          sources: [
+            source(
+              "https://cdn.jsdelivr.net/npm/hack-font@3/build/web/fonts/hack-bold-subset.woff2",
+            ),
+          ],
         }),
       ],
     },
@@ -184,7 +209,9 @@
       default: true,
       brandRefs: ["Nerd Fonts"],
       nerdFont: nerdFont({ name: "FiraCode", version: "6.2" }),
-      faces: [face({ style: "normal", weight: "300 700", sources: [fontsourceVariable("fira-code")] })],
+      faces: [
+        face({ style: "normal", weight: "300 700", sources: [fontsourceVariable("fira-code")] }),
+      ],
     },
     {
       id: "ibm-plex",
@@ -213,7 +240,13 @@
       default: true,
       brandRefs: ["JetBrains", "Perplexity docs shell"],
       nerdFont: nerdFont({ name: "JetBrainsMono", version: "2.304" }),
-      faces: [face({ style: "normal", weight: "100 800", sources: [fontsourceVariable("jetbrains-mono")] })],
+      faces: [
+        face({
+          style: "normal",
+          weight: "100 800",
+          sources: [fontsourceVariable("jetbrains-mono")],
+        }),
+      ],
     },
     {
       id: "geist",
@@ -228,7 +261,9 @@
       default: true,
       brandRefs: ["OpenAI developer docs", "Vercel"],
       nerdFont: nerdFont({ name: "GeistMono", version: "1.401" }),
-      faces: [face({ style: "normal", weight: "100 900", sources: [fontsourceVariable("geist-mono")] })],
+      faces: [
+        face({ style: "normal", weight: "100 900", sources: [fontsourceVariable("geist-mono")] }),
+      ],
     },
     {
       id: "source-code-pro",
@@ -241,8 +276,19 @@
       npmDownloadsLastMonth: 250853,
       description: "Adobe source family, neutral coding face",
       brandRefs: ["Nerd Fonts"],
-      nerdFont: nerdFont({ name: "SauceCodePro", version: "2.042", notes: "Nerd Fonts distribution uses a renamed family because Adobe Source reserved-name/trademark terms apply." }),
-      faces: [face({ style: "normal", weight: "200 900", sources: [fontsourceVariable("source-code-pro")] })],
+      nerdFont: nerdFont({
+        name: "SauceCodePro",
+        version: "2.042",
+        notes:
+          "Nerd Fonts distribution uses a renamed family because Adobe Source reserved-name/trademark terms apply.",
+      }),
+      faces: [
+        face({
+          style: "normal",
+          weight: "200 900",
+          sources: [fontsourceVariable("source-code-pro")],
+        }),
+      ],
     },
     {
       id: "pt-mono",
@@ -267,7 +313,9 @@
       npmDownloadsLastMonth: 98216,
       description: "Humanist coding classic",
       nerdFont: nerdFont({ name: "Inconsolata", version: "3.000" }),
-      faces: [face({ style: "normal", weight: "200 900", sources: [fontsourceVariable("inconsolata")] })],
+      faces: [
+        face({ style: "normal", weight: "200 900", sources: [fontsourceVariable("inconsolata")] }),
+      ],
     },
     {
       id: "cascadia",
@@ -280,8 +328,19 @@
       npmDownloadsLastMonth: 23478,
       description: "Windows Terminal and Visual Studio lineage",
       brandRefs: ["Microsoft"],
-      nerdFont: nerdFont({ name: "CaskaydiaCove", version: "2407.24", notes: "Cascadia Code patched family; CaskaydiaMono covers Cascadia Mono without ligatures." }),
-      faces: [face({ style: "normal", weight: "200 700", sources: [fontsourceVariable("cascadia-code")] })],
+      nerdFont: nerdFont({
+        name: "CaskaydiaCove",
+        version: "2407.24",
+        notes:
+          "Cascadia Code patched family; CaskaydiaMono covers Cascadia Mono without ligatures.",
+      }),
+      faces: [
+        face({
+          style: "normal",
+          weight: "200 700",
+          sources: [fontsourceVariable("cascadia-code")],
+        }),
+      ],
     },
     {
       id: "iosevka",
@@ -294,7 +353,12 @@
       npmDownloadsLastMonth: 11044,
       description: "Narrow, highly configurable coding face",
       brandRefs: ["Nerd Fonts"],
-      nerdFont: nerdFont({ name: "Iosevka", version: "33.2.1", notes: "Nerd Fonts patched-source version; IosevkaTerm and IosevkaTermSlab are also patched distributions." }),
+      nerdFont: nerdFont({
+        name: "Iosevka",
+        version: "33.2.1",
+        notes:
+          "Nerd Fonts patched-source version; IosevkaTerm and IosevkaTermSlab are also patched distributions.",
+      }),
       faces: [face({ style: "normal", weight: 400, sources: [fontsourceStatic("iosevka")] })],
     },
     {
@@ -308,8 +372,15 @@
       npmDownloadsLastMonth: 7422,
       description: "GitHub Next texture-healing family",
       brandRefs: ["GitHub Next"],
-      nerdFont: nerdFont({ name: "Monaspice", version: "1.200", notes: "Nerd Fonts patched-source version; covers the Monaspace family under the Monaspice name." }),
-      faces: [face({ style: "normal", weight: 400, sources: [fontsourceStatic("monaspace-neon")] })],
+      nerdFont: nerdFont({
+        name: "Monaspice",
+        version: "1.200",
+        notes:
+          "Nerd Fonts patched-source version; covers the Monaspace family under the Monaspice name.",
+      }),
+      faces: [
+        face({ style: "normal", weight: 400, sources: [fontsourceStatic("monaspace-neon")] }),
+      ],
     },
     {
       id: "roboto-mono",
@@ -323,7 +394,9 @@
       description: "Google/Android-era monospace baseline",
       brandRefs: ["Google ecosystem"],
       nerdFont: nerdFont({ name: "RobotoMono", version: "3.0" }),
-      faces: [face({ style: "normal", weight: "100 700", sources: [fontsourceVariable("roboto-mono")] })],
+      faces: [
+        face({ style: "normal", weight: "100 700", sources: [fontsourceVariable("roboto-mono")] }),
+      ],
     },
     {
       id: "google-sans-code",
@@ -337,7 +410,13 @@
       description: "Google developer-docs code face",
       brandRefs: ["Google Developers", "Gemini"],
       notes: "OFL-1.1 font; Google, Google Sans, and Google Sans Code are Google trademarks.",
-      faces: [face({ style: "normal", weight: "300 800", sources: [fontsourceVariable("google-sans-code")] })],
+      faces: [
+        face({
+          style: "normal",
+          weight: "300 800",
+          sources: [fontsourceVariable("google-sans-code")],
+        }),
+      ],
     },
     {
       id: "intel-one-mono",
@@ -349,8 +428,14 @@
       npmPackage: "@fontsource/intel-one-mono",
       npmDownloadsLastMonth: 5823,
       description: "Low-vision-informed developer face",
-      nerdFont: nerdFont({ name: "IntoneMono", version: "1.4.0", notes: "Nerd Fonts distribution uses a renamed Intel One Mono family." }),
-      faces: [face({ style: "normal", weight: 400, sources: [fontsourceStatic("intel-one-mono")] })],
+      nerdFont: nerdFont({
+        name: "IntoneMono",
+        version: "1.4.0",
+        notes: "Nerd Fonts distribution uses a renamed Intel One Mono family.",
+      }),
+      faces: [
+        face({ style: "normal", weight: 400, sources: [fontsourceStatic("intel-one-mono")] }),
+      ],
     },
     {
       id: "atkinson-hyperlegible-mono",
@@ -362,8 +447,18 @@
       npmPackage: "@fontsource/atkinson-hyperlegible-mono",
       npmDownloadsLastMonth: 9426,
       description: "Accessibility-first mono family",
-      nerdFont: nerdFont({ name: "AtkynsonMono", version: "2.001", notes: "Nerd Fonts distribution uses a renamed Atkinson Hyperlegible Mono family." }),
-      faces: [face({ style: "normal", weight: "200 800", sources: [fontsourceVariable("atkinson-hyperlegible-mono")] })],
+      nerdFont: nerdFont({
+        name: "AtkynsonMono",
+        version: "2.001",
+        notes: "Nerd Fonts distribution uses a renamed Atkinson Hyperlegible Mono family.",
+      }),
+      faces: [
+        face({
+          style: "normal",
+          weight: "200 800",
+          sources: [fontsourceVariable("atkinson-hyperlegible-mono")],
+        }),
+      ],
     },
     {
       id: "commit-mono",
@@ -389,7 +484,9 @@
       npmDownloadsLastMonth: 2612,
       description: "Variable mono for devtool branding",
       nerdFont: nerdFont({ name: "MartianMono", version: "1.1.0" }),
-      faces: [face({ style: "normal", weight: "100 800", sources: [fontsourceVariable("martian-mono")] })],
+      faces: [
+        face({ style: "normal", weight: "100 800", sources: [fontsourceVariable("martian-mono")] }),
+      ],
     },
   ].map((font) => {
     const fontLicense = font.license || LICENSES.ofl;
@@ -408,8 +505,13 @@
       license: LICENSES.ofl,
       sourceUrl: "https://github.com/arrowtype/recursive",
       status: "track",
-      nerdFont: nerdFont({ name: "RecMono", version: "1.085", notes: "Nerd Fonts distribution covers Recursive Mono." }),
-      reason: "Useful variable-axis experiment, but needs deliberate mono/casual/linear axis handling before comparator inclusion.",
+      nerdFont: nerdFont({
+        name: "RecMono",
+        version: "1.085",
+        notes: "Nerd Fonts distribution covers Recursive Mono.",
+      }),
+      reason:
+        "Useful variable-axis experiment, but needs deliberate mono/casual/linear axis handling before comparator inclusion.",
     },
     {
       id: "victor-mono",
@@ -419,7 +521,8 @@
       sourceUrl: "https://github.com/rubjo/victor-mono",
       status: "track",
       nerdFont: nerdFont({ name: "VictorMono", version: "1.5.6" }),
-      reason: "Distinct cursive italic and ligature personality; lower-priority comparator candidate.",
+      reason:
+        "Distinct cursive italic and ligature personality; lower-priority comparator candidate.",
     },
     {
       id: "berkeley-mono",
@@ -427,7 +530,8 @@
       availability: "paid",
       license: { ...LICENSES.commercialEula, url: "https://usgraphics.com/products/berkeley-mono" },
       status: "paid-reference",
-      reason: "High-quality professional coding font with visible AI/product-brand adoption; not loadable in a public comparator without a license.",
+      reason:
+        "High-quality professional coding font with visible AI/product-brand adoption; not loadable in a public comparator without a license.",
     },
     {
       id: "monolisa",
@@ -435,15 +539,20 @@
       availability: "paid",
       license: { ...LICENSES.commercialEula, url: "https://www.monolisa.dev/" },
       status: "paid-reference",
-      reason: "Well-known paid coding font with trial, webfont, variable, and commercial licensing options.",
+      reason:
+        "Well-known paid coding font with trial, webfont, variable, and commercial licensing options.",
     },
     {
       id: "operator-mono",
       name: "Operator Mono",
       availability: "paid",
-      license: { ...LICENSES.commercialEula, url: "https://www.typography.com/fonts/operator/overview" },
+      license: {
+        ...LICENSES.commercialEula,
+        url: "https://www.typography.com/fonts/operator/overview",
+      },
       status: "paid-reference",
-      reason: "Influential commercial coding font from Hoefler/Monotype; track as historical paid reference.",
+      reason:
+        "Influential commercial coding font from Hoefler/Monotype; track as historical paid reference.",
     },
     {
       id: "pragmata-pro",
@@ -451,13 +560,17 @@
       availability: "paid",
       license: { ...LICENSES.commercialEula, url: "https://fsd.it/shop/fonts/pragmatapro/" },
       status: "paid-reference",
-      reason: "Dense paid coding font with very broad symbol coverage and long-running developer following.",
+      reason:
+        "Dense paid coding font with very broad symbol coverage and long-running developer following.",
     },
     {
       id: "gt-standard-mono",
       name: "GT Standard Mono",
       availability: "paid",
-      license: { ...LICENSES.commercialEula, url: "https://www.grillitype.com/typeface/gt-standard" },
+      license: {
+        ...LICENSES.commercialEula,
+        url: "https://www.grillitype.com/typeface/gt-standard",
+      },
       status: "paid-reference",
       reason: "Perplexity docs use GT Standard Mono; track as a commercial brand/reference mono.",
     },
@@ -467,7 +580,8 @@
       availability: "free-private",
       license: { ...LICENSES.privateUseEula, url: "https://input.djr.com/download/" },
       status: "conditional-reference",
-      reason: "Free for private/unpublished coding use, but public-facing publishing uses paid Type Network licensing.",
+      reason:
+        "Free for private/unpublished coding use, but public-facing publishing uses paid Type Network licensing.",
     },
     {
       id: "sf-mono",
@@ -475,7 +589,8 @@
       availability: "restricted",
       license: LICENSES.appleRestricted,
       status: "system-reference",
-      reason: "Important macOS/iOS developer reference, but Apple license restrictions make it unsuitable for bundled public web comparison.",
+      reason:
+        "Important macOS/iOS developer reference, but Apple license restrictions make it unsuitable for bundled public web comparison.",
     },
     {
       id: "anthropic-mono",
@@ -491,49 +606,57 @@
     {
       brand: "OpenAI Developers",
       observedMono: "Geist Mono",
-      evidence: "developers.openai.com API reference page defines --stl-typography-font-mono using Geist Mono.",
+      evidence:
+        "developers.openai.com API reference page defines --stl-typography-font-mono using Geist Mono.",
       sourceUrl: "https://developers.openai.com/api/reference/overview",
       confidence: "high",
     },
     {
       brand: "Anthropic Claude Platform",
       observedMono: "anthropicMono",
-      evidence: "platform.claude.com docs CSS defines --font-anthropic-mono and applies it to code/pre/kbd/samp.",
+      evidence:
+        "platform.claude.com docs CSS defines --font-anthropic-mono and applies it to code/pre/kbd/samp.",
       sourceUrl: "https://platform.claude.com/docs/en/intro",
       confidence: "high",
     },
     {
       brand: "Perplexity API Docs",
       observedMono: "GT Standard Mono",
-      evidence: "docs.perplexity.ai page CSS sets .font-mono to GT Standard Mono; the page shell also includes a JetBrains Mono variable class.",
+      evidence:
+        "docs.perplexity.ai page CSS sets .font-mono to GT Standard Mono; the page shell also includes a JetBrains Mono variable class.",
       sourceUrl: "https://docs.perplexity.ai/docs/getting-started/overview",
       confidence: "high",
     },
     {
       brand: "GitHub Product UI",
-      observedMono: "ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace",
+      observedMono:
+        "ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace",
       evidence: "Primer CSS typography variables define the mono stack.",
-      sourceUrl: "https://github.com/primer/css/blob/163a19f3e8afa29e2ffc3e688b5ac17b2717fbdb/src/support/variables/typography.scss",
+      sourceUrl:
+        "https://github.com/primer/css/blob/163a19f3e8afa29e2ffc3e688b5ac17b2717fbdb/src/support/variables/typography.scss",
       confidence: "high",
     },
     {
       brand: "Google Developers",
       observedMono: "Google Sans Code",
-      evidence: "developers.google.com sets --gfd-font-family-code and --devsite-code-font-family to Google Sans Code.",
+      evidence:
+        "developers.google.com sets --gfd-font-family-code and --devsite-code-font-family to Google Sans Code.",
       sourceUrl: "https://developers.google.com/",
       confidence: "high",
     },
     {
       brand: "Vercel",
       observedMono: "Geist Mono",
-      evidence: "Vercel publishes Geist Mono as part of the Geist family and licenses it under OFL.",
+      evidence:
+        "Vercel publishes Geist Mono as part of the Geist family and licenses it under OFL.",
       sourceUrl: "https://vercel.com/font",
       confidence: "high",
     },
     {
       brand: "Microsoft developer tools",
       observedMono: "Cascadia Code",
-      evidence: "Cascadia Code is bundled with Windows Terminal and is the default font in Visual Studio.",
+      evidence:
+        "Cascadia Code is bundled with Windows Terminal and is the default font in Visual Studio.",
       sourceUrl: "https://github.com/microsoft/cascadia-code",
       confidence: "high",
     },

@@ -2,7 +2,7 @@ name: Notify ojoshe.com to rebuild
 
 # The static site in site/ is published at https://ojoshe.com/planetaire/ — its
 # canonical home — by the separate ojoshe.com site, which serves this repo's committed
-# site/ directory as-is under /planetaire/. See docs/website.runbook.md §6.
+# site/ directory as-is under /planetaire/. See docs/website.runbook.md §7.
 #
 # That site's deploy workflow listens for a `repository_dispatch` event of type
 # `planetaire-release` and redeploys with the latest site/ content when it arrives.

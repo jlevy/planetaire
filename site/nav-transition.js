@@ -3,15 +3,28 @@
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
   document.addEventListener("click", (event) => {
-    if (event.defaultPrevented || event.button !== 0) return;
-    if (event.metaKey || event.altKey || event.ctrlKey || event.shiftKey) return;
+    if (event.defaultPrevented || event.button !== 0) {
+      return;
+    }
+    if (event.metaKey || event.altKey || event.ctrlKey || event.shiftKey) {
+      return;
+    }
 
-    const link = event.target.closest("a.site-nav-tab");
-    if (!link || link.target || link.hasAttribute("download")) return;
+    const target = event.target;
+    if (!(target instanceof Element)) {
+      return;
+    }
+
+    const link = target.closest("a.site-nav-tab");
+    if (!(link instanceof HTMLAnchorElement) || link.target || link.hasAttribute("download")) {
+      return;
+    }
 
     const nextUrl = new URL(link.href, window.location.href);
     const currentUrl = new URL(window.location.href);
-    if (nextUrl.origin !== currentUrl.origin) return;
+    if (nextUrl.origin !== currentUrl.origin) {
+      return;
+    }
 
     const samePage =
       nextUrl.pathname === currentUrl.pathname &&
@@ -22,7 +35,9 @@
       return;
     }
 
-    if (reduceMotion.matches) return;
+    if (reduceMotion.matches) {
+      return;
+    }
 
     event.preventDefault();
     root.classList.add("is-page-leaving");

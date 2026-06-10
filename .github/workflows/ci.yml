@@ -56,8 +56,17 @@ jobs:
       - name: Install all dependencies
         run: uv sync --all-extras
 
+      - name: Set up Node.js for static site checks
+        uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+          cache: npm
+
+      - name: Install static site tooling
+        run: npm ci
+
       - name: Run linting
-        run: uv run python devtools/lint.py
+        run: uv run python devtools/lint.py --check
 
       - name: Run tests
         run: uv run pytest
