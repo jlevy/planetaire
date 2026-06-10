@@ -111,8 +111,10 @@ vs small, exactly the two-color / two-size split.
   The shared nav can expand to the wider `--nav-max` measure on large screens.
 - One paragraph gap, `--space-para` (`1.6rem`), is shared by `<p>` and `h3`.
 - **Hero** mirrors the specimen cover’s generous vertical rhythm: wide planet frame (max
-  `940px`), ample space below it, and generous spacing around the lineage / switch. When
-  in doubt, give the title more room, not less.
+  `940px`), ample space below it, and generous spacing around the lineage / switch. The
+  hero intro is a single bold statement, slightly larger than body text and constrained
+  by character measure so it wraps intentionally. When in doubt, give the title more
+  room, not less.
 - Section headings (`h2`): `4.25rem` above, `1.3rem` below.
 
 ## Components

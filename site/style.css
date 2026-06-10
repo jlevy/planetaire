@@ -388,10 +388,10 @@ em, i { font-style: italic; }
   margin: 3rem 0;
 }
 .hero-intro {
-  max-width: 46rem;
+  max-width: 62ch;
   margin: 0 auto;
-  font-size: 1.08rem;
-  line-height: 1.58;
+  font-size: 1.15rem;
+  line-height: 1.55;
   text-align: center;
 }
 .hero-intro p {
@@ -399,6 +399,14 @@ em, i { font-style: italic; }
 }
 .hero-intro p + p {
   margin-top: 1.3rem;
+}
+
+.about-intro {
+  margin: 0 0 2.4rem;
+}
+
+.about-intro + h2 {
+  margin-top: 0;
 }
 
 /* ---- Buttons ------------------------------------------------------------- */
