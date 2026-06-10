@@ -3,9 +3,9 @@ type: is
 id: is-01ktmp3dc695wfjyyx2see6wam
 title: Specimen prose/style sync + v0.1.4 release
 kind: epic
-status: open
+status: closed
 priority: 1
-version: 13
+version: 14
 labels: []
 dependencies: []
 child_order_hints:
@@ -22,6 +22,8 @@ child_order_hints:
   - is-01ktmp50632pg0ksg0rmbxqeec
   - is-01ktmq9rrgj5hfz9bv95rbz9a2
 created_at: 2026-06-08T22:36:53.506Z
-updated_at: 2026-06-08T22:57:50.351Z
+updated_at: 2026-06-10T09:48:25.286Z
+closed_at: 2026-06-10T09:48:25.286Z
+close_reason: v0.1.4 shipped and all specimen prose/style sync children closed; remaining single-sourcing work tracked independently as plt-dcme
 ---
 Make the PDF specimen prose exactly match the README (moving specimen->README where the specimen is better for provenance/license), unify label/heading styling, then finalize the v0.1.4 release.
