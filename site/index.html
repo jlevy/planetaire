@@ -98,6 +98,7 @@
 
 <nav class="tabs" aria-label="Site sections" role="tablist">
   <button type="button" class="tab-opt" id="tab-about" role="tab" aria-controls="about" aria-selected="true" data-tab-set="about">About</button>
+  <button type="button" class="tab-opt" id="tab-faq" role="tab" aria-controls="faq" aria-selected="false" data-tab-set="faq">FAQ</button>
   <button type="button" class="tab-opt" id="tab-samples" role="tab" aria-controls="samples" aria-selected="false" data-tab-set="samples">Samples</button>
   <button type="button" class="tab-opt" id="tab-installation" role="tab" aria-controls="installation" aria-selected="false" data-tab-set="installation">Installation</button>
 </nav>
@@ -217,6 +218,31 @@ carry their own licenses: <strong>B612</strong> under OFL-1.1 and EPL-2.0;
 glyph fonts under OFL-1.1 with the patcher tooling under MIT. Full license texts ship in the
 <code>licenses/</code> folder of each release archive. The build tooling in this repo is
 <a href="https://github.com/jlevy/planetaire/blob/main/LICENSE">MIT</a>.</p>
+</section>
+
+<!-- ====================================================================== -->
+<!-- FAQ  (mirrors the README FAQ)                                          -->
+<!-- ====================================================================== -->
+<section class="tab-panel" id="faq" role="tabpanel" aria-labelledby="tab-faq" data-tab-panel="faq" hidden>
+<h2 id="faq-questions">FAQ</h2>
+<ul>
+  <li><strong>Does it have ligatures?</strong> No. Neither B612 nor Hack includes them,
+    and Planetaire Mono keeps every character distinct, true to its legibility-first
+    design. It’s possible we could find a way to package ligatures from another font in
+    the future, but it would have to match Hack’s heavier punctuation style.</li>
+  <li><strong>Why a dotted zero rather than a slashed zero?</strong> A slash can be
+    mistaken for the Scandinavian Ø; a center dot cannot. The dot is a circle by
+    default, with a rectangle variant via <code>ss01</code>.</li>
+  <li><strong>How is this different from B612 Mono on Google Fonts?</strong> That
+    release has four styles and B612’s original symbols, which are harder to read
+    (especially the quote marks), and its <code>0</code> and <code>O</code> are easy to
+    confuse. Planetaire Mono replaces the punctuation and symbols with Hack’s and adds
+    the extra weights, the dotted zero, and the Nerd Font icons.</li>
+  <li><strong>Why not fix B612 upstream?</strong> The upstream project has been dormant
+    for years, and its license reserves the B612 name, so an adapted version must ship
+    under a new name regardless. The build pipeline works over the released B612 fonts,
+    so upstream improvements can still be merged if the project revives.</li>
+</ul>
 </section>
 
 <!-- ====================================================================== -->

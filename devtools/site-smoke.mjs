@@ -12,8 +12,8 @@ const pages = [
     checks(window) {
       const document = window.document;
       assertText(document.querySelector("h1"), "Planetaire Mono", "homepage h1");
-      assertCount(document.querySelectorAll(".tab-opt"), 3, "homepage tabs");
-      assertCount(document.querySelectorAll(".tab-panel"), 3, "homepage tab panels");
+      assertCount(document.querySelectorAll(".tab-opt"), 4, "homepage tabs");
+      assertCount(document.querySelectorAll(".tab-panel"), 4, "homepage tab panels");
       assertCount(document.querySelectorAll("#qa-upper .cell"), 26, "homepage QA uppercase cells");
       assertPressedThemeButtons(document);
     },
