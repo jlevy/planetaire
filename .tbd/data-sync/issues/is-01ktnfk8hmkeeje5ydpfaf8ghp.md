@@ -3,9 +3,9 @@ type: is
 id: is-01ktnfk8hmkeeje5ydpfaf8ghp
 title: Launch GitHub Pages site from current repo
 kind: epic
-status: open
+status: closed
 priority: 1
-version: 15
+version: 16
 labels:
   - deployment
   - github-pages
@@ -22,7 +22,9 @@ child_order_hints:
   - is-01ktpq5qnkdhfg2zq2mskars8j
   - is-01ktpq62apsg7akz5j826dnkwn
 created_at: 2026-06-09T06:02:27.251Z
-updated_at: 2026-06-09T17:38:51.232Z
+updated_at: 2026-06-10T10:05:27.479Z
+closed_at: 2026-06-10T10:05:27.478Z
+close_reason: "GitHub Pages launch completed via PR #18 and hosting since migrated to ojoshe.com/planetaire (plt-s5gz); remaining README-link tasks kept independently (plt-6o1i, plt-kch8)"
 ---
 Deploy PR #18 as the first public GitHub Pages launch for jlevy/planetaire without a custom domain. Target URL: https://jlevy.github.io/planetaire/. Current status on 2026-06-09: PR #18 is open as a draft from static-site to main, mergeable, and remote CI is green; GitHub repo metadata reports has_pages=false, so Pages is not enabled yet; current local checkout has uncommitted site/compare.css and site/compare.html changes plus unrelated tbd/Codex/flowmark files. This epic tracks everything needed to get the site deployed and fully verified as soon as the PR merges.
 

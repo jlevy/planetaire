@@ -3,9 +3,9 @@ type: is
 id: is-01ktpq52a6nvwpwre9nv3skh25
 title: "Mark PR #18 ready and merge after final CI"
 kind: task
-status: open
+status: closed
 priority: 1
-version: 2
+version: 3
 labels:
   - deployment
   - github-pages
@@ -15,6 +15,8 @@ dependencies:
     target: is-01ktpq5cwkdcrm8b5rt75xcyxg
 parent_id: is-01ktnfk8hmkeeje5ydpfaf8ghp
 created_at: 2026-06-09T17:33:45.157Z
-updated_at: 2026-06-09T17:34:40.729Z
+updated_at: 2026-06-10T10:05:07.567Z
+closed_at: 2026-06-10T10:05:07.562Z
+close_reason: "PR #18 was merged to main"
 ---
 After the local PR state is resolved and Pages is enabled, mark PR #18 ready for review if still draft, ensure CI passes on the final pushed head, and merge static-site into main. The merge is the trigger for .github/workflows/pages.yml because it runs on push to main touching site/** or the workflow.

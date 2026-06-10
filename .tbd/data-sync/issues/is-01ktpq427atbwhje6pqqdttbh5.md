@@ -3,9 +3,9 @@ type: is
 id: is-01ktpq427atbwhje6pqqdttbh5
 title: Resolve local PR state before launch
 kind: task
-status: open
+status: closed
 priority: 1
-version: 5
+version: 6
 labels:
   - deployment
   - github-pages
@@ -21,6 +21,8 @@ dependencies:
     target: is-01ktpqdgcq6c8a71fc1jw50cdp
 parent_id: is-01ktnfk8hmkeeje5ydpfaf8ghp
 created_at: 2026-06-09T17:33:12.297Z
-updated_at: 2026-06-09T17:38:33.088Z
+updated_at: 2026-06-10T10:05:07.934Z
+closed_at: 2026-06-10T10:05:07.933Z
+close_reason: "Moot: PR #18 merged; no outstanding local PR state"
 ---
 Before final PR validation, decide what to do with the current uncommitted working-tree changes: site/compare.css and site/compare.html look like current compact-controls work and should be reviewed, tested, committed, and pushed if intended; .tbd/config.yml, .agents/skills/flowmark/, and .codex/ should be reviewed separately so unrelated local setup does not leak into the site PR. Re-run git status and ensure PR #18 reflects the intended final site code.
