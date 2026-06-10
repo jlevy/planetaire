@@ -169,11 +169,13 @@ html[data-theme="dark"] .hero .planet {
 html {
   font-size: 16px;
   -webkit-text-size-adjust: 100%;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 body {
-  overflow-x: hidden;
-} /* guard against side-scroll; also clips the planet's off-screen bleed box */
+  overflow-x: clip;
+} /* guard against side-scroll; also clips the planet's off-screen bleed box.
+     Must be clip, not hidden: hidden creates a scroll container, which would
+     defeat the sticky tab bar (see "Stacked tabs" below). */
 
 ::view-transition-old(root),
 ::view-transition-new(root) {
@@ -556,7 +558,8 @@ i {
   background: transparent;
   cursor: pointer;
 }
-.tab-opt[aria-selected="true"] {
+.tab-opt[aria-selected="true"],
+.tab-opt[aria-current="true"] {
   color: var(--ink);
   border-bottom-color: var(--ink);
 }
@@ -574,6 +577,38 @@ i {
 }
 .tab-panel > h2:first-child {
   margin-top: 0;
+}
+
+/* ---- Stacked tabs (narrow screens) ---------------------------------------
+   Below the mobile breakpoint, scroll-tabs.js stacks all tab panels into one
+   continuous document and adds .tabs-stacked to <body>: the bar pins to the
+   viewport top and becomes a scrollspy plus jump nav, each later panel opens
+   with its own heading, and anchors land below the pinned bar. The JS owns
+   the breakpoint via matchMedia; these rules key off the body class so CSS
+   and JS cannot disagree. UX rules: design-system.md, "Tabs, scrolling, and
+   mobile". */
+
+body.tabs-stacked .tabs {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: var(--bg);
+  padding-top: 0.4rem; /* breathing room when pinned to the viewport edge */
+}
+body.tabs-stacked .tab-panel,
+body.tabs-stacked .tab-content [id] {
+  scroll-margin-top: calc(var(--tabbar-h, 3.2rem) + 0.6rem);
+}
+/* Tab-boundary headings exist in the markup but render only when stacked,
+   so the stacked page reads as one continuous document. */
+.stacked-heading {
+  display: none;
+}
+body.tabs-stacked .stacked-heading {
+  display: block;
+}
+body.tabs-stacked .stacked-heading + h2 {
+  margin-top: 2rem; /* boundary heading already provides the section break */
 }
 
 /* ---- Lists & tables ------------------------------------------------------ */

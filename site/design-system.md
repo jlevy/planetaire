@@ -4,8 +4,9 @@ The static site’s visual rules, kept deliberately small. The goal: a clean typ
 where the **font** is the only thing doing the talking. Add a token only when something
 genuinely cannot be expressed with the ones below.
 
-The CSS in `style.css` is the implementation; this file is the spec. They must agree —
-if you change one, change the other.
+The CSS in `style.css` and the tab/scroll behavior in `scroll-tabs.js` are the
+implementation; this file is the spec. They must agree — if you change one, change the
+other.
 
 ## Principle
 
@@ -154,9 +155,11 @@ All button text is **CAPS** (via `text-transform`, authored mixed-case).
   `data-theme` on `<html>`, persists to a **1-year cookie** (`plt-theme`, with a
   `localStorage` fallback) so the choice sticks on revisit, and defaults to the OS
   preference on first visit.
-- **Main tabs:** a centered About / Samples / Installation row below the hero. Tabs are
-  caps labels on a hairline rule, with the current tab marked by an `--ink` underline,
-  and switch between the three content panels without changing the content text.
+- **Main tabs:** a centered About / FAQ / Samples / Installation row below the hero.
+  Tabs are caps labels on a hairline rule, with the current tab marked by an `--ink`
+  underline. On wide screens they switch between content panels; on narrow screens they
+  become a pinned scrollspy over one stacked document — see "Tabs, scrolling, and
+  mobile" below.
 - **Theme transition:** light↔dark eases gently — a single global transition on
   themeable properties (`background-color`, `border-color`, `color`, `fill`, `filter`),
   `360ms`, disabled under `prefers-reduced-motion`.
@@ -169,6 +172,62 @@ All button text is **CAPS** (via `text-transform`, authored mixed-case).
   overflow stays clipped for the hero planet.
 - **Keyboard focus:** links and buttons use a visible `--ink` focus outline. Segmented
   theme buttons draw the outline inside the control so it is not clipped by the group.
+
+## Tabs, scrolling, and mobile
+
+The main tabs are one control with two modes. `scroll-tabs.js` owns the behavior and
+`style.css` the look; this section is the spec for both. The pattern is the standard
+**scrollspy** (sticky section nav), as in food-delivery menu categories or docs-site
+tables of contents — chosen over animated panel-swapping because it preserves native
+scrolling.
+
+**Two modes, one source of truth:**
+
+- **Tabbed (wide screens):** classic tabs. One panel visible at a time, `tablist` /
+  `tab` / `tabpanel` roles, `aria-selected`, hash `pushState`, View Transitions fade.
+- **Stacked (at or below 620px):** all panels stack in tab order into one continuous
+  document. The bar pins to the viewport top and becomes a scrollspy plus jump nav.
+- The JS owns the breakpoint (`matchMedia`) and toggles `body.tabs-stacked`; stacked CSS
+  keys off that class only, so CSS and JS cannot disagree. 620px is the site's single
+  mobile breakpoint — do not introduce others without updating both places.
+
+**Scrolling UX rules (stacked):**
+
+- **Never hijack scrolling.** No overscroll capture, no scroll-snap between sections, no
+  animated panel swaps. Momentum scrolling stays native.
+- **The indicator derives from scroll position alone:** the active tab is the last
+  section whose top has crossed the activation line just under the pinned bar (page
+  bottom counts as the last section). Position, not direction, so scrolling back up
+  reverses it for free.
+- **Tap = jump:** smooth scroll to the section, instant under `prefers-reduced-motion`.
+  While a tap-scroll glides, the spy is suppressed so intermediate tabs don't flash.
+- **History stays clean:** scrolling and tapping rewrite the hash with `replaceState`
+  only (tabbed mode keeps `pushState`). A clean URL stays clean while you are in the
+  first section; crossing a boundary writes `#faq` etc., so reload and share reflect
+  position.
+- **Anchors land below the bar** via `scroll-margin-top: var(--tabbar-h)`; the JS
+  measures the bar (its labels can wrap on very narrow screens) instead of hardcoding a
+  height.
+
+**Look and feel (stacked):**
+
+- The pinned bar is opaque `--bg` with the existing hairline rule as its bottom edge:
+  no shadow, no elevation, per the minimal chrome principle. The active underline is the
+  same `--ink` tab indicator as tabbed mode (keyed on `aria-current` instead of
+  `aria-selected`).
+- Every panel after the first opens with a tab-boundary heading (`.stacked-heading`, a
+  normal `h2` rendered only when stacked), so the stacked page reads like one continuous
+  document. The hero is the About panel's header; a following `h2` sits closer
+  (`2rem`) since the boundary heading already provides the break.
+
+**Accessibility and structure:**
+
+- Stacked mode is navigation, not tabs: the `tablist`/`tab`/`tabpanel` roles are
+  dropped, the active tab is `aria-current`, and all tabs return to the normal tab order
+  (roving arrow keys are tabbed-mode only). All content is in the document, in reading
+  order, so find-in-page and print see everything.
+- `html`/`body` overflow guards must stay `overflow-x: clip`, never `hidden`: `hidden`
+  creates a scroll container, which silently defeats the sticky bar.
 
 ## Checklist before adding anything
 

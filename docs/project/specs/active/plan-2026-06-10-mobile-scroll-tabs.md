@@ -4,7 +4,7 @@
 
 **Author:** jlevy (with Claude Code)
 
-**Status:** Draft
+**Status:** Implemented (Phase 1; Phase 2 extraction open as plt-9uiq)
 
 ## Overview
 
@@ -105,18 +105,20 @@ to **stacked mode** (and back) when the viewport crosses the breakpoint:
 
 3. **Pin the bar.** `.tabs { position: sticky; top: 0; }` with an opaque background and
    a z-index. Pure CSS gives both the slide-into-place and the unpin when scrolling back
-   to the top. A 1px sentinel plus IntersectionObserver toggles an `.is-stuck` class for
-   a hairline or shadow.
-   Gotcha: `html`/`body` currently use `overflow-x: hidden`, which can defeat
-   `position: sticky`; switch the guard to `overflow-x: clip`, which clips without
+   to the top. The bar's existing bottom hairline is the only stuck-state treatment (no
+   shadow and no stuck-detection sentinel), per the design system's minimal chrome.
+   Gotcha: `html`/`body` used `overflow-x: hidden`, which can defeat
+   `position: sticky`; the guard is now `overflow-x: clip`, which clips without
    creating a scroll container.
    Verify sticky early on iOS Safari.
 
 4. **Spy.** The active section is the last one whose top has crossed an activation line
    just below the pinned bar, with one override: at the very bottom of the page, force
    the last tab (a short final section might never reach the line).
-   Drive updates from an IntersectionObserver (a rAF-throttled scroll listener is an
-   acceptable simpler fallback).
+   Updates are driven by a rAF-throttled passive scroll listener: with four sections the
+   per-frame cost is negligible, and unlike an IntersectionObserver's static
+   `rootMargin` it needs no observer rebuild when the bar's height changes (the labels
+   can wrap on very narrow screens).
    Conceptual core:
 
    ```js
@@ -185,14 +187,14 @@ reliably cross-browser, so IntersectionObserver remains the portable choice.
 
 ### Phase 1: Ship Stacked Scrollspy on index.html
 
-- [ ] Extract the inline tab controller to `site/scroll-tabs.js` with desktop behavior
+- [x] Extract the inline tab controller to `site/scroll-tabs.js` with desktop behavior
   unchanged (pure refactor, verified before the next step).
-- [ ] Change the `overflow-x` guard to `clip` and add stacked-mode CSS: sticky bar,
+- [x] Change the `overflow-x` guard to `clip` and add stacked-mode CSS: sticky bar,
   stuck state, section headers, `scroll-margin-top`.
-- [ ] Add the mode controller (matchMedia), panel unhiding, and ARIA swap.
-- [ ] Add the spy with bottom override, tap-to-jump with spy suppression, and hash
+- [x] Add the mode controller (matchMedia), panel unhiding, and ARIA swap.
+- [x] Add the spy with bottom override, tap-to-jump with spy suppression, and hash
   `replaceState`.
-- [ ] Bump cache-bust queries; pass `npm run site:lint`; run the manual checklist.
+- [x] Bump cache-bust queries; pass `npm run site:lint`; run the manual checklist.
 
 ### Phase 2: Extract as a Reusable Pattern (after Phase 1 settles)
 

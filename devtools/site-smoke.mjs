@@ -19,6 +19,33 @@ const pages = [
     },
   },
   {
+    // Same page at a stubbed narrow viewport: scroll-tabs.js must enter
+    // stacked mode (one continuous document with nav semantics).
+    file: "index.html",
+    label: "index.html (stacked tabs)",
+    narrow: true,
+    checks(window) {
+      const document = window.document;
+      assert(document.body.classList.contains("tabs-stacked"), "stacked: body class missing");
+      assertCount(document.querySelectorAll(".tab-panel[hidden]"), 0, "stacked: hidden panels");
+      assert(
+        !document.querySelector(".tabs").getAttribute("role"),
+        "stacked: tablist role should be dropped",
+      );
+      assertCount(
+        document.querySelectorAll(".tab-opt[role='tab']"),
+        0,
+        "stacked: tab roles should be dropped",
+      );
+      assertAtLeast(
+        document.querySelectorAll(".tab-opt[aria-current='true']").length,
+        1,
+        "stacked: active tab indicator",
+      );
+      assertCount(document.querySelectorAll(".stacked-heading"), 2, "stacked: boundary headings");
+    },
+  },
+  {
     file: "compare.html",
     checks(window) {
       const document = window.document;
@@ -100,8 +127,10 @@ async function smokePage(page) {
   const fileUrl = pathToFileURL(path.join(site, page.file)).href;
   const dom = await JSDOM.fromURL(fileUrl, {
     beforeParse(window) {
+      // jsdom has no layout, so media queries are stubbed: pages with
+      // narrow: true pretend to be below the mobile breakpoint.
       window.matchMedia = (query) => ({
-        matches: false,
+        matches: page.narrow === true && query.includes("max-width: 620px"),
         media: query,
         onchange: null,
         addEventListener() {},
@@ -130,10 +159,11 @@ async function smokePage(page) {
     dom.window.close();
   }
 
+  const label = page.label || page.file;
   if (errors.length) {
-    throw new Error(`${page.file}\n${errors.map((error) => `  - ${error}`).join("\n")}`);
+    throw new Error(`${label}\n${errors.map((error) => `  - ${error}`).join("\n")}`);
   }
-  console.log(`ok ${page.file}`);
+  console.log(`ok ${label}`);
 }
 
 function isOptionalExternalStylesheetError(message) {
