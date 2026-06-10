@@ -16,7 +16,7 @@ and open source use.
 
 **[Compare Monospace Fonts →](https://ojoshe.com/planetaire/compare.html)**
 
-**[Read the Type Specimen (PDF) →](https://cdn.jsdelivr.net/gh/jlevy/planetaire@v0.1.4/docs/specimen/planetaire-mono-specimen.pdf)**
+**[Read the Type Specimen (PDF) →](https://cdn.jsdelivr.net/gh/jlevy/planetaire@v0.1.5/docs/specimen/planetaire-mono-specimen.pdf)**
 
 **[Download the Fonts (TTF, WOFF2) →](https://github.com/jlevy/planetaire/releases/latest)**
 

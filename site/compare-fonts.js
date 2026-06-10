@@ -6,7 +6,7 @@
    here instead of spreading them across CSS and rendering code. */
 (function () {
   const PLANETAIRE_CDN_FONTS =
-    "https://cdn.jsdelivr.net/gh/jlevy/planetaire@5ee5d56e841b4fedbeb7d99ef55d9856998a2ac3/fonts/web";
+    "https://cdn.jsdelivr.net/gh/jlevy/planetaire@v0.1.5/fonts/web";
   const FONTSOURCE_CDN = "https://cdn.jsdelivr.net/fontsource/fonts";
   const NPM_WINDOW = {
     start: "2026-05-04",
