@@ -5,7 +5,7 @@
    @font-face sources, brand cross-references, and popularity snapshot together
    here instead of spreading them across CSS and rendering code. */
 (function () {
-  const PLANETAIRE_CDN_FONTS = "https://cdn.jsdelivr.net/gh/jlevy/planetaire@9186ed18abf34042baded61a6582f0e1aed1b64e/site/fonts";
+  const PLANETAIRE_CDN_FONTS = "https://cdn.jsdelivr.net/gh/jlevy/planetaire@5ee5d56e841b4fedbeb7d99ef55d9856998a2ac3/fonts/web";
   const FONTSOURCE_CDN = "https://cdn.jsdelivr.net/fontsource/fonts";
   const NPM_WINDOW = {
     start: "2026-05-04",

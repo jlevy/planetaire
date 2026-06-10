@@ -117,9 +117,9 @@ tagged commit:
 - **The specimen PDF** (`docs/specimen/planetaire-mono-specimen.pdf`) stamps
   `Version X.Y.Z` on its cover and is served over the jsDelivr CDN.
 - **The README and static-site CDN links** are pinned to the tag —
-  `cdn.jsdelivr.net/gh/jlevy/planetaire@vX.Y.Z/...` — so the specimen PDF, site font
-  CSS, and site WOFF2 files are immutable, served instantly, and always resolve to the
-  files committed in that same tag.
+  `cdn.jsdelivr.net/gh/jlevy/planetaire@vX.Y.Z/...` — so the specimen PDF, public web
+  font CSS, and public WOFF2 files are immutable, served instantly, and always resolve
+  to the files committed in that same tag.
   (Versioned jsDelivr refs are cached for a year; an `@main` link would lag up to ~12h
   and could disagree with the PDF’s stamped version.)
 
@@ -169,20 +169,20 @@ is missing or has uncommitted changes.
 make release VERSION=0.1.4        # or: uv run python scripts/release.py prepare 0.1.4
 ```
 
-This builds the fonts, refreshes the committed static-site web fonts in `site/fonts/`,
-rebuilds the specimen PDF stamped `Version 0.1.4`, and re-pins every release-controlled
-jsDelivr CDN link in `README.md` and `site/` to `planetaire@v0.1.4` (a plain
-search/replace from the previous ref — no template variables — which also busts the CDN
-cache, since `@v0.1.4` is a URL jsDelivr has never served).
-It then **stops and prints the diff** — nothing is committed yet.
+This builds the fonts, refreshes the committed public web fonts in `fonts/web/` and the
+Pages-local copy in `site/fonts/`, rebuilds the specimen PDF stamped `Version 0.1.4`,
+and re-pins every release-controlled jsDelivr CDN link in `README.md` and `site/` to
+`planetaire@v0.1.4` (a plain search/replace from the previous ref — no template
+variables — which also busts the CDN cache, since `@v0.1.4` is a URL jsDelivr has never
+served). It then **stops and prints the diff** — nothing is committed yet.
 It refuses to run off `main`, when the tag already exists, or when the release files
 have unrelated uncommitted changes.
 Use `--no-build` to reuse an existing `fonts/output`.
 
 Review the printed diff: confirm the README and site CDN links now point at `@v0.1.4`,
-the static site is still using a pinned exact ref, the site web fonts were refreshed,
-and the specimen PDF was rebuilt.
-To discard and start over, run the `git checkout` the script prints.
+the static site is still using a pinned exact ref, the public web fonts were refreshed
+in `fonts/web/`, the Pages-local copy was refreshed in `site/fonts/`, and the specimen
+PDF was rebuilt. To discard and start over, run the `git checkout` the script prints.
 
 ### 3. Finalize the release
 
@@ -190,7 +190,7 @@ To discard and start over, run the `git checkout` the script prints.
 make release-finalize VERSION=0.1.4   # or: uv run python scripts/release.py finalize 0.1.4
 ```
 
-This commits the site web fonts + PDF + release-controlled CDN pin updates as
+This commits the web fonts + PDF + release-controlled CDN pin updates as
 `release: v0.1.4` and creates the annotated tag `v0.1.4` on that commit.
 It re-checks that you are on `main`, the tag is free, and all release-controlled CDN
 links are actually pinned to `v0.1.4`, then commits only those release files.
