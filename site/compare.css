@@ -824,6 +824,13 @@ html[data-theme="dark"] .proof-grid.labels-overlay .proof-foot {
   text-align: center;
 }
 
+/* Roomier side margins than the base 20px once we're past the phone layout. */
+@media (min-width: 621px) {
+  body {
+    padding: 0 36px;
+  }
+}
+
 @media (max-width: 860px) {
   .compare-controls {
     grid-template-columns: 1fr;
