@@ -5,18 +5,18 @@
 Planetaire Mono is a beautiful, highly legible monospace font for terminals, editors,
 and agentic work.
 
-It is a lightly adapted fork of [B612 Mono](https://github.com/polarsys/b612) with added
-weights, symbols from [Hack](https://github.com/source-foundry/Hack), and extensive
+Planetaire Mono adapts [B612 Mono](https://github.com/polarsys/b612) for modern use by adding
+weights, punctuation and symbols from [Hack](https://github.com/source-foundry/Hack), and optional
 icons from [Nerd Fonts](https://github.com/ryanoasis/nerd-fonts).
-It is [licensed freely](#license) for personal, commercial, and open source use.
+The result is highly usable and [licensed freely](#license) for personal, commercial, and open source use.
 
 **[View Planetaire →](https://ojoshe.com/planetaire/)**
 
 **[Compare Monospace Fonts →](https://ojoshe.com/planetaire/compare.html)**
 
-**[Read the Type Specimen (PDF)](https://cdn.jsdelivr.net/gh/jlevy/planetaire@v0.1.4/docs/specimen/planetaire-mono-specimen.pdf)**
+**[Read the Type Specimen (PDF) →](https://cdn.jsdelivr.net/gh/jlevy/planetaire@v0.1.4/docs/specimen/planetaire-mono-specimen.pdf)**
 
-**[Download the Fonts (TTF, WOFF2)](https://github.com/jlevy/planetaire/releases/latest)**
+**[Download the Fonts (TTF, WOFF2) →](https://github.com/jlevy/planetaire/releases/latest)**
 
 ## About B612
 

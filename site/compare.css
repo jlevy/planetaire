@@ -66,7 +66,7 @@ body {
 .compare-page-subtitle {
   max-width: 52rem;
   margin: 1rem 0;
-  color: var(--gray);
+  color: var(--ink);
   font-family: var(--ui-font);
   font-size: 1rem;
   line-height: 1.45;
@@ -558,7 +558,7 @@ html[data-theme="dark"] .font-select-wrap select {
   font-family: var(--ui-font);
   font-size: 0.88rem;
   font-weight: 700;
-  line-height: 1.35;
+  line-height: 1.5;
   transition: var(--ui-transition);
 }
 
@@ -567,7 +567,7 @@ html[data-theme="dark"] .font-select-wrap select {
   color: var(--gray);
   font-family: var(--ui-font);
   font-size: 0.74rem;
-  line-height: 1.3;
+  line-height: 1.5;
   margin-top: 0.02rem;
   transition: var(--ui-transition);
 }
