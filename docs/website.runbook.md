@@ -214,6 +214,8 @@ make site-lint      # CI-style static site validation
 - JavaScript syntax for external and inline site scripts with `node --check`;
 - local asset links in HTML and CSS, including query-string cache-busted paths;
 - local `#fragment` targets in committed HTML;
+- canonical homepage links: internal links must use the directory form (`./`), never
+  `index.html`, so the published URL is always `…/planetaire/`;
 - a lightweight `jsdom` runtime smoke test for the homepage and comparator.
 
 The full repository lint command includes the same gate:
@@ -238,8 +240,10 @@ Preview through the same static server shape used by the release checklist:
 npm run site:serve
 ```
 
-Then open `http://127.0.0.1:8765/`. Fonts and assets use relative paths, so direct
-`file://` preview also works in browsers that allow local-file navigation.
+Then open `http://127.0.0.1:8765/`. Fonts and assets use relative paths, so a single
+page also renders under direct `file://` preview, but cross-page navigation needs the
+server: internal homepage links use the directory form (`./`), which only an HTTP server
+resolves to `index.html`.
 
 * * *
 
