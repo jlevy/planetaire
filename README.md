@@ -188,8 +188,8 @@ Get the latest from
 
 | Package | Best for | Includes | Download |
 | --- | --- | --- | --- |
-| **Planetaire Mono Text** *(standard)* | Websites, documents, reading | TTF: full text coverage, all 10 variants. Web: slim Regular/Bold Latin, Greek, and Cyrillic split, with optional italic CSS. | [`.tar.xz`](https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Text.tar.xz) **~1 MB** · [`.zip`](https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Text.zip) ~1.3 MB |
-| **Planetaire Mono Extended** *(full)* | Terminals, coding, icon-rich CLIs | Everything in Text plus all 10,000+ Nerd Font icons and Powerline. TTF + WOFF2. | [`.tar.xz`](https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Extended.tar.xz) **~19 MB** · [`.zip`](https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Extended.zip) ~24 MB |
+| **Planetaire Mono Text** *(standard)* | Websites, documents, reading | TTF: full text coverage, all 10 variants. Web: slim Regular/Bold Latin, Greek, and Cyrillic split, with optional italic CSS. | [`.tar.xz`](https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Text.tar.xz) **~1 MB** · [`.zip`](https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Text.zip) ~1 MB |
+| **Planetaire Mono Extended** *(full)* | Terminals, coding, icon-rich CLIs | Everything in Text plus all 10,000+ Nerd Font icons and Powerline. TTF + WOFF2. | [`.tar.xz`](https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Extended.tar.xz) **~19 MB** · [`.zip`](https://github.com/jlevy/planetaire/releases/latest/download/PlanetaireMono-Extended.zip) ~30 MB |
 
 Both archives are laid out as `ttf/` (for local install) and `web/` (WOFF2 plus
 `@font-face` stylesheets).
