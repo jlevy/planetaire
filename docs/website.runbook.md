@@ -39,11 +39,13 @@ site/
 The page renders **in the actual font** (the Text web subset), which is the whole point
 of having a site rather than the README’s screenshots.
 
-Production pages load those committed `site/fonts/` files through a pinned jsDelivr
-`/gh/` URL rather than directly from GitHub Pages.
+Production pages load the committed `fonts/web/` distribution files through a pinned
+jsDelivr `/gh/` URL rather than directly from GitHub Pages.
 The pin is an exact release tag or commit SHA, never `@main` or `@latest`, so font CSS
 and WOFF2 files get immutable CDN caching and a normal search-and-replace pin bump busts
 the cache immediately.
+The same files also remain in `site/fonts/`, which GitHub Pages publishes as
+`/fonts/...` from the project site root.
 
 * * *
 
@@ -76,7 +78,7 @@ the site’s HTML copy is manual.
 | **A palette** (`pal-dark` / `pal-light`) in `content.typ` | the `--l-*` / `--d-*` CSS vars at the top of `site/style.css` (a 1:1 copy of the hex values) |
 | **Spec values** (metrics, glyph counts) because the font was rebuilt | the spec page in `planetaire-mono-specimen.typ` **and** the `.specgrid` block in `site/index.html` (hand-copied numbers — re-check them all) |
 | **Section order** in `README.md` | keep matching prose/table/demo content in `site/index.html`; preserve the site’s About / Samples / Installation tab grouping unless the site IA is intentionally revised |
-| **The fonts** (new release) | run the release script so it refreshes `site/fonts/` and bumps the pinned jsDelivr refs (see §3), then re-check the spec numbers |
+| **The fonts** (new release) | run the release script so it refreshes `fonts/web/` + `site/fonts/` and bumps the pinned jsDelivr refs (see §3), then re-check the spec numbers |
 
 ### Intentional divergences (do NOT “fix” these)
 
@@ -110,20 +112,23 @@ If that SVG changes:
 cp docs/images/little-planet-vector-trace-v3.svg site/assets/little-planet.svg
 ```
 
-**Web fonts** — `site/fonts/` is a committed copy of the `PlanetaireMono-Text` web
-output. Production HTML loads these files from jsDelivr’s `/gh/` endpoint at a pinned
-ref, but jsDelivr can only serve files that are present in the tagged commit.
+**Web fonts** — `fonts/web/` is the committed public web distribution for jsDelivr, and
+`site/fonts/` is the GitHub Pages-local copy published as `/fonts/...`. Both are copies
+of the `PlanetaireMono-Text` web output.
+Production HTML loads `fonts/web/` from jsDelivr’s `/gh/` endpoint at a pinned ref, but
+jsDelivr can only serve files that are present in the tagged commit.
 It cannot unpack the GitHub Release `.tar.xz` archive.
 
-When the web fonts change, `make release VERSION=X.Y.Z` refreshes `site/fonts/` from
-`fonts/output/` **before tagging the release**, so the tag contains the files the pinned
-CDN URL will serve.
+When the web fonts change, `make release VERSION=X.Y.Z` refreshes both `fonts/web/` and
+`site/fonts/` from `fonts/output/` **before tagging the release**, so the tag contains
+the files the pinned CDN URL will serve.
 
 For an emergency manual refresh, or a quick check against a published release archive,
 the equivalent copy is:
 
 ```bash
 cp fonts/output/PlanetaireMonoText-*.woff2 fonts/output/planetaire-mono-text*.css site/fonts/
+cp fonts/output/PlanetaireMonoText-*.woff2 fonts/output/planetaire-mono-text*.css fonts/web/
 ```
 
 Or, from a release archive:
@@ -132,6 +137,7 @@ Or, from a release archive:
 gh release download --pattern 'PlanetaireMono-Text.tar.xz' --repo jlevy/planetaire -O /tmp/t.tar.xz
 tar -xf /tmp/t.tar.xz -C /tmp
 cp /tmp/web/*.woff2 /tmp/web/planetaire-mono-text*.css site/fonts/
+cp /tmp/web/*.woff2 /tmp/web/planetaire-mono-text*.css fonts/web/
 ```
 
 The **Specimen PDF** links and static-site web-font links use pinned jsDelivr URLs
