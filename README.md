@@ -21,9 +21,11 @@ and open source use.
 
 **[Download the Fonts (TTF, WOFF2) →](https://github.com/jlevy/planetaire/releases/latest)**
 
-<p align="center">
-<a href="https://ojoshe.com/planetaire/"><img src="docs/images/text-dark.png" width="100%" alt="Alan Turing's “Can machines think?” passage set in Planetaire Mono on a dark background"></a>
 <br>
+
+<p align="center"> <a href="https://ojoshe.com/planetaire/"><img
+src="docs/images/text-dark.png" width="100%" alt="Alan Turing's “Can machines think?”
+passage set in Planetaire Mono on a dark background"></a> <br>
 <a href="https://ojoshe.com/planetaire/"><img src="docs/images/text-light.png" width="100%" alt="The same Alan Turing passage on a light background"></a>
 </p>
 
@@ -407,6 +409,29 @@ base weights with FontForge emboldening before merging.
 Full build, specimen, and release steps are in
 [fonts-build-and-release.md](docs/fonts-build-and-release.md); regenerating the specimen
 and these images is in [build-assets.runbook.md](docs/build-assets.runbook.md).
+
+## FAQ
+
+- **Does it have ligatures?** No.
+  Neither B612 nor Hack includes them, and Planetaire Mono keeps every character
+  distinct, true to its legibility-first design.
+  It’s possible we could find a way to package ligatures from another font in the
+  future, but it would have to match Hack’s heavier punctuation style.
+
+- **Why a dotted zero rather than a slashed zero?** A slash can be mistaken for the
+  Scandinavian Ø; a center dot cannot.
+  The dot is a circle by default, with a rectangle variant via `ss01`.
+
+- **How is this different from B612 Mono on Google Fonts?** That release has four styles
+  and B612’s original symbols, which are harder to read (especially the quote marks),
+  and its `0` and `O` are easy to confuse.
+  Planetaire Mono replaces the punctuation and symbols with Hack’s and adds the extra
+  weights, the dotted zero, and the Nerd Font icons.
+
+- **Why not fix B612 upstream?** The upstream project has been dormant for years, and
+  its license reserves the B612 name, so an adapted version must ship under a new name
+  regardless. The build pipeline works over the released B612 fonts, so upstream
+  improvements can still be merged if the project revives.
 
 ## Credits
 
