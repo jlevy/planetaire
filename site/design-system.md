@@ -174,6 +174,16 @@ All button text is **CAPS** (via `text-transform`, authored mixed-case).
   `360ms`, disabled under `prefers-reduced-motion`.
 - **Dark-mode planet:** the SVG is black line art, so dark mode inverts it
   (`filter: invert(1)`) to keep it visible.
+- **Star separator (`.starsep`):** a centered row of three differently styled stars
+  — a solid sparkle, a plump outline star, and a hollow sparkle — lifted from the cover
+  graphic (`assets/little-planet.svg`).
+  It marks the lead-in above the section tabs (`--lead`) and the break between stacked
+  panels (`--section`), where it supplies the boundary air the panels would otherwise get
+  from the tab-boundary gap.
+  The shapes live once in the `#plt-star-*` SVG sprite and are reused via `<use>`.
+  Decorative, so the row is `aria-hidden` (the headings carry the structure) and the
+  stars are full `--ink`, echoing the planet line art and inverting with the theme via
+  `currentColor` rather than a new color token.
 - **Tables / spec grid / code panels / glyph rows:** styled once in `style.css`; reuse
   the classes rather than adding inline styles.
 - **Narrow tables:** tables may self-scroll horizontally below the small-screen
@@ -227,6 +237,9 @@ spec for both.
 
 - The pinned bar is opaque `--bg` with the existing hairline rule as its bottom edge: no
   shadow, no elevation, per the minimal chrome principle.
+- The bar breaks out of the reading column to the wide `--nav-max` measure (the same
+  formula as the top nav), so its hairline reads as a full-width rule when pinned rather
+  than a floating 720px strip.
 - **Tab boundaries get extra air:** `--space-tab-boundary` (`6.5rem`) above the first
   heading of each panel after the first, versus the normal `4.25rem` h2 gap, so one
   tab’s section clearly ends before the next begins while scrolling.

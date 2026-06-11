@@ -527,7 +527,11 @@ i {
   justify-content: center;
   flex-wrap: wrap;
   gap: 1.7rem;
-  margin: -2rem 0 3rem;
+  /* Break out of the reading column to the wide nav measure (same formula as
+     .site-nav), so the hairline reads as a full-width rule when pinned. */
+  width: min(var(--nav-max), calc(100vw - 40px));
+  margin: -2rem 0 3rem 50%;
+  transform: translateX(-50%);
   border-bottom: 1px solid var(--rule);
   position: sticky;
   top: 0;
@@ -558,6 +562,58 @@ i {
 }
 .stacked-heading + h2 {
   margin-top: 2rem; /* boundary heading already provides the section break */
+}
+
+/* ---- Star separator (dinkus) ---------------------------------------------
+   A row of three stars lifted from the cover graphic (assets/little-planet.svg):
+   a solid sparkle, a plump outline star, and a hollow sparkle. Marks the lead-in
+   above the section tabs and the break between stacked panels. Decorative — it
+   echoes the planet's star vocabulary, so the stars are full --ink like the
+   planet line art (and invert with the theme). The section structure itself is
+   still carried by the headings, so the row is aria-hidden. The shapes live once
+   in the #plt-star-* sprite (index.html); see design-system.md ("Star separator"). */
+.plt-sprite {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+.starsep {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.4rem;
+  color: var(--ink);
+}
+.starsep .star {
+  display: block;
+  flex: none;
+  width: auto;
+}
+.starsep .star--sparkle,
+.starsep .star--hollow {
+  height: 1.15rem;
+}
+.starsep .star--outline {
+  height: 1.55rem; /* the centerpiece reads a touch larger than the flanking sparkles */
+}
+/* Lead-in above the sticky tab bar: sits between the theme switch and the tabs
+   and supplies its own air, so the tabs drop their negative top margin. */
+.starsep--lead {
+  margin: 3rem 0 1.6rem;
+}
+.starsep--lead + .tabs {
+  margin-top: 0;
+}
+/* Section break: the divider now provides the boundary air between stacked
+   panels (replacing the .tab-panel + .tab-panel gap, which no longer applies
+   once a divider sits between them), so the next panel's first heading drops
+   its large top gap. */
+.starsep--section {
+  margin: 3.25rem 0;
+}
+.starsep--section + .tab-panel > h2:first-child {
+  margin-top: 0;
 }
 
 /* ---- Lists & tables ------------------------------------------------------ */

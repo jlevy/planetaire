@@ -41,7 +41,7 @@
 ------------------------------------------------------------------------- -->
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jlevy/planetaire@v0.1.5/fonts/web/planetaire-mono-text.css">
-<link rel="stylesheet" href="style.css?v=20260610-unified-tabs-1">
+<link rel="stylesheet" href="style.css?v=20260610-unified-tabs-2">
 
 <!-- Set the theme before first paint (no flash): cookie, then localStorage,
      then OS preference. The cookie makes the choice stick on revisit. -->
@@ -58,6 +58,26 @@
 </script>
 </head>
 <body>
+
+<!-- Star sprite: three differently styled stars lifted from the cover graphic
+     (assets/little-planet.svg) — a solid sparkle, a plump outline star, and a
+     hollow sparkle. Reused by the .starsep dividers (lead-in above the tabs and
+     the break between stacked panels). Decorative; see design-system.md. -->
+<svg class="plt-sprite" aria-hidden="true" focusable="false" width="0" height="0">
+  <symbol id="plt-star-outline" viewBox="-2.7 -3.95 35 35">
+    <path d="M14.3 0L17.8 11.1L29.6 10.4L20 16.9L22.1 27.1L14.3 22L6.5 27.1L7.6 16.9L0 9.4L10.8 10.1Z"
+          fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="plt-star-sparkle" viewBox="-2 -1.5 32 32">
+    <path d="M14 0L9 10L7 10L6 11L2 11L0 13L0 14L2 16L7 19L7 22L6 23L6 29L8 29L14 24L16 24L23 28L25 27L25 25L23 21L23 18L27 14L28 10L27 9L20 9L18 7L16 1Z"
+          fill="currentColor"/>
+  </symbol>
+  <symbol id="plt-star-hollow" viewBox="-2 -1.5 32 32">
+    <path fill="currentColor" fill-rule="evenodd"
+          d="M14 0L9 10L7 10L6 11L2 11L0 13L0 14L2 16L7 19L7 22L6 23L6 29L8 29L14 24L16 24L23 28L25 27L25 25L23 21L23 18L27 14L28 10L27 9L20 9L18 7L16 1ZM14 6L16 7L17 11L19 12L22 12L23 13L23 14L20 17L21 19L21 22L20 23L16 21L14 21L12 23L10 23L9 22L10 18L6 15L7 13L10 13L12 12L12 10Z"/>
+  </symbol>
+</svg>
+
 <div class="wrap">
 
 <nav class="site-nav" aria-label="Primary">
@@ -95,6 +115,13 @@
     </span>
   </div>
 </header>
+
+<!-- Star divider: lead-in above the section tabs (see .starsep in style.css). -->
+<div class="starsep starsep--lead" aria-hidden="true">
+  <svg class="star star--sparkle" viewBox="-2 -1.5 32 32"><use href="#plt-star-sparkle"/></svg>
+  <svg class="star star--outline" viewBox="-2.7 -3.95 35 35"><use href="#plt-star-outline"/></svg>
+  <svg class="star star--hollow" viewBox="-2 -1.5 32 32"><use href="#plt-star-hollow"/></svg>
+</div>
 
 <!-- Sticky scrollspy over the stacked sections below; see scroll-tabs.js and
      design-system.md ("Tabs and scrolling"). aria-current tracks scroll position. -->
@@ -222,6 +249,13 @@ glyph fonts under OFL-1.1 with the patcher tooling under MIT. Full license texts
 <a href="https://github.com/jlevy/planetaire/blob/main/LICENSE">MIT</a>.</p>
 </section>
 
+<!-- Star divider: section break (see .starsep in style.css). -->
+<div class="starsep starsep--section" aria-hidden="true">
+  <svg class="star star--sparkle" viewBox="-2 -1.5 32 32"><use href="#plt-star-sparkle"/></svg>
+  <svg class="star star--outline" viewBox="-2.7 -3.95 35 35"><use href="#plt-star-outline"/></svg>
+  <svg class="star star--hollow" viewBox="-2 -1.5 32 32"><use href="#plt-star-hollow"/></svg>
+</div>
+
 <!-- ====================================================================== -->
 <!-- FAQ  (mirrors the README FAQ)                                          -->
 <!-- ====================================================================== -->
@@ -246,6 +280,13 @@ glyph fonts under OFL-1.1 with the patcher tooling under MIT. Full license texts
     so upstream improvements can still be merged if the project revives.</li>
 </ul>
 </section>
+
+<!-- Star divider: section break (see .starsep in style.css). -->
+<div class="starsep starsep--section" aria-hidden="true">
+  <svg class="star star--sparkle" viewBox="-2 -1.5 32 32"><use href="#plt-star-sparkle"/></svg>
+  <svg class="star star--outline" viewBox="-2.7 -3.95 35 35"><use href="#plt-star-outline"/></svg>
+  <svg class="star star--hollow" viewBox="-2 -1.5 32 32"><use href="#plt-star-hollow"/></svg>
+</div>
 
 <!-- ====================================================================== -->
 <!-- ====================================================================== -->
@@ -532,6 +573,13 @@ Extended Additional: over 12,000 glyphs in the Extended package.</p>
 <div class="disambig"><div class="glyphs">2 Z 6 G</div><div class="desc">digit 2 vs Z · digit 6 vs G</div></div>
 
 </section>
+
+<!-- Star divider: section break (see .starsep in style.css). -->
+<div class="starsep starsep--section" aria-hidden="true">
+  <svg class="star star--sparkle" viewBox="-2 -1.5 32 32"><use href="#plt-star-sparkle"/></svg>
+  <svg class="star star--outline" viewBox="-2.7 -3.95 35 35"><use href="#plt-star-outline"/></svg>
+  <svg class="star star--hollow" viewBox="-2 -1.5 32 32"><use href="#plt-star-hollow"/></svg>
+</div>
 
 <!-- ====================================================================== -->
 <!-- PACKAGES                                                               -->
