@@ -86,6 +86,10 @@
      between them, like the specimen */
   --space-para: 1.6rem;
 
+  /* extra air above a tab-boundary heading (vs the 4.25rem h2 gap), so one
+     tab's section clearly ends before the next begins when scrolling */
+  --space-tab-boundary: 6.5rem;
+
   /* weights */
   --fw-regular: 400;
   --fw-medium: 500;
@@ -93,7 +97,6 @@
 
   --ui-transition:
     color 360ms ease, background-color 360ms ease, border-color 360ms ease, opacity 360ms ease;
-  --page-transition-duration: 100ms;
   --nav-transition-duration: 45ms;
 
   --max: 720px;
@@ -175,39 +178,7 @@ body {
   overflow-x: clip;
 } /* guard against side-scroll; also clips the planet's off-screen bleed box.
      Must be clip, not hidden: hidden creates a scroll container, which would
-     defeat the sticky tab bar (see "Stacked tabs" below). */
-
-::view-transition-old(root),
-::view-transition-new(root) {
-  animation-duration: var(--page-transition-duration);
-  animation-timing-function: ease;
-}
-
-::view-transition-old(root) {
-  animation-name: page-fade-out;
-}
-
-::view-transition-new(root) {
-  animation-name: page-fade-in;
-}
-
-@keyframes page-fade-out {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
-}
-
-@keyframes page-fade-in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
+     defeat the sticky tab bar (see "Main tabs" below). */
 
 /* Gentle, general transition so light/dark mode eases rather than snaps.
    Only themeable properties; placed once, globally. */
@@ -542,7 +513,14 @@ i {
   }
 }
 
-/* ---- Main tabs ----------------------------------------------------------- */
+/* ---- Main tabs (section tabs: sticky scrollspy) ---------------------------
+   The homepage tab bar is a scrollspy over the stacked tab panels below it,
+   at every width: scroll-tabs.js derives the active tab (aria-current) from
+   scroll position, taps smooth-scroll to the section, and anchors land below
+   the pinned bar via the measured --tabbar-h. This is the "section tabs"
+   kind; page tabs (top nav) and view tabs (compare page, aria-selected) stay
+   traditional switchers, sharing only the .tab-opt look. UX rules:
+   design-system.md, "Tabs and scrolling". */
 
 .tabs {
   display: flex;
@@ -551,6 +529,11 @@ i {
   gap: 1.7rem;
   margin: -2rem 0 3rem;
   border-bottom: 1px solid var(--rule);
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: var(--bg);
+  padding-top: 0.4rem; /* breathing room when pinned to the viewport edge */
 }
 .tab-opt {
   border: 0;
@@ -563,51 +546,17 @@ i {
   color: var(--ink);
   border-bottom-color: var(--ink);
 }
-.tab-content {
-  transition:
-    opacity var(--page-transition-duration) ease,
-    transform var(--page-transition-duration) ease;
-}
-.tab-content.is-transitioning {
-  opacity: 0;
-  transform: translateY(0.16rem);
-}
-.tab-panel[hidden] {
-  display: none;
-}
-.tab-panel > h2:first-child {
-  margin-top: 0;
-}
-
-/* ---- Stacked tabs (narrow screens) ---------------------------------------
-   Below the mobile breakpoint, scroll-tabs.js stacks all tab panels into one
-   continuous document and adds .tabs-stacked to <body>: the bar pins to the
-   viewport top and becomes a scrollspy plus jump nav, each later panel opens
-   with its own heading, and anchors land below the pinned bar. The JS owns
-   the breakpoint via matchMedia; these rules key off the body class so CSS
-   and JS cannot disagree. UX rules: design-system.md, "Tabs, scrolling, and
-   mobile". */
-
-body.tabs-stacked .tabs {
-  position: sticky;
-  top: 0;
-  z-index: 2;
-  background: var(--bg);
-  padding-top: 0.4rem; /* breathing room when pinned to the viewport edge */
-}
-body.tabs-stacked .tab-panel,
-body.tabs-stacked .tab-content [id] {
+.tab-panel,
+.tab-content [id] {
   scroll-margin-top: calc(var(--tabbar-h, 3.2rem) + 0.6rem);
 }
-/* Tab-boundary headings exist in the markup but render only when stacked,
-   so the stacked page reads as one continuous document. */
-.stacked-heading {
-  display: none;
+/* Tab boundaries get extra air so one section clearly ends before the next
+   begins. .stacked-heading is the tab-boundary heading on panels whose first
+   heading is not already the tab's own name. */
+.tab-panel + .tab-panel > h2:first-child {
+  margin-top: var(--space-tab-boundary);
 }
-body.tabs-stacked .stacked-heading {
-  display: block;
-}
-body.tabs-stacked .stacked-heading + h2 {
+.stacked-heading + h2 {
   margin-top: 2rem; /* boundary heading already provides the section break */
 }
 

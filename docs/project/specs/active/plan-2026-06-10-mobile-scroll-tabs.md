@@ -4,7 +4,9 @@
 
 **Author:** jlevy (with Claude Code)
 
-**Status:** Implemented (Phase 1; Phase 2 extraction open as plt-9uiq)
+**Status:** Implemented, then unified: after on-device testing, the stacked scrollspy
+became the only mode at all widths (plt-use9 resolved Open Question 1), deleting the
+tabbed mode entirely. Phase 2 extraction remains open as plt-9uiq.
 
 ## Overview
 
@@ -218,9 +220,12 @@ reliably cross-browser, so IntersectionObserver remains the portable choice.
 
 ## Open Questions
 
-1. **Unify on stacked mode for desktop too?** Many docs sites use scrollspy at all
-   widths and it would halve the code paths.
-   Default for now: keep desktop tabs; they look clean on wide screens.
+1. **Unify on stacked mode for desktop too?** Resolved 2026-06-10 (plt-use9): yes.
+   After testing the stacked mode, scrollspy became the only mode at all widths,
+   deleting the tabbed mode, the View Transitions fade, and the matchMedia mode
+   controller. Traditional tabs remain the right pattern for the *other* tab kinds
+   (page tabs in the top nav, view tabs on compare); see design-system.md, "Tabs and
+   scrolling", for the taxonomy.
 2. **Hash updates on scroll:** recommended yes (replaceState only, at tab boundaries),
    but easy to drop if it feels noisy.
 3. **Header titles** for Samples and Installation in stacked mode: reuse the tab labels

@@ -12,37 +12,22 @@ const pages = [
     checks(window) {
       const document = window.document;
       assertText(document.querySelector("h1"), "Planetaire Mono", "homepage h1");
-      assertCount(document.querySelectorAll(".tab-opt"), 4, "homepage tabs");
+      assertCount(document.querySelectorAll(".tabs .tab-opt"), 4, "homepage section tabs");
       assertCount(document.querySelectorAll(".tab-panel"), 4, "homepage tab panels");
       assertCount(document.querySelectorAll("#qa-upper .cell"), 26, "homepage QA uppercase cells");
-      assertPressedThemeButtons(document);
-    },
-  },
-  {
-    // Same page at a stubbed narrow viewport: scroll-tabs.js must enter
-    // stacked mode (one continuous document with nav semantics).
-    file: "index.html",
-    label: "index.html (stacked tabs)",
-    narrow: true,
-    checks(window) {
-      const document = window.document;
-      assert(document.body.classList.contains("tabs-stacked"), "stacked: body class missing");
-      assertCount(document.querySelectorAll(".tab-panel[hidden]"), 0, "stacked: hidden panels");
+      // Section tabs are a scrollspy over one stacked document at all widths.
+      assertCount(document.querySelectorAll(".tab-panel[hidden]"), 0, "hidden panels");
       assert(
         !document.querySelector(".tabs").getAttribute("role"),
-        "stacked: tablist role should be dropped",
-      );
-      assertCount(
-        document.querySelectorAll(".tab-opt[role='tab']"),
-        0,
-        "stacked: tab roles should be dropped",
+        "section tabs: no tablist role",
       );
       assertAtLeast(
-        document.querySelectorAll(".tab-opt[aria-current='true']").length,
+        document.querySelectorAll(".tabs .tab-opt[aria-current='true']").length,
         1,
-        "stacked: active tab indicator",
+        "section tabs: active tab indicator",
       );
-      assertCount(document.querySelectorAll(".stacked-heading"), 2, "stacked: boundary headings");
+      assertCount(document.querySelectorAll(".stacked-heading"), 2, "tab-boundary headings");
+      assertPressedThemeButtons(document);
     },
   },
   {
@@ -127,10 +112,9 @@ async function smokePage(page) {
   const fileUrl = pathToFileURL(path.join(site, page.file)).href;
   const dom = await JSDOM.fromURL(fileUrl, {
     beforeParse(window) {
-      // jsdom has no layout, so media queries are stubbed: pages with
-      // narrow: true pretend to be below the mobile breakpoint.
+      // jsdom has no layout, so media queries are stubbed (never matching).
       window.matchMedia = (query) => ({
-        matches: page.narrow === true && query.includes("max-width: 620px"),
+        matches: false,
         media: query,
         onchange: null,
         addEventListener() {},
