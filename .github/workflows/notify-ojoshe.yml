@@ -5,8 +5,9 @@ name: Notify ojoshe.com to rebuild
 # site/ directory as-is under /planetaire/. See docs/website.runbook.md §7.
 #
 # That site's deploy workflow listens for a `repository_dispatch` event of type
-# `planetaire-release` and redeploys with the latest site/ content when it arrives.
-# This workflow fires that event whenever published site content changes here.
+# `planetaire-commit` and redeploys with the latest site/ content when it arrives.
+# This workflow fires that event on every commit that changes published site content
+# (and on releases) — every such commit goes live, hence `planetaire-commit`.
 #
 # Required repo secret: OJOSHE_DISPATCH_TOKEN — a fine-grained PAT scoped to the
 # ojoshe repo with "Contents: read and write". (The default GITHUB_TOKEN cannot send
@@ -26,10 +27,10 @@ jobs:
   dispatch:
     runs-on: ubuntu-latest
     steps:
-      - name: Send planetaire-release dispatch
+      - name: Send planetaire-commit dispatch
         run: |
           gh api repos/jlevy/ojoshe/dispatches \
-            -f event_type=planetaire-release \
+            -f event_type=planetaire-commit \
             -F 'client_payload[ref]=${{ github.ref_name }}'
         env:
           GH_TOKEN: ${{ secrets.OJOSHE_DISPATCH_TOKEN }}
