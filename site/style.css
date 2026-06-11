@@ -104,6 +104,18 @@
   --max: 720px;
   --nav-max: 1180px;
 
+  /* Bar geometry: nav and tab bars draw a hairline across the wide bar
+     measure, but their labels align with the page's text column. The gutter
+     is the body's side padding (compare widens it); --text-col is the column
+     labels align to (compare overrides it to its wider content column). */
+  --page-gutter: 20px;
+  --text-col: var(--max);
+  --bar-width: min(var(--nav-max), calc(100vw - 2 * var(--page-gutter)));
+  --column-inset: calc(
+    (var(--bar-width) - min(var(--text-col), 100vw - 2 * var(--page-gutter))) /
+    2
+  );
+
   /* code/terminal demo palettes (the one exception to two-color) ---------- */
   /* pal-light (content.typ) */
   --l-red: #a8342a;
@@ -214,7 +226,7 @@ body {
   color: var(--ink);
   background: var(--bg);
   margin: 0;
-  padding: 0 20px;
+  padding: 0 var(--page-gutter);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -351,11 +363,14 @@ i {
 /* ---- Top nav ------------------------------------------------------------- */
 
 .site-nav {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  display: flex;
+  justify-content: space-between;
   align-items: flex-end;
   gap: 1.7rem;
-  width: min(var(--nav-max), calc(100vw - 40px));
+  /* Hairline spans the wide bar measure; the inset aligns the page tabs with
+     the text column's left edge and GitHub with its right edge. */
+  width: var(--bar-width);
+  padding-inline: var(--column-inset);
   margin: 0 0 2rem 50%;
   transform: translateX(-50%);
   border-bottom: 1px solid var(--rule);
@@ -365,8 +380,6 @@ i {
   display: flex;
   flex-wrap: wrap;
   gap: 1.7rem;
-  grid-column: 2;
-  justify-self: center;
 }
 .site-nav-tab,
 .site-nav-external,
@@ -392,10 +405,6 @@ i {
   padding: var(--tab-padding-block-start) var(--tab-padding-inline) var(--tab-padding-block-end);
   border-bottom: var(--tab-indicator-width) solid transparent;
   margin-bottom: -1px;
-}
-.site-nav-external {
-  grid-column: 3;
-  justify-self: end;
 }
 .site-nav-tab:hover,
 .site-nav-external:hover,
@@ -537,16 +546,18 @@ i {
 /* Section tabs only (the homepage scrollspy): pinning and the wide breakout.
    View tabs (compare page) and page tabs must NOT get these. */
 .section-tabs {
-  /* Break out of the reading column to the wide nav measure (same formula as
-     .site-nav), so the hairline reads as a full-width rule when pinned. */
-  width: min(var(--nav-max), calc(100vw - 40px));
+  /* Break out of the reading column to the wide bar measure (same as
+     .site-nav), so the hairline reads as a full-width rule when pinned; the
+     inset left-aligns the labels with the text column. */
+  width: var(--bar-width);
+  justify-content: flex-start;
+  padding: 0.4rem var(--column-inset) 0; /* top: breathing room when pinned */
   margin-left: 50%;
   transform: translateX(-50%);
   position: sticky;
   top: 0;
   z-index: 2;
   background: var(--bg);
-  padding-top: 0.4rem; /* breathing room when pinned to the viewport edge */
 }
 .tab-opt {
   border: 0;
@@ -608,10 +619,29 @@ i {
 .starsep .star--outline {
   height: 1.6rem; /* the heavier outline star reads a touch larger, as on the cover */
 }
-/* Lead-in above the sticky tab bar: sits between the theme switch and the tabs
-   and supplies its own air, so the tabs drop their negative top margin. */
+/* Nudge each star to a slightly different baseline so the trio looks hand-placed
+   and a little accidental rather than a ruler-straight row. Purely visual:
+   transforms don't reflow, so the separator's height is unchanged. */
+.starsep .star--sparkle {
+  transform: translateY(0.22rem);
+}
+.starsep .star--outline {
+  transform: translateY(0.05rem);
+}
+.starsep .star--hollow {
+  transform: translateY(0.34rem);
+}
+/* Lead-in above the sticky tab bar: sits between the theme switch and the tabs.
+   The hero's large bottom margin (its gap to whatever follows) would otherwise
+   collapse over the divider's top margin and leave too much air above the stars,
+   so tighten the hero here and let the stars sit evenly between the theme switch
+   and the tab bar (~1.6rem above and below). The tabs drop their negative top
+   margin so the divider owns the lower gap. */
+.hero:has(+ .starsep--lead) {
+  margin-bottom: 1.6rem;
+}
 .starsep--lead {
-  margin: 3rem 0 1.6rem;
+  margin: 1.6rem 0;
 }
 .starsep--lead + .tabs {
   margin-top: 0;

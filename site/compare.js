@@ -522,6 +522,7 @@ function syncProofDimensions() {
   const sharedHeight = Math.ceil(Math.min(naturalHeight, maxHeight));
   els.grid.style.setProperty("--proof-card-width", `${sharedWidth}px`);
   els.grid.style.setProperty("--proof-sample-height", `${sharedHeight}px`);
+  applyPanToCards();
 }
 
 let proofSyncFrame = 0;
@@ -538,6 +539,157 @@ function queueProofDimensionSync() {
     proofSyncFrame = 0;
     syncProofDimensions();
   });
+}
+
+// ---- Synchronized drag-to-pan (card view) --------------------------------
+// In card view the proof text is clipped, not scrollable, so the wheel/trackpad
+// scrolls the page instead of fighting a scroll trap inside each card. To look
+// closer you drag any card, and every card pans by the same horizontal and
+// vertical offset — so the same slice of text lines up across all fonts for
+// piece-by-piece comparison. Pointer Events cover mouse, touch, and pen; the
+// cards keep overflow:hidden, which still honors programmatic scrollLeft/Top,
+// so the pan is just a shared scroll offset re-applied to every card.
+const DRAG_THRESHOLD = 3; // px of movement before a click becomes a drag
+let panX = 0;
+let panY = 0;
+/** @type {{pointerId: number, target: HTMLElement, startX: number, startY: number, originX: number, originY: number, active: boolean} | null} */
+let panDrag = null;
+
+function proofSampleEls() {
+  return Array.from(
+    els.grid.querySelectorAll(".proof-sample"),
+    (el) => /** @type {HTMLElement} */ (el),
+  );
+}
+
+function applyPanToCards() {
+  if (viewMode !== "cards") {
+    return;
+  }
+  const samples = proofSampleEls();
+  let maxX = 0;
+  let maxY = 0;
+  for (const el of samples) {
+    maxX = Math.max(maxX, el.scrollWidth - el.clientWidth);
+    maxY = Math.max(maxY, el.scrollHeight - el.clientHeight);
+  }
+  panX = Math.min(Math.max(panX, 0), maxX);
+  panY = Math.min(Math.max(panY, 0), maxY);
+  for (const el of samples) {
+    el.scrollLeft = panX;
+    el.scrollTop = panY;
+  }
+}
+
+function endProofPan() {
+  if (!panDrag) {
+    return;
+  }
+  if (panDrag.target.hasPointerCapture?.(panDrag.pointerId)) {
+    panDrag.target.releasePointerCapture(panDrag.pointerId);
+  }
+  els.grid.classList.remove("is-panning");
+  panDrag = null;
+  updateActiveTip();
+}
+
+function onProofPointerDown(event) {
+  if (viewMode !== "cards" || event.button !== 0) {
+    return;
+  }
+  const sample = /** @type {HTMLElement} */ (event.target).closest(".proof-sample");
+  if (!sample) {
+    return;
+  }
+  panDrag = {
+    pointerId: event.pointerId,
+    target: /** @type {HTMLElement} */ (sample),
+    startX: event.clientX,
+    startY: event.clientY,
+    originX: panX,
+    originY: panY,
+    active: false,
+  };
+}
+
+function onProofPointerMove(event) {
+  if (!panDrag || event.pointerId !== panDrag.pointerId) {
+    return;
+  }
+  const dx = event.clientX - panDrag.startX;
+  const dy = event.clientY - panDrag.startY;
+  if (!panDrag.active) {
+    // Wait for real movement so a plain click still focuses the card.
+    if (Math.abs(dx) < DRAG_THRESHOLD && Math.abs(dy) < DRAG_THRESHOLD) {
+      return;
+    }
+    panDrag.active = true;
+    panDrag.target.setPointerCapture(panDrag.pointerId);
+    els.grid.classList.add("is-panning");
+    updateActiveTip();
+  }
+  panX = panDrag.originX - dx;
+  panY = panDrag.originY - dy;
+  applyPanToCards();
+  event.preventDefault();
+}
+
+// ---- Single card-name overlay (card view) --------------------------------
+// In overlay-label mode exactly one card shows its name tip at a time. Hover or
+// keyboard focus (tabbing through cards) can set the active card; hover wins
+// over focus, and a drag clears the tip while panning. One source of truth —
+// the .is-tip class on a single card — is what keeps two tips from ever showing
+// together; CSS :hover + :focus could light up two cards at once.
+/** @type {HTMLElement | null} */
+let tipHover = null;
+/** @type {HTMLElement | null} */
+let tipFocus = null;
+
+function proofFromEventTarget(target) {
+  return target instanceof Element
+    ? /** @type {HTMLElement | null} */ (target.closest(".proof"))
+    : null;
+}
+
+function activeTipProof() {
+  if (viewMode !== "cards" || panDrag?.active) {
+    return null;
+  }
+  return tipHover || tipFocus;
+}
+
+function updateActiveTip() {
+  const active = activeTipProof();
+  els.grid.querySelectorAll(".proof").forEach((proof) => {
+    proof.classList.toggle("is-tip", proof === active);
+  });
+}
+
+function onProofPointerOver(event) {
+  const proof = proofFromEventTarget(event.target);
+  if (proof !== tipHover) {
+    tipHover = proof;
+    updateActiveTip();
+  }
+}
+
+function onProofPointerOut(event) {
+  // relatedTarget is where the pointer is heading: another card, or off the grid.
+  const proof = proofFromEventTarget(event.relatedTarget);
+  if (proof !== tipHover) {
+    tipHover = proof;
+    updateActiveTip();
+  }
+}
+
+function onProofFocusIn(event) {
+  tipFocus = proofFromEventTarget(event.target);
+  updateActiveTip();
+}
+
+function onProofFocusOut(event) {
+  tipFocus = proofFromEventTarget(event.relatedTarget);
+  updateActiveTip();
 }
 
 function currentFullFont() {
@@ -1032,6 +1184,15 @@ els.fontStyle.addEventListener("change", () => {
 
 els.showLabels.addEventListener("change", renderProofs);
 window.addEventListener("resize", queueProofDimensionSync);
+
+els.grid.addEventListener("pointerdown", onProofPointerDown);
+els.grid.addEventListener("pointermove", onProofPointerMove);
+els.grid.addEventListener("pointerup", endProofPan);
+els.grid.addEventListener("pointercancel", endProofPan);
+els.grid.addEventListener("pointerover", onProofPointerOver);
+els.grid.addEventListener("pointerout", onProofPointerOut);
+els.grid.addEventListener("focusin", onProofFocusIn);
+els.grid.addEventListener("focusout", onProofFocusOut);
 
 document.querySelectorAll("[data-font-action]").forEach((button) => {
   const actionButton = /** @type {HTMLElement} */ (button);

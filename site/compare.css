@@ -2,6 +2,9 @@
 
 :root {
   --compare-max: 1180px;
+  /* The compare content column is the wide measure, so nav labels align with
+     its edges (the shared --column-inset collapses to 0 here). */
+  --text-col: var(--compare-max);
   --proof-size: 14px;
   --proof-style: normal;
   --proof-weight: 400;
@@ -643,14 +646,26 @@ html[data-theme="dark"] .font-select-wrap select {
   border: 0;
   border-radius: 0;
   white-space: pre;
-  overflow: auto;
+  /* Card view: the text is clipped, not scrollable — wheel/trackpad scroll the
+     page, not the card. You drag a card to pan it instead (compare.js), and
+     every card pans by the same offset for piece-by-piece comparison. The grab
+     cursor advertises the drag; touch-action:none lets us own the touch gesture
+     rather than the browser scrolling the page. Programmatic scrollLeft/Top
+     still work under overflow:hidden, which is how the pan moves the text. */
+  overflow: hidden;
   tab-size: 4;
-  cursor: text;
-  -webkit-user-select: text;
-  user-select: text;
+  cursor: grab;
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
   scrollbar-width: none;
   -ms-overflow-style: none;
   transition: var(--ui-transition);
+}
+
+.proof-grid.is-panning,
+.proof-grid.is-panning .proof-sample {
+  cursor: grabbing;
 }
 
 .proof-sample::-webkit-scrollbar {
@@ -666,8 +681,14 @@ html[data-theme="dark"] .font-select-wrap select {
   height: auto;
   max-height: none;
   padding: 1.15rem 1.25rem;
+  /* Full-page view is the real-size proof: native scroll + text selection,
+     not the card pan. */
   overflow-x: auto;
   overflow-y: visible;
+  cursor: text;
+  touch-action: auto;
+  -webkit-user-select: text;
+  user-select: text;
   scrollbar-width: thin;
   scrollbar-color: rgba(128, 128, 128, 0.45) transparent;
 }
@@ -795,9 +816,12 @@ html[data-theme="dark"] .proof-grid.labels-overlay .proof-foot {
   color: var(--ink);
 }
 
-.proof-grid.labels-overlay .proof:hover .proof-foot,
-.proof-grid.labels-overlay .proof:focus .proof-foot,
-.proof-grid.labels-overlay .proof:focus-within .proof-foot {
+/* Exactly one card-name overlay shows at a time. compare.js marks the single
+   active card .is-tip: hover or keyboard focus (tabbing through cards) can set
+   it, but hover wins and clears any other, so two overlays never coexist, and a
+   drag clears it entirely while panning. Driving it from one class rather than
+   :hover/:focus is what guarantees that single-overlay invariant. */
+.proof-grid.labels-overlay .proof.is-tip .proof-foot {
   opacity: 1;
 }
 
@@ -822,10 +846,11 @@ html[data-theme="dark"] .proof-grid.labels-overlay .proof-foot {
   text-align: center;
 }
 
-/* Roomier side margins than the base 20px once we're past the phone layout. */
+/* Roomier side margins than the base 20px once we're past the phone layout.
+   Set via the shared gutter token so the nav bar measure follows along. */
 @media (min-width: 621px) {
-  body {
-    padding: 0 36px;
+  :root {
+    --page-gutter: 36px;
   }
 }
 

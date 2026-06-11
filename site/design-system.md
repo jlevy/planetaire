@@ -153,11 +153,16 @@ All button text is **CAPS** (via `text-transform`, authored mixed-case).
   The active underline is the tab’s own bottom border (`--tab-indicator-width`), so it
   always matches the hover background width.
 - **Top nav:** a minimal gray caps row above the hero.
-  Planetaire and Compare are page tabs centered on a hairline rule and using the same
-  active underline as the main About / Samples / Installation tabs.
-  The nav expands to the shared wide compare-page width on large screens while the
-  homepage content remains on its narrower reading column.
-  GitHub is an external link, pinned at right with an arrow and no active-tab state.
+  Planetaire and Compare are page tabs using the same active underline as the main
+  section tabs.
+  **Bar alignment rule** (shared with the section tabs): the hairline spans the wide
+  bar measure (`--bar-width`), but the labels align with the page's text column — page
+  tabs flush with its left edge, the GitHub external link (arrow, no active-tab state)
+  flush with its right edge — via `--column-inset`, computed from `--text-col` (the
+  column labels align to: `--max` here, `--compare-max` on compare) and `--page-gutter`
+  (the body side padding, `20px`, widened to `36px` on compare past the phone layout).
+  On narrow screens the inset collapses to zero and labels sit at the gutter edges, so
+  the row works on both narrow and wide screens without centering drift.
 - **Compare page header:** a compact utility-page title in the sans-serif UI face, with
   optional italic gray supporting copy below it.
   Keep this lighter than the homepage hero so the controls and proofs remain the primary
@@ -172,7 +177,8 @@ All button text is **CAPS** (via `text-transform`, authored mixed-case).
   Flips `data-theme` on `<html>`, persists to a **1-year cookie** (`plt-theme`, with a
   `localStorage` fallback) so the choice sticks on revisit, and defaults to the OS
   preference on first visit.
-- **Main tabs:** a centered About / FAQ / Samples / Installation row below the hero.
+- **Main tabs:** the About / FAQ / Samples / Installation row below the hero,
+  left-aligned with the reading column per the bar alignment rule above.
   Tabs are caps labels on a hairline rule, with the current tab marked by an `--ink`
   underline. These are *section tabs*: a pinned scrollspy over one stacked document at
   every width — see “Tabs and scrolling” below for the three tab kinds and their rules.
@@ -191,6 +197,9 @@ All button text is **CAPS** (via `text-transform`, authored mixed-case).
   from the tab-boundary gap.
   The shapes live once in the `#plt-star-*` SVG sprite (each `<symbol>` carries the
   star's own cover-coordinate `viewBox`) and are reused via `<use>`.
+  Each star gets a small, different `translateY` so the trio reads as hand-placed and
+  slightly accidental rather than a ruler-straight row (visual only — transforms don't
+  reflow, so the separator height is unchanged).
   Decorative, so the row is `aria-hidden` (the headings carry the structure) and the
   stars are full `--ink`, echoing the planet line art and inverting with the theme via
   `currentColor` rather than a new color token.
@@ -199,6 +208,20 @@ All button text is **CAPS** (via `text-transform`, authored mixed-case).
 - **Narrow tables:** tables may self-scroll horizontally below the small-screen
   breakpoint so multi-column release/config data remains reachable while page-level
   overflow stays clipped for the hero planet.
+- **Compare cards pan, they don’t scroll:** in the compare page’s card view each proof’s
+  text is clipped (`overflow: hidden`), so the wheel/trackpad always scrolls the page —
+  no scroll trap inside a card (the “never hijack scrolling” rule). To look closer you
+  **drag** any card (grab → grabbing cursor); every card pans by the **same** horizontal
+  and vertical offset, so the same slice of text lines up across all fonts for
+  piece-by-piece comparison. `compare.js` drives this with Pointer Events (one path for
+  mouse/touch/pen) by re-applying a shared `scrollLeft`/`scrollTop` to every card. The
+  full-page view is the real-size proof and keeps native scroll + text selection.
+- **One card-name overlay at a time:** when labels are overlaid (Show Labels off), the
+  name tip appears for the single card that is hovered or keyboard-focused, never two at
+  once. `compare.js` owns one `.is-tip` card: hover sets it and wins over focus (so a
+  focused card’s tip clears the moment you hover another), tabbing through cards shows it
+  for keyboard users, and a drag clears it for the duration of the pan. A single-source
+  class is deliberate — CSS `:hover` + `:focus` would light up two tips at once.
 - **Keyboard focus:** links and buttons use a visible `--ink` focus outline.
   Segmented theme buttons draw the outline inside the control so it is not clipped by
   the group.
@@ -249,9 +272,9 @@ spec for both.
 
 - The pinned bar is opaque `--bg` with the existing hairline rule as its bottom edge: no
   shadow, no elevation, per the minimal chrome principle.
-- The bar breaks out of the reading column to the wide `--nav-max` measure (the same
-  formula as the top nav), so its hairline reads as a full-width rule when pinned rather
-  than a floating 720px strip.
+- The bar follows the top nav's bar alignment rule: it breaks out to the wide
+  `--bar-width` measure so its hairline reads as a full-width rule when pinned, while
+  the tab labels stay left-aligned with the reading column via `--column-inset`.
 - **Tab boundaries get extra air:** `--space-tab-boundary` (`6.5rem`) above the first
   heading of each panel after the first, versus the normal `4.25rem` h2 gap, so one
   tab’s section clearly ends before the next begins while scrolling.
