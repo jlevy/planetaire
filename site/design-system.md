@@ -83,8 +83,8 @@ Three weights for chrome:
 | Token | Value | Used for |
 | --- | --- | --- |
 | `--fw-regular` | `400` | Body text |
-| `--fw-medium` | `500` | Hero wordmark, **h2 major-section headings**, compare-page widget input values (the selected sample/size/style/weight/line-height/card-size/font) |
-| `--fw-bold` | `700` | Bold, h3 sub-headers, labels, buttons |
+| `--fw-medium` | `500` | Hero wordmark, **h2 major-section headings**; on compare, **widget input values** and **chrome hint labels** (see Components → Compare-page labels) |
+| `--fw-bold` | `700` | Bold, h3 sub-headers, **widget field labels** (caps gray), buttons |
 
 The weight-ladder demo uses all ten faces (400/500/600/700/800 × upright/italic) — that
 is the content of that demo, not a license to use other weights in the chrome.
@@ -168,6 +168,24 @@ All button text is **CAPS** (via `text-transform`, authored mixed-case).
   optional italic gray supporting copy below it.
   Keep this lighter than the homepage hero so the controls and proofs remain the primary
   interface.
+- **Compare-page labels (two kinds, deliberately distinct):** all the chrome on the
+  compare page uses the sans UI face and `--gray`, but text splits into two tiers by role:
+  - **Widget field labels** — the *official* name of an input: **CAPS, bold
+    (`--fw-bold`), letter-spaced**. These name a control (`TEXT SAMPLE`, `FONT SIZE`,
+    `STYLE`, `FONT WEIGHT`, `LINE HEIGHT`, `CARD SIZE`, `FONTS`). They anchor each control,
+    so they stay the heaviest gray tier.
+  - **Hints / extra detail** — secondary chrome that isn't a control's name:
+    **mixed case, medium (`--fw-medium`)**. This covers checkbox labels (*Show Font
+    Names*), font-group titles (*Popular Fonts*), group toggles, and the arrow-key tip.
+    Lower case and lighter than a field label, but the **same weight as a widget value**,
+    so detail and values read as one quieter tier under the bold field labels.
+  - **Widget values** — the selected setting *inside* each input (the chosen
+    sample / size / style / weight / line-height / card-size / font): same sans face at
+    **medium (`--fw-medium`)**, a touch more prominent than plain body and balanced
+    against the bold field labels.
+  Buttons (`Popular` / `All` / `Clear`, the view tabs) stay **bold caps**; the Light/Dark
+  switch is unchanged; the sample-text editor keeps the monospace `--editor-font`, off this
+  scale. All weights are the `--fw-*` tokens — no literal weights in `compare.css`.
 - **Buttons:** hero actions use identical style: `--ink` border, transparent fill, and
   invert on hover. No primary/secondary distinction.
   Keep the Compare Fonts CTA as its own centered row directly above the theme switch.
