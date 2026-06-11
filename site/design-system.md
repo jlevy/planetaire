@@ -153,17 +153,22 @@ All button text is **CAPS** (via `text-transform`, authored mixed-case).
   The active underline is the tab’s own bottom border (`--tab-indicator-width`), so it
   always matches the hover background width.
 - **Top nav:** a minimal gray caps row above the hero.
+  A back-link (`← ojoshe`) sits flush left, the Planetaire and Compare page tabs are
+  centered, and GitHub (an external arrow link, no active-tab state) sits flush right.
   Planetaire and Compare are page tabs using the same active underline as the main
-  section tabs; GitHub is an external link (arrow, no active-tab state) at the right.
+  section tabs.
   **Bar alignment rule** (shared by the nav and all tab rows): the hairline always
   spans the wide bar measure (`--bar-width`, built from `--nav-max` and
-  `--page-gutter`, the body side padding that compare widens past the phone layout).
-  Label alignment is responsive: **left-aligned while the bar runs full width**
-  (below `1240px`, labels flush with the gutter edges, GitHub flush right), and
-  **centered once the bar caps** on wide screens.
-  One shared breakpoint, not per-page column math, so the nav and tabs sit in the same
-  place when toggling between pages whose text columns differ (`--max` vs
-  `--compare-max`), at every width.
+  `--page-gutter`, the body side padding that compare widens past the phone layout),
+  and the labels are **centered at every width**.
+  A three-column grid (`1fr auto 1fr`) holds the page tabs in the centered middle
+  column regardless of font size or which side label is wider, so the nav reads the
+  same when toggling between pages whose text columns differ (`--max` vs
+  `--compare-max`).
+  On **very narrow screens** (below `520px`, where the four items stop fitting on one
+  line) the row splits in two: back-link and GitHub flush to the edges on the top
+  line, page tabs centered below, with the per-label vertical padding trimmed so the
+  two rows hug (like the tab bar's wrapped line) instead of stacking tall.
 - **Compare page header:** a compact utility-page title in the sans-serif UI face, with
   optional italic gray supporting copy below it.
   Keep this lighter than the homepage hero so the controls and proofs remain the primary
@@ -196,17 +201,25 @@ All button text is **CAPS** (via `text-transform`, authored mixed-case).
   Flips `data-theme` on `<html>`, persists to a **1-year cookie** (`plt-theme`, with a
   `localStorage` fallback) so the choice sticks on revisit, and defaults to the OS
   preference on first visit.
-- **Main tabs:** the About / FAQ / Samples / Installation row below the hero, aligned
-  per the bar alignment rule above (left while the bar is full width, centered on wide
-  screens). Tabs are caps labels on a hairline rule, with the current tab marked by an
+- **Main tabs:** the About / FAQ / Samples / Installation row below the hero, **centered
+  at every width** like the top nav, per the bar alignment rule above. Tabs are caps
+  labels on a hairline rule, with the current tab marked by an
   `--ink` underline. When the row wraps on very narrow screens, the wrapped line hugs
   the first (small row gap), and arrowed labels like GitHub never break between text
   and arrow (`white-space: nowrap`). These are *section tabs*: a pinned scrollspy over
   one stacked document at every width — see “Tabs and scrolling” below for the three
   tab kinds and their rules.
-- **Theme transition:** light↔dark eases gently — a single global transition on
-  themeable properties (`background-color`, `border-color`, `color`, `fill`, `filter`),
-  `360ms`, disabled under `prefers-reduced-motion`.
+- **Theme transition:** light↔dark eases gently in a **tiered cascade** rather than
+  one flat fade. Every themeable property (`background-color`, `border-color`, `color`,
+  `fill`, `filter`) starts easing at the same instant on toggle, but finishes at one of
+  three durations, so the change ripples down the page: **fast** (`--fade-fast`, the
+  controls and the page background, which also drives chrome hover feedback),
+  **medium** (`--fade-medium`, the hero cluster: wordmark, lineage, tagline, and the
+  planet's invert), and **slow** (`--fade-slow`, the page default for everything else).
+  The slow tier is set once on `*`; the fast tier rides on `--ui-transition`; the medium
+  tier is a dedicated rule on the hero leaves. All three durations collapse to `0` under
+  `prefers-reduced-motion` (set on `:root`, so even the higher-specificity tier rules
+  resolve to no motion).
 - **Dark-mode planet:** the SVG is black line art, so dark mode inverts it
   (`filter: invert(1)`) to keep it visible.
 - **Star separator (`.starsep`):** a centered row of three distinct stars copied
@@ -298,7 +311,7 @@ spec for both.
   position); in normal flow the bar stays flat, per the minimal chrome principle.
 - The bar follows the bar alignment rule (see Top nav): it breaks out to the wide
   `--bar-width` measure so its hairline reads as a full-width rule when pinned, with
-  labels left-aligned below `1240px` and centered above.
+  labels centered at every width.
 - **Tab boundaries get extra air:** `--space-tab-boundary` (`6.5rem`) above the first
   heading of each panel after the first, versus the normal `4.25rem` h2 gap, so one
   tab’s section clearly ends before the next begins while scrolling.

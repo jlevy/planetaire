@@ -97,8 +97,27 @@
   --fw-medium: 500;
   --fw-bold: 700;
 
+  /* Tiered light/dark fade. On toggle every property starts easing at the same
+     instant but finishes at one of three staggered speeds, so the theme change
+     ripples down the page instead of snapping all at once: controls and the
+     page background settle first (fast), the hero cluster next (medium), the
+     rest of the page last (slow). One easing curve, three durations. The fast
+     tier also drives chrome hover feedback. All three collapse to 0 under
+     prefers-reduced-motion (see the reduced-motion block below). */
+  --fade-fast: 150ms;
+  --fade-medium: 480ms;
+  --fade-slow: 880ms;
   --ui-transition:
-    color 360ms ease, background-color 360ms ease, border-color 360ms ease, opacity 360ms ease;
+    color var(--fade-fast) ease, background-color var(--fade-fast) ease,
+    border-color var(--fade-fast) ease, opacity var(--fade-fast) ease;
+  --fade-medium-transition:
+    color var(--fade-medium) ease, background-color var(--fade-medium) ease,
+    border-color var(--fade-medium) ease, fill var(--fade-medium) ease,
+    filter var(--fade-medium) ease;
+  --fade-slow-transition:
+    color var(--fade-slow) ease, background-color var(--fade-slow) ease,
+    border-color var(--fade-slow) ease, fill var(--fade-slow) ease,
+    filter var(--fade-slow) ease;
   --nav-transition-duration: 45ms;
 
   --max: 720px;
@@ -191,16 +210,22 @@ body {
      defeat the sticky tab bar (see "Main tabs" below). */
 
 /* Gentle, general transition so light/dark mode eases rather than snaps.
-   Only themeable properties; placed once, globally. */
+   The slow tier is the page default — most content (headings, body copy, code,
+   tables, dividers) is "the rest" and fades last. Controls opt back into fast
+   (via --ui-transition) and the hero into medium, in their own rules below. */
 *,
 *::before,
 *::after {
-  transition:
-    var(--ui-transition),
-    fill 360ms ease,
-    filter 360ms ease;
+  transition: var(--fade-slow-transition);
 }
 @media (prefers-reduced-motion: reduce) {
+  /* Zero the tier durations at the source so even the medium/hero and fast/
+     chrome rules (higher specificity than this block) resolve to no motion. */
+  :root {
+    --fade-fast: 0ms;
+    --fade-medium: 0ms;
+    --fade-slow: 0ms;
+  }
   *,
   *::before,
   *::after {
@@ -220,6 +245,9 @@ body {
   font-weight: var(--fw-regular);
   color: var(--ink);
   background: var(--bg);
+  /* The page background is in the fast tier: it flips early, just after the
+     controls, with the hero and body content trailing behind it. */
+  transition: var(--ui-transition);
   margin: 0;
   padding: 0 var(--page-gutter);
   -webkit-font-smoothing: antialiased;
@@ -357,27 +385,38 @@ i {
 
 /* ---- Top nav ------------------------------------------------------------- */
 
+/* Three-column grid at all widths: back-link flush left, page tabs centered,
+   GitHub flush right. Centering the middle column keeps the page tabs centered
+   regardless of font size or which side label is wider. The hairline spans the
+   wide bar measure; on very narrow screens the row splits in two (the max-width
+   query below): back-link and GitHub share the top line, page tabs centered
+   below. */
 .site-nav {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: flex-end;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: end;
   /* Tight row gap so a wrapped second line hugs the first on narrow screens. */
-  gap: 0.2rem 1.7rem;
-  /* Hairline spans the wide bar measure; labels sit at its edges while the
-     bar is full width, centered on wide screens (the 1240px query below). */
+  column-gap: 1.7rem;
+  row-gap: 0.2rem;
   width: var(--bar-width);
   margin: 0 0 2rem 50%;
   transform: translateX(-50%);
   border-bottom: 1px solid var(--rule);
   font-family: var(--ui-font);
 }
+.site-nav-back {
+  grid-column: 1;
+  justify-self: start;
+}
 .site-nav-pages {
+  grid-column: 2;
+  justify-self: center;
   display: flex;
   flex-wrap: wrap;
   gap: 0.2rem 1.7rem;
 }
 .site-nav-tab,
+.site-nav-back,
 .site-nav-external,
 .tab-opt {
   display: inline-block;
@@ -392,16 +431,18 @@ i {
   transition: var(--ui-transition);
 }
 .site-nav-tab,
+.site-nav-back,
 .site-nav-external {
   padding: var(--tab-padding-block-start) var(--tab-padding-inline) var(--tab-padding-block-end);
   border-bottom: var(--tab-indicator-width) solid transparent;
   margin-bottom: -1px;
-  /* An arrowed label ("GitHub →") must never break between text and arrow. */
+  /* An arrowed label ("← ojoshe", "GitHub →") must never break between text and
+     arrow. */
   white-space: nowrap;
 }
 .site-nav-external {
-  /* Stays pinned right even when the nav wraps on very narrow screens. */
-  margin-left: auto;
+  grid-column: 3;
+  justify-self: end;
 }
 .tab-opt {
   padding: var(--tab-padding-block-start) var(--tab-padding-inline) var(--tab-padding-block-end);
@@ -409,6 +450,7 @@ i {
   margin-bottom: -1px;
 }
 .site-nav-tab:hover,
+.site-nav-back:hover,
 .site-nav-external:hover,
 .tab-opt:hover {
   color: var(--ink);
@@ -475,6 +517,18 @@ i {
 .hero-intro p + p {
   margin-top: 1.3rem;
 }
+/* Hero cluster = the medium tier of the light/dark fade: the wordmark, lineage,
+   tagline, and the planet's invert settle after the background but before the
+   rest of the page. Only the text/graphic leaves are listed, so the CTA buttons
+   and theme toggle inside the hero keep their own fast tier. */
+.hero .title,
+.hero .lineage,
+.hero .planet,
+.hero-intro,
+.hero-intro p,
+.hero-intro strong {
+  transition: var(--fade-medium-transition);
+}
 
 .about-intro {
   margin: 0 0 2.4rem;
@@ -538,14 +592,13 @@ i {
    traditional switchers, sharing only the .tab-opt look. UX rules:
    design-system.md, "Tabs and scrolling". */
 
-/* Shared tab-row look (all three tab kinds: page, view, section).
-   Left-aligned while bars run full width; centered on wide screens (the
-   1240px media query below), so nav and tabs read consistently across pages
-   at every width. The small row gap keeps a wrapped second line of tabs
-   close on very narrow screens. */
+/* Shared tab-row look (all three tab kinds: page, view, section). Centered at
+   all widths, matching the top nav, so the nav and tabs read consistently
+   across pages and font sizes. The small row gap keeps a wrapped second line of
+   tabs close on very narrow screens. */
 .tabs {
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
   flex-wrap: wrap;
   gap: 0.2rem 1.7rem;
   margin: -2rem 0 3rem;
@@ -564,6 +617,9 @@ i {
   top: 0;
   z-index: 2;
   background: var(--bg);
+  /* Fast tier (matches the page background) so the pinned bar never lags a
+     shade behind the content scrolling under it during a theme fade. */
+  transition: var(--ui-transition);
 }
 /* Depth cue only while content actually scrolls underneath the pinned bar
    (scroll-tabs.js toggles is-stuck); the bar stays flat in normal flow. */
@@ -598,25 +654,34 @@ html[data-theme="dark"] .section-tabs.is-stuck {
   margin-top: 2rem; /* boundary heading already provides the section break */
 }
 
-/* Wide screens: the bar has capped below the window width, so left-aligned
-   labels would float oddly in open space; center them instead. One shared
-   breakpoint (≈ where --bar-width caps at --nav-max on both pages) keeps the
-   nav and all tab rows consistent across pages at every width. */
-@media (min-width: 1240px) {
+/* Very narrow screens: the four nav items no longer fit on one line, so split
+   the row in two rather than let the columns collide — back-link and GitHub
+   flush to the edges on the top line, page tabs centered below. The hairline
+   (the grid's bottom border) stays under the whole block. */
+@media (max-width: 520px) {
   .site-nav {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    grid-template-columns: 1fr 1fr;
+    row-gap: 0;
   }
-  .site-nav-pages {
-    grid-column: 2;
-    justify-self: center;
+  /* Trim the per-label vertical padding so the two stacked rows hug, like the
+     tab bar's wrapped second line, instead of reading as two tall full-height
+     rows. */
+  .site-nav-back,
+  .site-nav-external,
+  .site-nav-tab {
+    padding-top: 0.2rem;
+    padding-bottom: 0.2rem;
+  }
+  .site-nav-back {
+    grid-row: 1;
   }
   .site-nav-external {
-    grid-column: 3;
-    justify-self: end;
+    grid-column: 2;
+    grid-row: 1;
   }
-  .tabs {
-    justify-content: center;
+  .site-nav-pages {
+    grid-column: 1 / -1;
+    grid-row: 2;
   }
 }
 
