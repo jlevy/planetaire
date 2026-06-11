@@ -141,6 +141,13 @@ All button text is **CAPS** (via `text-transform`, authored mixed-case).
   thicker outline; dark-mode selected fills should sit visibly above hover while staying
   softer than an inverse button.
   Tab indicators are the one explicit exception and use `--tab-indicator-width`.
+- **Checkboxes:** one global `input[type="checkbox"]` style (`style.css`) for every box
+  on the site. The box is a `--gray` outline on a transparent fill; checking it fills
+  with `--soft-selected-bg` — the same gray as an active/pressed button — so a checked
+  box and a selected button read as one selected state. The tick is drawn thicker than
+  the box border via its own `--checkmark-stroke-width` (`2px` vs `--chrome-border-width`
+  `1px`), the one place a glyph stroke outweighs the chrome border.
+  `--soft-selected-bg` is a shared color token: `#e8eaed` light, a translucent gray dark.
 - **Tabs:** tab labels use shared block and inline padding tokens so hover backgrounds
   have even top/bottom space and a small left/right cushion.
   The active underline is the tab’s own bottom border (`--tab-indicator-width`), so it
@@ -174,13 +181,16 @@ All button text is **CAPS** (via `text-transform`, authored mixed-case).
   `360ms`, disabled under `prefers-reduced-motion`.
 - **Dark-mode planet:** the SVG is black line art, so dark mode inverts it
   (`filter: invert(1)`) to keep it visible.
-- **Star separator (`.starsep`):** a centered row of three differently styled stars
-  — a solid sparkle, a plump outline star, and a hollow sparkle — lifted from the cover
-  graphic (`assets/little-planet.svg`).
+- **Star separator (`.starsep`):** a centered row of three distinct stars copied
+  verbatim from the cover graphic (`assets/little-planet.svg`), from the cluster left of
+  the planet — two hollow sparkles flanking a plump outline star, with their original
+  paths and stroke widths kept so the row echoes the cover exactly (no redrawn or
+  normalized geometry).
   It marks the lead-in above the section tabs (`--lead`) and the break between stacked
   panels (`--section`), where it supplies the boundary air the panels would otherwise get
   from the tab-boundary gap.
-  The shapes live once in the `#plt-star-*` SVG sprite and are reused via `<use>`.
+  The shapes live once in the `#plt-star-*` SVG sprite (each `<symbol>` carries the
+  star's own cover-coordinate `viewBox`) and are reused via `<use>`.
   Decorative, so the row is `aria-hidden` (the headings carry the structure) and the
   stars are full `--ink`, echoing the planet line art and inverting with the theme via
   `currentColor` rather than a new color token.

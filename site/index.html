@@ -41,7 +41,7 @@
 ------------------------------------------------------------------------- -->
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jlevy/planetaire@v0.1.5/fonts/web/planetaire-mono-text.css">
-<link rel="stylesheet" href="style.css?v=20260610-unified-tabs-3">
+<link rel="stylesheet" href="style.css?v=20260610-checkbox-fill-1">
 
 <!-- Set the theme before first paint (no flash): cookie, then localStorage,
      then OS preference. The cookie makes the choice stick on revisit. -->
@@ -59,22 +59,23 @@
 </head>
 <body>
 
-<!-- Star sprite: three differently styled stars lifted from the cover graphic
-     (assets/little-planet.svg) — a solid sparkle, a plump outline star, and a
-     hollow sparkle. Reused by the .starsep dividers (lead-in above the tabs and
-     the break between stacked panels). Decorative; see design-system.md. -->
+<!-- Star sprite: three distinct stars copied verbatim from the cover graphic
+     (assets/little-planet.svg), from the cluster left of the planet — two hollow
+     sparkles flanking a plump outline star, keeping their original paths and
+     stroke widths so the dividers echo the cover exactly. Reused by the .starsep
+     dividers; recolored via currentColor. Decorative; see design-system.md. -->
 <svg class="plt-sprite" aria-hidden="true" focusable="false" width="0" height="0">
-  <symbol id="plt-star-outline" viewBox="-2.7 -3.95 35 35">
-    <path d="M14.3 0L17.8 11.1L29.6 10.4L20 16.9L22.1 27.1L14.3 22L6.5 27.1L7.6 16.9L0 9.4L10.8 10.1Z"
-          fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+  <symbol id="plt-star-outline" viewBox="340.5 322.4 40 40">
+    <path d="M 360.0 326.0 L 365.1 338.3 L 376.2 339.7 L 367.7 346.2 L 369.0 358.8 L 360.0 350.0 L 349.0 357.8 L 353.3 347.2 L 344.8 337.7 L 354.9 338.3 Z"
+          fill="none" stroke="currentColor" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
   </symbol>
-  <symbol id="plt-star-sparkle" viewBox="-2 -1.5 32 32">
-    <path d="M14 0L9 10L7 10L6 11L2 11L0 13L0 14L2 16L7 19L7 22L6 23L6 29L8 29L14 24L16 24L23 28L25 27L25 25L23 21L23 18L27 14L28 10L27 9L20 9L18 7L16 1Z"
-          fill="currentColor"/>
+  <symbol id="plt-star-sparkle" viewBox="462 604 36 36">
+    <path fill="currentColor" fill-rule="evenodd" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"
+          d="M 481 606 L 479 607 L 479 609 L 475 617 L 466 618 L 464 620 L 466 623 L 467 623 L 472 627 L 472 630 L 471 631 L 471 634 L 470 635 L 470 637 L 471 638 L 473 638 L 479 633 L 483 633 L 489 637 L 491 637 L 492 636 L 491 630 L 490 629 L 490 626 L 495 621 L 496 617 L 495 616 L 486 616 L 483 610 L 483 608 Z M 470 621 L 471 620 L 477 620 L 480 613 L 481 613 L 483 615 L 484 619 L 490 619 L 491 620 L 491 621 L 487 624 L 487 627 L 488 628 L 488 631 L 487 632 L 482 629 L 480 629 L 478 631 L 475 632 L 474 631 L 475 629 L 475 625 L 471 623 Z"/>
   </symbol>
-  <symbol id="plt-star-hollow" viewBox="-2 -1.5 32 32">
-    <path fill="currentColor" fill-rule="evenodd"
-          d="M14 0L9 10L7 10L6 11L2 11L0 13L0 14L2 16L7 19L7 22L6 23L6 29L8 29L14 24L16 24L23 28L25 27L25 25L23 21L23 18L27 14L28 10L27 9L20 9L18 7L16 1ZM14 6L16 7L17 11L19 12L22 12L23 13L23 14L20 17L21 19L21 22L20 23L16 21L14 21L12 23L10 23L9 22L10 18L6 15L7 13L10 13L12 12L12 10Z"/>
+  <symbol id="plt-star-hollow" viewBox="563 432 33 33">
+    <path fill="currentColor" fill-rule="evenodd" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"
+          d="M580 434 L578 436 L576 443 L574 445 L568 445 L565 447 L565 448 L568 451 L572 453 L572 457 L570 461 L571 463 L574 463 L580 458 L583 459 L587 462 L590 462 L591 460 L589 456 L589 452 L594 447 L594 444 L593 443 L585 443 L583 440 L582 436 Z M571 448 L572 447 L576 447 L578 445 L578 443 L580 441 L581 441 L582 442 L582 444 L584 446 L588 446 L589 447 L589 448 L586 451 L586 455 L587 457 L585 458 L583 456 L580 455 L575 458 L574 457 L575 455 L575 452 L573 451 L571 449 Z"/>
   </symbol>
 </svg>
 
@@ -118,9 +119,9 @@
 
 <!-- Star divider: lead-in above the section tabs (see .starsep in style.css). -->
 <div class="starsep starsep--lead" aria-hidden="true">
-  <svg class="star star--sparkle" viewBox="-2 -1.5 32 32"><use href="#plt-star-sparkle"/></svg>
-  <svg class="star star--outline" viewBox="-2.7 -3.95 35 35"><use href="#plt-star-outline"/></svg>
-  <svg class="star star--hollow" viewBox="-2 -1.5 32 32"><use href="#plt-star-hollow"/></svg>
+  <svg class="star star--sparkle" viewBox="0 0 10 10"><use href="#plt-star-sparkle"/></svg>
+  <svg class="star star--outline" viewBox="0 0 10 10"><use href="#plt-star-outline"/></svg>
+  <svg class="star star--hollow" viewBox="0 0 10 10"><use href="#plt-star-hollow"/></svg>
 </div>
 
 <!-- Sticky scrollspy over the stacked sections below; see scroll-tabs.js and
@@ -251,9 +252,9 @@ glyph fonts under OFL-1.1 with the patcher tooling under MIT. Full license texts
 
 <!-- Star divider: section break (see .starsep in style.css). -->
 <div class="starsep starsep--section" aria-hidden="true">
-  <svg class="star star--sparkle" viewBox="-2 -1.5 32 32"><use href="#plt-star-sparkle"/></svg>
-  <svg class="star star--outline" viewBox="-2.7 -3.95 35 35"><use href="#plt-star-outline"/></svg>
-  <svg class="star star--hollow" viewBox="-2 -1.5 32 32"><use href="#plt-star-hollow"/></svg>
+  <svg class="star star--sparkle" viewBox="0 0 10 10"><use href="#plt-star-sparkle"/></svg>
+  <svg class="star star--outline" viewBox="0 0 10 10"><use href="#plt-star-outline"/></svg>
+  <svg class="star star--hollow" viewBox="0 0 10 10"><use href="#plt-star-hollow"/></svg>
 </div>
 
 <!-- ====================================================================== -->
@@ -283,9 +284,9 @@ glyph fonts under OFL-1.1 with the patcher tooling under MIT. Full license texts
 
 <!-- Star divider: section break (see .starsep in style.css). -->
 <div class="starsep starsep--section" aria-hidden="true">
-  <svg class="star star--sparkle" viewBox="-2 -1.5 32 32"><use href="#plt-star-sparkle"/></svg>
-  <svg class="star star--outline" viewBox="-2.7 -3.95 35 35"><use href="#plt-star-outline"/></svg>
-  <svg class="star star--hollow" viewBox="-2 -1.5 32 32"><use href="#plt-star-hollow"/></svg>
+  <svg class="star star--sparkle" viewBox="0 0 10 10"><use href="#plt-star-sparkle"/></svg>
+  <svg class="star star--outline" viewBox="0 0 10 10"><use href="#plt-star-outline"/></svg>
+  <svg class="star star--hollow" viewBox="0 0 10 10"><use href="#plt-star-hollow"/></svg>
 </div>
 
 <!-- ====================================================================== -->
@@ -576,9 +577,9 @@ Extended Additional: over 12,000 glyphs in the Extended package.</p>
 
 <!-- Star divider: section break (see .starsep in style.css). -->
 <div class="starsep starsep--section" aria-hidden="true">
-  <svg class="star star--sparkle" viewBox="-2 -1.5 32 32"><use href="#plt-star-sparkle"/></svg>
-  <svg class="star star--outline" viewBox="-2.7 -3.95 35 35"><use href="#plt-star-outline"/></svg>
-  <svg class="star star--hollow" viewBox="-2 -1.5 32 32"><use href="#plt-star-hollow"/></svg>
+  <svg class="star star--sparkle" viewBox="0 0 10 10"><use href="#plt-star-sparkle"/></svg>
+  <svg class="star star--outline" viewBox="0 0 10 10"><use href="#plt-star-outline"/></svg>
+  <svg class="star star--hollow" viewBox="0 0 10 10"><use href="#plt-star-hollow"/></svg>
 </div>
 
 <!-- ====================================================================== -->
