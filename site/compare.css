@@ -2,9 +2,6 @@
 
 :root {
   --compare-max: 1180px;
-  /* The compare content column is the wide measure, so nav labels align with
-     its edges (the shared --column-inset collapses to 0 here). */
-  --text-col: var(--compare-max);
   --proof-size: 14px;
   --proof-style: normal;
   --proof-weight: 400;
@@ -119,6 +116,18 @@ body {
   border: var(--chrome-border-width) solid var(--rule);
   border-radius: var(--radius);
   transition: var(--ui-transition);
+}
+
+/* The value inside each widget input — the chosen sample, size, style, weight,
+   line height, card size, and font — carries the current setting, so it reads
+   at medium (500) rather than regular: a touch more prominent and better
+   balanced against the bold control labels. Same sans face, heavier weight.
+   The Light/Dark switch and the monospace sample-text editor are excluded. */
+.control select,
+.card-mode-controls select,
+.control input[type="number"],
+.font-select-wrap select {
+  font-weight: var(--fw-medium);
 }
 
 .control select,
@@ -288,7 +297,8 @@ body {
 }
 
 .compare-view-tabs {
-  justify-content: flex-start;
+  /* Alignment follows the shared .tabs rule (left while full width, centered
+     on wide screens) so all tab rows match across pages. */
   margin: 0 0 1rem;
   padding-top: 0.5rem;
 }

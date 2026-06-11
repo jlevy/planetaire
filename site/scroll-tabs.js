@@ -96,12 +96,16 @@
   };
 
   const onScroll = () => {
-    if (scrollQueued || suppressSpy) {
+    if (scrollQueued) {
       return;
     }
     scrollQueued = true;
     requestAnimationFrame(() => {
       scrollQueued = false;
+      /* Depth cue: the bar casts a small shadow only while it is actually
+         pinned with content scrolling underneath (tracked even during a
+         tap-glide, when the spy itself is suppressed). */
+      bar.classList.toggle("is-stuck", bar.getBoundingClientRect().top <= 0);
       if (suppressSpy) {
         return;
       }

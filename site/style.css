@@ -105,16 +105,11 @@
   --nav-max: 1180px;
 
   /* Bar geometry: nav and tab bars draw a hairline across the wide bar
-     measure, but their labels align with the page's text column. The gutter
-     is the body's side padding (compare widens it); --text-col is the column
-     labels align to (compare overrides it to its wider content column). */
+     measure. The gutter is the body's side padding (compare widens it).
+     Label alignment is responsive: left while the bar is full width, centered
+     once it caps on wide screens (the 1240px media query below). */
   --page-gutter: 20px;
-  --text-col: var(--max);
   --bar-width: min(var(--nav-max), calc(100vw - 2 * var(--page-gutter)));
-  --column-inset: calc(
-    (var(--bar-width) - min(var(--text-col), 100vw - 2 * var(--page-gutter))) /
-    2
-  );
 
   /* code/terminal demo palettes (the one exception to two-color) ---------- */
   /* pal-light (content.typ) */
@@ -364,13 +359,14 @@ i {
 
 .site-nav {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: flex-end;
-  gap: 1.7rem;
-  /* Hairline spans the wide bar measure; the inset aligns the page tabs with
-     the text column's left edge and GitHub with its right edge. */
+  /* Tight row gap so a wrapped second line hugs the first on narrow screens. */
+  gap: 0.2rem 1.7rem;
+  /* Hairline spans the wide bar measure; labels sit at its edges while the
+     bar is full width, centered on wide screens (the 1240px query below). */
   width: var(--bar-width);
-  padding-inline: var(--column-inset);
   margin: 0 0 2rem 50%;
   transform: translateX(-50%);
   border-bottom: 1px solid var(--rule);
@@ -379,7 +375,7 @@ i {
 .site-nav-pages {
   display: flex;
   flex-wrap: wrap;
-  gap: 1.7rem;
+  gap: 0.2rem 1.7rem;
 }
 .site-nav-tab,
 .site-nav-external,
@@ -400,6 +396,12 @@ i {
   padding: var(--tab-padding-block-start) var(--tab-padding-inline) var(--tab-padding-block-end);
   border-bottom: var(--tab-indicator-width) solid transparent;
   margin-bottom: -1px;
+  /* An arrowed label ("GitHub →") must never break between text and arrow. */
+  white-space: nowrap;
+}
+.site-nav-external {
+  /* Stays pinned right even when the nav wraps on very narrow screens. */
+  margin-left: auto;
 }
 .tab-opt {
   padding: var(--tab-padding-block-start) var(--tab-padding-inline) var(--tab-padding-block-end);
@@ -500,6 +502,8 @@ i {
   font-size: var(--chrome-caps-size);
   font-weight: var(--fw-bold);
   text-transform: uppercase;
+  /* Arrowed labels ("Download →") never break between text and arrow. */
+  white-space: nowrap;
   letter-spacing: var(--chrome-caps-letter-spacing);
   text-decoration: none;
   line-height: var(--control-line-height);
@@ -534,12 +538,16 @@ i {
    traditional switchers, sharing only the .tab-opt look. UX rules:
    design-system.md, "Tabs and scrolling". */
 
-/* Shared tab-row look (all three tab kinds: page, view, section). */
+/* Shared tab-row look (all three tab kinds: page, view, section).
+   Left-aligned while bars run full width; centered on wide screens (the
+   1240px media query below), so nav and tabs read consistently across pages
+   at every width. The small row gap keeps a wrapped second line of tabs
+   close on very narrow screens. */
 .tabs {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   flex-wrap: wrap;
-  gap: 1.7rem;
+  gap: 0.2rem 1.7rem;
   margin: -2rem 0 3rem;
   border-bottom: 1px solid var(--rule);
 }
@@ -547,17 +555,23 @@ i {
    View tabs (compare page) and page tabs must NOT get these. */
 .section-tabs {
   /* Break out of the reading column to the wide bar measure (same as
-     .site-nav), so the hairline reads as a full-width rule when pinned; the
-     inset left-aligns the labels with the text column. */
+     .site-nav), so the hairline reads as a full-width rule when pinned. */
   width: var(--bar-width);
-  justify-content: flex-start;
-  padding: 0.4rem var(--column-inset) 0; /* top: breathing room when pinned */
+  padding-top: 0.4rem; /* breathing room when pinned to the viewport edge */
   margin-left: 50%;
   transform: translateX(-50%);
   position: sticky;
   top: 0;
   z-index: 2;
   background: var(--bg);
+}
+/* Depth cue only while content actually scrolls underneath the pinned bar
+   (scroll-tabs.js toggles is-stuck); the bar stays flat in normal flow. */
+.section-tabs.is-stuck {
+  box-shadow: 0 5px 10px -7px rgba(0, 0, 0, 0.35);
+}
+html[data-theme="dark"] .section-tabs.is-stuck {
+  box-shadow: 0 5px 12px -7px rgba(0, 0, 0, 0.8);
 }
 .tab-opt {
   border: 0;
@@ -582,6 +596,28 @@ i {
 }
 .stacked-heading + h2 {
   margin-top: 2rem; /* boundary heading already provides the section break */
+}
+
+/* Wide screens: the bar has capped below the window width, so left-aligned
+   labels would float oddly in open space; center them instead. One shared
+   breakpoint (≈ where --bar-width caps at --nav-max on both pages) keeps the
+   nav and all tab rows consistent across pages at every width. */
+@media (min-width: 1240px) {
+  .site-nav {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  }
+  .site-nav-pages {
+    grid-column: 2;
+    justify-self: center;
+  }
+  .site-nav-external {
+    grid-column: 3;
+    justify-self: end;
+  }
+  .tabs {
+    justify-content: center;
+  }
 }
 
 /* ---- Star separator (dinkus) ---------------------------------------------
@@ -612,12 +648,14 @@ i {
   flex: none;
   width: auto;
 }
+/* Sized just slightly larger than the real stars in the hero graphic, never
+   much larger. */
 .starsep .star--sparkle,
 .starsep .star--hollow {
-  height: 1.35rem;
+  height: 1.05rem;
 }
 .starsep .star--outline {
-  height: 1.6rem; /* the heavier outline star reads a touch larger, as on the cover */
+  height: 1.25rem; /* the heavier outline star reads a touch larger, as on the cover */
 }
 /* Nudge each star to a slightly different baseline so the trio looks hand-placed
    and a little accidental rather than a ruler-straight row. Purely visual:
@@ -638,10 +676,10 @@ i {
    and the tab bar (~1.6rem above and below). The tabs drop their negative top
    margin so the divider owns the lower gap. */
 .hero:has(+ .starsep--lead) {
-  margin-bottom: 1.6rem;
+  margin-bottom: 2.75rem;
 }
 .starsep--lead {
-  margin: 1.6rem 0;
+  margin: 2.75rem 0;
 }
 .starsep--lead + .tabs {
   margin-top: 0;

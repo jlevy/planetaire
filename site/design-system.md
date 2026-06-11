@@ -83,7 +83,7 @@ Three weights for chrome:
 | Token | Value | Used for |
 | --- | --- | --- |
 | `--fw-regular` | `400` | Body text |
-| `--fw-medium` | `500` | Hero wordmark, **h2 major-section headings** |
+| `--fw-medium` | `500` | Hero wordmark, **h2 major-section headings**, compare-page widget input values (the selected sample/size/style/weight/line-height/card-size/font) |
 | `--fw-bold` | `700` | Bold, h3 sub-headers, labels, buttons |
 
 The weight-ladder demo uses all ten faces (400/500/600/700/800 × upright/italic) — that
@@ -154,15 +154,16 @@ All button text is **CAPS** (via `text-transform`, authored mixed-case).
   always matches the hover background width.
 - **Top nav:** a minimal gray caps row above the hero.
   Planetaire and Compare are page tabs using the same active underline as the main
-  section tabs.
-  **Bar alignment rule** (shared with the section tabs): the hairline spans the wide
-  bar measure (`--bar-width`), but the labels align with the page's text column — page
-  tabs flush with its left edge, the GitHub external link (arrow, no active-tab state)
-  flush with its right edge — via `--column-inset`, computed from `--text-col` (the
-  column labels align to: `--max` here, `--compare-max` on compare) and `--page-gutter`
-  (the body side padding, `20px`, widened to `36px` on compare past the phone layout).
-  On narrow screens the inset collapses to zero and labels sit at the gutter edges, so
-  the row works on both narrow and wide screens without centering drift.
+  section tabs; GitHub is an external link (arrow, no active-tab state) at the right.
+  **Bar alignment rule** (shared by the nav and all tab rows): the hairline always
+  spans the wide bar measure (`--bar-width`, built from `--nav-max` and
+  `--page-gutter`, the body side padding that compare widens past the phone layout).
+  Label alignment is responsive: **left-aligned while the bar runs full width**
+  (below `1240px`, labels flush with the gutter edges, GitHub flush right), and
+  **centered once the bar caps** on wide screens.
+  One shared breakpoint, not per-page column math, so the nav and tabs sit in the same
+  place when toggling between pages whose text columns differ (`--max` vs
+  `--compare-max`), at every width.
 - **Compare page header:** a compact utility-page title in the sans-serif UI face, with
   optional italic gray supporting copy below it.
   Keep this lighter than the homepage hero so the controls and proofs remain the primary
@@ -177,11 +178,14 @@ All button text is **CAPS** (via `text-transform`, authored mixed-case).
   Flips `data-theme` on `<html>`, persists to a **1-year cookie** (`plt-theme`, with a
   `localStorage` fallback) so the choice sticks on revisit, and defaults to the OS
   preference on first visit.
-- **Main tabs:** the About / FAQ / Samples / Installation row below the hero,
-  left-aligned with the reading column per the bar alignment rule above.
-  Tabs are caps labels on a hairline rule, with the current tab marked by an `--ink`
-  underline. These are *section tabs*: a pinned scrollspy over one stacked document at
-  every width — see “Tabs and scrolling” below for the three tab kinds and their rules.
+- **Main tabs:** the About / FAQ / Samples / Installation row below the hero, aligned
+  per the bar alignment rule above (left while the bar is full width, centered on wide
+  screens). Tabs are caps labels on a hairline rule, with the current tab marked by an
+  `--ink` underline. When the row wraps on very narrow screens, the wrapped line hugs
+  the first (small row gap), and arrowed labels like GitHub never break between text
+  and arrow (`white-space: nowrap`). These are *section tabs*: a pinned scrollspy over
+  one stacked document at every width — see “Tabs and scrolling” below for the three
+  tab kinds and their rules.
 - **Theme transition:** light↔dark eases gently — a single global transition on
   themeable properties (`background-color`, `border-color`, `color`, `fill`, `filter`),
   `360ms`, disabled under `prefers-reduced-motion`.
@@ -270,11 +274,13 @@ spec for both.
 
 **Look and feel:**
 
-- The pinned bar is opaque `--bg` with the existing hairline rule as its bottom edge: no
-  shadow, no elevation, per the minimal chrome principle.
-- The bar follows the top nav's bar alignment rule: it breaks out to the wide
-  `--bar-width` measure so its hairline reads as a full-width rule when pinned, while
-  the tab labels stay left-aligned with the reading column via `--column-inset`.
+- The pinned bar is opaque `--bg` with the existing hairline rule as its bottom edge.
+  **One depth cue:** a small drop shadow appears only while content actually scrolls
+  underneath the pinned bar (`is-stuck`, toggled by `scroll-tabs.js` from the bar's
+  position); in normal flow the bar stays flat, per the minimal chrome principle.
+- The bar follows the bar alignment rule (see Top nav): it breaks out to the wide
+  `--bar-width` measure so its hairline reads as a full-width rule when pinned, with
+  labels left-aligned below `1240px` and centered above.
 - **Tab boundaries get extra air:** `--space-tab-boundary` (`6.5rem`) above the first
   heading of each panel after the first, versus the normal `4.25rem` h2 gap, so one
   tab’s section clearly ends before the next begins while scrolling.
