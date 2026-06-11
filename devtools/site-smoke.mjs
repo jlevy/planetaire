@@ -12,17 +12,17 @@ const pages = [
     checks(window) {
       const document = window.document;
       assertText(document.querySelector("h1"), "Planetaire Mono", "homepage h1");
-      assertCount(document.querySelectorAll(".tabs .tab-opt"), 4, "homepage section tabs");
+      assertCount(document.querySelectorAll(".section-tabs .tab-opt"), 4, "homepage section tabs");
       assertCount(document.querySelectorAll(".tab-panel"), 4, "homepage tab panels");
       assertCount(document.querySelectorAll("#qa-upper .cell"), 26, "homepage QA uppercase cells");
       // Section tabs are a scrollspy over one stacked document at all widths.
       assertCount(document.querySelectorAll(".tab-panel[hidden]"), 0, "hidden panels");
       assert(
-        !document.querySelector(".tabs").getAttribute("role"),
+        !document.querySelector(".section-tabs").getAttribute("role"),
         "section tabs: no tablist role",
       );
       assertAtLeast(
-        document.querySelectorAll(".tabs .tab-opt[aria-current='true']").length,
+        document.querySelectorAll(".section-tabs .tab-opt[aria-current='true']").length,
         1,
         "section tabs: active tab indicator",
       );

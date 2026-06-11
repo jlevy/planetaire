@@ -522,17 +522,23 @@ i {
    traditional switchers, sharing only the .tab-opt look. UX rules:
    design-system.md, "Tabs and scrolling". */
 
+/* Shared tab-row look (all three tab kinds: page, view, section). */
 .tabs {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
   gap: 1.7rem;
+  margin: -2rem 0 3rem;
+  border-bottom: 1px solid var(--rule);
+}
+/* Section tabs only (the homepage scrollspy): pinning and the wide breakout.
+   View tabs (compare page) and page tabs must NOT get these. */
+.section-tabs {
   /* Break out of the reading column to the wide nav measure (same formula as
      .site-nav), so the hairline reads as a full-width rule when pinned. */
   width: min(var(--nav-max), calc(100vw - 40px));
-  margin: -2rem 0 3rem 50%;
+  margin-left: 50%;
   transform: translateX(-50%);
-  border-bottom: 1px solid var(--rule);
   position: sticky;
   top: 0;
   z-index: 2;

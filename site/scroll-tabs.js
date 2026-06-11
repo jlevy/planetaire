@@ -8,7 +8,9 @@
  * its section; anchors and deep links are plain native hash navigation.
  *
  * Reusable contract:
- * - A bar (".tabs") of buttons (".tab-opt") with data-tab-set="<panel-id>".
+ * - A bar (".section-tabs") of buttons (".tab-opt") with
+ *   data-tab-set="<panel-id>". Plain ".tabs" rows (page/view tabs) are
+ *   deliberately not matched; only section tabs scroll-spy.
  * - Panels (".tab-panel") whose ids match, in the same DOM order as the tabs.
  * - CSS pins the bar and offsets anchors with
  *   scroll-margin-top: var(--tabbar-h), measured here (the bar's height
@@ -17,9 +19,9 @@
  * See site/design-system.md ("Tabs and scrolling") for the UX rules.
  */
 (function () {
-  const bar = /** @type {HTMLElement | null} */ (document.querySelector(".tabs"));
+  const bar = /** @type {HTMLElement | null} */ (document.querySelector(".section-tabs"));
   const tabs = /** @type {HTMLButtonElement[]} */ (
-    Array.from(document.querySelectorAll(".tabs .tab-opt"))
+    Array.from(document.querySelectorAll(".section-tabs .tab-opt"))
   );
   const panels = /** @type {HTMLElement[]} */ (Array.from(document.querySelectorAll(".tab-panel")));
   if (!bar || !tabs.length || !panels.length) {

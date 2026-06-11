@@ -208,7 +208,9 @@ rule) but deliberately different behavior:
 Pick by use: separate apps or pages get page tabs; alternate renderings of the same
 content get view tabs (classic show/hide switchers); sections of one readable document
 get section tabs. Do not turn view or page tabs into scrollspies — they switch context,
-not position.
+not position. In CSS, `.tabs` is only the shared row look; the pinning and breakout
+live on the `.section-tabs` modifier (and `scroll-tabs.js` matches only
+`.section-tabs`), so view and page tab rows can never inherit scrollspy behavior.
 
 **Section tabs** are a sticky **scrollspy** (the pattern in food-delivery menu
 categories and docs-site tables of contents) over panels stacked in tab order, at every
