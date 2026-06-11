@@ -232,6 +232,7 @@ const els = {
   fontSelectWrap: requireElementById("font-select-wrap"),
   fontPicker: requireElement(".font-picker"),
   grid: requireElementById("proof-grid"),
+  normalize: /** @type {HTMLInputElement} */ (requireElementById("normalize-metrics")),
   showLabels: /** @type {HTMLInputElement} */ (requireElementById("show-labels")),
   modeTabs: Array.from(
     document.querySelectorAll("[data-view-mode]"),
@@ -248,7 +249,22 @@ const els = {
 const SIZE_MIN = 2;
 const SIZE_MAX = 256;
 const LINE_HEIGHT_DEFAULT = 1.5;
+// Most mono fonts render their character advance at ~0.6em. "Normalize Metrics"
+// sizes each font so its measured advance (compare-fonts.js) hits this target, so
+// columns line up across cards. See the `.is-normalized` rules in compare.css.
+const NORMALIZE_TARGET_ADVANCE = 0.6;
 let viewMode = "cards";
+
+/**
+ * Per-font width correction: the factor to multiply the base proof size by so the
+ * font's character advance matches NORMALIZE_TARGET_ADVANCE. 1 when the font has no
+ * measured metrics or already sits on target.
+ * @param {PlanetaireFont} font
+ */
+function fontWidthScale(font) {
+  const advance = font.metrics?.advance;
+  return advance ? NORMALIZE_TARGET_ADVANCE / advance : 1;
+}
 
 function escapeHtml(value) {
   return value.replace(
@@ -465,7 +481,10 @@ function measureSampleContent(sampleEl) {
   clone.style.height = "auto";
   clone.style.maxHeight = "var(--proof-max-height)";
   clone.style.overflow = "hidden";
-  document.body.appendChild(clone);
+  // Measure inside the grid (position:absolute keeps it out of flow) so the clone
+  // inherits the .is-normalized context and its per-card --proof-scale is applied —
+  // otherwise normalized widths would be measured at the un-normalized base size.
+  els.grid.appendChild(clone);
   const rect = clone.getBoundingClientRect();
   clone.remove();
   return {
@@ -730,6 +749,7 @@ function renderFullProof(sample, sampleHtml) {
   const pre = document.createElement("pre");
   pre.className = `proof-sample is-${sample.mode}`;
   pre.style.setProperty("--proof-font", `"${font.family}"`);
+  pre.style.setProperty("--proof-scale", String(fontWidthScale(font)));
   pre.tabIndex = 0;
   pre.setAttribute("aria-describedby", "font-select-tip");
   pre.innerHTML = sampleHtml;
@@ -773,6 +793,7 @@ function renderProofs() {
     const pre = document.createElement("pre");
     pre.className = `proof-sample is-${sample.mode}`;
     pre.style.setProperty("--proof-font", `"${font.family}"`);
+    pre.style.setProperty("--proof-scale", String(fontWidthScale(font)));
     pre.innerHTML = sampleHtml;
 
     const foot = document.createElement("div");
@@ -954,6 +975,11 @@ function applyFontStyle(value) {
   document.documentElement.style.setProperty("--proof-style", value);
 }
 
+function applyNormalize() {
+  els.grid.classList.toggle("is-normalized", els.normalize.checked);
+  queueProofDimensionSync();
+}
+
 function setChecked(ids, options = {}) {
   const selected = new Set(ids);
   els.checks.querySelectorAll("input[type='checkbox']").forEach((input) => {
@@ -1060,6 +1086,7 @@ function setViewMode(mode) {
   els.cardModeControls.setAttribute("aria-disabled", String(fullMode));
   els.cardSize.disabled = fullMode;
   els.showLabels.disabled = fullMode;
+  // Normalize Metrics applies in both views, so it stays enabled in page view.
 
   if (fullMode) {
     const checked = selectedFontIds()[0];
@@ -1078,6 +1105,7 @@ applySize(els.size.value);
 applyFontStyle(els.fontStyle.value);
 applyWeight(els.weight.value);
 applyLineHeight(els.lineHeight.value);
+els.grid.classList.toggle("is-normalized", els.normalize.checked);
 setViewMode("cards");
 scheduleBackgroundFontLoading();
 
@@ -1183,6 +1211,7 @@ els.fontStyle.addEventListener("change", () => {
 });
 
 els.showLabels.addEventListener("change", renderProofs);
+els.normalize.addEventListener("change", applyNormalize);
 window.addEventListener("resize", queueProofDimensionSync);
 
 els.grid.addEventListener("pointerdown", onProofPointerDown);

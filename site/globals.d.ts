@@ -19,6 +19,12 @@ type PlanetaireFontLicense = {
   url?: string | null;
 };
 
+type PlanetaireFontMetrics = {
+  advance: number;
+  cap: number;
+  xHeight: number;
+};
+
 type PlanetaireFont = {
   availability?: string;
   default?: boolean;
@@ -27,6 +33,7 @@ type PlanetaireFont = {
   family: string;
   id: string;
   license?: PlanetaireFontLicense;
+  metrics?: PlanetaireFontMetrics | null;
   name: string;
   npmDownloadsLastMonth?: number;
   source: string;

@@ -30,7 +30,7 @@
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jlevy/planetaire@v0.1.5/fonts/web/planetaire-mono-text.css">
 <link rel="stylesheet" href="style.css?v=20260610-theme-tiers-1">
-<link rel="stylesheet" href="compare.css?v=20260610-compare-label-weights-1">
+<link rel="stylesheet" href="compare.css?v=20260610-normalize-metrics-3">
 
 <script>
 (function () {
@@ -169,6 +169,13 @@
           <button type="button" class="mini-btn" data-font-action="all">All</button>
           <button type="button" class="mini-btn" data-font-action="clear">Clear</button>
         </div>
+        <!-- Outside #card-mode-controls (which is hidden in page view) so the
+             control stays available in both views; on by default, ahead of the
+             card-only controls. -->
+        <label class="check-control">
+          <input id="normalize-metrics" type="checkbox" checked>
+          <span>Normalize Metrics</span>
+        </label>
         <span class="card-mode-controls picker-card-controls" id="card-mode-controls">
           <label class="inline-select-control">
             <span>Card Size</span>
@@ -539,7 +546,7 @@ Messages
    the NMC (Network Measurement Center, i.e., UCLA).  The spare bits are
    unused.
 </script>
-<script src="compare-fonts.js?v=20260609-font-groups-1"></script>
-<script src="compare.js?v=20260610-card-pan-2"></script>
+<script src="compare-fonts.js?v=20260610-normalize-metrics-1"></script>
+<script src="compare.js?v=20260610-normalize-metrics-2"></script>
 </body>
 </html>

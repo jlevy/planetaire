@@ -687,6 +687,23 @@ html[data-theme="dark"] .font-select-wrap select {
   cursor: grabbing;
 }
 
+/* Normalize Metrics: make every font share one character grid AND one line
+   pitch, so comparing or switching fonts changes only the letterforms.
+   --proof-scale (= target advance / measured advance, set per proof in
+   compare.js from compare-fonts.js) scales the font size so each font's
+   character advance matches the common ~0.6em cluster, lining up widths.
+   line-height is pinned to the base --proof-size times --proof-line-height (an
+   absolute length): scaling the font up by S while the line-height multiplier
+   drops by S (1.5/S against a font S times larger) leaves the absolute line
+   height unchanged. So every font lands at exactly the line height the top-level
+   Line Height control asks for at the base size, whatever its per-font scale,
+   and rows line up across cards and across font switches. Letterforms keep their
+   true proportions: only the point size per font changes. Both views. */
+.proof-grid.is-normalized .proof-sample {
+  font-size: calc(var(--proof-size) * var(--proof-scale, 1));
+  line-height: calc(var(--proof-size) * var(--proof-line-height));
+}
+
 .proof-sample::-webkit-scrollbar {
   height: 0;
   width: 0;

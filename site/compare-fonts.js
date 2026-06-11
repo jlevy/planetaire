@@ -134,6 +134,39 @@
     });
   }
 
+  /* Measured glyph metrics, as em-relative ratios, captured 2026-06-10 from the
+     live @font-face renders via headless-Chrome canvas measureText (roman, 400).
+     `advance` is the monospace character advance width over the em; `cap` and
+     `xHeight` are the ink heights of "H" and "x". These are stored, not computed
+     at runtime, so the comparator is deterministic and the numbers are auditable.
+
+     Most fonts share advance ~0.60; the comparator's "Normalize Metrics" option
+     sizes each font so its advance matches NORMALIZE_TARGET_ADVANCE (0.60), so
+     character columns line up when fonts are compared side by side. cap/xHeight
+     are kept for reference and any future apparent-size normalization.
+     Regenerate with devtools/font-metrics.mjs after changing the font set. */
+  const FONT_METRICS = {
+    planetaire: { advance: 0.602, cap: 0.76, xHeight: 0.56 },
+    hack: { advance: 0.602, cap: 0.729, xHeight: 0.547 },
+    jetbrains: { advance: 0.6, cap: 0.73, xHeight: 0.55 },
+    "ibm-plex": { advance: 0.6, cap: 0.698, xHeight: 0.516 },
+    "fira-code": { advance: 0.6, cap: 0.688, xHeight: 0.526 },
+    geist: { advance: 0.6, cap: 0.71, xHeight: 0.53 },
+    "source-code-pro": { advance: 0.6, cap: 0.656, xHeight: 0.486 },
+    "pt-mono": { advance: 0.6, cap: 0.7, xHeight: 0.5 },
+    inconsolata: { advance: 0.5, cap: 0.623, xHeight: 0.457 },
+    // biome-ignore lint/suspicious/noApproximativeNumericConstant: measured ratio, not Math.LN2
+    cascadia: { advance: 0.586, cap: 0.693, xHeight: 0.518 },
+    iosevka: { advance: 0.5, cap: 0.735, xHeight: 0.52 },
+    monaspace: { advance: 0.62, cap: 0.73, xHeight: 0.514 },
+    "roboto-mono": { advance: 0.6, cap: 0.711, xHeight: 0.528 },
+    "google-sans-code": { advance: 0.6, cap: 0.716, xHeight: 0.524 },
+    "intel-one-mono": { advance: 0.614, cap: 0.655, xHeight: 0.465 },
+    "atkinson-hyperlegible-mono": { advance: 0.632, cap: 0.668, xHeight: 0.496 },
+    "commit-mono": { advance: 0.6, cap: 0.7, xHeight: 0.54 },
+    "martian-mono": { advance: 0.7, cap: 0.8, xHeight: 0.6 },
+  };
+
   const fonts = [
     {
       id: "planetaire",
@@ -492,6 +525,7 @@
     return {
       availability: font.availability || fontLicense.availability,
       license: fontLicense,
+      metrics: FONT_METRICS[font.id] || null,
       ...font,
     };
   });
