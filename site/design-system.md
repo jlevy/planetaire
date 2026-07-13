@@ -153,7 +153,7 @@ All button text is **CAPS** (via `text-transform`, authored mixed-case).
   The active underline is the tab’s own bottom border (`--tab-indicator-width`), so it
   always matches the hover background width.
 - **Top nav:** a minimal gray caps row above the hero.
-  A back-link (`← ojoshe`) sits flush left, the Planetaire and Compare page tabs are
+  A back-link (`← ojoshe.com`) sits flush left, the Planetaire and Compare page tabs are
   centered, and GitHub (an external arrow link, no active-tab state) sits flush right.
   Planetaire and Compare are page tabs using the same active underline as the main
   section tabs.

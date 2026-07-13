@@ -436,7 +436,7 @@ i {
   padding: var(--tab-padding-block-start) var(--tab-padding-inline) var(--tab-padding-block-end);
   border-bottom: var(--tab-indicator-width) solid transparent;
   margin-bottom: -1px;
-  /* An arrowed label ("← ojoshe", "GitHub →") must never break between text and
+  /* An arrowed label ("← ojoshe.com", "GitHub →") must never break between text and
      arrow. */
   white-space: nowrap;
 }
