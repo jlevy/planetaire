@@ -95,14 +95,23 @@ The merge replaces Hack’s letterforms with B612’s, at a different units-per-
 OS/2 field that is a *measurement* of the glyphs is doubly stale: it describes the base
 font’s letters, in the base font’s units.
 `derive_os2_metrics` (`ops/merge.py`) therefore measures them off the merged outlines,
-per output font, following the OpenType spec’s definitions:
+following the OpenType spec’s definitions:
 
 | Field | Derived from |
 | --- | --- |
-| `sxHeight` | ink top of `x` |
-| `sCapHeight` | ink top of `H` |
-| `xAvgCharWidth` | mean of the non-zero advance widths (the cell, here) |
-| `usWinAscent` / `usWinDescent` | `head.yMax` / `-head.yMin`, floored at the typographic ascender/descender |
+| `sxHeight` | ink top of `x`, per face |
+| `sCapHeight` | ink top of `H`, per face |
+| `xAvgCharWidth` | mean of the non-zero advance widths (the cell, here), per face |
+| `usWinAscent` / `usWinDescent` | the family-wide max `head.yMax` / `-head.yMin` across the family’s faces, floored at the typographic ascender/descender |
+
+The first three are genuinely per-face measurements and stay per-face.
+The `usWin` pair is not: it is computed once per family, from the widest ink extents
+across that family’s faces, and stamped identically on every face and on every split
+subset cut from them.
+Deriving it per file makes weights and script subsets disagree about the box, so the
+same text gets a different default line height depending on which weight or which subset
+a page happened to load, and fontbakery’s
+`com.google.fonts/check/family/vertical_metrics` fails the family.
 
 Measuring rather than copying B612’s table is deliberate: the values stay right whatever
 the sources are, including the FontForge-emboldened intermediate weights, whose x-height
@@ -112,8 +121,26 @@ and cap height drift a few units from the weights they were generated from.
 measurement, they are Hack’s scaled to 2000 UPM, and the generated `@font-face` fallback
 overrides in `planetaire-mono-text.css` are computed from `hhea`. Changing them would
 reflow every consumer’s line height, so they are left alone; every face sets the
-`fsSelection` USE_TYPO_METRICS bit, so modern text stacks lay out from `sTypo*` and the
-`usWin` pair only bounds Windows’ clipping box.
+`fsSelection` USE_TYPO_METRICS bit, so modern text stacks lay out from the `sTypo*` line
+box of 1856/-472/0, or 1.164 em, whatever the `usWin` pair says.
+
+**The `usWin` pair is a layout metric, not only a clipping box.** Stacks that ignore
+USE_TYPO_METRICS — classic GDI, some Java/AWT paths, older Office — take default line
+spacing as `(usWinAscent + usWinDescent) / 2000`, so fitting the box to the ink grows
+that spacing:
+
+| Family | Before (v0.1.5) | Derived |
+| --- | --- | --- |
+| Planetaire Mono Text | 1901 / 483 = 1.192 em | 1977 / 806 = 1.3915 em (+16.7%) |
+| Planetaire Mono Extended | 1901 / 483 = 1.192 em | 2061 / 806 = 1.4335 em (+20.3%) |
+
+Neither extreme is set by a letter.
+The descent comes from four combining marks below the baseline — U+0318, U+0319, U+031E,
+U+031F — and Extended’s ascent from Nerd Font icon ink drawn above the em.
+The old box was not simply tighter, it clipped: ink is drawn to 1940 / -560 and beyond,
+outside the 1901 / 483 the table claimed.
+Stacks honoring USE_TYPO_METRICS, browsers included, still lay out at 1.164 em and are
+unaffected.
 
 `planetaire validate` fails the build if `sxHeight` or `sCapHeight` drifts more than a
 few units from the ink of `x` and `H`, if `xAvgCharWidth` is not the mean advance, or if
