@@ -13,6 +13,20 @@ from fontTools.ttLib import TTFont
 # without letting a whole-percent drift through.
 OS2_HEIGHT_TOLERANCE = 4
 
+# `sxHeight` and `sCapHeight` are defined against "x" and "H", so a font that
+# encodes Basic Latin letters at all must encode those two. A font that encodes
+# none of them is a non-Latin slice of a family — the Greek, Cyrillic, Cyrillic
+# Extended and Latin Extended split subsets all drop the ASCII letters — and
+# there the fields are inherited from the face the subset was cut from, which is
+# correct and cannot be re-checked here.
+BASIC_LATIN_LETTERS = frozenset(range(0x41, 0x5B)) | frozenset(range(0x61, 0x7B))
+
+
+def _encodes_basic_latin_letters(font: TTFont) -> bool:
+    """True if the font encodes any unaccented A-Z or a-z."""
+    cmap = font.getBestCmap() or {}
+    return not BASIC_LATIN_LETTERS.isdisjoint(cmap)
+
 
 @dataclass
 class Issue:
@@ -124,6 +138,13 @@ def _check_os2_measured_metrics(font: TTFont) -> list[Issue]:
     table — CSS `font-size-adjust`, editors' line boxes, font-manager previews —
     sizes the face as the base font rather than the one on screen. Regression
     guard for plt-y36x.
+
+    A check that cannot run says so, as an `info` issue, so that "no issues
+    found" always means the checks ran rather than that they were skipped. The
+    one legitimate reason to skip a height check is a subset that encodes no
+    Basic Latin letters, which therefore has no "x" or "H" to measure against;
+    a font that does encode them and still lacks the reference glyph is an
+    error.
     """
     from planetaire.ops.merge import (
         CAP_HEIGHT_CHAR,
@@ -142,12 +163,39 @@ def _check_os2_measured_metrics(font: TTFont) -> list[Issue]:
         ("sxHeight", X_HEIGHT_CHAR, getattr(os2, "sxHeight", None)),
         ("sCapHeight", CAP_HEIGHT_CHAR, getattr(os2, "sCapHeight", None)),
     )
+    has_latin = _encodes_basic_latin_letters(font)
     for field, char, declared in heights:
         if declared is None:
-            continue  # OS/2 v0/v1: the field does not exist
+            issues.append(
+                Issue(
+                    "info",
+                    "metrics",
+                    f"OS/2.{field} not checked: the table is v{os2.version}, which has "
+                    f"no {field} field",
+                    details={"field": field, "skipped": True},
+                )
+            )
+            continue
         measured = glyph_ink_top(font, char)
         if measured is None:
-            continue  # font does not encode the reference glyph
+            # Absent by design in a non-Latin subset; a bug anywhere else.
+            severity = "error" if has_latin else "info"
+            reason = (
+                f"the font encodes Basic Latin letters but draws no '{char}'"
+                if has_latin
+                else f"this font encodes no Basic Latin letters, so '{char}' is absent by "
+                f"design (a Greek, Cyrillic or Latin Extended split subset) and the "
+                f"declared {declared} is inherited from the face it was cut from"
+            )
+            issues.append(
+                Issue(
+                    severity,
+                    "metrics",
+                    f"OS/2.{field} could not be checked against its reference glyph: {reason}",
+                    details={"field": field, "char": char, "declared": declared},
+                )
+            )
+            continue
         drift = declared - measured
         if abs(drift) > OS2_HEIGHT_TOLERANCE:
             issues.append(
@@ -164,7 +212,16 @@ def _check_os2_measured_metrics(font: TTFont) -> list[Issue]:
     # xAvgCharWidth is defined (OS/2 v3+) as the mean non-zero advance; on a
     # monospaced face that is exactly the cell, so any drift means a stale value.
     advances = [aw for aw, _ in font["hmtx"].metrics.values() if aw > 0] if "hmtx" in font else []
-    if advances:
+    if not advances:
+        issues.append(
+            Issue(
+                "info",
+                "metrics",
+                "OS/2.xAvgCharWidth not checked: the font has no non-zero advance widths",
+                details={"field": "xAvgCharWidth", "skipped": True},
+            )
+        )
+    else:
         expected = round(sum(advances) / len(advances))
         if abs(os2.xAvgCharWidth - expected) > 1:
             issues.append(
@@ -181,7 +238,17 @@ def _check_os2_measured_metrics(font: TTFont) -> list[Issue]:
     # be larger than the ink (subsetting shrinks the ink, not the box), never
     # smaller.
     extent = font_ink_extent(font)
-    if extent is not None:
+    if extent is None:
+        issues.append(
+            Issue(
+                "info",
+                "metrics",
+                "OS/2.usWinAscent/usWinDescent not checked: the font has no measurable "
+                "TrueType outlines (no 'glyf' table, or no glyph draws ink)",
+                details={"field": "usWinAscent/usWinDescent", "skipped": True},
+            )
+        )
+    else:
         lowest, highest = extent
         if os2.usWinAscent < highest:
             issues.append(

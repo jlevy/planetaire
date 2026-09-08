@@ -122,6 +122,37 @@ def test_validate_allows_win_metrics_larger_than_ink(base_font: TTFont):
     assert _metrics_errors(base_font) == []
 
 
+def test_validate_reports_height_checks_it_could_not_run(cyrillic_subset_font: TTFont):
+    """A subset with no "x" or "H" says the checks were skipped, and why.
+
+    Regression for P26-R6: the checks used to `continue` silently, so every Greek
+    and Cyrillic split subset reported "no issues found" having had no height
+    check run at all — indistinguishable from a clean pass.
+    """
+    issues = validate_font(cyrillic_subset_font)
+
+    assert _metrics_errors(cyrillic_subset_font) == []
+    skipped = [i for i in issues if i.severity == "info" and i.category == "metrics"]
+    fields = {i.details["field"] for i in skipped if i.details}
+    assert fields == {"sxHeight", "sCapHeight"}
+    # The message has to name the reason, not just the fact.
+    assert all("by design" in i.message for i in skipped)
+
+
+def test_validate_fails_when_a_latin_font_lacks_its_reference_glyph(make_font):
+    """A font that encodes Latin letters but no "x" is a broken subset, not a Greek one."""
+    uppercase_only = make_font(
+        family="UppercaseOnly",
+        codepoints={cp: chr(cp) for cp in range(0x41, 0x5B)},
+    )
+
+    messages = _metrics_errors(uppercase_only)
+
+    assert any("sxHeight" in m for m in messages)
+    # "H" is present, so that half of the check still runs and passes.
+    assert not any("sCapHeight" in m for m in messages)
+
+
 def _set_subfamily(font: TTFont, name: str) -> None:
     font["name"].setName(name, 2, 3, 1, 0x0409)
     font["name"].setName(name, 2, 1, 0, 0)
