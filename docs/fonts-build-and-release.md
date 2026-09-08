@@ -158,6 +158,33 @@ uv run planetaire regression generate   # regenerate after an intended change
 CI runs `build → validate → regression verify` on every push (the `fonts` job in
 `ci.yml`).
 
+## The committed web fonts
+
+`fonts/web/` (what jsDelivr serves) and `site/fonts/` (the Pages-local copy) hold
+committed binaries: the ten full-coverage Text faces as WOFF2 plus the generated
+stylesheet.
+The build is byte-reproducible — `head.modified` is pinned in `ops/subset.py`
+— so they must equal a rebuild from the sources beside them:
+
+```shell
+make check-web-fonts     # uv run python devtools/check_web_fonts.py — the gate CI runs
+make refresh-web-fonts   # ... --write — rebuild and refresh both copies
+```
+
+The version is the one moving part, since every face stamps it into name IDs 3 and 5 and
+`head.fontRevision`. The checker resolves it from the latest release tag reachable from
+the commit and refuses to guess: an untagged checkout is an error, not a silent fallback
+that would surface as an unexplained byte diff.
+The `fonts` job resolves the same version once, up front, with
+`planetaire version --require-tag`, and passes it to every build.
+
+That leaves one rule for release time, which is what
+[`scripts/release.py`](../scripts/release.py) exists to enforce: **the version has to be
+passed into the font build explicitly**, exactly as it is into the specimen.
+A release builds its artifacts before its own tag exists, so a build left to resolve the
+version stamps the *previous* release into files the release is about to commit, and the
+next CI run — rebuilding at the tag — disagrees.
+
 ## Specimens
 
 ```shell
@@ -178,6 +205,7 @@ tagged commit:
 
 - **The specimen PDF** (`docs/specimen/planetaire-mono-specimen.pdf`) stamps
   `Version X.Y.Z` on its cover and is served over the jsDelivr CDN.
+
 - **The README and static-site CDN links** are pinned to the tag —
   `cdn.jsdelivr.net/gh/jlevy/planetaire@vX.Y.Z/...` — so the specimen PDF, public web
   font CSS, and public WOFF2 files are immutable, served instantly, and always resolve
@@ -185,11 +213,18 @@ tagged commit:
   (Versioned jsDelivr refs are cached for a year; an `@main` link would lag up to ~12h
   and could disagree with the PDF’s stamped version.)
 
-This is a chicken-and-egg: the version comes *from* the tag, but the PDF content and the
-README link must be *in* the tagged commit.
-`scripts/release.py` resolves it by stamping the version explicitly, so **always cut
-releases with `make release`** rather than tagging by hand.
-Doing it by hand leaves the committed PDF and CDN links pointing at stale versions.
+- **The public web fonts** (`fonts/web/`, mirrored to `site/fonts/`) stamp
+  `Version X.Y.Z` into name IDs 3 and 5 and `head.fontRevision` on every face, and are
+  served over the same pinned CDN refs.
+
+This is a chicken-and-egg: the version comes *from* the tag, but the PDF content, the
+web fonts, and the README link must be *in* the tagged commit.
+`scripts/release.py` resolves it by stamping the version explicitly — into the fonts as
+well as the specimen — so **always cut releases with `make release`** rather than
+tagging or building by hand.
+Doing it by hand leaves the committed PDF, web fonts, and CDN links pointing at stale
+versions; that is how v0.2.0 shipped a `fonts/web/` stamped `Version 0.1.5` and turned
+CI red (plt-0204).
 
 > **Download links are deliberately not pinned.** The `releases/latest/download/...`
 > URLs in the README and site resolve `latest` server-side, and the release archive
@@ -231,9 +266,10 @@ is missing or has uncommitted changes.
 make release VERSION=0.1.4        # or: uv run python scripts/release.py prepare 0.1.4
 ```
 
-This builds the fonts, refreshes the committed public web fonts in `fonts/web/` and the
-Pages-local copy in `site/fonts/`, rebuilds the specimen PDF stamped `Version 0.1.4`,
-and re-pins every release-controlled jsDelivr CDN link in `README.md` and `site/` to
+This builds the fonts with `--version 0.1.4` stamped explicitly, refreshes the committed
+public web fonts in `fonts/web/` and the Pages-local copy in `site/fonts/` (checking
+they carry that version), rebuilds the specimen PDF stamped `Version 0.1.4`, and re-pins
+every release-controlled jsDelivr CDN link in `README.md` and `site/` to
 `planetaire@v0.1.4` (a plain search/replace from the previous ref — no template
 variables — which also busts the CDN cache, since `@v0.1.4` is a URL jsDelivr has never
 served). It then **stops and prints the diff** — nothing is committed yet.
@@ -257,6 +293,12 @@ This commits the web fonts + PDF + release-controlled CDN pin updates as
 It re-checks that you are on `main`, the tag is free, and all release-controlled CDN
 links are actually pinned to `v0.1.4`, then commits only those release files.
 It does **not** push — so nothing publishes as a side effect.
+
+With the tag now in place it runs `devtools/check_web_fonts.py`, which is the `fonts`
+job’s gate: rebuild at the tagged commit and compare the committed web fonts byte for
+byte. Running it here means a version that failed to thread through fails the release
+rather than the next CI run.
+`--skip-rebuild-check` skips it; CI still runs it.
 
 ### 4. Push the commit and tag
 

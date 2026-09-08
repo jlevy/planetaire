@@ -8,6 +8,7 @@
 .PHONY: download build-fonts build-text validate-fonts fonts specimen
 .PHONY: images demo regression-generate regression-verify
 .PHONY: dev-tools qa site-format site-lint site-validate site-serve release release-finalize
+.PHONY: check-web-fonts refresh-web-fonts
 
 default: install lint test
 
@@ -75,6 +76,14 @@ validate-fonts:
 	uv run planetaire validate fonts/web/*.woff2
 
 fonts: download build-fonts build-text validate-fonts
+
+# The committed public web fonts (fonts/web/ + site/fonts/) must equal a rebuild from
+# the sources in this commit; the `fonts` CI job runs the same check.
+check-web-fonts:
+	uv run python devtools/check_web_fonts.py
+
+refresh-web-fonts:
+	uv run python devtools/check_web_fonts.py --write
 
 images: build-fonts
 	uv run planetaire build images

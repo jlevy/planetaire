@@ -168,25 +168,23 @@ jsDelivr can only serve files that are present in the tagged commit.
 It cannot unpack the GitHub Release `.tar.xz` archive.
 
 When the web fonts change, `make release VERSION=X.Y.Z` refreshes both `fonts/web/` and
-`site/fonts/` from `fonts/output/` **before tagging the release**, so the tag contains
-the files the pinned CDN URL will serve.
+`site/fonts/` **before tagging the release**, so the tag contains the files the pinned
+CDN URL will serve.
 
-For an emergency manual refresh, or a quick check against a published release archive,
-the equivalent copy is:
-
-```bash
-cp fonts/output/PlanetaireMonoText-*.woff2 fonts/output/planetaire-mono-text*.css site/fonts/
-cp fonts/output/PlanetaireMonoText-*.woff2 fonts/output/planetaire-mono-text*.css fonts/web/
-```
-
-Or, from a release archive:
+Outside a release, rebuild and refresh both copies with the same tool CI gates them
+with:
 
 ```bash
-gh release download --pattern 'PlanetaireMono-Text.tar.xz' --repo jlevy/planetaire -O /tmp/t.tar.xz
-tar -xf /tmp/t.tar.xz -C /tmp
-cp /tmp/web/*.woff2 /tmp/web/planetaire-mono-text*.css site/fonts/
-cp /tmp/web/*.woff2 /tmp/web/planetaire-mono-text*.css fonts/web/
+uv run python devtools/check_web_fonts.py --write   # rebuild + refresh both directories
+uv run python devtools/check_web_fonts.py           # check them, byte for byte
 ```
+
+**Do not refresh these directories with a `cp` glob.** `PlanetaireMonoText-*.woff2`
+matches the `--split` subset slices (`…-Regular-latin.woff2`) as well as the ten faces,
+so a glob out of a working `fonts/output/` — or out of a release archive’s `web/`
+folder, which *is* the split layout — publishes files that do not belong to this
+distribution. That is how 21 stale split files once landed here (plt-pu35).
+`check_web_fonts.py` copies an enumerated file set and removes anything else.
 
 The **Specimen PDF** links and static-site web-font links use pinned jsDelivr URLs
 (`…/gh/jlevy/planetaire@<exact-ref>/…`). Do not edit these pins by hand during a normal
