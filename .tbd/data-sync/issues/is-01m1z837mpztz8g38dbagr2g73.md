@@ -3,13 +3,13 @@ type: is
 id: is-01m1z837mpztz8g38dbagr2g73
 title: OS/2 vertical metrics report Hack's values, not the merged B612 outlines
 kind: bug
-status: open
+status: in_progress
 priority: 1
-version: 1
+version: 3
 labels: []
 dependencies: []
 created_at: 2026-09-08T00:53:39.093Z
-updated_at: 2026-09-08T00:53:39.093Z
+updated_at: 2026-09-08T06:10:56.492Z
 ---
 Planetaire Mono draws B612 Mono's letterforms over a Hack Nerd Font base, but
 several OS/2 fields survive the merge as Hack's, so consumers size the face as
@@ -42,3 +42,7 @@ all size the face ~2.4% small in x-height and ~4% small in cap height.
 Fix: derive these fields from the merged font's own outlines, per the OpenType
 spec's definitions, after every outline-modifying step; add a validate check so
 it cannot regress.
+
+## Notes
+
+Fixed on fix/os2-vertical-metrics; PR https://github.com/jlevy/planetaire/pull/26 (CI green: build 3.12/3.13/3.14 + fonts). derive_os2_metrics measures sxHeight, sCapHeight, xAvgCharWidth and the usWin box off the merged outlines; validate check guards it; all 10 shipped weights rebuilt and exact. Close when the PR merges.
