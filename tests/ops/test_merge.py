@@ -6,8 +6,12 @@ import pytest
 from fontTools.ttLib import TTFont
 
 from planetaire.ops.merge import (
+    WinBox,
+    apply_win_box,
     derive_os2_metrics,
+    family_win_box,
     font_ink_extent,
+    font_win_box,
     glyph_ink_top,
     merge_glyphs,
 )
@@ -158,3 +162,83 @@ def test_derive_os2_metrics_is_idempotent(base_font: TTFont):
     second = derive_os2_metrics(base_font)
     assert first == second
     assert first["sxHeight"] == glyph_ink_top(base_font, "x")
+
+
+def test_font_ink_extent_leaves_the_font_alone(b612_regular: TTFont, hack_regular: TTFont):
+    """Measuring is read-only: the stored glyf bounding boxes are not rewritten.
+
+    Regression for P26-R4. `validate` measures through this function, and a
+    read-only inspection command must not rewrite the font it inspects.
+    """
+    merged = merge_glyphs(hack_regular, b612_regular, [(0x41, 0x5A), (0x61, 0x7A)])
+    glyf = merged["glyf"]
+    names = merged.getGlyphOrder()
+    before = [(glyf[n].numberOfContours, getattr(glyf[n], "yMin", None)) for n in names]
+
+    assert font_ink_extent(merged) is not None
+
+    after = [(glyf[n].numberOfContours, getattr(glyf[n], "yMin", None)) for n in names]
+    assert after == before
+
+
+def test_font_win_box_is_the_faces_ink_floored_at_the_line_box(base_font: TTFont):
+    """One face's box covers its ink and never sits inside the typographic line box."""
+    box = font_win_box(base_font)
+    assert box is not None
+    extent = font_ink_extent(base_font)
+    assert extent is not None
+    lowest, highest = extent
+    assert box.ascent >= highest
+    assert box.descent >= -lowest
+    assert box.ascent >= base_font["OS/2"].sTypoAscender
+    assert box.descent >= -base_font["OS/2"].sTypoDescender
+
+
+def test_family_win_box_encloses_every_face(make_font):
+    """The family box is the max over the faces, not any one face's own extent.
+
+    Regression for P26-R1: deriving per file gave one family's weights different
+    `usWin` boxes, and so different default line spacing on the stacks that
+    ignore USE_TYPO_METRICS.
+    """
+    short = make_font(family="Short", ink_top=700)
+    tall = make_font(family="Tall", ink_top=1500)
+
+    assert font_win_box(short) != font_win_box(tall)
+
+    box = family_win_box([short, tall])
+    assert box is not None
+    assert box.ascent == 1500  # the tall face, not the short one
+    assert box == family_win_box([tall, short])  # order does not matter
+
+
+def test_apply_win_box_makes_a_subset_declare_its_familys_box(make_font):
+    """A subset keeps the family box even though its own ink would allow less.
+
+    The `usWin` pair is a clipping box: it only has to avoid cutting ink off, so
+    shrinking it to a script subset's smaller ink buys nothing and costs the
+    family its uniform line spacing.
+    """
+    face = make_font(family="Face", ink_top=1500)
+    subset = make_font(family="Face", ink_top=700)  # one script's worth of ink
+    box = family_win_box([face, subset])
+    assert box is not None
+
+    apply_win_box(subset, box)
+
+    os2 = subset["OS/2"]
+    assert (os2.usWinAscent, os2.usWinDescent) == (box.ascent, box.descent)
+    assert os2.usWinAscent > 700  # roomier than this file's own ink, deliberately
+
+
+def test_derive_os2_metrics_takes_a_family_box_but_measures_the_rest_per_face(make_font):
+    """`win_box` overrides only the clipping box; the height fields stay per face."""
+    face = make_font(family="Face", ink_top=900)
+    family_box = WinBox(ascent=1800, descent=400)
+
+    written = derive_os2_metrics(face, win_box=family_box)
+
+    assert (written["usWinAscent"], written["usWinDescent"]) == (1800, 400)
+    # Measured off this face's own outlines, not inherited from the family.
+    assert written["sxHeight"] == glyph_ink_top(face, "x") == 900
+    assert written["sCapHeight"] == glyph_ink_top(face, "H") == 900

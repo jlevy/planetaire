@@ -12,8 +12,10 @@ from __future__ import annotations
 
 import copy
 import logging
+from collections.abc import Iterable
+from dataclasses import dataclass
 
-from fontTools.pens.boundsPen import BoundsPen
+from fontTools.pens.boundsPen import BoundsPen, ControlBoundsPen
 from fontTools.ttLib import TTFont
 
 from planetaire.unicode_ranges import codepoints_in_ranges
@@ -208,27 +210,107 @@ def glyph_ink_top(font: TTFont, char: str) -> int | None:
 def font_ink_extent(font: TTFont) -> tuple[int, int] | None:
     """(lowest, highest) drawn y across every glyph, in font units.
 
-    None when the font draws nothing. Bounds are recalculated rather than read,
-    for the same reason as `glyph_ink_top`.
+    None when the font draws nothing. Measured through a `ControlBoundsPen` over
+    the glyph set, which has the same semantics as a `glyf` bounding box — both
+    take the extremes of every point, on-curve and off — while leaving the font
+    alone. The obvious alternative, `glyph.recalcBounds(glyf)`, rewrites the
+    stored bounding box of every glyph in the font, and this function is called
+    from `validate`, whose whole job is to inspect a font without touching it.
     """
     if "glyf" not in font:
         return None
-    glyf = font["glyf"]
-    lowest: int | None = None
-    highest: int | None = None
+    glyph_set = font.getGlyphSet()
+    lowest: float | None = None
+    highest: float | None = None
     for name in font.getGlyphOrder():
-        glyph = glyf[name]
-        if glyph.numberOfContours == 0:
-            continue  # no contours, so no ink (space and friends)
-        glyph.recalcBounds(glyf)
-        lowest = glyph.yMin if lowest is None else min(lowest, glyph.yMin)
-        highest = glyph.yMax if highest is None else max(highest, glyph.yMax)
+        pen = ControlBoundsPen(glyph_set)
+        glyph_set[name].draw(pen)
+        # None for a glyph with no contours, so no ink (space and friends).
+        bounds = pen.bounds
+        if not bounds:
+            continue
+        _, y_min, _, y_max = bounds
+        lowest = y_min if lowest is None else min(lowest, y_min)
+        highest = y_max if highest is None else max(highest, y_max)
     if lowest is None or highest is None:
         return None
-    return lowest, highest
+    return round(lowest), round(highest)
 
 
-def derive_os2_metrics(font: TTFont) -> dict[str, int]:
+@dataclass(frozen=True)
+class WinBox:
+    """The OS/2 `usWinAscent`/`usWinDescent` pair: the box Windows clips ink to.
+
+    `descent` is stored positive, the way the field is.
+    """
+
+    ascent: int
+    descent: int
+
+    def enclosing(self, other: WinBox) -> WinBox:
+        """The smallest box that contains both."""
+        return WinBox(max(self.ascent, other.ascent), max(self.descent, other.descent))
+
+
+def font_win_box(font: TTFont) -> WinBox | None:
+    """The clipping box one face needs: its own ink, floored at the line box.
+
+    None when the font draws nothing measurable. Ink outside `usWin*` is clipped,
+    so the box is the font's full drawn extent (`head.yMax`/`-head.yMin`, which is
+    what the spec recommends), never smaller than the typographic ascender and
+    descender.
+    """
+    extent = font_ink_extent(font)
+    if extent is None or "OS/2" not in font:
+        return None
+    lowest, highest = extent
+    os2 = font["OS/2"]
+    return WinBox(
+        ascent=max(highest, os2.sTypoAscender, 0),
+        descent=max(-lowest, -os2.sTypoDescender, 0),
+    )
+
+
+def family_win_box(fonts: Iterable[TTFont]) -> WinBox | None:
+    """One clipping box for a whole family: the box enclosing every face's ink.
+
+    `usWin*` has to be uniform across a family. It is a clipping box, so it only
+    has to *not* cut ink off; nothing is gained by shrinking it to each file's own
+    extent, and plenty is lost. The stacks that ignore the `fsSelection`
+    USE_TYPO_METRICS bit — classic GDI, some Java/AWT and older Office paths —
+    take their default line spacing from `usWinAscent + usWinDescent`, so a
+    per-file box gives one family's weights different line heights, and gives a
+    script subset a different line height from the face it was cut from. It is
+    also what fontbakery's `com.google.fonts/check/family/vertical_metrics`
+    fails on.
+
+    Returns None when no font in `fonts` yields a box.
+    """
+    box: WinBox | None = None
+    for font in fonts:
+        face_box = font_win_box(font)
+        if face_box is None:
+            continue
+        box = face_box if box is None else box.enclosing(face_box)
+    return box
+
+
+def apply_win_box(font: TTFont, box: WinBox) -> WinBox | None:
+    """Stamp a family-wide clipping box onto one face or subset.
+
+    Returns the box written, or None if the font has no OS/2 table. Applied after
+    subsetting as well as before it: a script subset carries less ink than the
+    face it came from, but it is the same family and must declare the same box.
+    """
+    if "OS/2" not in font:
+        return None
+    os2 = font["OS/2"]
+    os2.usWinAscent = box.ascent
+    os2.usWinDescent = box.descent
+    return box
+
+
+def derive_os2_metrics(font: TTFont, *, win_box: WinBox | None = None) -> dict[str, int]:
     """Recompute the OS/2 fields that describe the font's own drawn outlines.
 
     A glyph merge invalidates every OS/2 field that is a *measurement* of the
@@ -242,12 +324,19 @@ def derive_os2_metrics(font: TTFont) -> dict[str, int]:
     - ``sxHeight``: the height of lowercase ``x`` — its ink top.
     - ``sCapHeight``: the height of uppercase ``H`` — its ink top.
     - ``xAvgCharWidth`` (OS/2 v3+): the arithmetic mean of the advance widths of
-      all non-zero-width glyphs. Delegated to fontTools, which also implements
-      the older weighted definition for v1/v2 tables.
+      all non-zero-width glyphs. Delegated to fontTools: these tables are v4,
+      where the definition is that arithmetic mean, and the mean is the only
+      definition `OS_2.recalcAvgCharWidth` implements.
     - ``usWinAscent``/``usWinDescent``: the box outside which Windows clips ink;
       the spec recommends ``head.yMax`` and ``-head.yMin`` so nothing is clipped.
       Held to at least the typographic ascender/descender so the clipping box can
       never be smaller than the line box.
+
+    The three height and width fields are per face: each one measures the face it
+    sits in. The ``usWin`` pair is not — it must be uniform across the family, so
+    pass the family's box as `win_box` and this writes that instead of the face's
+    own extent. Measuring per file is only right for a font considered alone; see
+    `family_win_box` for why.
 
     Line height is untouched: ``sTypo*`` and ``hhea`` are design values, not
     measurements, and every face here sets ``fsSelection`` USE_TYPO_METRICS, so
@@ -255,10 +344,9 @@ def derive_os2_metrics(font: TTFont) -> dict[str, int]:
 
     Must run *after* every step that moves outlines or advances — for this
     pipeline, after `add_dotted_zero` and `normalize_monospace` — so it is the
-    last metrics step in a build. Worth running again after subsetting, which
-    removes ink and so can shrink the clipping box. Returns the fields it wrote,
-    for logging and tests; fields whose reference glyph the subset dropped keep
-    the value measured before it.
+    last metrics step in a build. Returns the fields it wrote, for logging and
+    tests; fields whose reference glyph a subset dropped keep the value measured
+    before it, which is what a subset of a face should declare anyway.
     """
     if "OS/2" not in font:
         return {}
@@ -278,13 +366,10 @@ def derive_os2_metrics(font: TTFont) -> dict[str, int]:
     os2.recalcAvgCharWidth(font)
     written["xAvgCharWidth"] = os2.xAvgCharWidth
 
-    extent = font_ink_extent(font)
-    if extent is not None:
-        lowest, highest = extent
-        os2.usWinAscent = max(highest, os2.sTypoAscender, 0)
-        os2.usWinDescent = max(-lowest, -os2.sTypoDescender, 0)
-        written["usWinAscent"] = os2.usWinAscent
-        written["usWinDescent"] = os2.usWinDescent
+    box = win_box if win_box is not None else font_win_box(font)
+    if box is not None and apply_win_box(font, box) is not None:
+        written["usWinAscent"] = box.ascent
+        written["usWinDescent"] = box.descent
 
     log.info("Derived OS/2 metrics from merged outlines: %s", written)
     return written
