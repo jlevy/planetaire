@@ -5,7 +5,7 @@ title: Web-font delivery (Google Fonts model) + synthetic-weight reproducibility
 kind: epic
 status: open
 priority: 1
-version: 15
+version: 17
 labels: []
 dependencies: []
 child_order_hints:
@@ -20,8 +20,10 @@ child_order_hints:
   - is-01ktnk4xc3dg0mac0vtkp339n8
   - is-01ktnk5acrfx5jxtqfm0ext2fe
   - is-01ktnmvbex5633f08qppcxhw3k
+  - is-01m215j1eene0f4ere43bvj4x4
+  - is-01m215jaw5sndvg744eryzw2ft
 created_at: 2026-06-09T05:51:28.754Z
-updated_at: 2026-06-09T18:18:18.703Z
+updated_at: 2026-09-08T18:47:57.060Z
 ---
 Make Planetaire Mono Text a first-class web font and close a weight-pipeline provenance gap found during the web-font review.
 
