@@ -3,6 +3,9 @@ Binary glyph merging by unicode range.
 
 Copies glyph outlines from a donor font into a base font for specified
 unicode ranges, handling UPM normalization and cmap updates.
+
+Also derives the OS/2 fields that *measure* the resulting outlines
+(`derive_os2_metrics`), which a glyph merge necessarily invalidates.
 """
 
 from __future__ import annotations
@@ -10,11 +13,17 @@ from __future__ import annotations
 import copy
 import logging
 
+from fontTools.pens.boundsPen import BoundsPen
 from fontTools.ttLib import TTFont
 
 from planetaire.unicode_ranges import codepoints_in_ranges
 
 log = logging.getLogger(__name__)
+
+# Reference glyphs for the OpenType definitions of the two OS/2 height fields:
+# sxHeight is the top of lowercase "x", sCapHeight the top of uppercase "H".
+X_HEIGHT_CHAR = "x"
+CAP_HEIGHT_CHAR = "H"
 
 
 def merge_glyphs(
@@ -147,12 +156,18 @@ def scale_font_upm(font: TTFont, target_upm: int) -> None:
         width, lsb = hmtx.metrics[glyph_name]
         hmtx.metrics[glyph_name] = (round(width * scale), round(lsb * scale))
 
-    # Scale vertical metrics
+    # Scale vertical metrics. Every OS/2 field carrying a font-unit measurement
+    # has to move with the UPM: leaving any of them behind puts a 2048-unit
+    # number in a 2000-unit font, which is how xAvgCharWidth and the usWin pair
+    # came to overstate this family's cell and clipping box by 2.4%.
     if "OS/2" in font:
         os2 = font["OS/2"]
         os2.sTypoAscender = round(os2.sTypoAscender * scale)
         os2.sTypoDescender = round(os2.sTypoDescender * scale)
         os2.sTypoLineGap = round(os2.sTypoLineGap * scale)
+        os2.xAvgCharWidth = round(os2.xAvgCharWidth * scale)
+        os2.usWinAscent = round(os2.usWinAscent * scale)
+        os2.usWinDescent = round(os2.usWinDescent * scale)
         if hasattr(os2, "sxHeight"):
             os2.sxHeight = round(os2.sxHeight * scale)
         if hasattr(os2, "sCapHeight"):
@@ -166,6 +181,113 @@ def scale_font_upm(font: TTFont, target_upm: int) -> None:
 
     # Update head table UPM
     font["head"].unitsPerEm = target_upm
+
+
+def glyph_ink_top(font: TTFont, char: str) -> int | None:
+    """Top of the drawn ink for `char`, in font units, or None if it draws nothing.
+
+    Uses a pen over the glyph set so composites and the merged donor outlines are
+    measured the same way a renderer sees them, rather than trusting a stored
+    bounding box that an earlier step may have left stale.
+    """
+    name = (font.getBestCmap() or {}).get(ord(char))
+    if name is None:
+        return None
+    glyph_set = font.getGlyphSet()
+    pen = BoundsPen(glyph_set)
+    glyph_set[name].draw(pen)
+    # BoundsPen leaves `bounds` as None for a glyph that draws nothing (a space,
+    # say). Tested for truth rather than `is None` because the annotation claims a
+    # tuple that is always present, and a real bounds tuple is never empty.
+    bounds = pen.bounds
+    if not bounds:
+        return None
+    return round(bounds[3])
+
+
+def font_ink_extent(font: TTFont) -> tuple[int, int] | None:
+    """(lowest, highest) drawn y across every glyph, in font units.
+
+    None when the font draws nothing. Bounds are recalculated rather than read,
+    for the same reason as `glyph_ink_top`.
+    """
+    if "glyf" not in font:
+        return None
+    glyf = font["glyf"]
+    lowest: int | None = None
+    highest: int | None = None
+    for name in font.getGlyphOrder():
+        glyph = glyf[name]
+        if glyph.numberOfContours == 0:
+            continue  # no contours, so no ink (space and friends)
+        glyph.recalcBounds(glyf)
+        lowest = glyph.yMin if lowest is None else min(lowest, glyph.yMin)
+        highest = glyph.yMax if highest is None else max(highest, glyph.yMax)
+    if lowest is None or highest is None:
+        return None
+    return lowest, highest
+
+
+def derive_os2_metrics(font: TTFont) -> dict[str, int]:
+    """Recompute the OS/2 fields that describe the font's own drawn outlines.
+
+    A glyph merge invalidates every OS/2 field that is a *measurement* of the
+    glyphs: the table still describes the base font's letters while the outlines
+    are now the donor's. Planetaire hits this twice over, because the base and
+    donor also disagree about UPM. Deriving the fields from the merged outlines
+    makes them right by construction, whatever the sources are.
+
+    Per the OpenType spec:
+
+    - ``sxHeight``: the height of lowercase ``x`` — its ink top.
+    - ``sCapHeight``: the height of uppercase ``H`` — its ink top.
+    - ``xAvgCharWidth`` (OS/2 v3+): the arithmetic mean of the advance widths of
+      all non-zero-width glyphs. Delegated to fontTools, which also implements
+      the older weighted definition for v1/v2 tables.
+    - ``usWinAscent``/``usWinDescent``: the box outside which Windows clips ink;
+      the spec recommends ``head.yMax`` and ``-head.yMin`` so nothing is clipped.
+      Held to at least the typographic ascender/descender so the clipping box can
+      never be smaller than the line box.
+
+    Line height is untouched: ``sTypo*`` and ``hhea`` are design values, not
+    measurements, and every face here sets ``fsSelection`` USE_TYPO_METRICS, so
+    modern text stacks lay out from ``sTypo*`` regardless of the usWin pair.
+
+    Must run *after* every step that moves outlines or advances — for this
+    pipeline, after `add_dotted_zero` and `normalize_monospace` — so it is the
+    last metrics step in a build. Worth running again after subsetting, which
+    removes ink and so can shrink the clipping box. Returns the fields it wrote,
+    for logging and tests; fields whose reference glyph the subset dropped keep
+    the value measured before it.
+    """
+    if "OS/2" not in font:
+        return {}
+    os2 = font["OS/2"]
+    written: dict[str, int] = {}
+
+    x_top = glyph_ink_top(font, X_HEIGHT_CHAR)
+    if x_top is not None and hasattr(os2, "sxHeight"):
+        os2.sxHeight = x_top
+        written["sxHeight"] = x_top
+
+    cap_top = glyph_ink_top(font, CAP_HEIGHT_CHAR)
+    if cap_top is not None and hasattr(os2, "sCapHeight"):
+        os2.sCapHeight = cap_top
+        written["sCapHeight"] = cap_top
+
+    os2.recalcAvgCharWidth(font)
+    written["xAvgCharWidth"] = os2.xAvgCharWidth
+
+    extent = font_ink_extent(font)
+    if extent is not None:
+        lowest, highest = extent
+        os2.usWinAscent = max(highest, os2.sTypoAscender, 0)
+        os2.usWinDescent = max(-lowest, -os2.sTypoDescender, 0)
+        written["usWinAscent"] = os2.usWinAscent
+        written["usWinDescent"] = os2.usWinDescent
+
+    log.info("Derived OS/2 metrics from merged outlines: %s", written)
+    return written
 
 
 def _merge_gsub_features(base: TTFont, donor: TTFont, features: list[str]) -> None:

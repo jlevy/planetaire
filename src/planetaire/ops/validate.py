@@ -7,6 +7,12 @@ from typing import Literal
 
 from fontTools.ttLib import TTFont
 
+# How far the OS/2 height fields may sit from the ink they claim to measure.
+# The fields are integers derived from integer outline bounds, so a correct build
+# is exact; the slack absorbs a font that arrived rounded from another toolchain
+# without letting a whole-percent drift through.
+OS2_HEIGHT_TOLERANCE = 4
+
 
 @dataclass
 class Issue:
@@ -46,6 +52,9 @@ def validate_font(
     # no text/coding glyph's ink bleeds past the cell.
     if expect_monospace:
         issues.extend(_check_monospace_invariant(font))
+
+    # OS/2 measurement fields vs the outlines they claim to measure.
+    issues.extend(_check_os2_measured_metrics(font))
 
     # Weight class
     if expected_weight is not None and "OS/2" in font:
@@ -102,6 +111,94 @@ def validate_font(
 
     # Style-linking consistency (italic/bold bits vs subfamily name)
     issues.extend(_check_style_linking(font))
+
+    return issues
+
+
+def _check_os2_measured_metrics(font: TTFont) -> list[Issue]:
+    """Check that OS/2's measurements agree with the glyphs actually drawn.
+
+    Planetaire merges one family's letterforms onto another's base, so anything
+    in OS/2 that measures the outlines is wrong by default and stays wrong
+    silently: nothing renders badly, but every consumer that sizes text from the
+    table — CSS `font-size-adjust`, editors' line boxes, font-manager previews —
+    sizes the face as the base font rather than the one on screen. Regression
+    guard for plt-y36x.
+    """
+    from planetaire.ops.merge import (
+        CAP_HEIGHT_CHAR,
+        X_HEIGHT_CHAR,
+        font_ink_extent,
+        glyph_ink_top,
+    )
+
+    issues: list[Issue] = []
+    if "OS/2" not in font:
+        return issues
+    os2 = font["OS/2"]
+    upm = font["head"].unitsPerEm
+
+    heights = (
+        ("sxHeight", X_HEIGHT_CHAR, getattr(os2, "sxHeight", None)),
+        ("sCapHeight", CAP_HEIGHT_CHAR, getattr(os2, "sCapHeight", None)),
+    )
+    for field, char, declared in heights:
+        if declared is None:
+            continue  # OS/2 v0/v1: the field does not exist
+        measured = glyph_ink_top(font, char)
+        if measured is None:
+            continue  # font does not encode the reference glyph
+        drift = declared - measured
+        if abs(drift) > OS2_HEIGHT_TOLERANCE:
+            issues.append(
+                Issue(
+                    "error",
+                    "metrics",
+                    f"OS/2.{field} is {declared} ({declared / upm:.4f} em) but the "
+                    f"'{char}' glyph is drawn to {measured} ({measured / upm:.4f} em), "
+                    f"off by {drift:+d} units",
+                    details={"field": field, "declared": declared, "measured": measured},
+                )
+            )
+
+    # xAvgCharWidth is defined (OS/2 v3+) as the mean non-zero advance; on a
+    # monospaced face that is exactly the cell, so any drift means a stale value.
+    advances = [aw for aw, _ in font["hmtx"].metrics.values() if aw > 0] if "hmtx" in font else []
+    if advances:
+        expected = round(sum(advances) / len(advances))
+        if abs(os2.xAvgCharWidth - expected) > 1:
+            issues.append(
+                Issue(
+                    "error",
+                    "metrics",
+                    f"OS/2.xAvgCharWidth is {os2.xAvgCharWidth} but the mean non-zero "
+                    f"advance width is {expected}",
+                    details={"declared": os2.xAvgCharWidth, "measured": expected},
+                )
+            )
+
+    # usWin* is the box Windows clips ink to; ink outside it is cut off. It may
+    # be larger than the ink (subsetting shrinks the ink, not the box), never
+    # smaller.
+    extent = font_ink_extent(font)
+    if extent is not None:
+        lowest, highest = extent
+        if os2.usWinAscent < highest:
+            issues.append(
+                Issue(
+                    "error",
+                    "metrics",
+                    f"OS/2.usWinAscent {os2.usWinAscent} clips ink drawn to {highest}",
+                )
+            )
+        if os2.usWinDescent < -lowest:
+            issues.append(
+                Issue(
+                    "error",
+                    "metrics",
+                    f"OS/2.usWinDescent {os2.usWinDescent} clips ink drawn to {lowest}",
+                )
+            )
 
     return issues
 

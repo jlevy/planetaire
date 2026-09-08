@@ -82,7 +82,42 @@ Outputs land in `fonts/output/` (gitignored).
    (name IDs 3/5 and `head.fontRevision`) from the canonical package version.
 3. **Dotted zero:** add the center-dot zero (`ss01`/`zero` alternates).
 4. **Fix:** DSIG, `fsType=0`, GASP.
-5. **Validate:** glyph coverage, weight, and italic/bold style-linking.
+5. **Normalize monospace:** pin every non-zero advance to the Hack cell, recentering the
+   wider B612 and emboldened letters and condensing only cell-filling glyphs.
+6. **Derive OS/2 metrics:** recompute the OS/2 fields that measure the outlines (see
+   below). Last, because it measures the glyphs as finally drawn.
+7. **Validate:** glyph coverage, weight, monospace invariants, OS/2 metrics, and
+   italic/bold style-linking.
+
+### Vertical metrics
+
+The merge replaces Hack’s letterforms with B612’s, at a different units-per-em, so every
+OS/2 field that is a *measurement* of the glyphs is doubly stale: it describes the base
+font’s letters, in the base font’s units.
+`derive_os2_metrics` (`ops/merge.py`) therefore measures them off the merged outlines,
+per output font, following the OpenType spec’s definitions:
+
+| Field | Derived from |
+| --- | --- |
+| `sxHeight` | ink top of `x` |
+| `sCapHeight` | ink top of `H` |
+| `xAvgCharWidth` | mean of the non-zero advance widths (the cell, here) |
+| `usWinAscent` / `usWinDescent` | `head.yMax` / `-head.yMin`, floored at the typographic ascender/descender |
+
+Measuring rather than copying B612’s table is deliberate: the values stay right whatever
+the sources are, including the FontForge-emboldened intermediate weights, whose x-height
+and cap height drift a few units from the weights they were generated from.
+
+**`sTypo*` and `hhea` are not derived.** They are the designer’s line box rather than a
+measurement, they are Hack’s scaled to 2000 UPM, and the generated `@font-face` fallback
+overrides in `planetaire-mono-text.css` are computed from `hhea`. Changing them would
+reflow every consumer’s line height, so they are left alone; every face sets the
+`fsSelection` USE_TYPO_METRICS bit, so modern text stacks lay out from `sTypo*` and the
+`usWin` pair only bounds Windows’ clipping box.
+
+`planetaire validate` fails the build if `sxHeight` or `sCapHeight` drifts more than a
+few units from the ink of `x` and `H`, if `xAvgCharWidth` is not the mean advance, or if
+the `usWin` box would clip drawn ink.
 
 ## Regression checks
 

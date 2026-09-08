@@ -34,7 +34,7 @@ from planetaire.config import (
     font_stack_css_var,
 )
 from planetaire.ops.fix import fix_font
-from planetaire.ops.merge import merge_glyphs
+from planetaire.ops.merge import derive_os2_metrics, merge_glyphs
 from planetaire.ops.monospace import normalize_monospace, set_fixed_pitch_flags
 from planetaire.ops.rename import rename_font
 from planetaire.ops.subset import save_web_font, subset_font
@@ -197,6 +197,9 @@ def _process_variant(
     # run after the dotted zero so the modified zero is normalized too.
     normalize_monospace(fixed)
     set_fixed_pitch_flags(fixed)
+    # Last: the OS/2 measurement fields describe the outlines as finally drawn,
+    # so they are derived once nothing will move a contour or an advance again.
+    derive_os2_metrics(fixed)
     return fixed
 
 
@@ -385,6 +388,9 @@ def build_text(
                     continue
                 subset_font_obj = deepcopy(font)
                 subset_font(subset_font_obj, subset_def["ranges"], drop_hinting=True)
+                # One script's worth of ink is shorter than the whole font's, so
+                # the clipping box is re-measured against what this file keeps.
+                derive_os2_metrics(subset_font_obj)
                 for fmt in split_formats:
                     out_stem = f"{stem}-{subset_def['name']}"
                     out_path = output_dir / f"{out_stem}.{fmt}"
@@ -404,6 +410,7 @@ def build_text(
             continue
 
         subset_font(font, TEXT_SUBSET_RANGES, drop_hinting=True)
+        derive_os2_metrics(font)  # Text drops the icons, so re-measure the box.
         for fmt in formats:
             flavor = None if fmt == "ttf" else fmt
             out_path = output_dir / f"{stem}.{fmt}"

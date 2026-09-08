@@ -404,6 +404,10 @@ For each weight variant, the pipeline loads Hack Nerd Font as the base, merges B
 letter and digit glyphs by Unicode range (normalizing units per em from 2048 to 2000),
 adds a center dot to B612’s zero for O/0 disambiguation, sets family and version
 metadata, applies post-processing fixes, and validates coverage and style linking.
+The OS/2 metrics that describe the glyphs — x-height, cap height, average character
+width, and the Windows clipping box — are measured off the merged outlines rather than
+inherited from either source, so anything that sizes text from the table (CSS
+`font-size-adjust`, editors, font managers) sizes the letters actually on screen.
 The intermediate B612 weights (Medium, SemiBold, and ExtraBold) are generated from its
 base weights with FontForge emboldening before merging.
 Full build, specimen, and release steps are in
