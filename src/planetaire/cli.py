@@ -68,6 +68,47 @@ def _resolve_font_path(path: Path) -> Path:
     return resolved
 
 
+# -- version command --
+
+
+@app.command()
+def version(
+    require_tag: bool = typer.Option(
+        False,
+        "--require-tag",
+        help="Fail unless the version came from a git tag. Use where a resolved "
+        "version has to be the release's, not a fallback (CI, release checks).",
+    ),
+    format: OutputFormat = typer.Option(OutputFormat.text, help="Output format: text or json"),
+) -> None:
+    """Print the canonical version this checkout stamps into the fonts and specimen.
+
+    Data (the version) goes to stdout so it can be captured; where it came from goes
+    to stderr. `--require-tag` turns a silent fallback into a loud failure, which is
+    what makes the CI web-font gate well defined: the rebuild it compares against
+    must stamp the release version, not "0.0.0".
+    """
+    from planetaire.version import VersionSource, resolve_version
+
+    resolved = resolve_version()
+    if require_tag and resolved.source is not VersionSource.git_tag:
+        raise CLIError(
+            f"version {resolved.version} came from {resolved.origin}, not a git tag. "
+            "Fetch tags (actions/checkout needs fetch-depth: 0) or pass the version "
+            "explicitly."
+        )
+
+    if format == "json":
+        import json
+        from dataclasses import asdict
+
+        json.dump(asdict(resolved), sys.stdout, indent=2)
+        sys.stdout.write("\n")
+    else:
+        sys.stdout.write(f"{resolved.version}\n")
+        err_console.print(f"  from {resolved.origin}")
+
+
 # -- info command --
 
 
@@ -308,6 +349,14 @@ def embolden(
 
 # -- build subcommands --
 
+# Shared by the font builds and worded like `build specimen`'s equivalent: all three
+# artifacts of a release have to name a version that does not exist as a tag yet.
+_VERSION_OPTION_HELP = (
+    "Version to stamp into name IDs 3/5 and head.fontRevision (default: the canonical "
+    "git-tag version). Pass explicitly at release time to stamp the tag-to-be before "
+    "it exists."
+)
+
 
 @build_app.command("download")
 def build_download(
@@ -324,11 +373,12 @@ def build_download(
 def build_planetaire_mono(
     source_dir: Path = typer.Option(Path("fonts/source"), help="Directory containing source fonts"),
     output_dir: Path = typer.Option(Path("fonts/output"), help="Directory for output fonts"),
+    version: str | None = typer.Option(None, help=_VERSION_OPTION_HELP),
 ) -> None:
     """Run the full Planetaire Mono build pipeline."""
     from planetaire.recipes.planetaire_mono import build_planetaire_mono
 
-    outputs = build_planetaire_mono(source_dir, output_dir)
+    outputs = build_planetaire_mono(source_dir, output_dir, version=version)
     for p in outputs:
         err_console.print(f"  {p}")
     err_console.print(f"[green]Built {len(outputs)} font(s)[/green]")
@@ -362,6 +412,7 @@ def build_text_cmd(
         "--formats",
         help="Comma-separated output formats. Defaults to woff2,ttf or woff2 with --split.",
     ),
+    version: str | None = typer.Option(None, help=_VERSION_OPTION_HELP),
 ) -> None:
     """Build the lightweight Planetaire Mono Text family (WOFF2/WOFF/TTF + CSS)."""
     from planetaire.recipes.planetaire_mono import build_text
@@ -377,6 +428,7 @@ def build_text_cmd(
         split=split,
         subsets=_parse_csv(subsets),
         include_italics=italics,
+        version=version,
     )
     for p in outputs:
         err_console.print(f"  {p}")

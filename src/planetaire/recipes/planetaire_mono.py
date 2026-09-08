@@ -29,6 +29,7 @@ from planetaire.config import (
     TEXT_SLIM_WEB_VARIANTS,
     TEXT_SUBSET_GROUPS,
     TEXT_SUBSET_RANGES,
+    TEXT_WEB_CSS_NAME,
     VARIANTS,
     TextSubsetDef,
     VariantDef,
@@ -70,6 +71,23 @@ class FontFallbackMetrics:
     ascent_override: float
     descent_override: float
     line_gap_override: float
+
+
+def resolve_font_version(version: str | None) -> str:
+    """Return the version to stamp into the fonts, explicit input taking precedence.
+
+    Without an argument this is the canonical version, which comes from the latest
+    reachable git tag. That is right for every build except the one that matters
+    most: a release builds its artifacts *before* `scripts/release.py finalize`
+    creates the tag, so resolving there stamps the previous release into name ID 5
+    and `head.fontRevision`, and the committed `fonts/web/` then disagrees with a
+    rebuild at the tagged commit. The release passes the version explicitly for the
+    same reason the specimen already does (plt-0204).
+    """
+    font_version = to_font_version(version) if version else to_font_version(get_version())
+    if version:
+        log.info("Stamping explicitly requested version %s", font_version)
+    return font_version
 
 
 # Mapping from ExtraBold variants to their Bold source for emboldening.
@@ -299,6 +317,7 @@ def build_planetaire_mono(
     variant: str | None = None,
     *,
     formats: tuple[str, ...] = ("ttf", "woff2"),
+    version: str | None = None,
 ) -> list[Path]:
     """
     Build Planetaire Mono font family.
@@ -309,12 +328,15 @@ def build_planetaire_mono(
     ExtraBold B612 variants are auto-generated from Bold via FontForge
     if not already present in source_dir.
 
+    `version` stamps an explicit release version instead of resolving the canonical
+    one; pass it when building the artifacts of a release whose tag does not exist
+    yet (see `resolve_font_version`).
+
     Returns list of output font paths.
     """
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    # Resolve the canonical font version once (shared with the Python package).
-    font_version = to_font_version(get_version())
+    font_version = resolve_font_version(version)
     log.info("Building Planetaire Mono version %s", font_version)
 
     # Generate intermediate (Medium) and ExtraBold weights if needed
@@ -380,6 +402,7 @@ def build_text(
     split: bool = False,
     subsets: tuple[str, ...] = TEXT_SLIM_WEB_SUBSETS,
     include_italics: bool = False,
+    version: str | None = None,
 ) -> list[Path]:
     """
     Build the lightweight Planetaire Mono Text family.
@@ -390,11 +413,14 @@ def build_text(
     subsets for the slim web profile: Regular/Bold upright, Latin, Greek, and Cyrillic;
     optionally add the matching italic companion.
 
+    `version` stamps an explicit release version instead of resolving the canonical
+    one; see `resolve_font_version`.
+
     Returns the list of written paths (fonts and the CSS file).
     """
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    font_version = to_font_version(get_version())
+    font_version = resolve_font_version(version)
     log.info("Building %s version %s", TEXT_FAMILY_NAME, font_version)
 
     _ensure_generated_weights(source_dir)
@@ -498,7 +524,7 @@ def build_text(
         css_entries.append(FontFaceEntry(stem, v["weight"], is_italic))
 
     if css_entries and ("woff2" in formats or "woff" in formats or split):
-        css_path = output_dir / "planetaire-mono-text.css"
+        css_path = output_dir / TEXT_WEB_CSS_NAME
         _write_font_face_css(
             css_path,
             css_entries,

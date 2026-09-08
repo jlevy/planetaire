@@ -13,11 +13,12 @@ into two steps so there is always a review gate before anything is committed:
 
   prepare X.Y.Z
     0. Require committed curated notes at docs/release/notes/vX.Y.Z.md.
-    1. Build the fonts locally (so Typst can render the specimen with the real glyphs;
-       the version baked into these throwaway local binaries does not matter).
+    1. Build the fonts locally with `--version X.Y.Z` stamped explicitly, because the
+       web fonts built here are committed: without it they would carry whatever the
+       latest existing tag says, which is the *previous* release (plt-0204).
     2. Refresh the committed public web fonts in fonts/web/ and the static-site copy in
-       site/fonts/, then validate the public copy, so the release gates exactly the
-       bytes it is about to commit.
+       site/fonts/, check they stamp X.Y.Z, then validate the public copy, so the
+       release gates exactly the bytes it is about to commit.
     3. Rebuild the committed specimen PDF with `--version X.Y.Z` stamped explicitly.
     4. Re-pin every release-controlled jsDelivr CDN link in README.md and site/ to
        `planetaire@vX.Y.Z` (a plain search/replace from the previous ref — no template
@@ -28,6 +29,9 @@ into two steps so there is always a review gate before anything is committed:
   finalize X.Y.Z
     6. Commit the web fonts + PDF + release-controlled CDN pins as `release: vX.Y.Z` and
        tag that commit `vX.Y.Z`.
+    7. With the tag now in place, rebuild the web fonts the way CI will and compare them
+       byte for byte against what step 6 just committed. This is the same check as the
+       `fonts` job's, run before the release is pushable rather than after.
 
 After finalize the specimen PDF and public web fonts served by
 `cdn.jsdelivr.net/gh/jlevy/planetaire@vX.Y.Z/` are byte-for-byte the committed files in
@@ -51,6 +55,11 @@ import subprocess
 import sys
 from pathlib import Path
 from typing import NoReturn
+
+from fontTools.ttLib import TTFont
+
+from planetaire.config import text_web_font_file_names
+from planetaire.version import to_font_revision
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 README = REPO_ROOT / "README.md"
@@ -87,10 +96,24 @@ CDN_LINK_RE = re.compile(r"(cdn\.jsdelivr\.net/gh/jlevy/planetaire@)([^/\s)\"']+
 VERSION_RE = re.compile(r"^\d+\.\d+\.\d+$")
 
 
-def run(cmd: list[str], *, capture: bool = False, check: bool = True) -> subprocess.CompletedProcess:
+def run(
+    cmd: list[str], *, capture: bool = False, check: bool = True
+) -> subprocess.CompletedProcess[str]:
     """Run a command at the repo root, echoing it."""
     print(f"  $ {' '.join(cmd)}")
     return subprocess.run(cmd, cwd=REPO_ROOT, text=True, capture_output=capture, check=check)
+
+
+def uv_run(
+    cmd: list[str], *, capture: bool = False, check: bool = True
+) -> subprocess.CompletedProcess[str]:
+    """Run a project command through uv without touching the lockfile.
+
+    `--frozen` is not a performance tweak: a plain `uv run` re-resolves and can rewrite
+    uv.lock mid-release, which leaves the release with an unrelated dirty file in a
+    working tree the script is checking for cleanliness.
+    """
+    return run(["uv", "run", "--frozen", *cmd], capture=capture, check=check)
 
 
 def out(cmd: list[str]) -> str:
@@ -173,34 +196,40 @@ def rewrite_cdn_links(tag: str) -> int:
         if refs == [tag]:
             print(f"  {rel}: {len(matches)} CDN link(s) already pinned to {tag}")
             continue
-        froms = ", ".join(f"@{ref}" for ref in refs)
-        print(f"  {rel}: re-pinning {len(matches)} CDN link(s): {froms} -> @{tag}")
+        previous = ", ".join(f"@{ref}" for ref in refs)
+        print(f"  {rel}: re-pinning {len(matches)} CDN link(s): {previous} -> @{tag}")
         path.write_text(CDN_LINK_RE.sub(rf"\g<1>{tag}", text))
     return total
 
 
 def sync_web_font_dir(target_dir: Path) -> int:
-    """Copy freshly built Text web fonts into target_dir and remove stale outputs."""
-    sources = [
-        *sorted(FONT_OUTPUT.glob("PlanetaireMonoText-*.woff2")),
-        *sorted(FONT_OUTPUT.glob("planetaire-mono-text*.css")),
-    ]
-    if not sources:
-        fail("no Text web font files found in fonts/output; run the font build first")
-    if not any(path.suffix == ".woff2" for path in sources):
-        fail("no PlanetaireMonoText WOFF2 files found in fonts/output")
-    if not any(path.name == "planetaire-mono-text.css" for path in sources):
-        fail("fonts/output/planetaire-mono-text.css is missing")
+    """Copy the built Text web fonts into target_dir and remove everything else.
+
+    The file set is enumerated (`text_web_font_file_names`), not globbed. fonts/output
+    is a working directory that also collects the `--split` subset slices and the
+    italic companion stylesheet from other builds, and a `PlanetaireMonoText-*.woff2`
+    glob sweeps whatever happens to be sitting there into the published directories —
+    which is how 21 stale split files were published from a dirty fonts/output (plt-pu35).
+    """
+    names = text_web_font_file_names()
+    missing = [name for name in names if not (FONT_OUTPUT / name).exists()]
+    if missing:
+        fail(
+            f"fonts/output is missing {len(missing)} of the {len(names)} published web "
+            f"font file(s) ({', '.join(missing[:4])}...). Run the font build first, or "
+            "drop --no-build."
+        )
 
     target_dir.mkdir(parents=True, exist_ok=True)
-    for pattern in ("PlanetaireMonoText-*.woff2", "planetaire-mono-text*.css"):
-        for stale in target_dir.glob(pattern):
+    for stale in sorted(target_dir.iterdir()):
+        if stale.name not in names and not stale.name.startswith("."):
+            print(f"  {target_dir.relative_to(REPO_ROOT)}/{stale.name}: removing (not published)")
             stale.unlink()
-    for source_path in sources:
-        shutil.copy2(source_path, target_dir / source_path.name)
+    for name in names:
+        shutil.copy2(FONT_OUTPUT / name, target_dir / name)
     rel = target_dir.relative_to(REPO_ROOT)
-    print(f"  {rel}/: refreshed {len(sources)} Text web font file(s)")
-    return len(sources)
+    print(f"  {rel}/: refreshed {len(names)} Text web font file(s)")
+    return len(names)
 
 
 def sync_web_fonts() -> None:
@@ -209,6 +238,42 @@ def sync_web_fonts() -> None:
     site_count = sync_web_font_dir(SITE_FONTS)
     if public_count != site_count:
         fail("fonts/web and site/fonts refreshed different file counts")
+
+
+def verify_web_font_version(version: str) -> None:
+    """Check that every synced web font stamps `version`, before anything is committed.
+
+    The build takes the version from the latest git tag unless it is told otherwise,
+    and at release time that tag is the *previous* release. Stamping is now explicit,
+    so this is the assertion that it stayed explicit — and it is the check that catches
+    a `--no-build` run reusing a fonts/output built at some other version (plt-0204).
+    """
+    expected_name = f"Version {version}"
+    expected_revision = to_font_revision(version)
+    problems: list[str] = []
+    for target_dir in (PUBLIC_WEB_FONTS, SITE_FONTS):
+        for name in text_web_font_file_names():
+            path = target_dir / name
+            if path.suffix != ".woff2":
+                continue
+            font = TTFont(path)
+            stamped = font["name"].getDebugName(5)
+            revision = round(font["head"].fontRevision, 3)
+            rel = path.relative_to(REPO_ROOT)
+            if stamped != expected_name:
+                problems.append(f"{rel}: name ID 5 is {stamped!r}, expected {expected_name!r}")
+            if revision != expected_revision:
+                problems.append(
+                    f"{rel}: head.fontRevision is {revision}, expected {expected_revision}"
+                )
+    if problems:
+        for problem in problems:
+            print(f"  {problem}", file=sys.stderr)
+        fail(
+            f"the synced web fonts do not stamp {version}. Rebuild them with the version "
+            f"being released: `uv run planetaire build text --version {version}`."
+        )
+    print(f"  fonts/web and site/fonts both stamp Version {version}")
 
 
 def validate_public_web_fonts() -> None:
@@ -222,7 +287,7 @@ def validate_public_web_fonts() -> None:
     if not paths:
         fail("no WOFF2 files in fonts/web to validate; the web font sync did not produce any")
     rels = [str(path.relative_to(REPO_ROOT)) for path in paths]
-    run(["uv", "run", "planetaire", "validate", *rels])
+    uv_run(["planetaire", "validate", *rels])
 
 
 def format_repinned_sources() -> None:
@@ -255,18 +320,23 @@ def cmd_prepare(args: argparse.Namespace) -> None:
         if not (REPO_ROOT / "fonts/output").exists():
             fail("--no-build given but fonts/output does not exist; run a build first")
     else:
-        run(["uv", "run", "planetaire", "build", "download"])
-        run(["uv", "run", "planetaire", "build", "planetaire-mono"])
-        run(["uv", "run", "planetaire", "build", "text"])
+        uv_run(["planetaire", "build", "download"])
+        # `--version` for the same reason the specimen gets one: these binaries are
+        # committed, and the tag they must name does not exist until finalize.
+        uv_run(["planetaire", "build", "planetaire-mono", "--version", version])
+        uv_run(["planetaire", "build", "text", "--version", version])
 
     print("\nRefresh web fonts:")
     sync_web_fonts()
+
+    print("\nCheck the web fonts stamp this release:")
+    verify_web_font_version(version)
 
     print("\nValidate public web fonts:")
     validate_public_web_fonts()
 
     print("\nBuild specimen:")
-    run(["uv", "run", "planetaire", "build", "specimen", "--version", version])
+    uv_run(["planetaire", "build", "specimen", "--version", version])
 
     print("\nRe-pin CDN links:")
     rewrite_cdn_links(tag)
@@ -313,12 +383,22 @@ def cmd_finalize(args: argparse.Namespace) -> None:
     run(["git", "commit", "-m", f"release: {tag}", "--", *RELEASE_PATHS])
     run(["git", "tag", "-a", tag, "-m", tag])
 
+    if args.skip_rebuild_check:
+        print("\nSkipping the rebuild check (--skip-rebuild-check).")
+    else:
+        # Only now does the tag exist, so only now can this be asked the way CI asks
+        # it: rebuild from the tagged commit's sources and compare byte for byte. Run
+        # here rather than only in CI so a mismatched release is caught before it is
+        # pushed, which is what the v0.2.0 release needed (plt-0204).
+        print("\nCheck the committed web fonts match a rebuild at the tag:")
+        uv_run(["python", "devtools/check_web_fonts.py"])
+
     print("\nDone. Push to publish (this script does not push):")
     print("  git push origin main")
     print(f"  git push origin {tag}        # fires release-fonts.yml")
     print("  # In a Claude Code web session the git proxy rejects tag pushes; instead:")
     print(f"  # gh api repos/jlevy/planetaire/git/refs -f ref=refs/tags/{tag} \\")
-    print(f"  #   -f sha=\"$(git rev-parse {tag}^{{commit}})\"")
+    print(f'  #   -f sha="$(git rev-parse {tag}^{{commit}})"')
 
 
 def main() -> None:
@@ -329,11 +409,18 @@ def main() -> None:
 
     p = sub.add_parser("prepare", help="Build + refresh web fonts + re-pin CDN links")
     p.add_argument("version", help="Release version, e.g. 0.1.4 (no leading v)")
-    p.add_argument("--no-build", action="store_true", help="Reuse fonts/output instead of rebuilding")
+    p.add_argument(
+        "--no-build", action="store_true", help="Reuse fonts/output instead of rebuilding"
+    )
     p.set_defaults(func=cmd_prepare)
 
     f = sub.add_parser("finalize", help="Commit + tag the prepared (reviewed) changes")
     f.add_argument("version", help="Release version, e.g. 0.1.4 (no leading v)")
+    f.add_argument(
+        "--skip-rebuild-check",
+        action="store_true",
+        help="Skip the post-tag rebuild comparison (CI runs it too; this only saves time)",
+    )
     f.set_defaults(func=cmd_finalize)
 
     args = parser.parse_args()

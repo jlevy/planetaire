@@ -224,3 +224,24 @@ VARIANTS: list[VariantDef] = [
         "weight": 800,
     },
 ]
+
+
+# Generated stylesheet name for the Text family's default (non-split) web build.
+TEXT_WEB_CSS_NAME: str = "planetaire-mono-text.css"
+
+
+def text_web_font_file_names() -> tuple[str, ...]:
+    """The exact file set the committed public web-font directories hold.
+
+    `fonts/web/` (what jsDelivr serves) and `site/fonts/` (the Pages-local copy) hold
+    the full-coverage Text faces as WOFF2 plus the generated stylesheet — the default
+    `planetaire build text` output, minus the TTFs.
+
+    Enumerated rather than globbed on purpose. Both the release sync and the CI gate
+    read out of a build directory that can also hold the `--split` subset slices
+    (`PlanetaireMonoText-Regular-latin.woff2`) and the italic companion stylesheet,
+    and a `PlanetaireMonoText-*.woff2` glob sweeps those in — which is how 21 stale
+    split files landed in `fonts/web/` from a dirty `fonts/output/` (plt-pu35).
+    """
+    stem = TEXT_FAMILY_NAME.replace(" ", "")
+    return (*(f"{stem}-{variant['name']}.woff2" for variant in VARIANTS), TEXT_WEB_CSS_NAME)
