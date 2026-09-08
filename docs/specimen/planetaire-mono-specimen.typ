@@ -271,8 +271,8 @@
   ],
   [
     #spec-group("VERTICAL METRICS (per 2000 em)")
-    #spec-row("Cap height", "1458")
-    #spec-row("x-height", "1094")
+    #spec-row("Cap height", "1520")
+    #spec-row("x-height", "1120")
     #spec-row("Ascender", "1856")
     #spec-row("Descender", "-472")
     #spec-row("Line gap", "0")

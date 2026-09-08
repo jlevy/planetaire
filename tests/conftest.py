@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from collections.abc import Callable
 from pathlib import Path
 
 import pytest
@@ -9,6 +10,12 @@ from fontTools.fontBuilder import FontBuilder
 from fontTools.ttLib import TTFont
 
 FONTS_SOURCE = Path(__file__).parent.parent / "fonts" / "source"
+
+# The minimal fixture draws every glyph as this one rectangle, so it is also the
+# ink top that OS/2's measured height fields have to agree with.
+GLYPH_INK_TOP = 700
+GLYPH_INK_LEFT = 100
+GLYPH_INK_RIGHT = 500
 
 
 def _make_minimal_font(
@@ -18,6 +25,7 @@ def _make_minimal_font(
     weight: int = 400,
     codepoints: dict[int, str] | None = None,
     advance_width: int = 600,
+    ink_top: int = GLYPH_INK_TOP,
 ) -> TTFont:
     """
     Build a minimal TrueType font with simple rectangular glyphs.
@@ -48,10 +56,10 @@ def _make_minimal_font(
     glyphs = {}
     for gname in glyph_names:
         pen = TTGlyphPen(None)
-        pen.moveTo((100, 0))
-        pen.lineTo((100, 700))
-        pen.lineTo((500, 700))
-        pen.lineTo((500, 0))
+        pen.moveTo((GLYPH_INK_LEFT, 0))
+        pen.lineTo((GLYPH_INK_LEFT, ink_top))
+        pen.lineTo((GLYPH_INK_RIGHT, ink_top))
+        pen.lineTo((GLYPH_INK_RIGHT, 0))
         pen.closePath()
         glyphs[gname] = pen.glyph()
 
@@ -65,7 +73,18 @@ def _make_minimal_font(
             "styleName": "Regular" if weight <= 400 else "Bold",
         }
     )
-    fb.setupOS2(sTypoAscender=800, sTypoDescender=-200, usWeightClass=weight)
+    # OS/2's measured fields describe the rectangle above, so the fixture is a
+    # font whose table and outlines agree — the baseline the metrics checks want.
+    fb.setupOS2(
+        sTypoAscender=800,
+        sTypoDescender=-200,
+        usWeightClass=weight,
+        sxHeight=ink_top,
+        sCapHeight=ink_top,
+        usWinAscent=800,
+        usWinDescent=200,
+        xAvgCharWidth=advance_width,
+    )
     fb.setupPost()
     fb.setupHead(unitsPerEm=upm)
 
@@ -73,9 +92,29 @@ def _make_minimal_font(
 
 
 @pytest.fixture
+def make_font() -> Callable[..., TTFont]:
+    """Factory for minimal fonts; see `_make_minimal_font` for the knobs."""
+    return _make_minimal_font
+
+
+@pytest.fixture
 def base_font() -> TTFont:
     """A minimal base font (UPM=1000, weight=400)."""
     return _make_minimal_font(family="BaseFont", upm=1000, weight=400)
+
+
+@pytest.fixture
+def cyrillic_subset_font() -> TTFont:
+    """A font encoding only Cyrillic letters, so it draws no "x" and no "H".
+
+    Stands in for the Greek and Cyrillic split subsets, which drop the ASCII
+    letters and therefore cannot re-check the height fields they inherit from
+    the face they were cut from.
+    """
+    return _make_minimal_font(
+        family="CyrillicSubset",
+        codepoints={cp: chr(cp) for cp in range(0x410, 0x430)},
+    )
 
 
 @pytest.fixture

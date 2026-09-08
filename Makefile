@@ -66,8 +66,13 @@ build-text: download
 	uv run planetaire build text --formats ttf
 	uv run planetaire build text --split --italics
 
+# Validate everything that ships, not just the TTFs: the built WOFF2 (including the
+# split subset slices the README tells users to deploy) and the committed public web
+# fonts that jsDelivr serves.
 validate-fonts:
 	uv run planetaire validate fonts/output/*.ttf
+	uv run planetaire validate fonts/output/*.woff2
+	uv run planetaire validate fonts/web/*.woff2
 
 fonts: download build-fonts build-text validate-fonts
 

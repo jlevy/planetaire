@@ -16,7 +16,8 @@ into two steps so there is always a review gate before anything is committed:
     1. Build the fonts locally (so Typst can render the specimen with the real glyphs;
        the version baked into these throwaway local binaries does not matter).
     2. Refresh the committed public web fonts in fonts/web/ and the static-site copy in
-       site/fonts/.
+       site/fonts/, then validate the public copy, so the release gates exactly the
+       bytes it is about to commit.
     3. Rebuild the committed specimen PDF with `--version X.Y.Z` stamped explicitly.
     4. Re-pin every release-controlled jsDelivr CDN link in README.md and site/ to
        `planetaire@vX.Y.Z` (a plain search/replace from the previous ref — no template
@@ -210,6 +211,20 @@ def sync_web_fonts() -> None:
         fail("fonts/web and site/fonts refreshed different file counts")
 
 
+def validate_public_web_fonts() -> None:
+    """Validate exactly the web fonts the release just synced.
+
+    `sync_web_fonts` is the last thing that touches what jsDelivr will serve, so the
+    gate belongs here rather than on the build output alone: the release must validate
+    the bytes it is about to commit.
+    """
+    paths = sorted(PUBLIC_WEB_FONTS.glob("*.woff2"))
+    if not paths:
+        fail("no WOFF2 files in fonts/web to validate; the web font sync did not produce any")
+    rels = [str(path.relative_to(REPO_ROOT)) for path in paths]
+    run(["uv", "run", "planetaire", "validate", *rels])
+
+
 def format_repinned_sources() -> None:
     """Re-run the site formatter so the re-pin leaves canonically formatted files.
 
@@ -246,6 +261,9 @@ def cmd_prepare(args: argparse.Namespace) -> None:
 
     print("\nRefresh web fonts:")
     sync_web_fonts()
+
+    print("\nValidate public web fonts:")
+    validate_public_web_fonts()
 
     print("\nBuild specimen:")
     run(["uv", "run", "planetaire", "build", "specimen", "--version", version])

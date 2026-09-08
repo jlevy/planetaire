@@ -19,6 +19,12 @@ from planetaire.unicode_ranges import parse_unicode_ranges
 FAMILY_NAME: str = "Planetaire Mono Extended"
 TEXT_FAMILY_NAME: str = "Planetaire Mono Text"
 
+# Fallback build timestamp (Unix epoch seconds, 2024-01-01T00:00:00Z) stamped into
+# `head.modified` when `SOURCE_DATE_EPOCH` is not set in the environment. Without a
+# fixed value fontTools writes the wall clock, which is the only thing that would keep
+# two builds of the same sources from being byte-identical. See `ops/subset.py`.
+DEFAULT_SOURCE_DATE_EPOCH: int = 1704067200
+
 
 def font_stack_css_var(family: str) -> str:
     """Return the CSS custom property name for a generated font stack."""

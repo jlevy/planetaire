@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import logging
 import shutil
+from collections.abc import Callable
 from copy import deepcopy
 from dataclasses import dataclass
 from pathlib import Path
@@ -34,11 +35,17 @@ from planetaire.config import (
     font_stack_css_var,
 )
 from planetaire.ops.fix import fix_font
-from planetaire.ops.merge import merge_glyphs
+from planetaire.ops.merge import (
+    WinBox,
+    apply_win_box,
+    derive_os2_metrics,
+    font_win_box,
+    merge_glyphs,
+)
 from planetaire.ops.monospace import normalize_monospace, set_fixed_pitch_flags
 from planetaire.ops.rename import rename_font
 from planetaire.ops.subset import save_web_font, subset_font
-from planetaire.ops.validate import validate_font
+from planetaire.ops.validate import Issue, validate_font
 from planetaire.ops.zero import add_dotted_zero
 from planetaire.version import get_version, to_font_version
 
@@ -197,6 +204,9 @@ def _process_variant(
     # run after the dotted zero so the modified zero is normalized too.
     normalize_monospace(fixed)
     set_fixed_pitch_flags(fixed)
+    # Last: the OS/2 measurement fields describe the outlines as finally drawn,
+    # so they are derived once nothing will move a contour or an advance again.
+    derive_os2_metrics(fixed)
     return fixed
 
 
@@ -219,6 +229,68 @@ def _resolve_variant_sources(
             continue
         resolved.append((v, hack_path, b612_path))
     return resolved
+
+
+def _log_issues(label: str, issues: list[Issue]) -> None:
+    """Log validation issues, keeping informational ones out of the warning stream."""
+    for issue in issues:
+        emit = log.warning if issue.severity in ("error", "warning") else log.info
+        emit("Validation %s in %s: %s", issue.severity, label, issue.message)
+
+
+def _process_family(
+    source_dir: Path,
+    variant: str | None,
+    *,
+    family: str,
+    version: str,
+    emit_names: set[str] | None = None,
+    prepare: Callable[[TTFont], tuple[TTFont, TTFont]] | None = None,
+) -> tuple[list[tuple[VariantDef, TTFont]], WinBox | None]:
+    """Process a family's faces, returning the selected ones and the family's usWin box.
+
+    The `usWin` clipping box has to be one box for the whole family (see
+    `family_win_box` for why), which means it cannot be measured from whichever
+    faces a single invocation happens to emit: building `--variant Regular` alone
+    has to stamp the same box as building the family, or that one file disagrees
+    with its siblings. So every face the sources can build is processed and
+    measured here, and the ones not selected are dropped again — only what will
+    actually be written stays in memory.
+
+    `prepare` maps a processed face to `(the face whose ink defines the box, the
+    face to emit)`. Text measures its box after dropping the Private-Use icons,
+    and its split build still emits from the full merged face, because the script
+    subsets keep a few glyphs the Text subset drops.
+    """
+    selected = {v["name"] for v, _, _ in _resolve_variant_sources(source_dir, variant)}
+    if emit_names is not None:
+        selected &= emit_names
+
+    faces: list[tuple[VariantDef, TTFont]] = []
+    win_box: WinBox | None = None
+    measured_count = 0
+
+    for v, hack_path, b612_path in _resolve_variant_sources(source_dir, None):
+        name = v["name"]
+        log.info("Building %s %s", family, name)
+        font = _process_variant(
+            hack_path=hack_path,
+            b612_path=b612_path,
+            family=family,
+            subfamily=v["subfamily"],
+            weight=v["weight"],
+            version=version,
+        )
+        measured, emitted = prepare(font) if prepare is not None else (font, font)
+        face_box = font_win_box(measured)
+        if face_box is not None:
+            win_box = face_box if win_box is None else win_box.enclosing(face_box)
+            measured_count += 1
+        if name in selected:
+            faces.append((v, emitted))
+
+    log.info("%s usWin box across %d face(s): %s", family, measured_count, win_box)
+    return faces, win_box
 
 
 def build_planetaire_mono(
@@ -252,25 +324,23 @@ def build_planetaire_mono(
     css_entries: list[FontFaceEntry] = []
     fallback_metrics: FontFallbackMetrics | None = None
 
-    for v, hack_path, b612_path in _resolve_variant_sources(source_dir, variant):
-        name = v["name"]
-        log.info("Building %s %s", FAMILY_NAME, name)
+    faces, win_box = _process_family(
+        source_dir,
+        variant,
+        family=FAMILY_NAME,
+        version=font_version,
+    )
 
-        fixed = _process_variant(
-            hack_path=hack_path,
-            b612_path=b612_path,
-            family=FAMILY_NAME,
-            subfamily=v["subfamily"],
-            weight=v["weight"],
-            version=font_version,
-        )
+    for v, fixed in faces:
+        name = v["name"]
+        # One clipping box for the whole family, measured over every face above.
+        if win_box is not None:
+            apply_win_box(fixed, win_box)
         if fallback_metrics is None:
             fallback_metrics = _font_fallback_metrics(fixed)
 
         # Validate
-        issues = validate_font(fixed, expected_weight=v["weight"])
-        for issue in issues:
-            log.warning("Validation %s: %s", issue.severity, issue.message)
+        _log_issues(name, validate_font(fixed, expected_weight=v["weight"]))
 
         # Emit each requested format from the full glyph set (no subsetting): TTF for
         # local install plus WOFF2/WOFF for the web. This makes Extended a true superset
@@ -347,26 +417,30 @@ def build_text(
         if include_italics:
             variant_names.update(TEXT_SLIM_WEB_ITALIC_VARIANTS)
 
-    for v, hack_path, b612_path in _resolve_variant_sources(source_dir, variant):
-        if variant_names is not None and v["name"] not in variant_names:
-            continue
+    def prepare(font: TTFont) -> tuple[TTFont, TTFont]:
+        """Measure the box on Text coverage; emit from whichever face is written.
 
+        Dropping the Private-Use Nerd Font icons is what separates the Text
+        family's box from Extended's, so the box is measured after that cut. The
+        split build still emits from the full merged face: its script subsets keep
+        a handful of glyphs (U+02BB, U+02BC, U+2C7D, U+FEFF) that the Text subset
+        drops, so cutting them from the Text face would silently lose those.
+        """
+        measured = deepcopy(font) if split else font
+        subset_font(measured, TEXT_SUBSET_RANGES, drop_hinting=True)
+        return measured, (font if split else measured)
+
+    faces, win_box = _process_family(
+        source_dir,
+        variant,
+        family=TEXT_FAMILY_NAME,
+        version=font_version,
+        emit_names=variant_names,
+        prepare=prepare,
+    )
+
+    for v, font in faces:
         name = v["name"]
-        log.info("Building %s %s", TEXT_FAMILY_NAME, name)
-
-        font = _process_variant(
-            hack_path=hack_path,
-            b612_path=b612_path,
-            family=TEXT_FAMILY_NAME,
-            subfamily=v["subfamily"],
-            weight=v["weight"],
-            version=font_version,
-        )
-
-        issues = validate_font(font, expected_weight=v["weight"])
-        for issue in issues:
-            log.warning("Validation %s: %s", issue.severity, issue.message)
-
         stem = f"{TEXT_FAMILY_NAME.replace(' ', '')}-{name}"
         is_italic = "Italic" in name
         if fallback_metrics is None and (not split or not is_italic):
@@ -385,6 +459,13 @@ def build_text(
                     continue
                 subset_font_obj = deepcopy(font)
                 subset_font(subset_font_obj, subset_def["ranges"], drop_hinting=True)
+                # A script subset is a slice of its face, not a face of its own: it
+                # declares the family's box, not the smaller box its own ink would
+                # allow. Re-measuring here is what gave one weight three different
+                # line boxes across its own subsets.
+                if win_box is not None:
+                    apply_win_box(subset_font_obj, win_box)
+                _log_issues(f"{stem}-{subset_def['name']}", validate_font(subset_font_obj))
                 for fmt in split_formats:
                     out_stem = f"{stem}-{subset_def['name']}"
                     out_path = output_dir / f"{out_stem}.{fmt}"
@@ -403,7 +484,10 @@ def build_text(
                     css_entries.append(entry)
             continue
 
-        subset_font(font, TEXT_SUBSET_RANGES, drop_hinting=True)
+        # Already subset to Text coverage by `prepare`, where the box was measured.
+        if win_box is not None:
+            apply_win_box(font, win_box)
+        _log_issues(name, validate_font(font, expected_weight=v["weight"]))
         for fmt in formats:
             flavor = None if fmt == "ttf" else fmt
             out_path = output_dir / f"{stem}.{fmt}"
