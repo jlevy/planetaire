@@ -105,6 +105,35 @@ jobs:
         run: |
           uv run planetaire validate fonts/output/PlanetaireMonoExtended-*.ttf
           uv run planetaire validate fonts/output/PlanetaireMonoText-*.ttf
+          # Also gate the WOFF2 that actually ship: the Extended/Text web fonts and
+          # the split subset slices the README tells users to deploy.
+          uv run planetaire validate fonts/output/*.woff2
+          # And the committed public web fonts jsDelivr serves from fonts/web/.
+          uv run planetaire validate fonts/web/*.woff2
 
       - name: Regression check against golden manifest
         run: uv run planetaire regression verify
+
+      # The build is byte-reproducible (`head.modified` is pinned in ops/subset.py), so
+      # the committed public web fonts — what jsDelivr serves — must equal a rebuild
+      # from the sources in this commit.
+      - name: Check committed fonts/web matches a rebuild
+        run: |
+          set -euo pipefail
+          # fonts/web holds the full-coverage Text build at its DEFAULT formats
+          # (woff2 + ttf) — not --formats ttf and not the --split slices. Build into a
+          # scratch directory so the split slices already in fonts/output cannot leak
+          # in through the globs below.
+          rm -rf "$RUNNER_TEMP/web-check"
+          uv run planetaire build text --output-dir "$RUNNER_TEMP/web-check"
+          # Same file set and globs as sync_web_font_dir() in scripts/release.py.
+          rm -f fonts/web/PlanetaireMonoText-*.woff2 fonts/web/planetaire-mono-text*.css
+          cp "$RUNNER_TEMP"/web-check/PlanetaireMonoText-*.woff2 fonts/web/
+          cp "$RUNNER_TEMP"/web-check/planetaire-mono-text*.css fonts/web/
+          git --no-pager diff --stat -- fonts/web/
+          # --exit-code covers modified/deleted tracked files; porcelain also catches
+          # a rebuild that adds a file fonts/web/ does not have committed.
+          git diff --exit-code --quiet -- fonts/web/ && test -z "$(git status --porcelain -- fonts/web/)" || {
+            echo "::error::fonts/web/ does not match a rebuild from the sources in this commit. Rebuild it and commit the result: uv run planetaire build text, then copy fonts/output/PlanetaireMonoText-*.woff2 and fonts/output/planetaire-mono-text*.css into fonts/web/ (this is what sync_web_font_dir() in scripts/release.py does) and commit fonts/web/."
+            exit 1
+          }
