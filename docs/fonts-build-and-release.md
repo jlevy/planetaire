@@ -167,8 +167,8 @@ The build is byte-reproducible — `head.modified` is pinned in `ops/subset.py`
 — so they must equal a rebuild from the sources beside them:
 
 ```shell
-uv run python devtools/check_web_fonts.py           # the gate CI runs
-uv run python devtools/check_web_fonts.py --write   # rebuild and refresh both copies
+make check-web-fonts     # uv run python devtools/check_web_fonts.py — the gate CI runs
+make refresh-web-fonts   # ... --write — rebuild and refresh both copies
 ```
 
 The version is the one moving part, since every face stamps it into name IDs 3 and 5 and
